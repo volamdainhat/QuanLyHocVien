@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace QuanLyHocVien
 {
-    public partial class Form2 : Form
+    public partial class frmMain : Form
     {
-        public Form2()
+        public frmMain()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // or FormBorderStyle.FixedDialog
+            this.MaximizeBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
