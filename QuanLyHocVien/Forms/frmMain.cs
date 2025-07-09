@@ -12,17 +12,26 @@ namespace QuanLyHocVien
 {
     public partial class frmMain : Form
     {
+        private frmStudentManagement? frm;  
+
         public frmMain()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.FixedSingle; // or FormBorderStyle.FixedDialog
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            frmStudentManagement frm = new frmStudentManagement();
-            frm.Show();
+            if (frm == null || frm.IsDisposed)
+            {
+                frm = new frmStudentManagement();
+                frm.Show();
+            }
+            else
+            {
+                frm.BringToFront();
+            }
         }
     }
 }
