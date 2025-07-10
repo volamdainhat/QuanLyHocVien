@@ -1,7 +1,8 @@
-create database QuanLyHocVien
-use QuanLyHocVien
+create database TraineeManagement
+use TraineeManagement
 
-create table HocVien
+-- Bang chua thong tin hoc vien
+create table Trainee
 (
 	FullName varchar(50) not null,
 	Class varchar(20) not null,
@@ -13,7 +14,47 @@ create table HocVien
 	Grade float not null default 0.0
 );
 
-INSERT INTO HocVien (FullName, Class, PhoneNum, DoB, Ranking, MRole, EnlistmentDate, Grade) VALUES
+-- Bang chua thong tin lop
+create table Class
+(
+	Cid int null,
+	CName varchar(10) null,
+	Cyear int
+);
+
+-- Bang chua thong tin cac mon
+create table Subjects
+(
+	SName varchar(50) not null,
+    NumOfClassPeriods int null
+    -- ClassHrsPerWeek int,
+    -- ClassHrsPerMonth int
+    -- StartDate date,
+    -- EndDate date,
+);
+
+-- Thoi khoa bieu cua dai doi
+create table Timetable
+(
+	
+);
+
+-- Trigger
+DELIMITER //
+
+CREATE TRIGGER check_Cyear BEFORE INSERT ON Class
+FOR EACH ROW
+BEGIN
+  IF NEW.Cyear > YEAR(CURDATE()) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cyear cannot be in the future';
+  END IF;
+END //
+
+DELIMITER ;
+
+
+-- Sample data
+insert into HocVien (FullName, Class, PhoneNum, DoB, Ranking, MRole, EnlistmentDate, Grade) values
 ('Nguyen Van A', '10A1', '0912345678', '2008-03-12', 'B1', 'Hoc vien', '2024-06-01', 8.5),
 ('Tran Thi B', '11B2', '0987654321', '2007-07-25', 'B2', 'Hoc vien', '2024-05-15', 7.8),
 ('Le Van C', '12C3', '0901122334', '2006-11-30', 'B3', 'Hoc vien', '2023-09-10', 9.1),
@@ -24,3 +65,8 @@ INSERT INTO HocVien (FullName, Class, PhoneNum, DoB, Ranking, MRole, EnlistmentD
 ('Bui Thi H', '11B3', '0966554433', '2007-03-21', 'B2', 'Hoc vien', NULL, 6.5),
 ('Ngo Van I', '12C1', '0911223344', '2006-07-09', 'B1', 'Hoc vien', '2023-08-30', 9.4),
 ('Do Thi J', '10A3', '0955332211', '2008-10-27', 'B2', 'Hoc vien', '2024-03-12', 7.6);
+
+insert into Class (Cid, CName, CYear) values
+(
+	100001, 'Class A', 2026
+)
