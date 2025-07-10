@@ -28,179 +28,154 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lbFullName = new Label();
-            txtFullName = new TextBox();
-            txtPhoneNumber = new TextBox();
-            lbPhoneNumber = new Label();
-            lbClass = new Label();
-            cbClass = new ComboBox();
-            lbBirthday = new Label();
-            dtpBirthday = new DateTimePicker();
-            cbRank = new ComboBox();
-            lbRank = new Label();
-            comboBox1 = new ComboBox();
-            lbPosition = new Label();
-            dtpNhapNgu = new DateTimePicker();
-            lbNhapNgu = new Label();
+            lbListStudent = new Label();
+            dataGridView1 = new DataGridView();
+            lbTotalRows = new Label();
+            lbTotalPage = new Label();
+            btnMoveLast = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            lbCurrentPage = new Label();
+            label2 = new Label();
+            btnAddStudent = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // lbFullName
+            // lbListStudent
             // 
-            lbFullName.AutoSize = true;
-            lbFullName.Location = new Point(12, 9);
-            lbFullName.Name = "lbFullName";
-            lbFullName.Size = new Size(89, 25);
-            lbFullName.TabIndex = 0;
-            lbFullName.Text = "Họ và tên";
+            lbListStudent.AutoSize = true;
+            lbListStudent.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbListStudent.Location = new Point(12, 9);
+            lbListStudent.Name = "lbListStudent";
+            lbListStudent.Size = new Size(277, 32);
+            lbListStudent.TabIndex = 16;
+            lbListStudent.Text = "DANH SÁCH HỌC VIÊN";
             // 
-            // txtFullName
+            // dataGridView1
             // 
-            txtFullName.Location = new Point(12, 37);
-            txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(300, 31);
-            txtFullName.TabIndex = 1;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(12, 44);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(1234, 575);
+            dataGridView1.TabIndex = 17;
             // 
-            // txtPhoneNumber
+            // lbTotalRows
             // 
-            txtPhoneNumber.Location = new Point(12, 99);
-            txtPhoneNumber.Name = "txtPhoneNumber";
-            txtPhoneNumber.Size = new Size(300, 31);
-            txtPhoneNumber.TabIndex = 3;
-            txtPhoneNumber.TextChanged += txtPhoneNumber_TextChanged;
+            lbTotalRows.AutoSize = true;
+            lbTotalRows.Location = new Point(12, 630);
+            lbTotalRows.Name = "lbTotalRows";
+            lbTotalRows.Size = new Size(55, 25);
+            lbTotalRows.TabIndex = 18;
+            lbTotalRows.Text = "Trang";
             // 
-            // lbPhoneNumber
+            // lbTotalPage
             // 
-            lbPhoneNumber.AutoSize = true;
-            lbPhoneNumber.Location = new Point(12, 71);
-            lbPhoneNumber.Name = "lbPhoneNumber";
-            lbPhoneNumber.Size = new Size(134, 25);
-            lbPhoneNumber.TabIndex = 2;
-            lbPhoneNumber.Text = "SĐT phụ huynh";
+            lbTotalPage.AutoSize = true;
+            lbTotalPage.Location = new Point(128, 630);
+            lbTotalPage.Name = "lbTotalPage";
+            lbTotalPage.Size = new Size(22, 25);
+            lbTotalPage.TabIndex = 19;
+            lbTotalPage.Text = "0";
             // 
-            // lbClass
+            // btnMoveLast
             // 
-            lbClass.AutoSize = true;
-            lbClass.Location = new Point(318, 9);
-            lbClass.Name = "lbClass";
-            lbClass.Size = new Size(42, 25);
-            lbClass.TabIndex = 4;
-            lbClass.Text = "Lớp";
+            btnMoveLast.Location = new Point(1136, 625);
+            btnMoveLast.Name = "btnMoveLast";
+            btnMoveLast.Size = new Size(110, 34);
+            btnMoveLast.TabIndex = 20;
+            btnMoveLast.Text = ">>";
+            btnMoveLast.UseVisualStyleBackColor = true;
             // 
-            // cbClass
+            // button1
             // 
-            cbClass.FormattingEnabled = true;
-            cbClass.Location = new Point(318, 35);
-            cbClass.Name = "cbClass";
-            cbClass.Size = new Size(300, 33);
-            cbClass.TabIndex = 5;
-            cbClass.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            button1.Location = new Point(1020, 625);
+            button1.Name = "button1";
+            button1.Size = new Size(110, 34);
+            button1.TabIndex = 21;
+            button1.Text = ">";
+            button1.UseVisualStyleBackColor = true;
             // 
-            // lbBirthday
+            // button2
             // 
-            lbBirthday.AutoSize = true;
-            lbBirthday.Location = new Point(624, 9);
-            lbBirthday.Name = "lbBirthday";
-            lbBirthday.Size = new Size(91, 25);
-            lbBirthday.TabIndex = 6;
-            lbBirthday.Text = "Ngày sinh";
+            button2.Location = new Point(904, 625);
+            button2.Name = "button2";
+            button2.Size = new Size(110, 34);
+            button2.TabIndex = 22;
+            button2.Text = "<";
+            button2.UseVisualStyleBackColor = true;
             // 
-            // dtpBirthday
+            // button3
             // 
-            dtpBirthday.Location = new Point(624, 37);
-            dtpBirthday.Name = "dtpBirthday";
-            dtpBirthday.Size = new Size(300, 31);
-            dtpBirthday.TabIndex = 7;
+            button3.Location = new Point(788, 625);
+            button3.Name = "button3";
+            button3.Size = new Size(110, 34);
+            button3.TabIndex = 23;
+            button3.Text = "<<";
+            button3.UseVisualStyleBackColor = true;
             // 
-            // cbRank
+            // lbCurrentPage
             // 
-            cbRank.FormattingEnabled = true;
-            cbRank.Location = new Point(318, 97);
-            cbRank.Name = "cbRank";
-            cbRank.Size = new Size(300, 33);
-            cbRank.TabIndex = 9;
+            lbCurrentPage.AutoSize = true;
+            lbCurrentPage.Location = new Point(75, 630);
+            lbCurrentPage.Name = "lbCurrentPage";
+            lbCurrentPage.Size = new Size(22, 25);
+            lbCurrentPage.TabIndex = 24;
+            lbCurrentPage.Text = "0";
             // 
-            // lbRank
+            // label2
             // 
-            lbRank.AutoSize = true;
-            lbRank.Location = new Point(318, 71);
-            lbRank.Name = "lbRank";
-            lbRank.Size = new Size(76, 25);
-            lbRank.TabIndex = 8;
-            lbRank.Text = "Cấp bậc";
+            label2.AutoSize = true;
+            label2.Location = new Point(103, 630);
+            label2.Name = "label2";
+            label2.Size = new Size(19, 25);
+            label2.TabIndex = 25;
+            label2.Text = "/";
             // 
-            // comboBox1
+            // btnAddStudent
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(624, 97);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(300, 33);
-            comboBox1.TabIndex = 11;
-            // 
-            // lbPosition
-            // 
-            lbPosition.AutoSize = true;
-            lbPosition.Location = new Point(624, 71);
-            lbPosition.Name = "lbPosition";
-            lbPosition.Size = new Size(76, 25);
-            lbPosition.TabIndex = 10;
-            lbPosition.Text = "Chức vụ";
-            // 
-            // dtpNhapNgu
-            // 
-            dtpNhapNgu.Location = new Point(12, 161);
-            dtpNhapNgu.Name = "dtpNhapNgu";
-            dtpNhapNgu.Size = new Size(300, 31);
-            dtpNhapNgu.TabIndex = 13;
-            // 
-            // lbNhapNgu
-            // 
-            lbNhapNgu.AutoSize = true;
-            lbNhapNgu.Location = new Point(12, 133);
-            lbNhapNgu.Name = "lbNhapNgu";
-            lbNhapNgu.Size = new Size(17, 25);
-            lbNhapNgu.TabIndex = 12;
-            lbNhapNgu.Text = " ";
+            btnAddStudent.Location = new Point(1020, 4);
+            btnAddStudent.Name = "btnAddStudent";
+            btnAddStudent.Size = new Size(226, 34);
+            btnAddStudent.TabIndex = 26;
+            btnAddStudent.Text = "Thêm học viên mới";
+            btnAddStudent.UseVisualStyleBackColor = true;
             // 
             // frmStudentManagement
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1258, 664);
-            Controls.Add(dtpNhapNgu);
-            Controls.Add(lbNhapNgu);
-            Controls.Add(comboBox1);
-            Controls.Add(lbPosition);
-            Controls.Add(cbRank);
-            Controls.Add(lbRank);
-            Controls.Add(dtpBirthday);
-            Controls.Add(lbBirthday);
-            Controls.Add(cbClass);
-            Controls.Add(lbClass);
-            Controls.Add(txtPhoneNumber);
-            Controls.Add(lbPhoneNumber);
-            Controls.Add(txtFullName);
-            Controls.Add(lbFullName);
+            Controls.Add(btnAddStudent);
+            Controls.Add(label2);
+            Controls.Add(lbCurrentPage);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(btnMoveLast);
+            Controls.Add(lbTotalPage);
+            Controls.Add(lbTotalRows);
+            Controls.Add(dataGridView1);
+            Controls.Add(lbListStudent);
             Name = "frmStudentManagement";
             Text = "frmStudentManagement";
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label lbFullName;
-        private TextBox txtFullName;
-        private TextBox txtPhoneNumber;
-        private Label lbPhoneNumber;
-        private Label lbClass;
-        private ComboBox cbClass;
-        private Label lbBirthday;
-        private DateTimePicker dtpBirthday;
-        private ComboBox cbRank;
-        private Label lbRank;
-        private ComboBox comboBox1;
-        private Label lbPosition;
-        private DateTimePicker dtpNhapNgu;
-        private Label lbNhapNgu;
+        private Label lbListStudent;
+        private DataGridView dataGridView1;
+        private Label lbTotalRows;
+        private Label lbTotalPage;
+        private Button btnMoveLast;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Label lbCurrentPage;
+        private Label label2;
+        private Button btnAddStudent;
     }
 }

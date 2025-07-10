@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QuanLyHocVien
+namespace QuanLyHocVien.Forms
 {
-    public partial class frmStudentManagement : Form
+    public partial class frmStudentInformation : Form
     {
-        public frmStudentManagement()
-        {
+        public frmStudentInformation()
+        {   
             InitializeComponent();
         }
     }
