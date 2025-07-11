@@ -13,8 +13,13 @@ namespace QuanLyHocVien.Forms
     public partial class frmStudentInformation : Form
     {
         public frmStudentInformation()
-        {   
+        {
             InitializeComponent();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
