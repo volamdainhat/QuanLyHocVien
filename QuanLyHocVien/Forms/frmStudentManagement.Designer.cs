@@ -141,6 +141,7 @@
             btnAddStudent.TabIndex = 26;
             btnAddStudent.Text = "Thêm học viên mới";
             btnAddStudent.UseVisualStyleBackColor = true;
+            btnAddStudent.Click += btnAddStudent_Click;
             // 
             // frmStudentManagement
             // 
