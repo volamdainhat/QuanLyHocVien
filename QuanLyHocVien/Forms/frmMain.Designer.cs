@@ -37,7 +37,8 @@
             // 
             // button1
             // 
-            button1.BackColor = SystemColors.ActiveCaption;
+            button1.BackColor = Color.Gold;
+            button1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             button1.Image = (Image)resources.GetObject("button1.Image");
             button1.Location = new Point(177, 328);
             button1.Name = "button1";
@@ -51,7 +52,8 @@
             // 
             // button2
             // 
-            button2.BackColor = SystemColors.MenuHighlight;
+            button2.BackColor = Color.Tomato;
+            button2.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             button2.Image = (Image)resources.GetObject("button2.Image");
             button2.Location = new Point(525, 328);
             button2.Name = "button2";
@@ -64,7 +66,8 @@
             // 
             // button3
             // 
-            button3.BackColor = Color.Firebrick;
+            button3.BackColor = Color.OrangeRed;
+            button3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             button3.Image = Properties.Resources.bookopencover;
             button3.Location = new Point(873, 328);
             button3.Name = "button3";
@@ -79,11 +82,11 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Times New Roman", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Crimson;
             label1.Location = new Point(56, 148);
             label1.Name = "label1";
-            label1.Size = new Size(1157, 81);
+            label1.Size = new Size(1130, 96);
             label1.TabIndex = 3;
             label1.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -92,7 +95,6 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1258, 664);
             Controls.Add(button1);
