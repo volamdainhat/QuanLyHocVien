@@ -1,128 +1,93 @@
-create database TraineeManagement;
-use TraineeManagement;
+CREATE DATABASE IF NOT EXISTS school_management_system;
+USE school_management_system;
 
--- Table: Trainee
-create table Trainee
-(
-    TraineeId int auto_increment primary key,
-    FullName varchar(50) not null,
-    ClassId int not null,
-    PhoneNum varchar(10) check (PhoneNum regexp '^[0-9]{1,10}$') null,
-    DoB date null,
-    Ranking varchar(5) not null default 'B2',
-    MRole varchar(10) not null default 'Học viên',
-    EnlistmentDate date null,
-    Grade float not null default 0.0,
-
-    foreign key (ClassId) references Class(CId)
+CREATE TABLE attendence_details (
+    std_id VARCHAR(50),
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    class VARCHAR(50),
+    date VARCHAR(50),
+    remarks VARCHAR(50)
 );
 
--- Table: Class
-create table Class
-(
-    CId int auto_increment primary key,
-    CName varchar(50) not null,
-    Cyear int not null,
-    TotalTrainees int default 0
+CREATE TABLE billing_details (
+    std_id VARCHAR(50),
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    class VARCHAR(50),
+    date VARCHAR(50),
+    tution_fees VARCHAR(50),
+    other_charges VARCHAR(50),
+    total_amount VARCHAR(50),
+    status VARCHAR(50)
 );
 
--- Table: Subjects
-create table Subjects
-(
-    SName varchar(50) primary key,
-    NumOfClassPeriods int null
+CREATE TABLE enrollment_details (
+    std_id VARCHAR(50),
+    s_firstname VARCHAR(50),
+    s_middlename VARCHAR(50),
+    s_lastname VARCHAR(50),
+    birthdate VARCHAR(50),
+    age VARCHAR(50),
+    gender VARCHAR(50),
+    birth_city VARCHAR(50),
+    birth_province VARCHAR(50),
+    birth_region VARCHAR(50),
+    p_firstname VARCHAR(50),
+    p_lastname VARCHAR(50),
+    occupation VARCHAR(50),
+    address VARCHAR(50),
+    home_phone VARCHAR(50),
+    cell_phone VARCHAR(50),
+    std_class VARCHAR(50),
+    tution_fees VARCHAR(50),
+    other_charges VARCHAR(50),
+    discount VARCHAR(50),
+    total_amount VARCHAR(50),
+    receipt_number VARCHAR(50)
 );
 
--- Table: Timetable
-create table Timetable
-(
-    TId int auto_increment primary key,
-    CId int not null,
-    SName varchar(50) not null,
-    DayOfWeek enum('Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6') not null,
-    Period enum('Sáng', 'Chiều') default 'Sáng',
-    Room varchar(20) null,
-
-    foreign key (CId) references Class(CId),
-    foreign key (SName) references Subjects(SName)
+CREATE TABLE teachers_details (
+    teacher_id VARCHAR(50),
+    teacher_firstname VARCHAR(50),
+    teacher_lastname VARCHAR(50),
+    father_name VARCHAR(50),
+    date_of_birth VARCHAR(50),
+    age INT,
+    qualification VARCHAR(50),
+    subjects VARCHAR(50),
+    salary VARCHAR(50),
+    phone_no VARCHAR(50),
+    classes_under VARCHAR(50)
 );
 
--- Table: Grades
-create table Grades
-(
-    TraineeId int not null,
-    GradeforSubject varchar(50) not null,
-    GradeType enum ('Kiểm tra 15', 'Kiểm tra 45', 'Thi kết thúc môn'),
-    Grade float not null default 0.0,
-
-    primary key (TraineeId, GradeforSubject, GradeType),
-    foreign key (TraineeId) references Trainee(TraineeId),
-    foreign key (GradeforSubject) references Subjects(SName)
+CREATE TABLE user_details (
+    user_id VARCHAR(50),
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    user_name VARCHAR(50),
+    password VARCHAR(50),
+    type VARCHAR(50)
 );
 
--- Table: Attendance
-create table Attendance
-(
-    TraineeId int not null,
-    SName varchar(50) not null,
-    Reason enum ('Ốm trại', 'Phép', 'Tranh thủ', 'Ra ngoài'),
-    DateOfAbsence date not null,
+-- Sample Data
 
-    primary key (TraineeId, SName, DateOfAbsence),
-    foreign key (TraineeId) references Trainee(TraineeId),
-    foreign key (SName) references Subjects(SName)
-);
+INSERT INTO billing_details (std_id, firstname, lastname, class, date, tution_fees, other_charges, total_amount, status) VALUES
+('123456', 'Muhammad', 'Daniyal', 'Class Matric', '2019-09-10', '3,500', '900', '4,400', 'Paid'),
+('123457', 'Muhammad', 'Ali', 'Class 9', '2019-09-10', '3,500', '900', '4,400', 'Late Paid'),
+('213213', 'Muhammad', 'hassan', 'Class 2', '2019-09-11', '1,500', '700', '2,200', 'Late Paid'),
+('342345', 'Talha', 'Ali', 'Class 8', '2019-09-11', '3,000', '800', '3,800', 'UnPaid');
 
-create table Misconduct
-(
-    MisconductId int auto_increment primary key,
-    TraineeId int not null,
-    MType enum ('Điện thoại', 'Điểm kém', 'Vi phạm kỷ luật') not null,
-    DateOccured date not null,
-    Notes varchar(200) null,
+INSERT INTO enrollment_details (std_id, s_firstname, s_middlename, s_lastname, birthdate, age, gender, birth_city, birth_province, birth_region, p_firstname, p_lastname, occupation, address, home_phone, cell_phone, std_class, tution_fees, other_charges, discount, total_amount, receipt_number) VALUES
+('123456', 'Muhammad', '', 'Daniyal', '2019-09-05', '21', 'Male', 'karachi', 'sindh', 'north', 'Noor', 'hassan', 'shop', 'klfnvfnbvfbvlkfnknf', '03332906880', '0122323', 'Class Matric', '3,500', '900', '', '4,400', '433545'),
+('123457', 'Muhammad', '', 'Ali', '2019-09-05', '21', 'Male', 'karachi', 'sindh', 'north', 'Ahmed', 'hassan', 'shop', 'klfnvfnbvfbvlkfnknf', '03332906880', '0122323', 'Class 9', '3,500', '900', '', '4,400', '45353'),
+('213213', 'Muhammad', '', 'hassan', '2014-10-13', '12', 'Male', 'karachi', 'sindh', '', 'Ahmed', 'Ali', 'bussiness', 'xyz', '01234456', '01234456', 'Class 2', '1,500', '700', '', '2,200', '23243'),
+('342345', 'Talha', '', 'Ali', '2000-06-01', '19', 'Male', 'karachi', 'sindh', '', 'Shabbir', 'Ali', 'bussiness', 'xyz', '01234456', '01234456', 'Class 8', '3,000', '800', '', '3,800', '2343434');
 
-    foreign key (TraineeId) references Trainee(TraineeId)
-);
+INSERT INTO teachers_details (teacher_id, teacher_firstname, teacher_lastname, father_name, date_of_birth, age, qualification, subjects, salary, phone_no, classes_under) VALUES
+('3244', 'Majid', 'Ali', 'Ali Hassan', '1990-10-30', 25, 'B.scs', 'Computer science,P.s.t', '25000', '01234456', 'Matric classes');
 
--- Table: Reports
-create table Reports
-(
-    ReportId int auto_increment primary key,
-    CId int not null,
-    ReportPeriod varchar(20) not null, -- e.g., '2025-Q1', '2025-07'
-    TotalTrainees int not null,
-    AvgGrade float null,
-    TotalAbsences int default 0,
-    MisconductCount int default 0,
-
-    foreign key (CId) references Class(CId)
-);
-
--- Trigger
-DELIMITER //
-CREATE TRIGGER check_Cyear BEFORE INSERT ON Class
-FOR EACH ROW
-BEGIN
-  IF NEW.Cyear > YEAR(CURDATE()) THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Năm nhập ngũ, niên khóa không được ở trong tương lai';
-  END IF;
-END //
-DELIMITER ;
-
--- Sample data
-insert into HocVien (FullName, Class, PhoneNum, DoB, Ranking, MRole, EnlistmentDate, Grade) values
-('Nguyen Van A', '10A1', '0912345678', '2008-03-12', 'B1', 'Hoc vien', '2024-06-01', 8.5),
-('Tran Thi B', '11B2', '0987654321', '2007-07-25', 'B2', 'Hoc vien', '2024-05-15', 7.8),
-('Le Van C', '12C3', '0901122334', '2006-11-30', 'B3', 'Hoc vien', '2023-09-10', 9.1),
-('Pham Thi D', '10A1', '0933445566', '2008-01-05', 'B2', 'Hoc vien', NULL, 6.9),
-('Hoang Van E', '11B1', '0977888999', '2007-05-19', 'B1', 'Hoc vien', '2024-01-20', 8.2),
-('Vu Thi F', '12C2', '0922334455', '2006-09-14', 'B2', 'Hoc vien', '2023-11-25', 7.0),
-('Dang Van G', '10A2', '0944223344', '2008-12-01', 'B3', 'Hoc vien', '2024-02-18', 8.7),
-('Bui Thi H', '11B3', '0966554433', '2007-03-21', 'B2', 'Hoc vien', NULL, 6.5),
-('Ngo Van I', '12C1', '0911223344', '2006-07-09', 'B1', 'Hoc vien', '2023-08-30', 9.4),
-('Do Thi J', '10A3', '0955332211', '2008-10-27', 'B2', 'Hoc vien', '2024-03-12', 7.6);
-
-insert into Class (Cid, CName, CYear) values
-(
-	100001, 'Class A', 2026
-)
+INSERT INTO user_details (user_id, firstname, lastname, user_name, password, type) VALUES
+('12332', 'Muhammad', 'Daniyal', 'DANIYAL', 'daniyal', 'Admin'),
+('32345', 'muhammad', 'ali', 'M.ALI', 'm.ali', 'Staff'),
+('22345', 'Arsalan', 'Astiq', 'ARSALAN', 'arsalan', 'Teacher');
