@@ -1,57 +1,113 @@
-create database TraineeManagement
-use TraineeManagement
+create database TraineeManagement;
+use TraineeManagement;
 
--- Bang chua thong tin hoc vien
+-- Table: Trainee
 create table Trainee
 (
-	FullName varchar(50) not null,
-	Class varchar(20) not null,
-	PhoneNum varchar(10) check (PhoneNum regexp '^[0-9]{1,10}$') null,
-	DoB date null,
-	Ranking varchar (5) not null default 'B2',
-	MRole varchar (10) not null default 'Hoc vien',
-	EnlistmentDate date null,
-	Grade float not null default 0.0
+    TraineeId int auto_increment primary key,
+    FullName varchar(50) not null,
+    ClassId int not null,
+    PhoneNum varchar(10) check (PhoneNum regexp '^[0-9]{1,10}$') null,
+    DoB date null,
+    Ranking varchar(5) not null default 'B2',
+    MRole varchar(10) not null default 'Học viên',
+    EnlistmentDate date null,
+    Grade float not null default 0.0,
+
+    foreign key (ClassId) references Class(CId)
 );
 
--- Bang chua thong tin lop
+-- Table: Class
 create table Class
 (
-	Cid int null,
-	CName varchar(10) null,
-	Cyear int
+    CId int auto_increment primary key,
+    CName varchar(50) not null,
+    Cyear int not null,
+    TotalTrainees int default 0
 );
 
--- Bang chua thong tin cac mon
+-- Table: Subjects
 create table Subjects
 (
-	SName varchar(50) not null,
+    SName varchar(50) primary key,
     NumOfClassPeriods int null
-    -- ClassHrsPerWeek int,
-    -- ClassHrsPerMonth int
-    -- StartDate date,
-    -- EndDate date,
 );
 
--- Thoi khoa bieu cua dai doi
+-- Table: Timetable
 create table Timetable
 (
-	
+    TId int auto_increment primary key,
+    CId int not null,
+    SName varchar(50) not null,
+    DayOfWeek enum('Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6') not null,
+    Period enum('Sáng', 'Chiều') default 'Sáng',
+    Room varchar(20) null,
+
+    foreign key (CId) references Class(CId),
+    foreign key (SName) references Subjects(SName)
+);
+
+-- Table: Grades
+create table Grades
+(
+    TraineeId int not null,
+    GradeforSubject varchar(50) not null,
+    GradeType enum ('Kiểm tra 15', 'Kiểm tra 45', 'Thi kết thúc môn'),
+    Grade float not null default 0.0,
+
+    primary key (TraineeId, GradeforSubject, GradeType),
+    foreign key (TraineeId) references Trainee(TraineeId),
+    foreign key (GradeforSubject) references Subjects(SName)
+);
+
+-- Table: Attendance
+create table Attendance
+(
+    TraineeId int not null,
+    SName varchar(50) not null,
+    Reason enum ('Ốm trại', 'Phép', 'Tranh thủ', 'Ra ngoài'),
+    DateOfAbsence date not null,
+
+    primary key (TraineeId, SName, DateOfAbsence),
+    foreign key (TraineeId) references Trainee(TraineeId),
+    foreign key (SName) references Subjects(SName)
+);
+
+create table Misconduct
+(
+    MisconductId int auto_increment primary key,
+    TraineeId int not null,
+    MType enum ('Điện thoại', 'Điểm kém', 'Vi phạm kỷ luật') not null,
+    DateOccured date not null,
+    Notes varchar(200) null,
+
+    foreign key (TraineeId) references Trainee(TraineeId)
+);
+
+-- Table: Reports
+create table Reports
+(
+    ReportId int auto_increment primary key,
+    CId int not null,
+    ReportPeriod varchar(20) not null, -- e.g., '2025-Q1', '2025-07'
+    TotalTrainees int not null,
+    AvgGrade float null,
+    TotalAbsences int default 0,
+    MisconductCount int default 0,
+
+    foreign key (CId) references Class(CId)
 );
 
 -- Trigger
 DELIMITER //
-
 CREATE TRIGGER check_Cyear BEFORE INSERT ON Class
 FOR EACH ROW
 BEGIN
   IF NEW.Cyear > YEAR(CURDATE()) THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cyear cannot be in the future';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Năm nhập ngũ, niên khóa không được ở trong tương lai';
   END IF;
 END //
-
 DELIMITER ;
-
 
 -- Sample data
 insert into HocVien (FullName, Class, PhoneNum, DoB, Ranking, MRole, EnlistmentDate, Grade) values
