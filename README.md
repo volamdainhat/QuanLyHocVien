@@ -46,6 +46,9 @@ Trường Cao Đẳng Hậu Cần 2 hiện đang quản lý thông tin học vi�
 * ClosedXML (Excel)
 * AutoMapper (DTO Mapping)
 
+### ERD
+![ERD Diagram](https://github.com/volamdainhat/QuanLyHocVien/blob/main/quanlyhocvien_1.png)
+
 ### Repository Pattern Interface
 
 ```csharp
