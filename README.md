@@ -160,7 +160,3 @@ builder.Services.AddAutoMapper(typeof(Program));
 * Tính ổn định khi hoạt động offline
 * Kiểm tra logic vi phạm kỷ luật, tính toán điểm
 * Kiểm thử sao lưu dữ liệu (nếu có)
-
-## Need Professional Help in Developing Your Architecture?
-
-Please contact me at [sammuti.com](https://sammuti.com) :)
