@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuanLyHocVien.Infrastructure
 {
-    internal interface IHocVienRepository
+    public interface IHocVienRepository
     {
         IEnumerable<Trainee> GetAll();
         Trainee GetById(int studentId);

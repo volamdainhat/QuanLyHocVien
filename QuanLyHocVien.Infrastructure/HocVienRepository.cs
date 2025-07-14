@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace QuanLyHocVien.Infrastructure
 {
-    internal class HocVienRepository : IHocVienRepository
+    public class HocVienRepository : IHocVienRepository
     {
         private readonly AppDbContext _context;
 

@@ -20,7 +20,7 @@ namespace QuanLyHocVien.UI
                 services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=quanly.db"));
 
                 // Đăng ký Repository
-                //services.AddScoped<IHocVienRepository, HocVienRepository>();
+                services.AddScoped<IHocVienRepository, HocVienRepository>();
                 //services.AddScoped<IUnitOfWork, UnitOfWork>(); // nếu có
 
                 // Đăng ký AutoMapper (nếu có dùng)
