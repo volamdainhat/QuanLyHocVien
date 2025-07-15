@@ -6,13 +6,13 @@ namespace QuanLyHocVien.Infrastructure
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Trainee> HocVien => Set<Trainee>();
-        public DbSet<Class> Lop => Set<Class>();
-        public DbSet<Grades> NienKhoa => Set<Grades>();
-        public DbSet<Misconduct> AttendanceDetails => Set<Misconduct>();
+        public DbSet<Trainee> Trainees => Set<Trainee>();
+        public DbSet<Class> Classes => Set<Class>();
+        public DbSet<Grades> Grades => Set<Grades>();
+        public DbSet<Misconduct> Misconducts => Set<Misconduct>();
         public DbSet<Reports> Reports => Set<Reports>();
-        public DbSet<Timetable> Timetables => Set<Timetable>();
-        public DbSet<AttendanceDetails> AttendanceDetailss => Set<AttendanceDetails>();
+        public DbSet<Schedule> Schedules => Set<Schedule>();
+        public DbSet<Attendances> AttendanceDetails => Set<Attendances>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     }

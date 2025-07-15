@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace QuanLyHocVien.Domain.Entities
 {
-    internal class UserDetails
+    public class Subject
     {
-        public int UserId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public int Id { get; set; }
+        public required string Name { get; set; }
     }
 }
