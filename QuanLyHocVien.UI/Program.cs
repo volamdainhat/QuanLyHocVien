@@ -2,14 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuanLyHocVien.Infrastructure;
+using QuanLyHocVien.Infrastructure.Repositories.AttendancesRepo;
 using QuanLyHocVien.Infrastructure.Repositories.ClassRepo;
-using QuanLyHocVien.Infrastructure.Repositories.ScheduleRepo;
-using QuanLyHocVien.Infrastructure.Repositories.SubjectRepo;
-using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
 using QuanLyHocVien.Infrastructure.Repositories.GradesRepo;
 using QuanLyHocVien.Infrastructure.Repositories.MisconductRepo;
 using QuanLyHocVien.Infrastructure.Repositories.ReportRepo;
-using QuanLyHocVien.Infrastructure.Repositories.AttendancesRepo;
+using QuanLyHocVien.Infrastructure.Repositories.ScheduleRepo;
+using QuanLyHocVien.Infrastructure.Repositories.SubjectRepo;
+using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
 
 namespace QuanLyHocVien.UI
 {

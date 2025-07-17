@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QuanLyHocVien.Domain.Entities;
+﻿using QuanLyHocVien.Domain.Entities;
 
 namespace QuanLyHocVien.Infrastructure.Repositories.AttendancesRepo
 {

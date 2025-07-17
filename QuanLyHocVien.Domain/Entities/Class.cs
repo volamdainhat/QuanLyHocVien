@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace QuanLyHocVien.Domain.Entities
+﻿namespace QuanLyHocVien.Domain.Entities
 {
     /// <summary>
     /// Represents a class with details such as its identifier, name, schedule, and student count.

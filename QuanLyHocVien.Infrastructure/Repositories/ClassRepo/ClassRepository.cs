@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QuanLyHocVien.Domain.Entities;
+﻿using QuanLyHocVien.Domain.Entities;
 
 namespace QuanLyHocVien.Infrastructure.Repositories.ClassRepo
 {
@@ -7,6 +6,6 @@ namespace QuanLyHocVien.Infrastructure.Repositories.ClassRepo
     {
         public ClassRepository(AppDbContext context) : base(context) { }
 
-        
+
     }
 }
