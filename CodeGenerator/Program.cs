@@ -1,4 +1,7 @@
-﻿class Program
+﻿using CodeGenerator.Generator;
+using Generator;
+
+class Program
 {
     static void Main(string[] args)
     {
@@ -6,30 +9,12 @@
         string templatePath = Path.Combine(projectRoot, "Templates");
         string outputPath = Path.Combine(projectRoot, "Output");
 
-        Console.Write("Input Entity name (e.g: Trainee): ");
-        var entity = Console.ReadLine()?.Trim();
+        Console.Write("Nhập đường dẫn đến file entity (.cs): ");
+        string path = Console.ReadLine()!;
+        var (entityName, props) = EntityParser.ParseFromFile(path);
 
-        if (string.IsNullOrWhiteSpace(entity))
-        {
-            Console.WriteLine("Invalid Entity name!");
-            return;
-        }
-
-        string[] templates = {
-            "IRepository.txt",
-            "Repository.txt",
-            "Dto.txt"
-        };
-
-        foreach (var file in templates)
-        {
-            var filePath = Path.Combine(templatePath, file);
-            var content = File.ReadAllText(filePath);
-
-            var result = content.Replace("{{Entity}}", entity);
-            var outName = file.Replace(".txt", "").Replace("{{Entity}}", entity);
-            File.WriteAllText(Path.Combine(outputPath, $"{entity}{outName}.cs"), result);
-        }
+        //FormGenerator.Generate(entityName, props); // truyền danh sách property
+        CodeTemplateEngine.Generate(entityName, new[] { "IRepository", "Repository", "Dto" });
 
         Console.WriteLine("✅ Generate template code successful.");
     }
