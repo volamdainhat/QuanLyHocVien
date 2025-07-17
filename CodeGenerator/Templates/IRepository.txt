@@ -1,0 +1,4 @@
+public interface I{{Entity}}Repository : IRepository<{{Entity}}>
+{
+    // Add custom queries here
+}

@@ -88,7 +88,7 @@ foreach (var row in worksheet.RowsUsed().Skip(1)) {
 
    * `QuanLyHocVien.UI`         (WinForms .NET 8 - Startup)
    * `QuanLyHocVien.Domain`     (Entities, Enums)
-   * `QuanLyHocVien.Application` (Services, DTOs)
+   * `QuanLyHocVien.Application` (Services, DTOs, Mapper)
    * `QuanLyHocVien.Infrastructure` (EF Core, DbContext, Repo)
 
 > Thêm reference giữa project:
