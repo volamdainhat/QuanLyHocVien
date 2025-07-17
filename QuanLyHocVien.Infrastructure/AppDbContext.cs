@@ -12,7 +12,7 @@ namespace QuanLyHocVien.Infrastructure
         public DbSet<Misconduct> Misconducts => Set<Misconduct>();
         public DbSet<Reports> Reports => Set<Reports>();
         public DbSet<Schedule> Schedules => Set<Schedule>();
-        public DbSet<Attendances> AttendanceDetails => Set<Attendances>();
+        public DbSet<Attendances> Attendances => Set<Attendances>();
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     }

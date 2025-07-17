@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuanLyHocVien.Infrastructure.Repositories
+namespace QuanLyHocVien.Infrastructure.Repositories.TraineeRepo
 {
     public interface ITraineeRepository : IRepository<Trainee>
     {

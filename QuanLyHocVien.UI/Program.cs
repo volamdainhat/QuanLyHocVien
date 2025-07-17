@@ -2,6 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuanLyHocVien.Infrastructure;
+using QuanLyHocVien.Infrastructure.Repositories.ClassRepo;
+using QuanLyHocVien.Infrastructure.Repositories.ScheduleRepo;
+using QuanLyHocVien.Infrastructure.Repositories.SubjectRepo;
+using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
+using QuanLyHocVien.Infrastructure.Repositories.GradesRepo;
+using QuanLyHocVien.Infrastructure.Repositories.MisconductRepo;
+using QuanLyHocVien.Infrastructure.Repositories.ReportRepo;
+using QuanLyHocVien.Infrastructure.Repositories.AttendancesRepo;
 
 namespace QuanLyHocVien.UI
 {
@@ -20,7 +28,16 @@ namespace QuanLyHocVien.UI
                 services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=quanly.db"));
 
                 // Đăng ký Repository
-                services.AddScoped<IHocVienRepository, HocVienRepository>();
+                services.AddScoped<ITraineeRepository, TraineeRepository>();
+                services.AddScoped<IClassRepository, ClassRepository>();
+                services.AddScoped<ISubjectRepository, SubjectRepository>();
+                services.AddScoped<IScheduleRepository, ScheduleRepository>();
+                services.AddScoped<IGradesRepository, GradesRepository>();
+                services.AddScoped<IMisconductRepository, MisconductRepository>();
+                services.AddScoped<IReportRepository, ReportRepository>();
+                services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+                // Đăng ký các dịch vụ khác nếu cần
+
                 //services.AddScoped<IUnitOfWork, UnitOfWork>(); // nếu có
 
                 // Đăng ký AutoMapper (nếu có dùng)

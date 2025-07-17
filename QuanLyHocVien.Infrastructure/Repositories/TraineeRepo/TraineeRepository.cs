@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuanLyHocVien.Domain.Entities;
 
-namespace QuanLyHocVien.Infrastructure.Repositories
+namespace QuanLyHocVien.Infrastructure.Repositories.TraineeRepo
 {
     public class TraineeRepository : Repository<Trainee>, ITraineeRepository
     {
