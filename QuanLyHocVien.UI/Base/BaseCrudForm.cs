@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using QuanLyHocVien.Infrastructure.Configurations;
 
 namespace QuanLyHocVien.UI.Base
 {
     public partial class BaseCrudForm : Form
     {
-        public BaseCrudForm()
+        protected readonly IUnitOfWork _unitOfWork;
+
+        protected BaseCrudForm(IUnitOfWork unitOfWork)
         {
+            _unitOfWork = unitOfWork;
+
             InitializeComponent();
         }
     }

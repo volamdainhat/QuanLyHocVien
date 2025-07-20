@@ -21,6 +21,9 @@ namespace QuanLyHocVien.UI
         [STAThread]
         static void Main()
         {
+            //var db = new AppDbContext();
+            //db.TestConnection();
+
             var builder = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
