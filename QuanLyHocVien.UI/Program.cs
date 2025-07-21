@@ -1,15 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using QuanLyHocVien.Infrastructure;
-using QuanLyHocVien.Infrastructure.Repositories.AttendancesRepo;
-using QuanLyHocVien.Infrastructure.Repositories.ClassRepo;
-using QuanLyHocVien.Infrastructure.Repositories.GradesRepo;
-using QuanLyHocVien.Infrastructure.Repositories.MisconductRepo;
-using QuanLyHocVien.Infrastructure.Repositories.ReportRepo;
-using QuanLyHocVien.Infrastructure.Repositories.ScheduleRepo;
-using QuanLyHocVien.Infrastructure.Repositories.SubjectRepo;
-using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
+using QuanLyHocVien.Infrastructure.Configurations;
 
 namespace QuanLyHocVien.UI
 {
@@ -21,40 +13,19 @@ namespace QuanLyHocVien.UI
         [STAThread]
         static void Main()
         {
-            //var db = new AppDbContext();
-            //db.TestConnection();
+            var services = new ServiceCollection();
 
-            var builder = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                // Đăng ký DbContext dùng SQLite
-                services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=quanly.db"));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=QuanLyHocVien.db"));
 
-                // Đăng ký Repository
-                services.AddScoped<ITraineeRepository, TraineeRepository>();
-                services.AddScoped<IClassRepository, ClassRepository>();
-                services.AddScoped<ISubjectRepository, SubjectRepository>();
-                services.AddScoped<IScheduleRepository, ScheduleRepository>();
-                services.AddScoped<IGradesRepository, GradesRepository>();
-                services.AddScoped<IMisconductRepository, MisconductRepository>();
-                services.AddScoped<IReportRepository, ReportRepository>();
-                services.AddScoped<IAttendanceRepository, AttendanceRepository>();
-                // Đăng ký các dịch vụ khác nếu cần
+            // Các service khác (UnitOfWork, Repositories...)
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // ...
 
-                //services.AddScoped<IUnitOfWork, UnitOfWork>(); // nếu có
+            var serviceProvider = services.BuildServiceProvider();
 
-                // Đăng ký AutoMapper (nếu có dùng)
-                services.AddAutoMapper(typeof(Program));
-
-                // Đăng ký Form chính
-                services.AddScoped<Form1>(); // bạn sẽ tạo MainForm.cs riêng
-            });
-
-            var host = builder.Build();
-
-            // Lấy form từ DI container
-            var form = host.Services.GetRequiredService<Form1>();
-            Application.Run(form);
+            // Ví dụ: chạy form khởi đầu
+            //Application.Run(new Form1(serviceProvider.GetRequiredService<IUnitOfWork>()));
+            Application.Run(new Form1());
         }
     }
 }
