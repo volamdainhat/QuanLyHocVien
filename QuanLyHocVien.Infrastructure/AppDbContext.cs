@@ -9,25 +9,17 @@ namespace QuanLyHocVien.Infrastructure
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Trainee> Trainees => Set<Trainee>();
-        public DbSet<Class> Classes => Set<Class>();
-        public DbSet<Grades> Grades => Set<Grades>();
-        public DbSet<Misconduct> Misconducts => Set<Misconduct>();
-        public DbSet<Reports> Reports => Set<Reports>();
-        public DbSet<Schedule> Schedules => Set<Schedule>();
-        public DbSet<Attendances> Attendances => Set<Attendances>();
+        public DbSet<Trainee> Trainees { get; set; }
+        //public DbSet<Class> Classes => Set<Class>();
+        //public DbSet<Grades> Grades => Set<Grades>();
+        //public DbSet<Misconduct> Misconducts => Set<Misconduct>();
+        //public DbSet<Reports> Reports => Set<Reports>();
+        //public DbSet<Schedule> Schedules => Set<Schedule>();
+        //public DbSet<Attendances> Attendances => Set<Attendances>();
+
+        public string DbPath { get; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=QuanLyHocVien.db", option =>
-            {
-                option.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-            });
-
-            base.OnConfiguring(optionsBuilder);
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,7 +45,35 @@ namespace QuanLyHocVien.Infrastructure
             //modelBuilder.Entity<Attendances>().ToTable("Attendances");
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Trainee>().HasData(GenerateFakeTrainees());
         }
+
+        private static IEnumerable<Trainee> GenerateFakeTrainees()
+        {
+            var list = new List<Trainee>();
+            for (int i = 1; i <= 50; i++)
+            {
+                list.Add(new Trainee
+                {
+                    Id = i,
+                    FullName = $"Học viên {i}",
+                    ClassId = i % 5 + 1,
+                    PhoneNumber = $"012345678{i:D2}",
+                    DayOfBirth = new DateTime(2000, 1, 1).AddDays(i * 30),
+                    EnlistmentDate = new DateTime(2022, 9, 1),
+                    Ranking = i % 3 == 0 ? "Giỏi" : i % 2 == 0 ? "Khá" : "Trung bình",
+                    Role = "Học viên",
+                    FatherFullName = $"Ông A{i}",
+                    FatherPhoneNumber = $"098765432{i:D2}",
+                    MotherFullName = $"Bà B{i}",
+                    MotherPhoneNumber = $"097812345{i:D2}",
+                    AverageScore = 5 + (i % 5)
+                });
+            }
+            return list;
+        }
+
     }
 
 }

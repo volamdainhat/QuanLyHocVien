@@ -13,7 +13,7 @@ namespace QuanLyHocVien.Infrastructure.Configurations
             _repositories = new Dictionary<Type, object>();
         }
 
-        public IRepository<TEntity>? GetRepository<TEntity>() where TEntity : class
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
             if (_repositories.ContainsKey(typeof(TEntity)))
             {

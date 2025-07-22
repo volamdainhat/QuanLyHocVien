@@ -75,6 +75,7 @@
             dgvRead.RowHeadersWidth = 62;
             dgvRead.Size = new Size(800, 631);
             dgvRead.TabIndex = 1;
+            dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
             // tsBehavior
             // 
@@ -93,6 +94,7 @@
             btnPrev.Name = "btnPrev";
             btnPrev.Size = new Size(34, 28);
             btnPrev.Text = "btnPrev";
+            btnPrev.Click += btnPrev_Click;
             // 
             // toolStripSeparator1
             // 
@@ -103,6 +105,7 @@
             // 
             txtPageNumber.Name = "txtPageNumber";
             txtPageNumber.Size = new Size(100, 33);
+            txtPageNumber.Enter += txtPageNumber_Enter;
             // 
             // lblTotalPages
             // 
@@ -122,6 +125,7 @@
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(34, 28);
             btnNext.Text = "toolStripButton3";
+            btnNext.Click += btnNext_Click;
             // 
             // toolStripSeparator3
             // 
@@ -136,6 +140,7 @@
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(34, 28);
             btnRefresh.Text = "toolStripButton7";
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // toolStripSeparator4
             // 
@@ -150,6 +155,7 @@
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(34, 28);
             btnSearch.Text = "toolStripButton6";
+            btnSearch.Click += btnSearch_Click;
             // 
             // toolStripSeparator5
             // 
@@ -163,6 +169,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(34, 28);
             btnAdd.Text = "toolStripButton5";
+            btnAdd.Click += btnAdd_Click;
             // 
             // toolStripSeparator6
             // 
@@ -194,6 +201,7 @@
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(34, 28);
             btnDelete.Text = "toolStripButton4";
+            btnDelete.Click += btnDelete_Click;
             // 
             // groupBox1
             // 
@@ -232,6 +240,7 @@
             btnSave.TabIndex = 2;
             btnSave.Text = "Lưu";
             btnSave.UseVisualStyleBackColor = false;
+            btnSave.Click += btnSave_Click;
             // 
             // BaseCrudForm
             // 

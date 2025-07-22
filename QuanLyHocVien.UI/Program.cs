@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuanLyHocVien.Infrastructure;
 using QuanLyHocVien.Infrastructure.Configurations;
+using QuanLyHocVien.UI.Forms;
 
 namespace QuanLyHocVien.UI
 {
@@ -24,8 +25,7 @@ namespace QuanLyHocVien.UI
             var serviceProvider = services.BuildServiceProvider();
 
             // Ví dụ: chạy form khởi đầu
-            //Application.Run(new Form1(serviceProvider.GetRequiredService<IUnitOfWork>()));
-            Application.Run(new Form1());
+            Application.Run(new FrmTrainee(serviceProvider.GetRequiredService<IUnitOfWork>()));
         }
     }
 }
