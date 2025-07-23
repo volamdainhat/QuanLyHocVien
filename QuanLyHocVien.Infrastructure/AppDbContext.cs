@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using QuanLyHocVien.Domain.Entities;
-using System.Configuration;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace QuanLyHocVien.Infrastructure
 {
@@ -19,7 +15,17 @@ namespace QuanLyHocVien.Infrastructure
 
         public string DbPath { get; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            DbPath = System.IO.Path.Join(path, "QuanLyHocVien.db");
+        }
+
+        // The following configures EF to create a Sqlite database file in the
+        // special "local" folder for your platform.
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+            => options.UseSqlite($"Data Source={DbPath}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,34 +52,7 @@ namespace QuanLyHocVien.Infrastructure
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Trainee>().HasData(GenerateFakeTrainees());
+            AppDbSeed.Seed(modelBuilder); // Gọi file seed
         }
-
-        private static IEnumerable<Trainee> GenerateFakeTrainees()
-        {
-            var list = new List<Trainee>();
-            for (int i = 1; i <= 50; i++)
-            {
-                list.Add(new Trainee
-                {
-                    Id = i,
-                    FullName = $"Học viên {i}",
-                    ClassId = i % 5 + 1,
-                    PhoneNumber = $"012345678{i:D2}",
-                    DayOfBirth = new DateTime(2000, 1, 1).AddDays(i * 30),
-                    EnlistmentDate = new DateTime(2022, 9, 1),
-                    Ranking = i % 3 == 0 ? "Giỏi" : i % 2 == 0 ? "Khá" : "Trung bình",
-                    Role = "Học viên",
-                    FatherFullName = $"Ông A{i}",
-                    FatherPhoneNumber = $"098765432{i:D2}",
-                    MotherFullName = $"Bà B{i}",
-                    MotherPhoneNumber = $"097812345{i:D2}",
-                    AverageScore = 5 + (i % 5)
-                });
-            }
-            return list;
-        }
-
     }
-
 }

@@ -1,4 +1,6 @@
-﻿namespace QuanLyHocVien.UI.Base
+﻿using System.Collections;
+
+namespace QuanLyHocVien.UI.Base
 {
     public partial class BaseCrudForm : Form
     {
@@ -116,8 +118,8 @@
         }
 
         // Các hàm form con cần override
-        protected virtual Task<(object[] Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
-        => Task.FromResult((Array.Empty<object>(), 0));
+        protected virtual Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
+            => Task.FromResult(((IList)new List<object>(), 0));
 
         protected virtual Task SaveAsync(object entity)
             => Task.CompletedTask;

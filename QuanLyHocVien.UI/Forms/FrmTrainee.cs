@@ -2,6 +2,8 @@
 using QuanLyHocVien.Infrastructure.Configurations;
 using QuanLyHocVien.Infrastructure.Repositories;
 using QuanLyHocVien.UI.Base;
+using System.Collections;
+using System.Linq;
 
 namespace QuanLyHocVien.UI.Forms
 {
@@ -17,11 +19,11 @@ namespace QuanLyHocVien.UI.Forms
             _traineeRepository = _uow.GetRepository<Trainee>();
         }
 
-        protected override async Task<(object[] Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
+        protected override async Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
         {
             var all = await _traineeRepository.GetAllAsync();
-            var paged = all.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
-            return (paged.Cast<object>().ToArray(), all.Count());
+            var paged = all.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return (paged, all.Count());
         }
 
         protected override object ReadFromForm()

@@ -47,7 +47,7 @@
             btnEdit = new ToolStripButton();
             toolStripSeparator7 = new ToolStripSeparator();
             btnDelete = new ToolStripButton();
-            groupBox1 = new GroupBox();
+            grbDetailInfo = new GroupBox();
             tpnDetails = new TableLayoutPanel();
             btnSave = new Button();
             pnView.SuspendLayout();
@@ -203,21 +203,21 @@
             btnDelete.Text = "toolStripButton4";
             btnDelete.Click += btnDelete_Click;
             // 
-            // groupBox1
+            // grbDetailInfo
             // 
-            groupBox1.Dock = DockStyle.Fill;
-            groupBox1.Location = new Point(3, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(452, 618);
-            groupBox1.TabIndex = 1;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Thông tin chi tiết";
+            grbDetailInfo.Dock = DockStyle.Fill;
+            grbDetailInfo.Location = new Point(3, 3);
+            grbDetailInfo.Name = "grbDetailInfo";
+            grbDetailInfo.Size = new Size(452, 618);
+            grbDetailInfo.TabIndex = 1;
+            grbDetailInfo.TabStop = false;
+            grbDetailInfo.Text = "Thông tin chi tiết";
             // 
             // tpnDetails
             // 
             tpnDetails.ColumnCount = 1;
             tpnDetails.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tpnDetails.Controls.Add(groupBox1, 0, 0);
+            tpnDetails.Controls.Add(grbDetailInfo, 0, 0);
             tpnDetails.Controls.Add(btnSave, 0, 1);
             tpnDetails.Dock = DockStyle.Fill;
             tpnDetails.Location = new Point(800, 0);
@@ -266,7 +266,7 @@
         private Panel pnView;
         private DataGridView dgvRead;
         private ToolStrip tsBehavior;
-        private GroupBox groupBox1;
+        protected GroupBox grbDetailInfo;
         private ToolStripButton btnPrev;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripTextBox txtPageNumber;

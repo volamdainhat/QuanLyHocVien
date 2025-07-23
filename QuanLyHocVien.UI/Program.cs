@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using QuanLyHocVien.Infrastructure;
 using QuanLyHocVien.Infrastructure.Configurations;
 using QuanLyHocVien.UI.Forms;
@@ -14,18 +16,32 @@ namespace QuanLyHocVien.UI
         [STAThread]
         static void Main()
         {
-            var services = new ServiceCollection();
+            var host = Host.CreateDefaultBuilder()
+            .ConfigureAppConfiguration(config =>
+            {
+                config.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            })
+            .ConfigureServices((context, services) =>
+            {
+                var connectionString = context.Configuration.GetConnectionString("sqlite");
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=QuanLyHocVien.db"));
+                // Gắn DbContext
+                services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 
-            // Các service khác (UnitOfWork, Repositories...)
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            // ...
+                // Các service khác (UnitOfWork, Repositories...)
+                services.AddScoped<IUnitOfWork, UnitOfWork>();
+                // ...
 
-            var serviceProvider = services.BuildServiceProvider();
+                // Đăng ký các Form để có thể resolve qua DI
+                services.AddScoped<FrmTrainee>();
+                services.AddScoped<frmMain>();
+            })
+            .Build();
 
-            // Ví dụ: chạy form khởi đầu
-            Application.Run(new FrmTrainee(serviceProvider.GetRequiredService<IUnitOfWork>()));
+            // Resolve và chạy Form khởi đầu
+            var form = host.Services.GetRequiredService<frmMain>();
+            Application.Run(form);
         }
     }
 }

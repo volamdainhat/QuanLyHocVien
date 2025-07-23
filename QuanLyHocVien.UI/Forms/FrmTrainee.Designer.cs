@@ -28,7 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            textBox1 = new TextBox();
+            label1 = new Label();
+            grbDetailInfo.SuspendLayout();
             SuspendLayout();
+            // 
+            // grbDetailInfo
+            // 
+            grbDetailInfo.Controls.Add(label1);
+            grbDetailInfo.Controls.Add(textBox1);
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(6, 58);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(150, 31);
+            textBox1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 30);
+            label1.Name = "label1";
+            label1.Size = new Size(59, 25);
+            label1.TabIndex = 1;
+            label1.Text = "label1";
             // 
             // FrmTrainee
             // 
@@ -37,9 +61,14 @@
             ClientSize = new Size(1258, 664);
             Name = "FrmTrainee";
             Text = "FrmTrainee";
+            grbDetailInfo.ResumeLayout(false);
+            grbDetailInfo.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Label label1;
+        private TextBox textBox1;
     }
 }
