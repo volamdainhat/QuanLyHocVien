@@ -264,7 +264,7 @@
         #endregion
 
         private Panel pnView;
-        private DataGridView dgvRead;
+        protected DataGridView dgvRead;
         private ToolStrip tsBehavior;
         protected GroupBox grbDetailInfo;
         private ToolStripButton btnPrev;
@@ -283,7 +283,7 @@
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripSeparator toolStripSeparator6;
         private ToolStripSeparator toolStripSeparator7;
-        private TableLayoutPanel tpnDetails;
+        protected TableLayoutPanel tpnDetails;
         private Button btnSave;
     }
 }

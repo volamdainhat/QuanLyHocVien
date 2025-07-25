@@ -177,7 +177,7 @@ Hoặc
 
 * Cập nhật Data Seeding
 ```cmd
-dotnet ef migrations add InitialCreate --project QuanLyHocVien.Infrastructure --startup-project QuanLyHocVien.UI
+dotnet ef migrations add SeedData --project QuanLyHocVien.Infrastructure --startup-project QuanLyHocVien.UI
 ```
 
 Bước 2:
