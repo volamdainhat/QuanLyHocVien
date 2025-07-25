@@ -63,7 +63,7 @@
             pnView.Dock = DockStyle.Left;
             pnView.Location = new Point(0, 0);
             pnView.Name = "pnView";
-            pnView.Size = new Size(800, 664);
+            pnView.Size = new Size(800, 712);
             pnView.TabIndex = 0;
             // 
             // dgvRead
@@ -73,7 +73,7 @@
             dgvRead.Location = new Point(0, 33);
             dgvRead.Name = "dgvRead";
             dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(800, 631);
+            dgvRead.Size = new Size(800, 679);
             dgvRead.TabIndex = 1;
             dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
@@ -208,7 +208,7 @@
             grbDetailInfo.Dock = DockStyle.Fill;
             grbDetailInfo.Location = new Point(3, 3);
             grbDetailInfo.Name = "grbDetailInfo";
-            grbDetailInfo.Size = new Size(452, 618);
+            grbDetailInfo.Size = new Size(538, 666);
             grbDetailInfo.TabIndex = 1;
             grbDetailInfo.TabStop = false;
             grbDetailInfo.Text = "Thông tin chi tiết";
@@ -225,7 +225,7 @@
             tpnDetails.RowCount = 2;
             tpnDetails.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tpnDetails.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tpnDetails.Size = new Size(458, 664);
+            tpnDetails.Size = new Size(544, 712);
             tpnDetails.TabIndex = 2;
             // 
             // btnSave
@@ -234,7 +234,7 @@
             btnSave.Dock = DockStyle.Right;
             btnSave.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.Transparent;
-            btnSave.Location = new Point(343, 627);
+            btnSave.Location = new Point(429, 675);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 2;
@@ -246,7 +246,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1258, 664);
+            ClientSize = new Size(1344, 712);
             Controls.Add(tpnDetails);
             Controls.Add(pnView);
             Name = "BaseCrudForm";

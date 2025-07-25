@@ -37,6 +37,7 @@
             // 
             grbDetailInfo.Controls.Add(label1);
             grbDetailInfo.Controls.Add(textBox1);
+            grbDetailInfo.Size = new Size(538, 666);
             // 
             // textBox1
             // 
@@ -58,7 +59,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1258, 664);
+            ClientSize = new Size(1344, 712);
             Name = "FrmTrainee";
             Text = "FrmTrainee";
             grbDetailInfo.ResumeLayout(false);

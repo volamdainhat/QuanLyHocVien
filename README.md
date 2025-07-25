@@ -163,3 +163,26 @@ builder.Services.AddAutoMapper(typeof(Program));
 * Tính ổn định khi hoạt động offline
 * Kiểm tra logic vi phạm kỷ luật, tính toán điểm
 * Kiểm thử sao lưu dữ liệu (nếu có)
+
+## Hướng dẫn câu lệnh chạy Migrations, cập nhật Data Seeding
+
+Bước 1:
+
+* Cập nhật Migrations
+```cmd
+dotnet ef migrations add Initial --project QuanLyHocVien.Infrastructure --startup-project QuanLyHocVien.UI
+``` 
+
+Hoặc
+
+* Cập nhật Data Seeding
+```cmd
+dotnet ef migrations add InitialCreate --project QuanLyHocVien.Infrastructure --startup-project QuanLyHocVien.UI
+```
+
+Bước 2:
+
+* Update database
+```cmd
+dotnet ef database update --project QuanLyHocVien.Infrastructure --startup-project QuanLyHocVien.UI
+```
