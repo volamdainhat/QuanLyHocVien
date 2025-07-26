@@ -84,213 +84,241 @@
             grbDetailInfo.Controls.Add(lblClassId);
             grbDetailInfo.Controls.Add(lblFullName);
             grbDetailInfo.Controls.Add(txtFullName);
+            grbDetailInfo.Size = new Size(377, 399);
             // 
             // txtFullName
             // 
-            txtFullName.Location = new Point(6, 117);
+            txtFullName.Location = new Point(4, 70);
+            txtFullName.Margin = new Padding(2);
             txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(250, 31);
+            txtFullName.Size = new Size(176, 23);
             txtFullName.TabIndex = 0;
             // 
             // lblFullName
             // 
             lblFullName.AutoSize = true;
-            lblFullName.Location = new Point(6, 89);
+            lblFullName.Location = new Point(4, 53);
+            lblFullName.Margin = new Padding(2, 0, 2, 0);
             lblFullName.Name = "lblFullName";
-            lblFullName.Size = new Size(89, 25);
+            lblFullName.Size = new Size(58, 15);
             lblFullName.TabIndex = 1;
             lblFullName.Text = "Họ và tên";
             // 
             // lblClassId
             // 
             lblClassId.AutoSize = true;
-            lblClassId.Location = new Point(6, 337);
+            lblClassId.Location = new Point(4, 202);
+            lblClassId.Margin = new Padding(2, 0, 2, 0);
             lblClassId.Name = "lblClassId";
-            lblClassId.Size = new Size(68, 25);
+            lblClassId.Size = new Size(44, 15);
             lblClassId.TabIndex = 2;
             lblClassId.Text = "Mã lớp";
             // 
             // txtClassId
             // 
-            txtClassId.Location = new Point(6, 365);
+            txtClassId.Location = new Point(4, 219);
+            txtClassId.Margin = new Padding(2);
             txtClassId.Name = "txtClassId";
-            txtClassId.Size = new Size(250, 31);
+            txtClassId.Size = new Size(176, 23);
             txtClassId.TabIndex = 3;
             // 
             // lblPhoneNumber
             // 
             lblPhoneNumber.AutoSize = true;
-            lblPhoneNumber.Location = new Point(6, 275);
+            lblPhoneNumber.Location = new Point(4, 165);
+            lblPhoneNumber.Margin = new Padding(2, 0, 2, 0);
             lblPhoneNumber.Name = "lblPhoneNumber";
-            lblPhoneNumber.Size = new Size(117, 25);
+            lblPhoneNumber.Size = new Size(76, 15);
             lblPhoneNumber.TabIndex = 5;
             lblPhoneNumber.Text = "Số điện thoại";
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(6, 303);
+            txtPhoneNumber.Location = new Point(4, 182);
+            txtPhoneNumber.Margin = new Padding(2);
             txtPhoneNumber.Name = "txtPhoneNumber";
-            txtPhoneNumber.Size = new Size(250, 31);
+            txtPhoneNumber.Size = new Size(176, 23);
             txtPhoneNumber.TabIndex = 4;
             // 
             // dtpDayOfBirth
             // 
-            dtpDayOfBirth.Location = new Point(6, 179);
+            dtpDayOfBirth.Location = new Point(4, 107);
+            dtpDayOfBirth.Margin = new Padding(2);
             dtpDayOfBirth.Name = "dtpDayOfBirth";
-            dtpDayOfBirth.Size = new Size(250, 31);
+            dtpDayOfBirth.Size = new Size(176, 23);
             dtpDayOfBirth.TabIndex = 6;
             // 
             // lblDayOfBirth
             // 
             lblDayOfBirth.AutoSize = true;
-            lblDayOfBirth.Location = new Point(6, 151);
+            lblDayOfBirth.Location = new Point(4, 91);
+            lblDayOfBirth.Margin = new Padding(2, 0, 2, 0);
             lblDayOfBirth.Name = "lblDayOfBirth";
-            lblDayOfBirth.Size = new Size(91, 25);
+            lblDayOfBirth.Size = new Size(60, 15);
             lblDayOfBirth.TabIndex = 7;
             lblDayOfBirth.Text = "Ngày sinh";
             // 
             // lblRanking
             // 
             lblRanking.AutoSize = true;
-            lblRanking.Location = new Point(6, 399);
+            lblRanking.Location = new Point(4, 239);
+            lblRanking.Margin = new Padding(2, 0, 2, 0);
             lblRanking.Name = "lblRanking";
-            lblRanking.Size = new Size(76, 25);
+            lblRanking.Size = new Size(50, 15);
             lblRanking.TabIndex = 9;
             lblRanking.Text = "Cấp bậc";
             // 
             // txtRanking
             // 
-            txtRanking.Location = new Point(6, 427);
+            txtRanking.Location = new Point(4, 256);
+            txtRanking.Margin = new Padding(2);
             txtRanking.Name = "txtRanking";
-            txtRanking.Size = new Size(250, 31);
+            txtRanking.Size = new Size(176, 23);
             txtRanking.TabIndex = 8;
             // 
             // lblRole
             // 
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(279, 399);
+            lblRole.Location = new Point(195, 239);
+            lblRole.Margin = new Padding(2, 0, 2, 0);
             lblRole.Name = "lblRole";
-            lblRole.Size = new Size(76, 25);
+            lblRole.Size = new Size(51, 15);
             lblRole.TabIndex = 11;
             lblRole.Text = "Chức vụ";
             // 
             // txtRole
             // 
-            txtRole.Location = new Point(279, 427);
+            txtRole.Location = new Point(195, 256);
+            txtRole.Margin = new Padding(2);
             txtRole.Name = "txtRole";
-            txtRole.Size = new Size(250, 31);
+            txtRole.Size = new Size(176, 23);
             txtRole.TabIndex = 10;
             // 
             // lblEnlistmentDate
             // 
             lblEnlistmentDate.AutoSize = true;
-            lblEnlistmentDate.Location = new Point(6, 213);
+            lblEnlistmentDate.Location = new Point(4, 128);
+            lblEnlistmentDate.Margin = new Padding(2, 0, 2, 0);
             lblEnlistmentDate.Name = "lblEnlistmentDate";
-            lblEnlistmentDate.Size = new Size(135, 25);
+            lblEnlistmentDate.Size = new Size(89, 15);
             lblEnlistmentDate.TabIndex = 13;
             lblEnlistmentDate.Text = "Ngày nhập ngũ";
             // 
             // dtpEnlistmentDate
             // 
-            dtpEnlistmentDate.Location = new Point(6, 241);
+            dtpEnlistmentDate.Location = new Point(4, 145);
+            dtpEnlistmentDate.Margin = new Padding(2);
             dtpEnlistmentDate.Name = "dtpEnlistmentDate";
-            dtpEnlistmentDate.Size = new Size(250, 31);
+            dtpEnlistmentDate.Size = new Size(176, 23);
             dtpEnlistmentDate.TabIndex = 12;
             // 
             // lblFatherFullName
             // 
             lblFatherFullName.AutoSize = true;
-            lblFatherFullName.Location = new Point(6, 461);
+            lblFatherFullName.Location = new Point(4, 277);
+            lblFatherFullName.Margin = new Padding(2, 0, 2, 0);
             lblFatherFullName.Name = "lblFatherFullName";
-            lblFatherFullName.Size = new Size(101, 25);
+            lblFatherFullName.Size = new Size(67, 15);
             lblFatherFullName.TabIndex = 15;
             lblFatherFullName.Text = "Họ tên Cha";
             // 
             // txtFatherFullName
             // 
-            txtFatherFullName.Location = new Point(6, 489);
+            txtFatherFullName.Location = new Point(4, 293);
+            txtFatherFullName.Margin = new Padding(2);
             txtFatherFullName.Name = "txtFatherFullName";
-            txtFatherFullName.Size = new Size(250, 31);
+            txtFatherFullName.Size = new Size(176, 23);
             txtFatherFullName.TabIndex = 14;
             // 
             // lblFatherPhoneNumber
             // 
             lblFatherPhoneNumber.AutoSize = true;
-            lblFatherPhoneNumber.Location = new Point(279, 461);
+            lblFatherPhoneNumber.Location = new Point(195, 277);
+            lblFatherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
             lblFatherPhoneNumber.Name = "lblFatherPhoneNumber";
-            lblFatherPhoneNumber.Size = new Size(152, 25);
+            lblFatherPhoneNumber.Size = new Size(100, 15);
             lblFatherPhoneNumber.TabIndex = 17;
             lblFatherPhoneNumber.Text = "Số điện thoại Cha";
             // 
             // txtFatherPhoneNumber
             // 
-            txtFatherPhoneNumber.Location = new Point(279, 489);
+            txtFatherPhoneNumber.Location = new Point(195, 293);
+            txtFatherPhoneNumber.Margin = new Padding(2);
             txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
-            txtFatherPhoneNumber.Size = new Size(250, 31);
+            txtFatherPhoneNumber.Size = new Size(176, 23);
             txtFatherPhoneNumber.TabIndex = 16;
             // 
             // lblMotherPhoneNumber
             // 
             lblMotherPhoneNumber.AutoSize = true;
-            lblMotherPhoneNumber.Location = new Point(279, 523);
+            lblMotherPhoneNumber.Location = new Point(195, 314);
+            lblMotherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
             lblMotherPhoneNumber.Name = "lblMotherPhoneNumber";
-            lblMotherPhoneNumber.Size = new Size(147, 25);
+            lblMotherPhoneNumber.Size = new Size(96, 15);
             lblMotherPhoneNumber.TabIndex = 21;
             lblMotherPhoneNumber.Text = "Số điện thoại Mẹ";
             // 
             // txtMotherPhoneNumber
             // 
-            txtMotherPhoneNumber.Location = new Point(279, 551);
+            txtMotherPhoneNumber.Location = new Point(195, 331);
+            txtMotherPhoneNumber.Margin = new Padding(2);
             txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
-            txtMotherPhoneNumber.Size = new Size(250, 31);
+            txtMotherPhoneNumber.Size = new Size(176, 23);
             txtMotherPhoneNumber.TabIndex = 20;
             // 
             // lblMotherFullName
             // 
             lblMotherFullName.AutoSize = true;
-            lblMotherFullName.Location = new Point(6, 523);
+            lblMotherFullName.Location = new Point(4, 314);
+            lblMotherFullName.Margin = new Padding(2, 0, 2, 0);
             lblMotherFullName.Name = "lblMotherFullName";
-            lblMotherFullName.Size = new Size(96, 25);
+            lblMotherFullName.Size = new Size(63, 15);
             lblMotherFullName.TabIndex = 19;
             lblMotherFullName.Text = "Họ tên Mẹ";
             // 
             // txtMotherFullName
             // 
-            txtMotherFullName.Location = new Point(6, 551);
+            txtMotherFullName.Location = new Point(4, 331);
+            txtMotherFullName.Margin = new Padding(2);
             txtMotherFullName.Name = "txtMotherFullName";
-            txtMotherFullName.Size = new Size(250, 31);
+            txtMotherFullName.Size = new Size(176, 23);
             txtMotherFullName.TabIndex = 18;
             // 
             // lblId
             // 
             lblId.AutoSize = true;
-            lblId.Location = new Point(6, 27);
+            lblId.Location = new Point(4, 16);
+            lblId.Margin = new Padding(2, 0, 2, 0);
             lblId.Name = "lblId";
-            lblId.Size = new Size(122, 25);
+            lblId.Size = new Size(81, 15);
             lblId.TabIndex = 23;
             lblId.Text = "Mã định danh";
             // 
             // txtId
             // 
-            txtId.Location = new Point(6, 55);
+            txtId.Location = new Point(4, 33);
+            txtId.Margin = new Padding(2);
             txtId.Name = "txtId";
-            txtId.Size = new Size(250, 31);
+            txtId.ReadOnly = true;
+            txtId.Size = new Size(176, 23);
             txtId.TabIndex = 22;
             // 
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(281, 27);
+            pictureBox1.Location = new Point(197, 16);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(248, 307);
+            pictureBox1.Size = new Size(174, 185);
             pictureBox1.TabIndex = 24;
             pictureBox1.TabStop = false;
             // 
             // FrmTrainee
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1344, 712);
+            ClientSize = new Size(941, 427);
+            Margin = new Padding(1);
             Name = "FrmTrainee";
             Text = "FrmTrainee";
             grbDetailInfo.ResumeLayout(false);

@@ -11,8 +11,8 @@ using QuanLyHocVien.Infrastructure;
 namespace QuanLyHocVien.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250725151901_SeedData")]
-    partial class SeedData
+    [Migration("20250726010122_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

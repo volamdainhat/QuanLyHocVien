@@ -155,7 +155,6 @@
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(34, 28);
             btnSearch.Text = "toolStripButton6";
-            btnSearch.Click += btnSearch_Click;
             // 
             // toolStripSeparator5
             // 

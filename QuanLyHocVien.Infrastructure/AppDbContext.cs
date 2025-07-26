@@ -27,32 +27,32 @@ namespace QuanLyHocVien.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Configure entity properties and relationships here if needed
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    // Configure entity properties and relationships here if needed
 
-            // Trainee
-            modelBuilder.Entity<Trainee>().ToTable("Trainees");
-            modelBuilder.Entity<Trainee>(option =>
-            {
-                option.HasKey(t => t.Id);
-                option.Property(t => t.FullName).IsRequired();
-                option.Property(t => t.ClassId).IsRequired();
-                option.Property(t => t.Ranking).IsRequired();
-                option.Property(t => t.EnlistmentDate).IsRequired();
-                option.Property(t => t.Role).HasDefaultValue("Học viên");
-            });
+        //    // Trainee
+        //    modelBuilder.Entity<Trainee>().ToTable("Trainees");
+        //    modelBuilder.Entity<Trainee>(option =>
+        //    {
+        //        option.HasKey(t => t.Id);
+        //        option.Property(t => t.FullName).IsRequired();
+        //        option.Property(t => t.ClassId).IsRequired();
+        //        option.Property(t => t.Ranking).IsRequired();
+        //        option.Property(t => t.EnlistmentDate).IsRequired();
+        //        option.Property(t => t.Role).HasDefaultValue("Học viên");
+        //    });
 
-            //modelBuilder.Entity<Class>().ToTable("Classes");
-            //modelBuilder.Entity<Grades>().ToTable("Grades");
-            //modelBuilder.Entity<Misconduct>().ToTable("Misconducts");
-            //modelBuilder.Entity<Reports>().ToTable("Reports");
-            //modelBuilder.Entity<Schedule>().ToTable("Schedules");
-            //modelBuilder.Entity<Attendances>().ToTable("Attendances");
+        //    //modelBuilder.Entity<Class>().ToTable("Classes");
+        //    //modelBuilder.Entity<Grades>().ToTable("Grades");
+        //    //modelBuilder.Entity<Misconduct>().ToTable("Misconducts");
+        //    //modelBuilder.Entity<Reports>().ToTable("Reports");
+        //    //modelBuilder.Entity<Schedule>().ToTable("Schedules");
+        //    //modelBuilder.Entity<Attendances>().ToTable("Attendances");
 
-            base.OnModelCreating(modelBuilder);
+        //    base.OnModelCreating(modelBuilder);
 
-            AppDbSeed.Seed(modelBuilder); // Gọi file seed
-        }
+        //    AppDbSeed.Seed(modelBuilder); // Gọi file seed
+        //}
     }
 }

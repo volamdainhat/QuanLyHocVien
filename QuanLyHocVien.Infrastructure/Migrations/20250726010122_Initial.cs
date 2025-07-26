@@ -8,20 +8,34 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QuanLyHocVien.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 1);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 2);
+            migrationBuilder.CreateTable(
+                name: "Trainees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FullName = table.Column<string>(type: "TEXT", nullable: false),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    DayOfBirth = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Ranking = table.Column<string>(type: "TEXT", nullable: false),
+                    EnlistmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    AverageScore = table.Column<float>(type: "REAL", nullable: true),
+                    Role = table.Column<string>(type: "TEXT", nullable: false, defaultValue: "Học viên"),
+                    FatherFullName = table.Column<string>(type: "TEXT", nullable: true),
+                    FatherPhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    MotherFullName = table.Column<string>(type: "TEXT", nullable: true),
+                    MotherPhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainees", x => x.Id);
+                });
 
             migrationBuilder.InsertData(
                 table: "Trainees",
@@ -44,64 +58,8 @@ namespace QuanLyHocVien.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 5);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 6);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 7);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 8);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 9);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 10);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 11);
-
-            migrationBuilder.DeleteData(
-                table: "Trainees",
-                keyColumn: "Id",
-                keyValue: 12);
-
-            migrationBuilder.InsertData(
-                table: "Trainees",
-                columns: new[] { "Id", "AverageScore", "ClassId", "DayOfBirth", "EnlistmentDate", "FatherFullName", "FatherPhoneNumber", "FullName", "MotherFullName", "MotherPhoneNumber", "PhoneNumber", "Ranking", "Role" },
-                values: new object[,]
-                {
-                    { 1, null, 1, null, new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Nguyễn Văn A", null, null, null, "Giỏi", "Học viên" },
-                    { 2, null, 1, null, new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "Trần Thị B", null, null, null, "Khá", "Học viên" }
-                });
+            migrationBuilder.DropTable(
+                name: "Trainees");
         }
     }
 }

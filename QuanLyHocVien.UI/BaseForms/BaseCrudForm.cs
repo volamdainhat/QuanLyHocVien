@@ -50,11 +50,6 @@ namespace QuanLyHocVien.UI.Base
             await LoadDataAsync();
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             ClearForm();
@@ -94,9 +89,18 @@ namespace QuanLyHocVien.UI.Base
 
         private async Task Delete()
         {
-            var id = GetSelectedId();
-            if (id == 0) return;
-            await DeleteAsync(id);
+            var ids = GetSelectedIds();
+            if (ids == null || ids.Count == 0) return;
+
+            var confirm = MessageBox.Show(
+                $"Bạn có chắc muốn xóa {ids.Count} bản ghi?",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+            if (confirm != DialogResult.Yes) return;
+
+            await DeleteAsync(ids);
             await Reload();
         }
 
@@ -113,6 +117,7 @@ namespace QuanLyHocVien.UI.Base
         private void BindSelectedRowToForm()
         {
             if (dgvRead.SelectedRows.Count == 0) return;
+
             var item = dgvRead.SelectedRows[0].DataBoundItem!;
             BindToForm(item);
         }
@@ -121,17 +126,15 @@ namespace QuanLyHocVien.UI.Base
         protected virtual Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
             => Task.FromResult(((IList)new List<object>(), 0));
 
-        protected virtual Task SaveAsync(object entity)
-            => Task.CompletedTask;
+        protected virtual Task SaveAsync(object entity) => Task.CompletedTask;
 
-        protected virtual Task DeleteAsync(int id)
-            => Task.CompletedTask;
+        protected virtual Task DeleteAsync(List<int> ids) => Task.CompletedTask;
 
         protected virtual object ReadFromForm() => null;
 
         protected virtual void BindToForm(object entity) { }
 
-        protected virtual int GetSelectedId() => -1;
+        protected virtual List<int> GetSelectedIds() => new List<int>();
 
         protected virtual void ClearForm() { }
     }
