@@ -1,49 +1,32 @@
-﻿using QuanLyHocVien.Domain.Entities;
+﻿using AutoMapper;
+using QuanLyHocVien.Applications.DTOs;
+using QuanLyHocVien.Domain.Entities;
 using QuanLyHocVien.Infrastructure.Configurations;
 using QuanLyHocVien.Infrastructure.Repositories;
+using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
 using QuanLyHocVien.UI.Base;
 using System.Collections;
-using System.ComponentModel;
-using System.Reflection;
 
 namespace QuanLyHocVien.UI.Forms
 {
     public partial class FrmTrainee : BaseCrudForm
     {
-        private readonly IUnitOfWork _uow;
         private readonly IRepository<Trainee> _traineeRepository;
+        private readonly ITraineeRepository _traineeRepo;
 
-        public FrmTrainee(IUnitOfWork uow)
+        public FrmTrainee(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
         {
             InitializeComponent();
-            _uow = uow;
             _traineeRepository = _uow.GetRepository<Trainee>();
-            ConfigureGridColumnsFromModel<Trainee>();
-        }
-
-        private void ConfigureGridColumnsFromModel<T>()
-        {
-            dgvRead.AutoGenerateColumns = false;
-            dgvRead.Columns.Clear();
-
-            var props = typeof(T).GetProperties();
-            foreach (var prop in props)
-            {
-                var displayAttr = prop.GetCustomAttribute<DisplayNameAttribute>();
-                if (displayAttr == null) continue;
-
-                dgvRead.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    DataPropertyName = prop.Name,
-                    HeaderText = displayAttr.DisplayName
-                });
-            }
+            ConfigureGridColumnsFromModel<TraineeDto.ViewModel>();
         }
 
         protected override async Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
         {
             var all = await _traineeRepository.GetAllAsync();
-            var paged = all.Skip((page - 1) * pageSize).Take(pageSize).ToList(); 
+            var paged = all.Skip((page - 1) * pageSize).Take(pageSize)
+                .Select(t => _mapper.Map<TraineeDto.ViewModel>(t))
+                .ToList();
             return (paged, all.Count());
         }
 

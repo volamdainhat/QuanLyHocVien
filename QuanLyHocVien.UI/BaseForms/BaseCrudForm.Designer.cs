@@ -262,7 +262,7 @@
 
         #endregion
 
-        private Panel pnView;
+        protected Panel pnView;
         protected DataGridView dgvRead;
         private ToolStrip tsBehavior;
         protected GroupBox grbDetailInfo;

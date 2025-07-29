@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QuanLyHocVien.Application\QuanLyHocVien.Applications.csproj" />
     <ProjectReference Include="..\QuanLyHocVien.Infrastructure\QuanLyHocVien.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using QuanLyHocVien.Applications.Mapping;
 using QuanLyHocVien.Infrastructure;
 using QuanLyHocVien.Infrastructure.Configurations;
 using QuanLyHocVien.UI.Forms;
@@ -31,6 +32,7 @@ namespace QuanLyHocVien.UI
 
                 // Các service khác (UnitOfWork, Repositories...)
                 services.AddScoped<IUnitOfWork, UnitOfWork>();
+                services.AddAutoMapper(typeof(MappingProfile));
                 // ...
 
                 // Đăng ký các Form để có thể resolve qua DI

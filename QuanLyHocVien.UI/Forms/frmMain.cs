@@ -22,8 +22,8 @@ namespace QuanLyHocVien
         {
             if (frm == null || frm.IsDisposed)
             {
-                var traineeForm = _serviceProvider.GetRequiredService<FrmTrainee>();
-                traineeForm.ShowDialog();
+                frm = _serviceProvider.GetRequiredService<FrmTrainee>();
+                frm.ShowDialog();
             }
             else
             {

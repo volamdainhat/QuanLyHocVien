@@ -1,15 +1,24 @@
-﻿using System.Collections;
+﻿using AutoMapper;
+using QuanLyHocVien.Infrastructure.Configurations;
+using System.Collections;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace QuanLyHocVien.UI.Base
 {
     public partial class BaseCrudForm : Form
     {
+        protected readonly IUnitOfWork _uow;
+        protected readonly IMapper _mapper;
+
         protected int CurrentPage = 1;
         protected int PageSize = 10;
         protected int TotalPages = 1;
 
-        protected BaseCrudForm()
+        protected BaseCrudForm(IUnitOfWork uow, IMapper mapper)
         {
+            _uow = uow;
+            _mapper = mapper;
             InitializeComponent();
         }
 
@@ -120,6 +129,30 @@ namespace QuanLyHocVien.UI.Base
 
             var item = dgvRead.SelectedRows[0].DataBoundItem!;
             BindToForm(item);
+        }
+
+        /// <summary>
+        /// Refer to the model's properties to automatically configure DataGridView columns.
+        /// </summary>
+        /// <example>TraineeDto.View</example>
+        /// <typeparam name="T"></typeparam>
+        protected void ConfigureGridColumnsFromModel<T>()
+        {
+            dgvRead.AutoGenerateColumns = false;
+            dgvRead.Columns.Clear();
+
+            var props = typeof(T).GetProperties();
+            foreach (var prop in props)
+            {
+                var displayAttr = prop.GetCustomAttribute<DisplayNameAttribute>();
+                if (displayAttr == null) continue;
+
+                dgvRead.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    DataPropertyName = prop.Name,
+                    HeaderText = displayAttr.DisplayName
+                });
+            }
         }
 
         // Các hàm form con cần override
