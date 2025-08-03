@@ -52,7 +52,7 @@ namespace QuanLyHocVien.UI.Forms
 
         protected override void BindToForm(object entity)
         {
-            var t = (Trainee)entity;
+            var t = (TraineeDto.ViewModel)entity;
             txtId.Text = t.Id.ToString();
             txtFullName.Text = t.FullName;
             txtClassId.Text = t.ClassId.ToString();

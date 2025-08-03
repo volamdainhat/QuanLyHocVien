@@ -13,7 +13,10 @@ namespace QuanLyHocVien.Applications.DTOs
             public required string FullName { get; set; }
 
             [DisplayName("Lớp")]
-            public required ClassDto Class { get; set; }
+            public required int ClassId { get; set; }
+
+            [DisplayName("Họ và tên")]
+            public required string ClassName { get; set; }
 
             [DisplayName("Số điện thoại")]
             public string? PhoneNumber { get; set; }

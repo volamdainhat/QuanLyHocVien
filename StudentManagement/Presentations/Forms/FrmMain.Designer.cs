@@ -101,6 +101,8 @@
             Controls.Add(label1);
             Name = "FrmMain";
             Text = "FrmMain";
+            FormClosing += FrmMain_FormClosing;
+            Load += FrmMain_Load;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -75,5 +75,10 @@ namespace QuanLyHocVien.Domain.Entities
         /// Phone number of the trainee's mother.
         /// </summary>
         public string? MotherPhoneNumber { get; set; }
+
+        /// <summary>
+        /// Avatar image base64 string of the trainee.
+        /// </summary>
+        public string Avatar { get; set; } = string.Empty;
     }
 }
