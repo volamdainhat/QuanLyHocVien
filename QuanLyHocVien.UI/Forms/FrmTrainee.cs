@@ -1,36 +1,63 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using QuanLyHocVien.Applications.DTOs;
 using QuanLyHocVien.Domain.Entities;
-using QuanLyHocVien.Infrastructure.Configurations;
-using QuanLyHocVien.Infrastructure.Repositories;
-using QuanLyHocVien.Infrastructure.Repositories.TraineeRepo;
-using QuanLyHocVien.UI.Base;
+using QuanLyHocVien.Infrastructure;
 using System.Collections;
 
 namespace QuanLyHocVien.UI.Forms
 {
-    public partial class FrmTrainee : BaseCrudForm
+    public partial class FrmTrainee : Form
     {
-        private readonly IRepository<Trainee> _traineeRepository;
-        private readonly ITraineeRepository _traineeRepo;
+        private AppDbContext? dbContext;
 
-        public FrmTrainee(IUnitOfWork uow, IMapper mapper) : base(uow, mapper)
+        protected int CurrentPage = 1;
+        protected int PageSize = 10;
+        protected int TotalPages = 1;
+
+        public FrmTrainee()
         {
             InitializeComponent();
-            _traineeRepository = _uow.GetRepository<Trainee>();
-            ConfigureGridColumnsFromModel<TraineeDto.ViewModel>();
         }
 
-        protected override async Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
+        private async void FrmTrainee_Load(object sender, EventArgs e)
         {
-            var all = await _traineeRepository.GetAllAsync();
-            var paged = all.Skip((page - 1) * pageSize).Take(pageSize)
-                .Select(t => _mapper.Map<TraineeDto.ViewModel>(t))
-                .ToList();
-            return (paged, all.Count());
+            base.OnLoad(e);
+
+            this.dbContext = new AppDbContext();
+
+            // Uncomment the line below to start fresh with a new database.
+            // this.dbContext.Database.EnsureDeleted();
+            this.dbContext.Database.EnsureCreated();
+
+            this.dbContext.Trainees.Load();
+
+            //this.categoryBindingSource.DataSource = dbContext.Categories.Local.ToBindingList();
+
+            await LoadDataAsync();
         }
 
-        protected override object ReadFromForm()
+        private async Task LoadDataAsync()
+        {
+            var (Items, TotalCount) = await GetPagedAsync(CurrentPage, PageSize);
+            dgvRead.DataSource = Items;
+
+            TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
+            txtPageNumber.Text = CurrentPage.ToString();
+            lblTotalPages.Text = $"/ {TotalPages}";
+        }
+
+        private async Task<(IList Items, int TotalCount)> GetPagedAsync(int page, int pageSize)
+        {
+            //var all = await dbContext.Trainees.
+            //var paged = all.Skip((page - 1) * pageSize).Take(pageSize)
+            //    .Select(t => _mapper.Map<TraineeDto.ViewModel>(t))
+            //    .ToList();
+            //return (paged, all.Count());
+
+            return (null, 0);
+        }
+
+        private object ReadFromForm()
         {
             return new Trainee
             {
@@ -50,7 +77,7 @@ namespace QuanLyHocVien.UI.Forms
             };
         }
 
-        protected override void BindToForm(object entity)
+        private void BindToForm(object entity)
         {
             var t = (TraineeDto.ViewModel)entity;
             txtId.Text = t.Id.ToString();
@@ -67,7 +94,7 @@ namespace QuanLyHocVien.UI.Forms
             txtMotherPhoneNumber.Text = t.MotherPhoneNumber;
         }
 
-        protected override async Task SaveAsync(object entity)
+        private async Task SaveAsync(object entity)
         {
             var t = (Trainee)entity;
 
@@ -79,15 +106,15 @@ namespace QuanLyHocVien.UI.Forms
             await _uow.SaveChangesAsync();
         }
 
-        protected override async Task DeleteAsync(List<int> ids)
+        private async Task DeleteAsync(List<int> ids)
         {
             foreach (var id in ids)
-                await _traineeRepository.DeleteAsync(id);
+                _traineeRepository.Delete(id);
 
             await _uow.SaveChangesAsync();
         }
 
-        protected override List<int> GetSelectedIds()
+        private List<int> GetSelectedIds()
         {
             return dgvRead.SelectedRows
                 .Cast<DataGridViewRow>()
@@ -96,7 +123,7 @@ namespace QuanLyHocVien.UI.Forms
                 .ToList();
         }
 
-        protected override void ClearForm()
+        private void ClearForm()
         {
             txtId.Clear();
             txtFullName.Clear();
@@ -112,5 +139,6 @@ namespace QuanLyHocVien.UI.Forms
             txtMotherPhoneNumber.Clear();
         }
 
+       
     }
 }

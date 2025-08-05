@@ -2,7 +2,7 @@
 
 namespace QuanLyHocVien.Infrastructure.Repositories.UserRepo
 {
-    public class UserRepository : Repository<UserInfo>, IUserRepository
+    public class UserRepository : Repository<UserInfo>
     {
         public UserRepository(AppDbContext context) : base(context)
         {

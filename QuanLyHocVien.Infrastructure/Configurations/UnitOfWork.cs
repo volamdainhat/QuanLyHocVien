@@ -1,39 +1,49 @@
-﻿using QuanLyHocVien.Infrastructure.Repositories;
+﻿using QuanLyHocVien.Domain.Entities;
+using QuanLyHocVien.Infrastructure.Repositories;
 
 namespace QuanLyHocVien.Infrastructure.Configurations
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IDisposable
     {
-        private readonly AppDbContext _context;
-        private Dictionary<Type, object> _repositories;
+        private AppDbContext context;
+        private Repository<Trainee> traineeRepository;
 
         public UnitOfWork(AppDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _repositories = new Dictionary<Type, object>();
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class
+        public Repository<Trainee> TraineeRepository
         {
-            if (_repositories.ContainsKey(typeof(TEntity)))
+            get
             {
-                return _repositories[typeof(TEntity)] as IRepository<TEntity>;
+                this.traineeRepository ??= new Repository<Trainee>(context);
+                return traineeRepository;
             }
-
-            var repository = new Repository<TEntity>(_context);
-            _repositories.Add(typeof(TEntity), repository);
-            return repository;
+        }
+        public void Save()
+        {
+            context.SaveChanges();
         }
 
-        public async Task<int> SaveChangesAsync()
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
         {
-            return await _context.SaveChangesAsync();
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    context.Dispose();
+                }
+            }
+            this.disposed = true;
         }
 
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
-
     }
 }

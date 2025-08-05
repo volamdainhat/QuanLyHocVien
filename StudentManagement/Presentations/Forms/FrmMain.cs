@@ -22,6 +22,8 @@ namespace StudentManagement
             // Uncomment the line below to start fresh with a new database.
             //this.dbContext.Database.EnsureDeleted();
             this.dbContext.Database.EnsureCreated();
+
+            this.dbContext.Trainee.Load();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

@@ -3,13 +3,13 @@ using QuanLyHocVien.Domain.Entities;
 
 namespace QuanLyHocVien.Infrastructure.Repositories.TraineeRepo
 {
-    public class TraineeRepository : Repository<Trainee>, ITraineeRepository
+    public class TraineeRepository : Repository<Trainee>
     {
         public TraineeRepository(AppDbContext context) : base(context) { }
 
         public async Task<IEnumerable<Trainee>> SearchAsync(string keyword, int classId)
         {
-            var query = _context.Trainees.AsQueryable();
+            var query = context.Trainees.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(keyword))
                 query = query.Where(h => h.FullName.Contains(keyword));

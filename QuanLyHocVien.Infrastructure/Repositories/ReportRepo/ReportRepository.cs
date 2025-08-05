@@ -2,7 +2,7 @@
 
 namespace QuanLyHocVien.Infrastructure.Repositories.ReportRepo
 {
-    public class ReportRepository : Repository<Reports>, IReportRepository
+    public class ReportRepository : Repository<Reports>
     {
         public ReportRepository(AppDbContext context) : base(context) { }
     }

@@ -2,7 +2,7 @@
 
 namespace QuanLyHocVien.Infrastructure.Repositories.ScheduleRepo
 {
-    public class ScheduleRepository : Repository<Schedule>, IScheduleRepository
+    public class ScheduleRepository : Repository<Schedule>
     {
         public ScheduleRepository(AppDbContext context) : base(context)
         {

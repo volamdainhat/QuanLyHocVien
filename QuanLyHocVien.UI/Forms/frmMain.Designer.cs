@@ -1,6 +1,6 @@
 ﻿namespace QuanLyHocVien
 {
-    partial class frmMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -28,81 +28,81 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            label1 = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            btnTrainee = new Button();
+            btnClass = new Button();
+            btnCourse = new Button();
+            lblTitle = new Label();
             SuspendLayout();
             // 
-            // button1
+            // btnTrainee
             // 
-            button1.BackColor = Color.Gold;
-            button1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(177, 328);
-            button1.Name = "button1";
-            button1.Size = new Size(207, 151);
-            button1.TabIndex = 0;
-            button1.Text = "Hoc viên";
-            button1.TextAlign = ContentAlignment.BottomCenter;
-            button1.TextImageRelation = TextImageRelation.ImageAboveText;
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnTrainee.BackColor = Color.Gold;
+            btnTrainee.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnTrainee.Image = (Image)resources.GetObject("btnTrainee.Image");
+            btnTrainee.Location = new Point(177, 328);
+            btnTrainee.Name = "btnTrainee";
+            btnTrainee.Size = new Size(207, 151);
+            btnTrainee.TabIndex = 0;
+            btnTrainee.Text = "Hoc viên";
+            btnTrainee.TextAlign = ContentAlignment.BottomCenter;
+            btnTrainee.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnTrainee.UseVisualStyleBackColor = false;
+            btnTrainee.Click += this.btnTrainee_Click;
             // 
-            // button2
+            // btnClass
             // 
-            button2.BackColor = Color.Tomato;
-            button2.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(525, 328);
-            button2.Name = "button2";
-            button2.Size = new Size(207, 151);
-            button2.TabIndex = 1;
-            button2.Text = "Lớp";
-            button2.TextAlign = ContentAlignment.BottomCenter;
-            button2.TextImageRelation = TextImageRelation.ImageAboveText;
-            button2.UseVisualStyleBackColor = false;
+            btnClass.BackColor = Color.Tomato;
+            btnClass.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnClass.Image = (Image)resources.GetObject("btnClass.Image");
+            btnClass.Location = new Point(525, 328);
+            btnClass.Name = "btnClass";
+            btnClass.Size = new Size(207, 151);
+            btnClass.TabIndex = 1;
+            btnClass.Text = "Lớp";
+            btnClass.TextAlign = ContentAlignment.BottomCenter;
+            btnClass.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnClass.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnCourse
             // 
-            button3.BackColor = Color.OrangeRed;
-            button3.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            //button3.Image = Properties.Resources.bookopencover;
-            button3.Location = new Point(873, 328);
-            button3.Name = "button3";
-            button3.Size = new Size(207, 151);
-            button3.TabIndex = 2;
-            button3.Text = "Khóa học";
-            button3.TextAlign = ContentAlignment.BottomCenter;
-            button3.TextImageRelation = TextImageRelation.ImageAboveText;
-            button3.UseVisualStyleBackColor = false;
+            btnCourse.BackColor = Color.OrangeRed;
+            btnCourse.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnCourse.Image = (Image)resources.GetObject("btnCourse.Image");
+            btnCourse.Location = new Point(873, 328);
+            btnCourse.Name = "btnCourse";
+            btnCourse.Size = new Size(207, 151);
+            btnCourse.TabIndex = 2;
+            btnCourse.Text = "Khóa học";
+            btnCourse.TextAlign = ContentAlignment.BottomCenter;
+            btnCourse.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnCourse.UseVisualStyleBackColor = false;
             // 
-            // label1
+            // lblTitle
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Crimson;
-            label1.Location = new Point(56, 148);
-            label1.Name = "label1";
-            label1.Size = new Size(1130, 96);
-            label1.TabIndex = 3;
-            label1.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            lblTitle.AutoSize = true;
+            lblTitle.BackColor = Color.Transparent;
+            lblTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Crimson;
+            lblTitle.Location = new Point(56, 148);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(1130, 96);
+            lblTitle.TabIndex = 3;
+            lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // frmMain
+            // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1258, 664);
-            Controls.Add(button1);
-            Controls.Add(button3);
-            Controls.Add(label1);
-            Controls.Add(button2);
+            Controls.Add(btnTrainee);
+            Controls.Add(btnCourse);
+            Controls.Add(lblTitle);
+            Controls.Add(btnClass);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "frmMain";
+            Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lý học viên";
             ResumeLayout(false);
@@ -111,9 +111,9 @@
 
         #endregion
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Label label1;
+        private Button btnTrainee;
+        private Button btnClass;
+        private Button btnCourse;
+        private Label lblTitle;
     }
 }

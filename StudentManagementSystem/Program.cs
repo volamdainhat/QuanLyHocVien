@@ -1,4 +1,6 @@
-﻿namespace QuanLyHocVien.UI
+using StudentManagementSystem.Forms;
+
+namespace StudentManagementSystem
 {
     internal static class Program
     {

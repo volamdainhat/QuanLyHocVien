@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace QuanLyHocVien.Infrastructure.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> where TEntity : class
     {
         protected readonly AppDbContext context;
         protected readonly DbSet<TEntity> dbSet;
@@ -14,7 +14,7 @@ namespace QuanLyHocVien.Infrastructure.Repositories
             this.dbSet = context.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             string includeProperties = "")
@@ -59,10 +59,10 @@ namespace QuanLyHocVien.Infrastructure.Repositories
         }
 
 
-        public virtual async Task DeleteAsync(object id)
+        public virtual void Delete(object id)
         {
-            var entity = await dbSet.FindAsync(id);
-            if (entity != null) Delete(entity);
+            TEntity? entityToDelete = dbSet.Find(id);
+            dbSet.Remove(entityToDelete);
         }
 
         public virtual void Delete(TEntity entityToDelete)

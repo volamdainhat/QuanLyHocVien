@@ -10,7 +10,7 @@ namespace QuanLyHocVien.Infrastructure.Repositories
         Task<TEntity?> GetByIdAsync(int id);
         Task InsertAsync(TEntity entity);
         void Update(TEntity entityToUpdate);
-        Task DeleteAsync(object id);
+        void Delete(object id);
         void Delete(TEntity entityToDelete);
     }
 }
