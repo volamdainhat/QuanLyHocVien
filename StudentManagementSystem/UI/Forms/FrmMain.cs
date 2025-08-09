@@ -1,4 +1,6 @@
-﻿using StudentManagementSystem.Infrastructure;
+﻿using StudentManagementSystem.Applications.Services;
+using StudentManagementSystem.Infrastructure;
+using StudentManagementSystem.UI.Forms;
 using StudentManagementSystem.UI.UserControls;
 
 namespace StudentManagementSystem.Forms
@@ -10,24 +12,40 @@ namespace StudentManagementSystem.Forms
         public FrmMain()
         {
             InitializeComponent();
+            NavigationService.Init(this);
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            lblTitle.AutoSize = false;
+            LoadUserControl(new ucHome());
         }
 
-        private void btnTrainee_Click(object sender, EventArgs e)
+        private void Home_NavigateRequested(string target)
+        {
+            if (target == "ucTrainee")
+                LoadUserControl(new ucTrainee());
+        }
+
+
+        private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(new ucHome());
+        }
+
+        private void họcViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadUserControl(new ucTrainee());
         }
 
-        private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ResetMainForm();
+            base.OnClosing(e);
+
+            this.dbContext?.Dispose();
+            this.dbContext = null;
         }
 
-        private void LoadUserControl(UserControl uc)
+        public void LoadUserControl(UserControl uc)
         {
             // Kiểm tra nếu đã có control và cùng loại
             if (pnlMainContent.Controls.Count > 0)
@@ -44,26 +62,6 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;
             pnlMainContent.Controls.Add(uc);
-        }
-
-        private void ResetMainForm()
-        {
-            FrmMain newForm = new();
-            newForm.Show();
-            this.Dispose(false);
-        }
-
-        private void họcViênToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(new ucTrainee());
-        }
-
-        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            base.OnClosing(e);
-
-            this.dbContext?.Dispose();
-            this.dbContext = null;
         }
     }
 }

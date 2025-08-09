@@ -30,11 +30,33 @@
         {
             components = new System.ComponentModel.Container();
             pnInformation = new Panel();
-            groupBox = new GroupBox();
+            gbDetail = new GroupBox();
+            txtRole = new TextBox();
+            txtMotherPhoneNumber = new TextBox();
+            lblMotherPhoneNumber = new Label();
+            txtMotherFullName = new TextBox();
+            lblMotherFullName = new Label();
+            txtFatherPhoneNumber = new TextBox();
+            lblFatherPhoneNumber = new Label();
+            txtFatherFullName = new TextBox();
+            lblFatherFullName = new Label();
+            lblRole = new Label();
+            txtEnlistmentDate = new TextBox();
+            lblEnlistmentDate = new Label();
+            txtRanking = new TextBox();
+            dtpDayOfBirth = new DateTimePicker();
+            lblDayOfBirth = new Label();
+            txtPhoneNumber = new TextBox();
+            lblPhoneNumber = new Label();
+            txtClassId = new TextBox();
+            txtFullName = new TextBox();
+            lblFullName = new Label();
+            txtId = new TextBox();
+            pbAvatar = new PictureBox();
             tableLayoutPanel = new TableLayoutPanel();
             tabControl = new TabControl();
             tabTrainees = new TabPage();
-            dataGridView1 = new DataGridView();
+            dgvRead = new DataGridView();
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -51,46 +73,253 @@
             motherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             avatarBase64StringDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             traineeBindingSource = new BindingSource(components);
+            pnAction = new Panel();
+            btnDelete = new Button();
+            btnSave = new Button();
+            btnAdd = new Button();
+            btnRefresh = new Button();
             pnInformation.SuspendLayout();
+            gbDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
             tableLayoutPanel.SuspendLayout();
             tabControl.SuspendLayout();
             tabTrainees.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
             ((System.ComponentModel.ISupportInitialize)traineeBindingSource).BeginInit();
+            pnAction.SuspendLayout();
             SuspendLayout();
             // 
             // pnInformation
             // 
-            pnInformation.Controls.Add(groupBox);
+            pnInformation.Controls.Add(gbDetail);
             pnInformation.Dock = DockStyle.Fill;
             pnInformation.Location = new Point(3, 3);
             pnInformation.Name = "pnInformation";
-            pnInformation.Size = new Size(1274, 354);
+            pnInformation.Size = new Size(1274, 334);
             pnInformation.TabIndex = 0;
             // 
-            // groupBox
+            // gbDetail
             // 
-            groupBox.Dock = DockStyle.Fill;
-            groupBox.Location = new Point(0, 0);
-            groupBox.Name = "groupBox";
-            groupBox.Size = new Size(1274, 354);
-            groupBox.TabIndex = 0;
-            groupBox.TabStop = false;
-            groupBox.Text = "Thông tin học viên";
+            gbDetail.Controls.Add(txtRole);
+            gbDetail.Controls.Add(txtMotherPhoneNumber);
+            gbDetail.Controls.Add(lblMotherPhoneNumber);
+            gbDetail.Controls.Add(txtMotherFullName);
+            gbDetail.Controls.Add(lblMotherFullName);
+            gbDetail.Controls.Add(txtFatherPhoneNumber);
+            gbDetail.Controls.Add(lblFatherPhoneNumber);
+            gbDetail.Controls.Add(txtFatherFullName);
+            gbDetail.Controls.Add(lblFatherFullName);
+            gbDetail.Controls.Add(lblRole);
+            gbDetail.Controls.Add(txtEnlistmentDate);
+            gbDetail.Controls.Add(lblEnlistmentDate);
+            gbDetail.Controls.Add(txtRanking);
+            gbDetail.Controls.Add(dtpDayOfBirth);
+            gbDetail.Controls.Add(lblDayOfBirth);
+            gbDetail.Controls.Add(txtPhoneNumber);
+            gbDetail.Controls.Add(lblPhoneNumber);
+            gbDetail.Controls.Add(txtClassId);
+            gbDetail.Controls.Add(txtFullName);
+            gbDetail.Controls.Add(lblFullName);
+            gbDetail.Controls.Add(txtId);
+            gbDetail.Controls.Add(pbAvatar);
+            gbDetail.Dock = DockStyle.Fill;
+            gbDetail.Location = new Point(0, 0);
+            gbDetail.Name = "gbDetail";
+            gbDetail.Size = new Size(1274, 334);
+            gbDetail.TabIndex = 0;
+            gbDetail.TabStop = false;
+            gbDetail.Text = "Thông tin học viên";
+            // 
+            // txtRole
+            // 
+            txtRole.Location = new Point(257, 178);
+            txtRole.Name = "txtRole";
+            txtRole.Size = new Size(300, 31);
+            txtRole.TabIndex = 22;
+            // 
+            // txtMotherPhoneNumber
+            // 
+            txtMotherPhoneNumber.Location = new Point(709, 141);
+            txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
+            txtMotherPhoneNumber.Size = new Size(300, 31);
+            txtMotherPhoneNumber.TabIndex = 21;
+            // 
+            // lblMotherPhoneNumber
+            // 
+            lblMotherPhoneNumber.AutoSize = true;
+            lblMotherPhoneNumber.Location = new Point(614, 144);
+            lblMotherPhoneNumber.Name = "lblMotherPhoneNumber";
+            lblMotherPhoneNumber.Size = new Size(74, 25);
+            lblMotherPhoneNumber.TabIndex = 20;
+            lblMotherPhoneNumber.Text = "SĐT mẹ";
+            // 
+            // txtMotherFullName
+            // 
+            txtMotherFullName.Location = new Point(709, 104);
+            txtMotherFullName.Name = "txtMotherFullName";
+            txtMotherFullName.Size = new Size(300, 31);
+            txtMotherFullName.TabIndex = 19;
+            // 
+            // lblMotherFullName
+            // 
+            lblMotherFullName.AutoSize = true;
+            lblMotherFullName.Location = new Point(614, 107);
+            lblMotherFullName.Name = "lblMotherFullName";
+            lblMotherFullName.Size = new Size(68, 25);
+            lblMotherFullName.TabIndex = 18;
+            lblMotherFullName.Text = "Tên mẹ";
+            // 
+            // txtFatherPhoneNumber
+            // 
+            txtFatherPhoneNumber.Location = new Point(709, 67);
+            txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
+            txtFatherPhoneNumber.Size = new Size(300, 31);
+            txtFatherPhoneNumber.TabIndex = 17;
+            // 
+            // lblFatherPhoneNumber
+            // 
+            lblFatherPhoneNumber.AutoSize = true;
+            lblFatherPhoneNumber.Location = new Point(614, 70);
+            lblFatherPhoneNumber.Name = "lblFatherPhoneNumber";
+            lblFatherPhoneNumber.Size = new Size(76, 25);
+            lblFatherPhoneNumber.TabIndex = 16;
+            lblFatherPhoneNumber.Text = "SĐT cha";
+            // 
+            // txtFatherFullName
+            // 
+            txtFatherFullName.Location = new Point(709, 30);
+            txtFatherFullName.Name = "txtFatherFullName";
+            txtFatherFullName.Size = new Size(300, 31);
+            txtFatherFullName.TabIndex = 15;
+            // 
+            // lblFatherFullName
+            // 
+            lblFatherFullName.AutoSize = true;
+            lblFatherFullName.Location = new Point(614, 33);
+            lblFatherFullName.Name = "lblFatherFullName";
+            lblFatherFullName.Size = new Size(70, 25);
+            lblFatherFullName.TabIndex = 14;
+            lblFatherFullName.Text = "Tên cha";
+            // 
+            // lblRole
+            // 
+            lblRole.AutoSize = true;
+            lblRole.Location = new Point(162, 181);
+            lblRole.Name = "lblRole";
+            lblRole.Size = new Size(76, 25);
+            lblRole.TabIndex = 12;
+            lblRole.Text = "Chức vụ";
+            // 
+            // txtEnlistmentDate
+            // 
+            txtEnlistmentDate.Location = new Point(257, 141);
+            txtEnlistmentDate.Name = "txtEnlistmentDate";
+            txtEnlistmentDate.Size = new Size(300, 31);
+            txtEnlistmentDate.TabIndex = 11;
+            // 
+            // lblEnlistmentDate
+            // 
+            lblEnlistmentDate.AutoSize = true;
+            lblEnlistmentDate.Location = new Point(162, 144);
+            lblEnlistmentDate.Name = "lblEnlistmentDate";
+            lblEnlistmentDate.Size = new Size(91, 25);
+            lblEnlistmentDate.TabIndex = 10;
+            lblEnlistmentDate.Text = "Nhập ngũ";
+            // 
+            // txtRanking
+            // 
+            txtRanking.Location = new Point(7, 310);
+            txtRanking.Name = "txtRanking";
+            txtRanking.Size = new Size(150, 31);
+            txtRanking.TabIndex = 9;
+            // 
+            // dtpDayOfBirth
+            // 
+            dtpDayOfBirth.Location = new Point(257, 104);
+            dtpDayOfBirth.Name = "dtpDayOfBirth";
+            dtpDayOfBirth.Size = new Size(300, 31);
+            dtpDayOfBirth.TabIndex = 8;
+            // 
+            // lblDayOfBirth
+            // 
+            lblDayOfBirth.AutoSize = true;
+            lblDayOfBirth.Location = new Point(162, 107);
+            lblDayOfBirth.Name = "lblDayOfBirth";
+            lblDayOfBirth.Size = new Size(91, 25);
+            lblDayOfBirth.TabIndex = 7;
+            lblDayOfBirth.Text = "Ngày sinh";
+            // 
+            // txtPhoneNumber
+            // 
+            txtPhoneNumber.Location = new Point(257, 67);
+            txtPhoneNumber.Name = "txtPhoneNumber";
+            txtPhoneNumber.Size = new Size(300, 31);
+            txtPhoneNumber.TabIndex = 6;
+            // 
+            // lblPhoneNumber
+            // 
+            lblPhoneNumber.AutoSize = true;
+            lblPhoneNumber.Location = new Point(207, 70);
+            lblPhoneNumber.Name = "lblPhoneNumber";
+            lblPhoneNumber.Size = new Size(44, 25);
+            lblPhoneNumber.TabIndex = 5;
+            lblPhoneNumber.Text = "SĐT";
+            // 
+            // txtClassId
+            // 
+            txtClassId.Location = new Point(7, 273);
+            txtClassId.Name = "txtClassId";
+            txtClassId.Size = new Size(149, 31);
+            txtClassId.TabIndex = 4;
+            // 
+            // txtFullName
+            // 
+            txtFullName.Location = new Point(257, 30);
+            txtFullName.Name = "txtFullName";
+            txtFullName.Size = new Size(300, 31);
+            txtFullName.TabIndex = 3;
+            // 
+            // lblFullName
+            // 
+            lblFullName.AutoSize = true;
+            lblFullName.Location = new Point(162, 33);
+            lblFullName.Name = "lblFullName";
+            lblFullName.Size = new Size(89, 25);
+            lblFullName.TabIndex = 2;
+            lblFullName.Text = "Họ và tên";
+            // 
+            // txtId
+            // 
+            txtId.Location = new Point(7, 236);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(149, 31);
+            txtId.TabIndex = 1;
+            // 
+            // pbAvatar
+            // 
+            pbAvatar.BorderStyle = BorderStyle.Fixed3D;
+            pbAvatar.Location = new Point(6, 30);
+            pbAvatar.Name = "pbAvatar";
+            pbAvatar.Size = new Size(150, 200);
+            pbAvatar.TabIndex = 0;
+            pbAvatar.TabStop = false;
+            pbAvatar.WaitOnLoad = true;
             // 
             // tableLayoutPanel
             // 
             tableLayoutPanel.ColumnCount = 1;
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel.Controls.Add(pnInformation, 0, 0);
             tableLayoutPanel.Controls.Add(tabControl, 0, 1);
+            tableLayoutPanel.Controls.Add(pnAction, 0, 2);
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 0);
             tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.RowCount = 2;
+            tableLayoutPanel.RowCount = 3;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel.Size = new Size(1280, 720);
             tableLayoutPanel.TabIndex = 1;
             // 
@@ -98,35 +327,36 @@
             // 
             tabControl.Controls.Add(tabTrainees);
             tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(3, 363);
+            tabControl.Location = new Point(3, 343);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1274, 354);
+            tabControl.Size = new Size(1274, 334);
             tabControl.TabIndex = 1;
             // 
             // tabTrainees
             // 
-            tabTrainees.Controls.Add(dataGridView1);
+            tabTrainees.Controls.Add(dgvRead);
             tabTrainees.Location = new Point(4, 34);
             tabTrainees.Name = "tabTrainees";
             tabTrainees.Padding = new Padding(3);
-            tabTrainees.Size = new Size(1266, 316);
+            tabTrainees.Size = new Size(1266, 296);
             tabTrainees.TabIndex = 0;
             tabTrainees.Text = "Danh sách";
             tabTrainees.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dgvRead
             // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, classDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarBase64StringDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = traineeBindingSource;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 3);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1260, 310);
-            dataGridView1.TabIndex = 0;
+            dgvRead.AutoGenerateColumns = false;
+            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, classDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarBase64StringDataGridViewTextBoxColumn });
+            dgvRead.DataSource = traineeBindingSource;
+            dgvRead.Dock = DockStyle.Fill;
+            dgvRead.Location = new Point(3, 3);
+            dgvRead.Name = "dgvRead";
+            dgvRead.RowHeadersWidth = 62;
+            dgvRead.Size = new Size(1260, 290);
+            dgvRead.TabIndex = 0;
+            dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -252,6 +482,62 @@
             // 
             traineeBindingSource.DataSource = typeof(Domain.Entities.Trainee);
             // 
+            // pnAction
+            // 
+            pnAction.Controls.Add(btnDelete);
+            pnAction.Controls.Add(btnSave);
+            pnAction.Controls.Add(btnAdd);
+            pnAction.Controls.Add(btnRefresh);
+            pnAction.Dock = DockStyle.Fill;
+            pnAction.Location = new Point(3, 683);
+            pnAction.Name = "pnAction";
+            pnAction.Size = new Size(1274, 34);
+            pnAction.TabIndex = 2;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Dock = DockStyle.Left;
+            btnDelete.Location = new Point(336, 0);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(112, 34);
+            btnDelete.TabIndex = 5;
+            btnDelete.Text = "Xóa";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnSave
+            // 
+            btnSave.Dock = DockStyle.Left;
+            btnSave.Location = new Point(224, 0);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(112, 34);
+            btnSave.TabIndex = 4;
+            btnSave.Text = "Lưu";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
+            // 
+            // btnAdd
+            // 
+            btnAdd.Dock = DockStyle.Left;
+            btnAdd.Location = new Point(112, 0);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(112, 34);
+            btnAdd.TabIndex = 3;
+            btnAdd.Text = "Thêm";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Dock = DockStyle.Left;
+            btnRefresh.Location = new Point(0, 0);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(112, 34);
+            btnRefresh.TabIndex = 2;
+            btnRefresh.Text = "Mới";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
             // ucTrainee
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -261,11 +547,15 @@
             Size = new Size(1280, 720);
             Load += ucTrainee_Load;
             pnInformation.ResumeLayout(false);
+            gbDetail.ResumeLayout(false);
+            gbDetail.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
             tableLayoutPanel.ResumeLayout(false);
             tabControl.ResumeLayout(false);
             tabTrainees.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
             ((System.ComponentModel.ISupportInitialize)traineeBindingSource).EndInit();
+            pnAction.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -275,7 +565,7 @@
         private TableLayoutPanel tableLayoutPanel;
         private TabControl tabControl;
         private TabPage tabTrainees;
-        private DataGridView dataGridView1;
+        private DataGridView dgvRead;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
@@ -292,6 +582,33 @@
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarBase64StringDataGridViewTextBoxColumn;
         private BindingSource traineeBindingSource;
-        private GroupBox groupBox;
+        private GroupBox gbDetail;
+        private PictureBox pbAvatar;
+        private TextBox txtId;
+        private TextBox txtFullName;
+        private Label lblFullName;
+        private TextBox txtClassId;
+        private TextBox txtPhoneNumber;
+        private Label lblPhoneNumber;
+        private DateTimePicker dtpDayOfBirth;
+        private Label lblDayOfBirth;
+        private TextBox txtRanking;
+        private TextBox txtEnlistmentDate;
+        private Label lblEnlistmentDate;
+        private Label lblRole;
+        private TextBox txtFatherFullName;
+        private Label lblFatherFullName;
+        private TextBox txtFatherPhoneNumber;
+        private Label lblFatherPhoneNumber;
+        private TextBox txtMotherPhoneNumber;
+        private Label lblMotherPhoneNumber;
+        private TextBox txtMotherFullName;
+        private Label lblMotherFullName;
+        private Button btnRefresh;
+        private Panel pnAction;
+        private Button btnAdd;
+        private TextBox txtRole;
+        private Button btnSave;
+        private Button btnDelete;
     }
 }
