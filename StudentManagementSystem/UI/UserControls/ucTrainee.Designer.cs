@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
+            dtpEnlistmentDate = new DateTimePicker();
+            btnUpload = new Button();
             txtRole = new TextBox();
             txtMotherPhoneNumber = new TextBox();
             lblMotherPhoneNumber = new Label();
@@ -41,7 +43,6 @@
             txtFatherFullName = new TextBox();
             lblFatherFullName = new Label();
             lblRole = new Label();
-            txtEnlistmentDate = new TextBox();
             lblEnlistmentDate = new Label();
             txtRanking = new TextBox();
             dtpDayOfBirth = new DateTimePicker();
@@ -60,7 +61,6 @@
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            classDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dayOfBirthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             rankingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -71,7 +71,7 @@
             fatherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             motherFullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             motherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            avatarBase64StringDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            avatarUrlDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             traineeBindingSource = new BindingSource(components);
             pnAction = new Panel();
             btnDelete = new Button();
@@ -100,6 +100,8 @@
             // 
             // gbDetail
             // 
+            gbDetail.Controls.Add(dtpEnlistmentDate);
+            gbDetail.Controls.Add(btnUpload);
             gbDetail.Controls.Add(txtRole);
             gbDetail.Controls.Add(txtMotherPhoneNumber);
             gbDetail.Controls.Add(lblMotherPhoneNumber);
@@ -110,7 +112,6 @@
             gbDetail.Controls.Add(txtFatherFullName);
             gbDetail.Controls.Add(lblFatherFullName);
             gbDetail.Controls.Add(lblRole);
-            gbDetail.Controls.Add(txtEnlistmentDate);
             gbDetail.Controls.Add(lblEnlistmentDate);
             gbDetail.Controls.Add(txtRanking);
             gbDetail.Controls.Add(dtpDayOfBirth);
@@ -130,16 +131,32 @@
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
             // 
+            // dtpEnlistmentDate
+            // 
+            dtpEnlistmentDate.Location = new Point(493, 131);
+            dtpEnlistmentDate.Name = "dtpEnlistmentDate";
+            dtpEnlistmentDate.Size = new Size(300, 31);
+            dtpEnlistmentDate.TabIndex = 24;
+            // 
+            // btnUpload
+            // 
+            btnUpload.Location = new Point(26, 236);
+            btnUpload.Name = "btnUpload";
+            btnUpload.Size = new Size(112, 34);
+            btnUpload.TabIndex = 23;
+            btnUpload.Text = "Upload";
+            btnUpload.UseVisualStyleBackColor = true;
+            // 
             // txtRole
             // 
-            txtRole.Location = new Point(257, 178);
+            txtRole.Location = new Point(493, 168);
             txtRole.Name = "txtRole";
             txtRole.Size = new Size(300, 31);
             txtRole.TabIndex = 22;
             // 
             // txtMotherPhoneNumber
             // 
-            txtMotherPhoneNumber.Location = new Point(709, 141);
+            txtMotherPhoneNumber.Location = new Point(945, 131);
             txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
             txtMotherPhoneNumber.Size = new Size(300, 31);
             txtMotherPhoneNumber.TabIndex = 21;
@@ -147,7 +164,7 @@
             // lblMotherPhoneNumber
             // 
             lblMotherPhoneNumber.AutoSize = true;
-            lblMotherPhoneNumber.Location = new Point(614, 144);
+            lblMotherPhoneNumber.Location = new Point(850, 134);
             lblMotherPhoneNumber.Name = "lblMotherPhoneNumber";
             lblMotherPhoneNumber.Size = new Size(74, 25);
             lblMotherPhoneNumber.TabIndex = 20;
@@ -155,7 +172,7 @@
             // 
             // txtMotherFullName
             // 
-            txtMotherFullName.Location = new Point(709, 104);
+            txtMotherFullName.Location = new Point(945, 94);
             txtMotherFullName.Name = "txtMotherFullName";
             txtMotherFullName.Size = new Size(300, 31);
             txtMotherFullName.TabIndex = 19;
@@ -163,7 +180,7 @@
             // lblMotherFullName
             // 
             lblMotherFullName.AutoSize = true;
-            lblMotherFullName.Location = new Point(614, 107);
+            lblMotherFullName.Location = new Point(850, 97);
             lblMotherFullName.Name = "lblMotherFullName";
             lblMotherFullName.Size = new Size(68, 25);
             lblMotherFullName.TabIndex = 18;
@@ -171,7 +188,7 @@
             // 
             // txtFatherPhoneNumber
             // 
-            txtFatherPhoneNumber.Location = new Point(709, 67);
+            txtFatherPhoneNumber.Location = new Point(945, 57);
             txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
             txtFatherPhoneNumber.Size = new Size(300, 31);
             txtFatherPhoneNumber.TabIndex = 17;
@@ -179,7 +196,7 @@
             // lblFatherPhoneNumber
             // 
             lblFatherPhoneNumber.AutoSize = true;
-            lblFatherPhoneNumber.Location = new Point(614, 70);
+            lblFatherPhoneNumber.Location = new Point(850, 60);
             lblFatherPhoneNumber.Name = "lblFatherPhoneNumber";
             lblFatherPhoneNumber.Size = new Size(76, 25);
             lblFatherPhoneNumber.TabIndex = 16;
@@ -187,7 +204,7 @@
             // 
             // txtFatherFullName
             // 
-            txtFatherFullName.Location = new Point(709, 30);
+            txtFatherFullName.Location = new Point(945, 20);
             txtFatherFullName.Name = "txtFatherFullName";
             txtFatherFullName.Size = new Size(300, 31);
             txtFatherFullName.TabIndex = 15;
@@ -195,7 +212,7 @@
             // lblFatherFullName
             // 
             lblFatherFullName.AutoSize = true;
-            lblFatherFullName.Location = new Point(614, 33);
+            lblFatherFullName.Location = new Point(850, 23);
             lblFatherFullName.Name = "lblFatherFullName";
             lblFatherFullName.Size = new Size(70, 25);
             lblFatherFullName.TabIndex = 14;
@@ -204,23 +221,16 @@
             // lblRole
             // 
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(162, 181);
+            lblRole.Location = new Point(398, 171);
             lblRole.Name = "lblRole";
             lblRole.Size = new Size(76, 25);
             lblRole.TabIndex = 12;
             lblRole.Text = "Chức vụ";
             // 
-            // txtEnlistmentDate
-            // 
-            txtEnlistmentDate.Location = new Point(257, 141);
-            txtEnlistmentDate.Name = "txtEnlistmentDate";
-            txtEnlistmentDate.Size = new Size(300, 31);
-            txtEnlistmentDate.TabIndex = 11;
-            // 
             // lblEnlistmentDate
             // 
             lblEnlistmentDate.AutoSize = true;
-            lblEnlistmentDate.Location = new Point(162, 144);
+            lblEnlistmentDate.Location = new Point(398, 134);
             lblEnlistmentDate.Name = "lblEnlistmentDate";
             lblEnlistmentDate.Size = new Size(91, 25);
             lblEnlistmentDate.TabIndex = 10;
@@ -228,14 +238,14 @@
             // 
             // txtRanking
             // 
-            txtRanking.Location = new Point(7, 310);
+            txtRanking.Location = new Point(162, 104);
             txtRanking.Name = "txtRanking";
             txtRanking.Size = new Size(150, 31);
             txtRanking.TabIndex = 9;
             // 
             // dtpDayOfBirth
             // 
-            dtpDayOfBirth.Location = new Point(257, 104);
+            dtpDayOfBirth.Location = new Point(493, 94);
             dtpDayOfBirth.Name = "dtpDayOfBirth";
             dtpDayOfBirth.Size = new Size(300, 31);
             dtpDayOfBirth.TabIndex = 8;
@@ -243,7 +253,7 @@
             // lblDayOfBirth
             // 
             lblDayOfBirth.AutoSize = true;
-            lblDayOfBirth.Location = new Point(162, 107);
+            lblDayOfBirth.Location = new Point(398, 97);
             lblDayOfBirth.Name = "lblDayOfBirth";
             lblDayOfBirth.Size = new Size(91, 25);
             lblDayOfBirth.TabIndex = 7;
@@ -251,7 +261,7 @@
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(257, 67);
+            txtPhoneNumber.Location = new Point(493, 57);
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.Size = new Size(300, 31);
             txtPhoneNumber.TabIndex = 6;
@@ -259,7 +269,7 @@
             // lblPhoneNumber
             // 
             lblPhoneNumber.AutoSize = true;
-            lblPhoneNumber.Location = new Point(207, 70);
+            lblPhoneNumber.Location = new Point(443, 60);
             lblPhoneNumber.Name = "lblPhoneNumber";
             lblPhoneNumber.Size = new Size(44, 25);
             lblPhoneNumber.TabIndex = 5;
@@ -267,14 +277,14 @@
             // 
             // txtClassId
             // 
-            txtClassId.Location = new Point(7, 273);
+            txtClassId.Location = new Point(162, 67);
             txtClassId.Name = "txtClassId";
             txtClassId.Size = new Size(149, 31);
             txtClassId.TabIndex = 4;
             // 
             // txtFullName
             // 
-            txtFullName.Location = new Point(257, 30);
+            txtFullName.Location = new Point(493, 20);
             txtFullName.Name = "txtFullName";
             txtFullName.Size = new Size(300, 31);
             txtFullName.TabIndex = 3;
@@ -282,7 +292,7 @@
             // lblFullName
             // 
             lblFullName.AutoSize = true;
-            lblFullName.Location = new Point(162, 33);
+            lblFullName.Location = new Point(398, 23);
             lblFullName.Name = "lblFullName";
             lblFullName.Size = new Size(89, 25);
             lblFullName.TabIndex = 2;
@@ -290,7 +300,7 @@
             // 
             // txtId
             // 
-            txtId.Location = new Point(7, 236);
+            txtId.Location = new Point(162, 30);
             txtId.Name = "txtId";
             txtId.Size = new Size(149, 31);
             txtId.TabIndex = 1;
@@ -304,6 +314,8 @@
             pbAvatar.TabIndex = 0;
             pbAvatar.TabStop = false;
             pbAvatar.WaitOnLoad = true;
+            pbAvatar.DragDrop += pbAvatar_DragDrop;
+            pbAvatar.DragEnter += pbAvatar_DragEnter;
             // 
             // tableLayoutPanel
             // 
@@ -348,7 +360,7 @@
             // 
             dgvRead.AutoGenerateColumns = false;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, classDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarBase64StringDataGridViewTextBoxColumn });
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
             dgvRead.DataSource = traineeBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(3, 3);
@@ -381,14 +393,6 @@
             classIdDataGridViewTextBoxColumn.MinimumWidth = 8;
             classIdDataGridViewTextBoxColumn.Name = "classIdDataGridViewTextBoxColumn";
             classIdDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // classDataGridViewTextBoxColumn
-            // 
-            classDataGridViewTextBoxColumn.DataPropertyName = "Class";
-            classDataGridViewTextBoxColumn.HeaderText = "Class";
-            classDataGridViewTextBoxColumn.MinimumWidth = 8;
-            classDataGridViewTextBoxColumn.Name = "classDataGridViewTextBoxColumn";
-            classDataGridViewTextBoxColumn.Width = 150;
             // 
             // phoneNumberDataGridViewTextBoxColumn
             // 
@@ -470,13 +474,13 @@
             motherPhoneNumberDataGridViewTextBoxColumn.Name = "motherPhoneNumberDataGridViewTextBoxColumn";
             motherPhoneNumberDataGridViewTextBoxColumn.Width = 150;
             // 
-            // avatarBase64StringDataGridViewTextBoxColumn
+            // avatarUrlDataGridViewTextBoxColumn
             // 
-            avatarBase64StringDataGridViewTextBoxColumn.DataPropertyName = "AvatarBase64String";
-            avatarBase64StringDataGridViewTextBoxColumn.HeaderText = "AvatarBase64String";
-            avatarBase64StringDataGridViewTextBoxColumn.MinimumWidth = 8;
-            avatarBase64StringDataGridViewTextBoxColumn.Name = "avatarBase64StringDataGridViewTextBoxColumn";
-            avatarBase64StringDataGridViewTextBoxColumn.Width = 150;
+            avatarUrlDataGridViewTextBoxColumn.DataPropertyName = "AvatarUrl";
+            avatarUrlDataGridViewTextBoxColumn.HeaderText = "AvatarUrl";
+            avatarUrlDataGridViewTextBoxColumn.MinimumWidth = 8;
+            avatarUrlDataGridViewTextBoxColumn.Name = "avatarUrlDataGridViewTextBoxColumn";
+            avatarUrlDataGridViewTextBoxColumn.Width = 150;
             // 
             // traineeBindingSource
             // 
@@ -566,21 +570,6 @@
         private TabControl tabControl;
         private TabPage tabTrainees;
         private DataGridView dgvRead;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dayOfBirthDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn rankingDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn enlistmentDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn averageScoreDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn fatherFullNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn fatherPhoneNumberDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn motherFullNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn avatarBase64StringDataGridViewTextBoxColumn;
         private BindingSource traineeBindingSource;
         private GroupBox gbDetail;
         private PictureBox pbAvatar;
@@ -593,7 +582,6 @@
         private DateTimePicker dtpDayOfBirth;
         private Label lblDayOfBirth;
         private TextBox txtRanking;
-        private TextBox txtEnlistmentDate;
         private Label lblEnlistmentDate;
         private Label lblRole;
         private TextBox txtFatherFullName;
@@ -610,5 +598,22 @@
         private TextBox txtRole;
         private Button btnSave;
         private Button btnDelete;
+        private Button btnUpload;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dayOfBirthDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn rankingDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn enlistmentDateDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn averageScoreDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn fatherFullNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn fatherPhoneNumberDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn motherFullNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
+        private DateTimePicker dtpEnlistmentDate;
     }
 }

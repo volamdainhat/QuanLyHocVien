@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem.Infrastructure;
 
@@ -10,9 +11,11 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250811125645_UpdateTrainee")]
+    partial class UpdateTrainee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -21,8 +24,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
@@ -52,8 +54,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
@@ -77,8 +78,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<float>("Grade")
                         .HasColumnType("REAL");
@@ -102,8 +102,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ContentType")
                         .HasColumnType("TEXT");
@@ -138,8 +137,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -163,8 +161,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<float>("AverageScore")
                         .HasColumnType("REAL");
@@ -196,8 +193,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
@@ -225,8 +221,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -241,8 +236,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("TEXT");
@@ -285,6 +279,8 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.ToTable("Trainees");
                 });
 
@@ -292,8 +288,7 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -306,6 +301,17 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfos");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 #pragma warning restore 612, 618
         }
