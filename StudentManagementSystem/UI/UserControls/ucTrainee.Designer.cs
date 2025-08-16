@@ -1,4 +1,6 @@
-﻿namespace StudentManagementSystem.UI.UserControls
+﻿using System.ComponentModel;
+
+namespace StudentManagementSystem.UI.UserControls
 {
     partial class ucTrainee
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            components = new Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
             dtpEnlistmentDate = new DateTimePicker();
@@ -78,14 +80,17 @@
             btnSave = new Button();
             btnAdd = new Button();
             btnRefresh = new Button();
+            lblId = new Label();
+            lblClassId = new Label();
+            lblRanking = new Label();
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbAvatar).BeginInit();
+            ((ISupportInitialize)pbAvatar).BeginInit();
             tableLayoutPanel.SuspendLayout();
             tabControl.SuspendLayout();
             tabTrainees.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)traineeBindingSource).BeginInit();
+            ((ISupportInitialize)dgvRead).BeginInit();
+            ((ISupportInitialize)traineeBindingSource).BeginInit();
             pnAction.SuspendLayout();
             SuspendLayout();
             // 
@@ -100,6 +105,9 @@
             // 
             // gbDetail
             // 
+            gbDetail.Controls.Add(lblRanking);
+            gbDetail.Controls.Add(lblClassId);
+            gbDetail.Controls.Add(lblId);
             gbDetail.Controls.Add(dtpEnlistmentDate);
             gbDetail.Controls.Add(btnUpload);
             gbDetail.Controls.Add(txtRole);
@@ -144,7 +152,7 @@
             btnUpload.Name = "btnUpload";
             btnUpload.Size = new Size(112, 34);
             btnUpload.TabIndex = 23;
-            btnUpload.Text = "Upload";
+            btnUpload.Text = "Cập nhật";
             btnUpload.UseVisualStyleBackColor = true;
             // 
             // txtRole
@@ -238,7 +246,7 @@
             // 
             // txtRanking
             // 
-            txtRanking.Location = new Point(162, 104);
+            txtRanking.Location = new Point(161, 205);
             txtRanking.Name = "txtRanking";
             txtRanking.Size = new Size(150, 31);
             txtRanking.TabIndex = 9;
@@ -277,7 +285,7 @@
             // 
             // txtClassId
             // 
-            txtClassId.Location = new Point(162, 67);
+            txtClassId.Location = new Point(162, 131);
             txtClassId.Name = "txtClassId";
             txtClassId.Size = new Size(149, 31);
             txtClassId.TabIndex = 4;
@@ -300,7 +308,7 @@
             // 
             // txtId
             // 
-            txtId.Location = new Point(162, 30);
+            txtId.Location = new Point(162, 57);
             txtId.Name = "txtId";
             txtId.Size = new Size(149, 31);
             txtId.TabIndex = 1;
@@ -527,7 +535,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(112, 34);
             btnAdd.TabIndex = 3;
-            btnAdd.Text = "Thêm";
+            btnAdd.Text = "Thêm mới";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
@@ -538,9 +546,36 @@
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(112, 34);
             btnRefresh.TabIndex = 2;
-            btnRefresh.Text = "Mới";
+            btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
             btnRefresh.Click += btnRefresh_Click;
+            // 
+            // lblId
+            // 
+            lblId.AutoSize = true;
+            lblId.Location = new Point(162, 23);
+            lblId.Name = "lblId";
+            lblId.Size = new Size(108, 25);
+            lblId.TabIndex = 25;
+            lblId.Text = "Mã học viên";
+            // 
+            // lblClassId
+            // 
+            lblClassId.AutoSize = true;
+            lblClassId.Location = new Point(162, 99);
+            lblClassId.Name = "lblClassId";
+            lblClassId.Size = new Size(42, 25);
+            lblClassId.TabIndex = 26;
+            lblClassId.Text = "Lớp";
+            // 
+            // lblRanking
+            // 
+            lblRanking.AutoSize = true;
+            lblRanking.Location = new Point(162, 171);
+            lblRanking.Name = "lblRanking";
+            lblRanking.Size = new Size(76, 25);
+            lblRanking.TabIndex = 27;
+            lblRanking.Text = "Cấp bậc";
             // 
             // ucTrainee
             // 
@@ -553,12 +588,12 @@
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
             gbDetail.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbAvatar).EndInit();
+            ((ISupportInitialize)pbAvatar).EndInit();
             tableLayoutPanel.ResumeLayout(false);
             tabControl.ResumeLayout(false);
             tabTrainees.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
-            ((System.ComponentModel.ISupportInitialize)traineeBindingSource).EndInit();
+            ((ISupportInitialize)dgvRead).EndInit();
+            ((ISupportInitialize)traineeBindingSource).EndInit();
             pnAction.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -615,5 +650,8 @@
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
         private DateTimePicker dtpEnlistmentDate;
+        private Label lblId;
+        private Label lblRanking;
+        private Label lblClassId;
     }
 }

@@ -1,12 +1,7 @@
-﻿using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
-using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing.Printing;
-using System.Windows.Forms;
 
 namespace StudentManagementSystem.UI.UserControls
 {
@@ -34,7 +29,7 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            LoadDataAsync();
+            Reload();
         }
 
         private void LoadDataAsync()
