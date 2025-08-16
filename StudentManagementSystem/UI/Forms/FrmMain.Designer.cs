@@ -1,4 +1,6 @@
-﻿namespace StudentManagementSystem.Forms
+﻿using StudentManagementSystem.UI;
+
+namespace StudentManagementSystem.Forms
 {
     partial class FrmMain
     {
@@ -33,7 +35,7 @@
             họcViênToolStripMenuItem = new ToolStripMenuItem();
             lớpHọcToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
-            pnlMainContent = new Panel();
+            pnlMainContent = new SmoothPanel();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -104,7 +106,7 @@
         private ToolStripMenuItem họcViênToolStripMenuItem;
         private ToolStripMenuItem lớpHọcToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
-        private Panel pnlMainContent;
+        private SmoothPanel pnlMainContent;
         private ToolStripMenuItem trangChủToolStripMenuItem;
     }
 }

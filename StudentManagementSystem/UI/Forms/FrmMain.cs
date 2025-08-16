@@ -17,24 +17,32 @@ namespace StudentManagementSystem.Forms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            this.DoubleBuffered = true;
+            this.ResizeRedraw = true;
+
             LoadUserControl(new ucHome());
         }
 
         private void Home_NavigateRequested(string target)
         {
-            if (target == "ucTrainee")
+            if (target == "ucHome")
+            {
+                LoadUserControl(new ucHome());
+            }
+            else if (target == "ucTrainee")
+            {
                 LoadUserControl(new ucTrainee());
+            }
         }
-
 
         private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadUserControl(new ucHome());
+            Home_NavigateRequested("ucHome");
         }
 
         private void họcViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadUserControl(new ucTrainee());
+            Home_NavigateRequested("ucTrainee");
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -59,9 +67,13 @@ namespace StudentManagementSystem.Forms
                 }
             }
 
+            pnlMainContent.SuspendLayout();
             pnlMainContent.Controls.Clear();
+
             uc.Dock = DockStyle.Fill;
             pnlMainContent.Controls.Add(uc);
+
+            pnlMainContent.ResumeLayout();
         }
     }
 }

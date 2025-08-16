@@ -33,14 +33,17 @@ namespace StudentManagementSystem.UI.UserControls
             components = new Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
+            lblRanking = new Label();
+            lblClassId = new Label();
+            lblId = new Label();
             dtpEnlistmentDate = new DateTimePicker();
             btnUpload = new Button();
             txtRole = new TextBox();
-            txtMotherPhoneNumber = new TextBox();
+            txtMotherPhoneNumber = new MaskedTextBox();
             lblMotherPhoneNumber = new Label();
             txtMotherFullName = new TextBox();
             lblMotherFullName = new Label();
-            txtFatherPhoneNumber = new TextBox();
+            txtFatherPhoneNumber = new MaskedTextBox();
             lblFatherPhoneNumber = new Label();
             txtFatherFullName = new TextBox();
             lblFatherFullName = new Label();
@@ -49,7 +52,7 @@ namespace StudentManagementSystem.UI.UserControls
             txtRanking = new TextBox();
             dtpDayOfBirth = new DateTimePicker();
             lblDayOfBirth = new Label();
-            txtPhoneNumber = new TextBox();
+            txtPhoneNumber = new MaskedTextBox();
             lblPhoneNumber = new Label();
             txtClassId = new TextBox();
             txtFullName = new TextBox();
@@ -80,9 +83,8 @@ namespace StudentManagementSystem.UI.UserControls
             btnSave = new Button();
             btnAdd = new Button();
             btnRefresh = new Button();
-            lblId = new Label();
-            lblClassId = new Label();
-            lblRanking = new Label();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            errorProvider1 = new ErrorProvider(components);
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
             ((ISupportInitialize)pbAvatar).BeginInit();
@@ -92,6 +94,7 @@ namespace StudentManagementSystem.UI.UserControls
             ((ISupportInitialize)dgvRead).BeginInit();
             ((ISupportInitialize)traineeBindingSource).BeginInit();
             pnAction.SuspendLayout();
+            ((ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // pnInformation
@@ -139,8 +142,37 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
             // 
+            // lblRanking
+            // 
+            lblRanking.AutoSize = true;
+            lblRanking.Location = new Point(162, 171);
+            lblRanking.Name = "lblRanking";
+            lblRanking.Size = new Size(76, 25);
+            lblRanking.TabIndex = 27;
+            lblRanking.Text = "Cấp bậc";
+            // 
+            // lblClassId
+            // 
+            lblClassId.AutoSize = true;
+            lblClassId.Location = new Point(162, 99);
+            lblClassId.Name = "lblClassId";
+            lblClassId.Size = new Size(42, 25);
+            lblClassId.TabIndex = 26;
+            lblClassId.Text = "Lớp";
+            // 
+            // lblId
+            // 
+            lblId.AutoSize = true;
+            lblId.Location = new Point(162, 23);
+            lblId.Name = "lblId";
+            lblId.Size = new Size(108, 25);
+            lblId.TabIndex = 25;
+            lblId.Text = "Mã học viên";
+            // 
             // dtpEnlistmentDate
             // 
+            dtpEnlistmentDate.CustomFormat = "dd/MM/yyyy";
+            dtpEnlistmentDate.Format = DateTimePickerFormat.Custom;
             dtpEnlistmentDate.Location = new Point(493, 131);
             dtpEnlistmentDate.Name = "dtpEnlistmentDate";
             dtpEnlistmentDate.Size = new Size(300, 31);
@@ -154,6 +186,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnUpload.TabIndex = 23;
             btnUpload.Text = "Cập nhật";
             btnUpload.UseVisualStyleBackColor = true;
+            btnUpload.Click += BtnUpload_ClickAsync;
             // 
             // txtRole
             // 
@@ -165,9 +198,15 @@ namespace StudentManagementSystem.UI.UserControls
             // txtMotherPhoneNumber
             // 
             txtMotherPhoneNumber.Location = new Point(945, 131);
+            txtMotherPhoneNumber.Mask = "0000 000 000";
             txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
+            txtMotherPhoneNumber.ResetOnSpace = false;
             txtMotherPhoneNumber.Size = new Size(300, 31);
             txtMotherPhoneNumber.TabIndex = 21;
+            txtMotherPhoneNumber.Click += txtMotherPhoneNumber_Click;
+            txtMotherPhoneNumber.Enter += txtMotherPhoneNumber_Enter;
+            txtMotherPhoneNumber.KeyDown += txtMotherPhoneNumber_KeyDown;
+            txtMotherPhoneNumber.Validating += txtMotherPhoneNumber_Validating;
             // 
             // lblMotherPhoneNumber
             // 
@@ -197,9 +236,15 @@ namespace StudentManagementSystem.UI.UserControls
             // txtFatherPhoneNumber
             // 
             txtFatherPhoneNumber.Location = new Point(945, 57);
+            txtFatherPhoneNumber.Mask = "0000 000 000";
             txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
+            txtFatherPhoneNumber.ResetOnSpace = false;
             txtFatherPhoneNumber.Size = new Size(300, 31);
             txtFatherPhoneNumber.TabIndex = 17;
+            txtFatherPhoneNumber.Click += txtFatherPhoneNumber_Click;
+            txtFatherPhoneNumber.Enter += txtFatherPhoneNumber_Enter;
+            txtFatherPhoneNumber.KeyDown += txtFatherPhoneNumber_KeyDown;
+            txtFatherPhoneNumber.Validating += txtFatherPhoneNumber_Validating;
             // 
             // lblFatherPhoneNumber
             // 
@@ -253,6 +298,8 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // dtpDayOfBirth
             // 
+            dtpDayOfBirth.CustomFormat = "dd/MM/yyyy";
+            dtpDayOfBirth.Format = DateTimePickerFormat.Custom;
             dtpDayOfBirth.Location = new Point(493, 94);
             dtpDayOfBirth.Name = "dtpDayOfBirth";
             dtpDayOfBirth.Size = new Size(300, 31);
@@ -270,9 +317,15 @@ namespace StudentManagementSystem.UI.UserControls
             // txtPhoneNumber
             // 
             txtPhoneNumber.Location = new Point(493, 57);
+            txtPhoneNumber.Mask = "0000 000 000";
             txtPhoneNumber.Name = "txtPhoneNumber";
+            txtPhoneNumber.ResetOnSpace = false;
             txtPhoneNumber.Size = new Size(300, 31);
             txtPhoneNumber.TabIndex = 6;
+            txtPhoneNumber.Click += txtPhoneNumber_Click;
+            txtPhoneNumber.Enter += txtPhoneNumber_Enter;
+            txtPhoneNumber.KeyDown += txtPhoneNumber_KeyDown;
+            txtPhoneNumber.Validating += txtPhoneNumber_Validating;
             // 
             // lblPhoneNumber
             // 
@@ -308,17 +361,21 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // txtId
             // 
+            txtId.Enabled = false;
             txtId.Location = new Point(162, 57);
             txtId.Name = "txtId";
             txtId.Size = new Size(149, 31);
             txtId.TabIndex = 1;
+            txtId.Text = "0";
             // 
             // pbAvatar
             // 
             pbAvatar.BorderStyle = BorderStyle.Fixed3D;
+            pbAvatar.Image = Properties.Resources.avatar;
             pbAvatar.Location = new Point(6, 30);
             pbAvatar.Name = "pbAvatar";
             pbAvatar.Size = new Size(150, 200);
+            pbAvatar.SizeMode = PictureBoxSizeMode.Zoom;
             pbAvatar.TabIndex = 0;
             pbAvatar.TabStop = false;
             pbAvatar.WaitOnLoad = true;
@@ -550,32 +607,15 @@ namespace StudentManagementSystem.UI.UserControls
             btnRefresh.UseVisualStyleBackColor = true;
             btnRefresh.Click += btnRefresh_Click;
             // 
-            // lblId
+            // contextMenuStrip1
             // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(162, 23);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(108, 25);
-            lblId.TabIndex = 25;
-            lblId.Text = "Mã học viên";
+            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
             // 
-            // lblClassId
+            // errorProvider1
             // 
-            lblClassId.AutoSize = true;
-            lblClassId.Location = new Point(162, 99);
-            lblClassId.Name = "lblClassId";
-            lblClassId.Size = new Size(42, 25);
-            lblClassId.TabIndex = 26;
-            lblClassId.Text = "Lớp";
-            // 
-            // lblRanking
-            // 
-            lblRanking.AutoSize = true;
-            lblRanking.Location = new Point(162, 171);
-            lblRanking.Name = "lblRanking";
-            lblRanking.Size = new Size(76, 25);
-            lblRanking.TabIndex = 27;
-            lblRanking.Text = "Cấp bậc";
+            errorProvider1.ContainerControl = this;
             // 
             // ucTrainee
             // 
@@ -595,6 +635,7 @@ namespace StudentManagementSystem.UI.UserControls
             ((ISupportInitialize)dgvRead).EndInit();
             ((ISupportInitialize)traineeBindingSource).EndInit();
             pnAction.ResumeLayout(false);
+            ((ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -612,7 +653,7 @@ namespace StudentManagementSystem.UI.UserControls
         private TextBox txtFullName;
         private Label lblFullName;
         private TextBox txtClassId;
-        private TextBox txtPhoneNumber;
+        private MaskedTextBox txtPhoneNumber;
         private Label lblPhoneNumber;
         private DateTimePicker dtpDayOfBirth;
         private Label lblDayOfBirth;
@@ -621,9 +662,9 @@ namespace StudentManagementSystem.UI.UserControls
         private Label lblRole;
         private TextBox txtFatherFullName;
         private Label lblFatherFullName;
-        private TextBox txtFatherPhoneNumber;
+        private MaskedTextBox txtFatherPhoneNumber;
         private Label lblFatherPhoneNumber;
-        private TextBox txtMotherPhoneNumber;
+        private MaskedTextBox txtMotherPhoneNumber;
         private Label lblMotherPhoneNumber;
         private TextBox txtMotherFullName;
         private Label lblMotherFullName;
@@ -653,5 +694,7 @@ namespace StudentManagementSystem.UI.UserControls
         private Label lblId;
         private Label lblRanking;
         private Label lblClassId;
+        private ContextMenuStrip contextMenuStrip1;
+        private ErrorProvider errorProvider1;
     }
 }

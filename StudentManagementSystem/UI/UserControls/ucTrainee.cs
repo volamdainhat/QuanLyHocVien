@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
+using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace StudentManagementSystem.UI.UserControls
 {
@@ -18,6 +20,45 @@ namespace StudentManagementSystem.UI.UserControls
         {
             ConnectToDatabase();
             LoadDataAsync();
+
+            txtPhoneNumber.GotFocus += TxtPhoneNumber_GotFocus;
+            txtPhoneNumber.LostFocus += TxtPhoneNumber_LostFocus;
+            txtFatherPhoneNumber.GotFocus += TxtFatherPhoneNumber_GotFocus;
+            txtFatherPhoneNumber.LostFocus += TxtFatherPhoneNumber_LostFocus;
+            txtMotherPhoneNumber.GotFocus += TxtMotherPhoneNumber_GotFocus;
+            txtMotherPhoneNumber.LostFocus += TxtMotherPhoneNumber_LostFocus;
+        }
+
+        private void TxtMotherPhoneNumber_LostFocus(object? sender, EventArgs e)
+        {
+            SetPlaceholder(txtMotherPhoneNumber, "Nhập số điện thoại");
+        }
+
+        private void TxtMotherPhoneNumber_GotFocus(object? sender, EventArgs e)
+        {
+            RemovePlaceholder(txtMotherPhoneNumber, "Nhập số điện thoại");
+        }
+
+        private void TxtFatherPhoneNumber_LostFocus(object? sender, EventArgs e)
+        {
+            SetPlaceholder(txtFatherPhoneNumber, "Nhập số điện thoại");
+
+        }
+
+        private void TxtFatherPhoneNumber_GotFocus(object? sender, EventArgs e)
+        {
+            RemovePlaceholder(txtFatherPhoneNumber, "Nhập số điện thoại");
+        }
+
+        private void TxtPhoneNumber_LostFocus(object? sender, EventArgs e)
+        {
+            SetPlaceholder(txtPhoneNumber, "Nhập số điện thoại");
+
+        }
+
+        private void TxtPhoneNumber_GotFocus(object? sender, EventArgs e)
+        {
+            RemovePlaceholder(txtPhoneNumber, "Nhập số điện thoại");
         }
 
         private void ConnectToDatabase()
@@ -52,7 +93,19 @@ namespace StudentManagementSystem.UI.UserControls
         {
             var item = ReadFromForm();
             Save(item);
+            UploadAvatar();
             Reload();
+        }
+
+        private void UploadAvatar()
+        {
+            string avatarPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Avatars", txtId.Text);
+
+            // Kiểm tra thay đổi
+            if (ImageHelper.IsImageChanged(pbAvatar.Image, avatarPath))
+            {
+                ImageHelper.SaveAvatar(pbAvatar.Image, txtId.Text);
+            }
         }
 
         private void Save(object entity)
@@ -176,7 +229,17 @@ namespace StudentManagementSystem.UI.UserControls
             txtFatherPhoneNumber.Text = t.FatherPhoneNumber;
             txtMotherFullName.Text = t.MotherFullName;
             txtMotherPhoneNumber.Text = t.MotherPhoneNumber;
-            //pbAvatar.Load(t.AvatarUrl);
+
+            // Load avatar image
+            if (string.IsNullOrEmpty(t.AvatarUrl))
+            {
+                pbAvatar.Image = Properties.Resources.avatar;
+                pbAvatar.ImageLocation = null;
+            }
+            else
+            {
+                pbAvatar.ImageLocation = t.AvatarUrl;
+            }
         }
 
         private void dgvRead_SelectionChanged(object sender, EventArgs e)
@@ -268,5 +331,136 @@ namespace StudentManagementSystem.UI.UserControls
             }
         }
 
+        private void txtPhoneNumber_Validating(object sender, CancelEventArgs e)
+        {
+            string phoneNumber = UtilityHelper.NormalizePhone(txtPhoneNumber.Text);
+            if (!UtilityHelper.IsValidPhone(phoneNumber))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txtPhoneNumber, "Số điện thoại không hợp lệ!");
+            }
+            else
+            {
+                errorProvider1.SetError(txtPhoneNumber, "");
+            }
+        }
+
+        private void txtFatherPhoneNumber_Validating(object sender, CancelEventArgs e)
+        {
+            string phoneNumber = UtilityHelper.NormalizePhone(txtFatherPhoneNumber.Text);
+            if (!UtilityHelper.IsValidPhone(phoneNumber))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txtFatherPhoneNumber, "Số điện thoại cha không hợp lệ!");
+            }
+            else
+            {
+                errorProvider1.SetError(txtFatherPhoneNumber, "");
+            }
+        }
+
+        private void txtMotherPhoneNumber_Validating(object sender, CancelEventArgs e)
+        {
+            string phoneNumber = UtilityHelper.NormalizePhone(txtMotherPhoneNumber.Text);
+            if (!UtilityHelper.IsValidPhone(phoneNumber))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không hợp lệ!");
+            }
+            else
+            {
+                errorProvider1.SetError(txtMotherPhoneNumber, "");
+            }
+        }
+
+        private void txtPhoneNumber_Enter(object sender, EventArgs e)
+        {
+            txtPhoneNumber.SelectAll();
+        }
+
+        private void txtFatherPhoneNumber_Enter(object sender, EventArgs e)
+        {
+            txtFatherPhoneNumber.SelectAll();
+        }
+
+        private void txtMotherPhoneNumber_Enter(object sender, EventArgs e)
+        {
+            txtMotherPhoneNumber.SelectAll();
+        }
+
+        private void SetPlaceholder(MaskedTextBox box, string placeholder)
+        {
+            if (string.IsNullOrWhiteSpace(box.Text) || box.Text == placeholder)
+            {
+                box.Text = placeholder;
+                box.ForeColor = Color.Gray;
+            }
+        }
+
+        private void RemovePlaceholder(MaskedTextBox box, string placeholder)
+        {
+            if (box.Text == placeholder)
+            {
+                box.Text = "";
+                box.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtPhoneNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            MaskedTextBox phoneBox = (MaskedTextBox)sender;
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string pasteText = Clipboard.GetText();
+                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+
+                phoneBox.Text = digits;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtFatherPhoneNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            MaskedTextBox phoneBox = (MaskedTextBox)sender;
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string pasteText = Clipboard.GetText();
+                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+
+                phoneBox.Text = digits;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtMotherPhoneNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            MaskedTextBox phoneBox = (MaskedTextBox)sender;
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                string pasteText = Clipboard.GetText();
+                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+
+                phoneBox.Text = digits;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtPhoneNumber_Click(object sender, EventArgs e)
+        {
+            MaskedTextBox phoneNumber = (MaskedTextBox)sender;
+            phoneNumber.SelectAll();
+        }
+
+        private void txtFatherPhoneNumber_Click(object sender, EventArgs e)
+        {
+            MaskedTextBox phoneNumber = (MaskedTextBox)sender;
+            phoneNumber.SelectAll();
+        }
+
+        private void txtMotherPhoneNumber_Click(object sender, EventArgs e)
+        {
+            MaskedTextBox phoneNumber = (MaskedTextBox)sender;
+            phoneNumber.SelectAll();
+        }
     }
 }

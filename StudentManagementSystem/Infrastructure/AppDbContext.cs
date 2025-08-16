@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
-using System.Configuration;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace StudentManagementSystem.Infrastructure
 {

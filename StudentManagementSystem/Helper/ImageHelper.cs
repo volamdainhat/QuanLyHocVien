@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
-using System.Data.SqlClient;
 using System.Drawing.Imaging;
+using System.Security.Cryptography;
 
 namespace StudentManagementSystem.Helper
 {
@@ -129,6 +129,70 @@ namespace StudentManagementSystem.Helper
 
             return id;
         }
-    }
 
+        /// <summary>
+        /// Lưu avatar vào thư mục Avatar
+        /// </summary>
+        /// <param name="image">Ảnh cần lưu</param>
+        /// <param name="userId">Id người dùng (dùng để đặt tên file)</param>
+        /// <returns>Đường dẫn file đã lưu</returns>
+        public static string SaveAvatar(Image image, string userId)
+        {
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
+
+            // Tạo thư mục "Avatars" nếu chưa có
+            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Avatars");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Đặt tên file: UserId + .png (hoặc dùng Guid.NewGuid().ToString())
+            string fileName = $"{userId}.png";
+            string filePath = Path.Combine(folderPath, fileName);
+
+            // Nếu đã có file cũ -> xóa đi để lưu mới
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
+            // Lưu ảnh dưới dạng PNG
+            image.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+            return filePath; // trả về đường dẫn để lưu DB
+        }
+
+        public static byte[] ImageToByteArray(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                return ms.ToArray();
+            }
+        }
+
+        public static bool IsImageChanged(Image newImage, string savedFilePath)
+        {
+            if (!File.Exists(savedFilePath))
+                return true; // chưa có file -> xem như thay đổi
+
+            // Chuyển ảnh mới sang byte[]
+            byte[] newBytes = ImageToByteArray(newImage);
+
+            // Đọc ảnh cũ từ file
+            byte[] oldBytes = File.ReadAllBytes(savedFilePath);
+
+            // So sánh hash để tránh so byte-by-byte
+            using (SHA256 sha = SHA256.Create())
+            {
+                byte[] newHash = sha.ComputeHash(newBytes);
+                byte[] oldHash = sha.ComputeHash(oldBytes);
+
+                return !newHash.SequenceEqual(oldHash); // khác nhau => ảnh thay đổi
+            }
+        }
+
+    }
 }
