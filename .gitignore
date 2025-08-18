@@ -416,3 +416,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/StudentManagementSystem/UI/UserControls/ucHome.Designer.cs
+/.gitignore
