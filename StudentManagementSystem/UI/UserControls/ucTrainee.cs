@@ -3,6 +3,8 @@ using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
 using System.ComponentModel;
+using System.Data;
+using System.Text;
 using System.Windows.Forms;
 
 namespace StudentManagementSystem.UI.UserControls
@@ -19,7 +21,6 @@ namespace StudentManagementSystem.UI.UserControls
         private void ucTrainee_Load(object sender, EventArgs e)
         {
             ConnectToDatabase();
-            LoadDataAsync();
 
             txtPhoneNumber.GotFocus += TxtPhoneNumber_GotFocus;
             txtPhoneNumber.LostFocus += TxtPhoneNumber_LostFocus;
@@ -66,16 +67,22 @@ namespace StudentManagementSystem.UI.UserControls
             dbContext = new AppDbContext();
             dbContext.Database.EnsureCreated();
             dbContext.Trainees.Load();
+            dbContext.Classes.Load();
+
+            traineeBindingSource.DataSource = dbContext?.Trainees.Local.ToBindingList();
+            classBindingSource.DataSource = dbContext?.Classes.Local.ToBindingList();
+            LoadComboBoxRole();
+        }
+
+        private void LoadComboBoxRole()
+        {
+            cbRole.Items.Add("Học viên");
+            cbRole.SelectedIndex = 0;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             Reload();
-        }
-
-        private void LoadDataAsync()
-        {
-            traineeBindingSource.DataSource = dbContext?.Trainees.Local.ToBindingList();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -117,9 +124,9 @@ namespace StudentManagementSystem.UI.UserControls
             else
             {
                 // đảm bảo context không đang track instance cùng Id
-                var tracked = dbContext.ChangeTracker.Entries<Trainee>().FirstOrDefault(e => e.Entity.Id == t.Id);
+                var tracked = dbContext?.ChangeTracker.Entries<Trainee>().FirstOrDefault(e => e.Entity.Id == t.Id);
 
-                if (tracked != null)
+                if (tracked != null && dbContext != null)
                 {
                     dbContext.Entry(tracked.Entity).State = EntityState.Detached;
                 }
@@ -132,39 +139,52 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void ClearForm()
         {
-            txtId.Clear();
+            txtId.Text = "0";
             txtFullName.Clear();
-            txtClassId.Clear();
+            cbClassId.SelectedIndex = 0;
             txtPhoneNumber.Clear();
             dtpDayOfBirth.Value = DateTime.Now;
             dtpEnlistmentDate.Value = DateTime.Now;
             txtRanking.Clear();
-            txtRole.Text = "Học viên";
+            cbRole.SelectedIndex = 0;
             txtFatherFullName.Clear();
             txtFatherPhoneNumber.Clear();
             txtMotherFullName.Clear();
             txtMotherPhoneNumber.Clear();
+            numAverageScore.Value = 0;
         }
 
-        private object ReadFromForm()
+        private Trainee ReadFromForm()
         {
-            return new Trainee
+            Trainee trainee = new()
             {
                 Id = int.TryParse(txtId.Text, out var id) ? id : 0,
                 FullName = txtFullName.Text,
-                ClassId = int.TryParse(txtClassId.Text, out var classId) ? classId : 0,
                 PhoneNumber = txtPhoneNumber.Text,
                 DayOfBirth = dtpDayOfBirth.Value,
                 EnlistmentDate = dtpEnlistmentDate.Value,
                 Ranking = txtRanking.Text,
-                Role = txtRole.Text,
                 FatherFullName = txtFatherFullName.Text,
                 FatherPhoneNumber = txtFatherPhoneNumber.Text,
                 MotherFullName = txtMotherFullName.Text,
                 MotherPhoneNumber = txtMotherPhoneNumber.Text,
-                AverageScore = null,
+                AverageScore = numAverageScore.Value,
                 AvatarUrl = pbAvatar.ImageLocation
             };
+
+            var selectClass = cbClassId.SelectedItem as Class;
+            if (selectClass != null)
+            {
+                trainee.ClassId = selectClass.Id;
+                trainee.ClassName = selectClass.Name;
+            }
+
+            if (cbRole.SelectedItem != null)
+            {
+                trainee.Role = cbRole.SelectedItem.ToString();
+            }
+
+            return trainee;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -190,20 +210,27 @@ namespace StudentManagementSystem.UI.UserControls
             );
             if (confirm != DialogResult.Yes) return;
 
-            ids = ids.Distinct().ToList();
+            ids = [.. ids.Distinct()];
             var toDelete = dbContext?.Trainees.Where(t => ids.Contains(t.Id)).ToList();
-            dbContext?.Trainees.RemoveRange(toDelete);
-            dbContext?.SaveChanges();
+            if (toDelete != null)
+            {
+                dbContext?.Trainees.RemoveRange(toDelete);
+                dbContext?.SaveChanges();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy bản ghi để xóa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             Reload();
         }
 
         private List<int> GetSelectedIds()
         {
-            return dgvRead.SelectedRows
+            return [.. dgvRead.SelectedRows
                 .Cast<DataGridViewRow>()
                 .Select(row => (row.DataBoundItem as Trainee)?.Id ?? 0)
-                .Where(id => id > 0)
-                .ToList();
+                .Where(id => id > 0)];
         }
 
         private void BindSelectedRowToForm()
@@ -219,18 +246,27 @@ namespace StudentManagementSystem.UI.UserControls
             var t = (Trainee)entity;
             txtId.Text = t.Id.ToString();
             txtFullName.Text = t.FullName;
-            txtClassId.Text = t.ClassId.ToString();
             txtPhoneNumber.Text = t.PhoneNumber;
             dtpDayOfBirth.Value = t.DayOfBirth ?? DateTime.Now;
             dtpEnlistmentDate.Value = t.EnlistmentDate ?? DateTime.Now;
             txtRanking.Text = t.Ranking;
-            txtRole.Text = t.Role;
             txtFatherFullName.Text = t.FatherFullName;
             txtFatherPhoneNumber.Text = t.FatherPhoneNumber;
             txtMotherFullName.Text = t.MotherFullName;
             txtMotherPhoneNumber.Text = t.MotherPhoneNumber;
+            numAverageScore.Value = t.AverageScore ?? 0;
+            BindAvatarToForm(t);
+            BindClassToForm(t);
+            BindRoleToForm(t);
+        }
 
-            // Load avatar image
+        private void BindRoleToForm(Trainee t)
+        {
+            cbRole.SelectedItem = t.Role ?? "Học viên";
+        }
+
+        private void BindAvatarToForm(Trainee t)
+        {
             if (string.IsNullOrEmpty(t.AvatarUrl))
             {
                 pbAvatar.Image = Properties.Resources.avatar;
@@ -242,6 +278,17 @@ namespace StudentManagementSystem.UI.UserControls
             }
         }
 
+        private void BindClassToForm(Trainee t)
+        {
+            if (dgvRead.CurrentRow != null)
+            {
+                if (t.ClassId > 0)
+                {
+                    cbClassId.SelectedValue = t.ClassId;
+                }
+            }
+        }
+
         private void dgvRead_SelectionChanged(object sender, EventArgs e)
         {
             BindSelectedRowToForm();
@@ -249,13 +296,16 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void pbAvatar_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-            else e.Effect = DragDropEffects.None;
+            if (e.Data != null)
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+                else e.Effect = DragDropEffects.None;
+            }
         }
 
         private void pbAvatar_DragDrop(object sender, DragEventArgs e)
         {
-            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?)e.Data?.GetData(DataFormats.FileDrop);
             if (files == null || files.Length == 0) return;
 
             var file = files[0];
@@ -337,7 +387,11 @@ namespace StudentManagementSystem.UI.UserControls
             if (!UtilityHelper.IsValidPhone(phoneNumber))
             {
                 e.Cancel = true;
-                errorProvider1.SetError(txtPhoneNumber, "Số điện thoại không hợp lệ!");
+                StringBuilder err = new StringBuilder();
+                err.AppendLine("Số điện thoại không hợp lệ!");
+                err.AppendLine("1. Số điện thoại phải bắt đầu bằng 0");
+                err.AppendLine("2. Số điện thoại phải có 10 chữ số");
+                errorProvider1.SetError(txtPhoneNumber, err.ToString());
             }
             else
             {
@@ -351,7 +405,11 @@ namespace StudentManagementSystem.UI.UserControls
             if (!UtilityHelper.IsValidPhone(phoneNumber))
             {
                 e.Cancel = true;
-                errorProvider1.SetError(txtFatherPhoneNumber, "Số điện thoại cha không hợp lệ!");
+                StringBuilder err = new StringBuilder();
+                err.AppendLine("Số điện thoại không hợp lệ!");
+                err.AppendLine("1. Số điện thoại phải bắt đầu bằng 0");
+                err.AppendLine("2. Số điện thoại phải có 10 chữ số");
+                errorProvider1.SetError(txtPhoneNumber, err.ToString());
             }
             else
             {
@@ -365,7 +423,11 @@ namespace StudentManagementSystem.UI.UserControls
             if (!UtilityHelper.IsValidPhone(phoneNumber))
             {
                 e.Cancel = true;
-                errorProvider1.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không hợp lệ!");
+                StringBuilder err = new StringBuilder();
+                err.AppendLine("Số điện thoại không hợp lệ!");
+                err.AppendLine("1. Số điện thoại phải bắt đầu bằng 0");
+                err.AppendLine("2. Số điện thoại phải có 10 chữ số");
+                errorProvider1.SetError(txtPhoneNumber, err.ToString());
             }
             else
             {
@@ -388,7 +450,7 @@ namespace StudentManagementSystem.UI.UserControls
             txtMotherPhoneNumber.SelectAll();
         }
 
-        private void SetPlaceholder(MaskedTextBox box, string placeholder)
+        private static void SetPlaceholder(MaskedTextBox box, string placeholder)
         {
             if (string.IsNullOrWhiteSpace(box.Text) || box.Text == placeholder)
             {
@@ -397,7 +459,7 @@ namespace StudentManagementSystem.UI.UserControls
             }
         }
 
-        private void RemovePlaceholder(MaskedTextBox box, string placeholder)
+        private static void RemovePlaceholder(MaskedTextBox box, string placeholder)
         {
             if (box.Text == placeholder)
             {
@@ -412,7 +474,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (e.Control && e.KeyCode == Keys.V)
             {
                 string pasteText = Clipboard.GetText();
-                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+                string digits = new([.. pasteText.Where(char.IsDigit)]); // chỉ lấy số
 
                 phoneBox.Text = digits;
                 e.SuppressKeyPress = true;
@@ -425,7 +487,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (e.Control && e.KeyCode == Keys.V)
             {
                 string pasteText = Clipboard.GetText();
-                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+                string digits = new([.. pasteText.Where(char.IsDigit)]); // chỉ lấy số
 
                 phoneBox.Text = digits;
                 e.SuppressKeyPress = true;
@@ -438,7 +500,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (e.Control && e.KeyCode == Keys.V)
             {
                 string pasteText = Clipboard.GetText();
-                string digits = new string(pasteText.Where(char.IsDigit).ToArray()); // chỉ lấy số
+                string digits = new([.. pasteText.Where(char.IsDigit)]); // chỉ lấy số
 
                 phoneBox.Text = digits;
                 e.SuppressKeyPress = true;

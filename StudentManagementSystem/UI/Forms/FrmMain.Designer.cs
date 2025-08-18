@@ -92,7 +92,9 @@ namespace StudentManagementSystem.Forms
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
             Name = "FrmMain";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Ứng dụng quản lý học viên";
+            WindowState = FormWindowState.Maximized;
             FormClosing += FrmMain_FormClosing;
             Load += FrmMain_Load;
             menuStrip.ResumeLayout(false);

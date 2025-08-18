@@ -1,7 +1,14 @@
-﻿namespace StudentManagementSystem.Domain.Enums
+﻿using System.ComponentModel;
+
+namespace StudentManagementSystem.Domain.Enums
 {
     public enum Role
     {
-        Trainee
+        [Description("Học viên")]
+        HocVien,
+
+        [Description("Giảng viên")]
+        GiangVien
     }
+
 }

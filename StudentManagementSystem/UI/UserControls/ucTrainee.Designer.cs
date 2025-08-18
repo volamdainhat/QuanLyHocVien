@@ -33,12 +33,16 @@ namespace StudentManagementSystem.UI.UserControls
             components = new Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
+            numAverageScore = new NumericUpDown();
+            lblAverageScore = new Label();
+            cbRole = new ComboBox();
+            cbClassId = new ComboBox();
+            classBindingSource = new BindingSource(components);
             lblRanking = new Label();
             lblClassId = new Label();
             lblId = new Label();
             dtpEnlistmentDate = new DateTimePicker();
             btnUpload = new Button();
-            txtRole = new TextBox();
             txtMotherPhoneNumber = new MaskedTextBox();
             lblMotherPhoneNumber = new Label();
             txtMotherFullName = new TextBox();
@@ -54,7 +58,6 @@ namespace StudentManagementSystem.UI.UserControls
             lblDayOfBirth = new Label();
             txtPhoneNumber = new MaskedTextBox();
             lblPhoneNumber = new Label();
-            txtClassId = new TextBox();
             txtFullName = new TextBox();
             lblFullName = new Label();
             txtId = new TextBox();
@@ -66,6 +69,7 @@ namespace StudentManagementSystem.UI.UserControls
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            ClassName = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dayOfBirthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             rankingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -87,6 +91,8 @@ namespace StudentManagementSystem.UI.UserControls
             errorProvider1 = new ErrorProvider(components);
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
+            ((ISupportInitialize)numAverageScore).BeginInit();
+            ((ISupportInitialize)classBindingSource).BeginInit();
             ((ISupportInitialize)pbAvatar).BeginInit();
             tableLayoutPanel.SuspendLayout();
             tabControl.SuspendLayout();
@@ -108,12 +114,15 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // gbDetail
             // 
+            gbDetail.Controls.Add(numAverageScore);
+            gbDetail.Controls.Add(lblAverageScore);
+            gbDetail.Controls.Add(cbRole);
+            gbDetail.Controls.Add(cbClassId);
             gbDetail.Controls.Add(lblRanking);
             gbDetail.Controls.Add(lblClassId);
             gbDetail.Controls.Add(lblId);
             gbDetail.Controls.Add(dtpEnlistmentDate);
             gbDetail.Controls.Add(btnUpload);
-            gbDetail.Controls.Add(txtRole);
             gbDetail.Controls.Add(txtMotherPhoneNumber);
             gbDetail.Controls.Add(lblMotherPhoneNumber);
             gbDetail.Controls.Add(txtMotherFullName);
@@ -129,7 +138,6 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.Controls.Add(lblDayOfBirth);
             gbDetail.Controls.Add(txtPhoneNumber);
             gbDetail.Controls.Add(lblPhoneNumber);
-            gbDetail.Controls.Add(txtClassId);
             gbDetail.Controls.Add(txtFullName);
             gbDetail.Controls.Add(lblFullName);
             gbDetail.Controls.Add(txtId);
@@ -141,6 +149,49 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.TabIndex = 0;
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
+            // 
+            // numAverageScore
+            // 
+            numAverageScore.DecimalPlaces = 2;
+            numAverageScore.Location = new Point(493, 207);
+            numAverageScore.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            numAverageScore.Name = "numAverageScore";
+            numAverageScore.Size = new Size(300, 31);
+            numAverageScore.TabIndex = 31;
+            // 
+            // lblAverageScore
+            // 
+            lblAverageScore.AutoSize = true;
+            lblAverageScore.Location = new Point(349, 210);
+            lblAverageScore.Name = "lblAverageScore";
+            lblAverageScore.Size = new Size(142, 25);
+            lblAverageScore.TabIndex = 30;
+            lblAverageScore.Text = "Điểm trung bình";
+            // 
+            // cbRole
+            // 
+            cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbRole.FormattingEnabled = true;
+            cbRole.Location = new Point(493, 168);
+            cbRole.Name = "cbRole";
+            cbRole.Size = new Size(300, 33);
+            cbRole.TabIndex = 29;
+            // 
+            // cbClassId
+            // 
+            cbClassId.DataSource = classBindingSource;
+            cbClassId.DisplayMember = "Name";
+            cbClassId.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbClassId.FormattingEnabled = true;
+            cbClassId.Location = new Point(161, 133);
+            cbClassId.Name = "cbClassId";
+            cbClassId.Size = new Size(182, 33);
+            cbClassId.TabIndex = 28;
+            cbClassId.ValueMember = "Id";
+            // 
+            // classBindingSource
+            // 
+            classBindingSource.DataSource = typeof(Domain.Entities.Class);
             // 
             // lblRanking
             // 
@@ -187,13 +238,6 @@ namespace StudentManagementSystem.UI.UserControls
             btnUpload.Text = "Cập nhật";
             btnUpload.UseVisualStyleBackColor = true;
             btnUpload.Click += BtnUpload_ClickAsync;
-            // 
-            // txtRole
-            // 
-            txtRole.Location = new Point(493, 168);
-            txtRole.Name = "txtRole";
-            txtRole.Size = new Size(300, 31);
-            txtRole.TabIndex = 22;
             // 
             // txtMotherPhoneNumber
             // 
@@ -274,7 +318,7 @@ namespace StudentManagementSystem.UI.UserControls
             // lblRole
             // 
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(398, 171);
+            lblRole.Location = new Point(413, 171);
             lblRole.Name = "lblRole";
             lblRole.Size = new Size(76, 25);
             lblRole.TabIndex = 12;
@@ -293,8 +337,9 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             txtRanking.Location = new Point(161, 205);
             txtRanking.Name = "txtRanking";
-            txtRanking.Size = new Size(150, 31);
+            txtRanking.Size = new Size(182, 31);
             txtRanking.TabIndex = 9;
+            txtRanking.TextAlign = HorizontalAlignment.Center;
             // 
             // dtpDayOfBirth
             // 
@@ -336,13 +381,6 @@ namespace StudentManagementSystem.UI.UserControls
             lblPhoneNumber.TabIndex = 5;
             lblPhoneNumber.Text = "SĐT";
             // 
-            // txtClassId
-            // 
-            txtClassId.Location = new Point(162, 131);
-            txtClassId.Name = "txtClassId";
-            txtClassId.Size = new Size(149, 31);
-            txtClassId.TabIndex = 4;
-            // 
             // txtFullName
             // 
             txtFullName.Location = new Point(493, 20);
@@ -364,9 +402,10 @@ namespace StudentManagementSystem.UI.UserControls
             txtId.Enabled = false;
             txtId.Location = new Point(162, 57);
             txtId.Name = "txtId";
-            txtId.Size = new Size(149, 31);
+            txtId.Size = new Size(181, 31);
             txtId.TabIndex = 1;
             txtId.Text = "0";
+            txtId.TextAlign = HorizontalAlignment.Center;
             // 
             // pbAvatar
             // 
@@ -423,9 +462,11 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // dgvRead
             // 
+            dgvRead.AllowUserToAddRows = false;
             dgvRead.AutoGenerateColumns = false;
+            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, ClassName, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
             dgvRead.DataSource = traineeBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(3, 3);
@@ -438,106 +479,115 @@ namespace StudentManagementSystem.UI.UserControls
             // idDataGridViewTextBoxColumn
             // 
             idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "Mã học viên";
             idDataGridViewTextBoxColumn.MinimumWidth = 8;
             idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            idDataGridViewTextBoxColumn.Width = 150;
+            idDataGridViewTextBoxColumn.Width = 144;
             // 
             // fullNameDataGridViewTextBoxColumn
             // 
             fullNameDataGridViewTextBoxColumn.DataPropertyName = "FullName";
-            fullNameDataGridViewTextBoxColumn.HeaderText = "FullName";
+            fullNameDataGridViewTextBoxColumn.HeaderText = "Họ và tên";
             fullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
-            fullNameDataGridViewTextBoxColumn.Width = 150;
+            fullNameDataGridViewTextBoxColumn.Width = 125;
             // 
             // classIdDataGridViewTextBoxColumn
             // 
             classIdDataGridViewTextBoxColumn.DataPropertyName = "ClassId";
-            classIdDataGridViewTextBoxColumn.HeaderText = "ClassId";
+            classIdDataGridViewTextBoxColumn.HeaderText = "Mã lớp";
             classIdDataGridViewTextBoxColumn.MinimumWidth = 8;
             classIdDataGridViewTextBoxColumn.Name = "classIdDataGridViewTextBoxColumn";
-            classIdDataGridViewTextBoxColumn.Width = 150;
+            classIdDataGridViewTextBoxColumn.Visible = false;
+            classIdDataGridViewTextBoxColumn.Width = 104;
+            // 
+            // ClassName
+            // 
+            ClassName.DataPropertyName = "ClassName";
+            ClassName.HeaderText = "Lớp";
+            ClassName.MinimumWidth = 8;
+            ClassName.Name = "ClassName";
+            ClassName.Width = 78;
             // 
             // phoneNumberDataGridViewTextBoxColumn
             // 
             phoneNumberDataGridViewTextBoxColumn.DataPropertyName = "PhoneNumber";
-            phoneNumberDataGridViewTextBoxColumn.HeaderText = "PhoneNumber";
+            phoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT";
             phoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
-            phoneNumberDataGridViewTextBoxColumn.Width = 150;
+            phoneNumberDataGridViewTextBoxColumn.Width = 80;
             // 
             // dayOfBirthDataGridViewTextBoxColumn
             // 
             dayOfBirthDataGridViewTextBoxColumn.DataPropertyName = "DayOfBirth";
-            dayOfBirthDataGridViewTextBoxColumn.HeaderText = "DayOfBirth";
+            dayOfBirthDataGridViewTextBoxColumn.HeaderText = "Ngày sinh";
             dayOfBirthDataGridViewTextBoxColumn.MinimumWidth = 8;
             dayOfBirthDataGridViewTextBoxColumn.Name = "dayOfBirthDataGridViewTextBoxColumn";
-            dayOfBirthDataGridViewTextBoxColumn.Width = 150;
+            dayOfBirthDataGridViewTextBoxColumn.Width = 127;
             // 
             // rankingDataGridViewTextBoxColumn
             // 
             rankingDataGridViewTextBoxColumn.DataPropertyName = "Ranking";
-            rankingDataGridViewTextBoxColumn.HeaderText = "Ranking";
+            rankingDataGridViewTextBoxColumn.HeaderText = "Cấp bậc";
             rankingDataGridViewTextBoxColumn.MinimumWidth = 8;
             rankingDataGridViewTextBoxColumn.Name = "rankingDataGridViewTextBoxColumn";
-            rankingDataGridViewTextBoxColumn.Width = 150;
+            rankingDataGridViewTextBoxColumn.Width = 112;
             // 
             // enlistmentDateDataGridViewTextBoxColumn
             // 
             enlistmentDateDataGridViewTextBoxColumn.DataPropertyName = "EnlistmentDate";
-            enlistmentDateDataGridViewTextBoxColumn.HeaderText = "EnlistmentDate";
+            enlistmentDateDataGridViewTextBoxColumn.HeaderText = "Nhập ngũ";
             enlistmentDateDataGridViewTextBoxColumn.MinimumWidth = 8;
             enlistmentDateDataGridViewTextBoxColumn.Name = "enlistmentDateDataGridViewTextBoxColumn";
-            enlistmentDateDataGridViewTextBoxColumn.Width = 150;
+            enlistmentDateDataGridViewTextBoxColumn.Width = 127;
             // 
             // averageScoreDataGridViewTextBoxColumn
             // 
             averageScoreDataGridViewTextBoxColumn.DataPropertyName = "AverageScore";
-            averageScoreDataGridViewTextBoxColumn.HeaderText = "AverageScore";
+            averageScoreDataGridViewTextBoxColumn.HeaderText = "Điểm trung bình";
             averageScoreDataGridViewTextBoxColumn.MinimumWidth = 8;
             averageScoreDataGridViewTextBoxColumn.Name = "averageScoreDataGridViewTextBoxColumn";
-            averageScoreDataGridViewTextBoxColumn.Width = 150;
+            averageScoreDataGridViewTextBoxColumn.Width = 178;
             // 
             // roleDataGridViewTextBoxColumn
             // 
             roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
-            roleDataGridViewTextBoxColumn.HeaderText = "Role";
+            roleDataGridViewTextBoxColumn.HeaderText = "Chức vụ";
             roleDataGridViewTextBoxColumn.MinimumWidth = 8;
             roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
-            roleDataGridViewTextBoxColumn.Width = 150;
+            roleDataGridViewTextBoxColumn.Width = 112;
             // 
             // fatherFullNameDataGridViewTextBoxColumn
             // 
             fatherFullNameDataGridViewTextBoxColumn.DataPropertyName = "FatherFullName";
-            fatherFullNameDataGridViewTextBoxColumn.HeaderText = "FatherFullName";
+            fatherFullNameDataGridViewTextBoxColumn.HeaderText = "Tên Cha";
             fatherFullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             fatherFullNameDataGridViewTextBoxColumn.Name = "fatherFullNameDataGridViewTextBoxColumn";
-            fatherFullNameDataGridViewTextBoxColumn.Width = 150;
+            fatherFullNameDataGridViewTextBoxColumn.Width = 109;
             // 
             // fatherPhoneNumberDataGridViewTextBoxColumn
             // 
             fatherPhoneNumberDataGridViewTextBoxColumn.DataPropertyName = "FatherPhoneNumber";
-            fatherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "FatherPhoneNumber";
+            fatherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT Cha";
             fatherPhoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             fatherPhoneNumberDataGridViewTextBoxColumn.Name = "fatherPhoneNumberDataGridViewTextBoxColumn";
-            fatherPhoneNumberDataGridViewTextBoxColumn.Width = 150;
+            fatherPhoneNumberDataGridViewTextBoxColumn.Width = 115;
             // 
             // motherFullNameDataGridViewTextBoxColumn
             // 
             motherFullNameDataGridViewTextBoxColumn.DataPropertyName = "MotherFullName";
-            motherFullNameDataGridViewTextBoxColumn.HeaderText = "MotherFullName";
+            motherFullNameDataGridViewTextBoxColumn.HeaderText = "Tên Mẹ";
             motherFullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             motherFullNameDataGridViewTextBoxColumn.Name = "motherFullNameDataGridViewTextBoxColumn";
-            motherFullNameDataGridViewTextBoxColumn.Width = 150;
+            motherFullNameDataGridViewTextBoxColumn.Width = 104;
             // 
             // motherPhoneNumberDataGridViewTextBoxColumn
             // 
+            motherPhoneNumberDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             motherPhoneNumberDataGridViewTextBoxColumn.DataPropertyName = "MotherPhoneNumber";
-            motherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "MotherPhoneNumber";
+            motherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT Mẹ";
             motherPhoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             motherPhoneNumberDataGridViewTextBoxColumn.Name = "motherPhoneNumberDataGridViewTextBoxColumn";
-            motherPhoneNumberDataGridViewTextBoxColumn.Width = 150;
             // 
             // avatarUrlDataGridViewTextBoxColumn
             // 
@@ -545,7 +595,8 @@ namespace StudentManagementSystem.UI.UserControls
             avatarUrlDataGridViewTextBoxColumn.HeaderText = "AvatarUrl";
             avatarUrlDataGridViewTextBoxColumn.MinimumWidth = 8;
             avatarUrlDataGridViewTextBoxColumn.Name = "avatarUrlDataGridViewTextBoxColumn";
-            avatarUrlDataGridViewTextBoxColumn.Width = 150;
+            avatarUrlDataGridViewTextBoxColumn.Visible = false;
+            avatarUrlDataGridViewTextBoxColumn.Width = 121;
             // 
             // traineeBindingSource
             // 
@@ -628,6 +679,8 @@ namespace StudentManagementSystem.UI.UserControls
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
             gbDetail.PerformLayout();
+            ((ISupportInitialize)numAverageScore).EndInit();
+            ((ISupportInitialize)classBindingSource).EndInit();
             ((ISupportInitialize)pbAvatar).EndInit();
             tableLayoutPanel.ResumeLayout(false);
             tabControl.ResumeLayout(false);
@@ -652,7 +705,6 @@ namespace StudentManagementSystem.UI.UserControls
         private TextBox txtId;
         private TextBox txtFullName;
         private Label lblFullName;
-        private TextBox txtClassId;
         private MaskedTextBox txtPhoneNumber;
         private Label lblPhoneNumber;
         private DateTimePicker dtpDayOfBirth;
@@ -671,14 +723,22 @@ namespace StudentManagementSystem.UI.UserControls
         private Button btnRefresh;
         private Panel pnAction;
         private Button btnAdd;
-        private TextBox txtRole;
         private Button btnSave;
         private Button btnDelete;
         private Button btnUpload;
+        private DateTimePicker dtpEnlistmentDate;
+        private Label lblId;
+        private Label lblRanking;
+        private Label lblClassId;
+        private ContextMenuStrip contextMenuStrip1;
+        private ErrorProvider errorProvider1;
+        private ComboBox cbClassId;
+        private BindingSource classBindingSource;
+        private ComboBox cbRole;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn ClassName;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dayOfBirthDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn rankingDataGridViewTextBoxColumn;
@@ -690,11 +750,7 @@ namespace StudentManagementSystem.UI.UserControls
         private DataGridViewTextBoxColumn motherFullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
-        private DateTimePicker dtpEnlistmentDate;
-        private Label lblId;
-        private Label lblRanking;
-        private Label lblClassId;
-        private ContextMenuStrip contextMenuStrip1;
-        private ErrorProvider errorProvider1;
+        private Label lblAverageScore;
+        private NumericUpDown numAverageScore;
     }
 }

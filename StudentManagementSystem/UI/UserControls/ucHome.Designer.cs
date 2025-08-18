@@ -108,15 +108,15 @@
             // 
             // lblTitle
             // 
-            lblTitle.AutoSize = true;
             lblTitle.BackColor = Color.Transparent;
+            lblTitle.BorderStyle = BorderStyle.Fixed3D;
             lblTitle.Dock = DockStyle.Top;
             lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.Crimson;
             lblTitle.Location = new Point(0, 0);
             lblTitle.Name = "lblTitle";
             lblTitle.Padding = new Padding(0, 100, 0, 0);
-            lblTitle.Size = new Size(1255, 206);
+            lblTitle.Size = new Size(1280, 206);
             lblTitle.TabIndex = 15;
             lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -131,7 +131,6 @@
             Size = new Size(1280, 720);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
