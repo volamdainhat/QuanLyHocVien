@@ -66,6 +66,14 @@ namespace StudentManagementSystem.UI.UserControls
             tabControl = new TabControl();
             tabTrainees = new TabPage();
             dgvRead = new DataGridView();
+            traineeBindingSource = new BindingSource(components);
+            pnAction = new Panel();
+            btnDelete = new Button();
+            btnSave = new Button();
+            btnAdd = new Button();
+            btnRefresh = new Button();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            errorProvider1 = new ErrorProvider(components);
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -81,14 +89,6 @@ namespace StudentManagementSystem.UI.UserControls
             motherFullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             motherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             avatarUrlDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            traineeBindingSource = new BindingSource(components);
-            pnAction = new Panel();
-            btnDelete = new Button();
-            btnSave = new Button();
-            btnAdd = new Button();
-            btnRefresh = new Button();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            errorProvider1 = new ErrorProvider(components);
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
             ((ISupportInitialize)numAverageScore).BeginInit();
@@ -476,6 +476,76 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.TabIndex = 0;
             dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
+            // traineeBindingSource
+            // 
+            traineeBindingSource.DataSource = typeof(Domain.Entities.Trainee);
+            // 
+            // pnAction
+            // 
+            pnAction.Controls.Add(btnDelete);
+            pnAction.Controls.Add(btnSave);
+            pnAction.Controls.Add(btnAdd);
+            pnAction.Controls.Add(btnRefresh);
+            pnAction.Dock = DockStyle.Fill;
+            pnAction.Location = new Point(3, 683);
+            pnAction.Name = "pnAction";
+            pnAction.Size = new Size(1274, 34);
+            pnAction.TabIndex = 2;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Dock = DockStyle.Left;
+            btnDelete.Location = new Point(336, 0);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(112, 34);
+            btnDelete.TabIndex = 5;
+            btnDelete.Text = "Xóa";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnSave
+            // 
+            btnSave.Dock = DockStyle.Left;
+            btnSave.Location = new Point(224, 0);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(112, 34);
+            btnSave.TabIndex = 4;
+            btnSave.Text = "Lưu";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
+            // 
+            // btnAdd
+            // 
+            btnAdd.Dock = DockStyle.Left;
+            btnAdd.Location = new Point(112, 0);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(112, 34);
+            btnAdd.TabIndex = 3;
+            btnAdd.Text = "Thêm mới";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Dock = DockStyle.Left;
+            btnRefresh.Location = new Point(0, 0);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(112, 34);
+            btnRefresh.TabIndex = 2;
+            btnRefresh.Text = "Làm mới";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // idDataGridViewTextBoxColumn
             // 
             idDataGridViewTextBoxColumn.DataPropertyName = "Id";
@@ -583,11 +653,11 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // motherPhoneNumberDataGridViewTextBoxColumn
             // 
-            motherPhoneNumberDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             motherPhoneNumberDataGridViewTextBoxColumn.DataPropertyName = "MotherPhoneNumber";
             motherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT Mẹ";
             motherPhoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             motherPhoneNumberDataGridViewTextBoxColumn.Name = "motherPhoneNumberDataGridViewTextBoxColumn";
+            motherPhoneNumberDataGridViewTextBoxColumn.Width = 110;
             // 
             // avatarUrlDataGridViewTextBoxColumn
             // 
@@ -597,76 +667,6 @@ namespace StudentManagementSystem.UI.UserControls
             avatarUrlDataGridViewTextBoxColumn.Name = "avatarUrlDataGridViewTextBoxColumn";
             avatarUrlDataGridViewTextBoxColumn.Visible = false;
             avatarUrlDataGridViewTextBoxColumn.Width = 121;
-            // 
-            // traineeBindingSource
-            // 
-            traineeBindingSource.DataSource = typeof(Domain.Entities.Trainee);
-            // 
-            // pnAction
-            // 
-            pnAction.Controls.Add(btnDelete);
-            pnAction.Controls.Add(btnSave);
-            pnAction.Controls.Add(btnAdd);
-            pnAction.Controls.Add(btnRefresh);
-            pnAction.Dock = DockStyle.Fill;
-            pnAction.Location = new Point(3, 683);
-            pnAction.Name = "pnAction";
-            pnAction.Size = new Size(1274, 34);
-            pnAction.TabIndex = 2;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Dock = DockStyle.Left;
-            btnDelete.Location = new Point(336, 0);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(112, 34);
-            btnDelete.TabIndex = 5;
-            btnDelete.Text = "Xóa";
-            btnDelete.UseVisualStyleBackColor = true;
-            btnDelete.Click += btnDelete_Click;
-            // 
-            // btnSave
-            // 
-            btnSave.Dock = DockStyle.Left;
-            btnSave.Location = new Point(224, 0);
-            btnSave.Name = "btnSave";
-            btnSave.Size = new Size(112, 34);
-            btnSave.TabIndex = 4;
-            btnSave.Text = "Lưu";
-            btnSave.UseVisualStyleBackColor = true;
-            btnSave.Click += btnSave_Click;
-            // 
-            // btnAdd
-            // 
-            btnAdd.Dock = DockStyle.Left;
-            btnAdd.Location = new Point(112, 0);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(112, 34);
-            btnAdd.TabIndex = 3;
-            btnAdd.Text = "Thêm mới";
-            btnAdd.UseVisualStyleBackColor = true;
-            btnAdd.Click += btnAdd_Click;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.Dock = DockStyle.Left;
-            btnRefresh.Location = new Point(0, 0);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(112, 34);
-            btnRefresh.TabIndex = 2;
-            btnRefresh.Text = "Làm mới";
-            btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click;
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
-            // 
-            // errorProvider1
-            // 
-            errorProvider1.ContainerControl = this;
             // 
             // ucTrainee
             // 
@@ -735,6 +735,8 @@ namespace StudentManagementSystem.UI.UserControls
         private ComboBox cbClassId;
         private BindingSource classBindingSource;
         private ComboBox cbRole;
+        private Label lblAverageScore;
+        private NumericUpDown numAverageScore;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
@@ -750,7 +752,5 @@ namespace StudentManagementSystem.UI.UserControls
         private DataGridViewTextBoxColumn motherFullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
-        private Label lblAverageScore;
-        private NumericUpDown numAverageScore;
     }
 }
