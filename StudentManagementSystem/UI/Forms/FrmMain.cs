@@ -33,6 +33,10 @@ namespace StudentManagementSystem.Forms
             {
                 LoadUserControl(new ucTrainee());
             }
+            else if (target == "ucClass")
+            {
+                LoadUserControl(new ucClass());
+            }
         }
 
         private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,6 +47,11 @@ namespace StudentManagementSystem.Forms
         private void họcViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Home_NavigateRequested("ucTrainee");
+        }
+
+        private void lớpHọcToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Home_NavigateRequested("ucClass");
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -75,5 +84,6 @@ namespace StudentManagementSystem.Forms
 
             pnlMainContent.ResumeLayout();
         }
+
     }
 }

@@ -14,5 +14,10 @@ namespace StudentManagementSystem.UI.Forms
         {
             NavigationService.Navigate(new ucTrainee());
         }
+
+        private void btnClass_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new ucClass());
+        }
     }
 }
