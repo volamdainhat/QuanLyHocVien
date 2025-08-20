@@ -32,7 +32,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             btnTrainee = new Button();
             btnClass = new Button();
-            btnCourse = new Button();
+            btnGrades = new Button();
             lblTitle = new Label();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -41,40 +41,44 @@
             // 
             tableLayoutPanel1.ColumnCount = 7;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.9999962F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0000076F));
             tableLayoutPanel1.Controls.Add(btnTrainee, 1, 1);
             tableLayoutPanel1.Controls.Add(btnClass, 3, 1);
-            tableLayoutPanel1.Controls.Add(btnCourse, 5, 1);
+            tableLayoutPanel1.Controls.Add(btnGrades, 5, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 206);
+            tableLayoutPanel1.Location = new Point(0, 124);
+            tableLayoutPanel1.Margin = new Padding(2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1280, 514);
+            tableLayoutPanel1.Size = new Size(896, 308);
             tableLayoutPanel1.TabIndex = 16;
             // 
             // btnTrainee
             // 
-            btnTrainee.BackColor = Color.Gold;
+            btnTrainee.BackColor = Color.Tomato;
             btnTrainee.Dock = DockStyle.Fill;
             btnTrainee.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnTrainee.Image = (Image)resources.GetObject("btnTrainee.Image");
-            btnTrainee.Location = new Point(142, 103);
+            btnTrainee.Location = new Point(99, 62);
+            btnTrainee.Margin = new Padding(2);
             btnTrainee.Name = "btnTrainee";
-            btnTrainee.Size = new Size(294, 144);
+            btnTrainee.Size = new Size(206, 86);
             btnTrainee.TabIndex = 4;
             btnTrainee.Text = "Hoc viên";
             btnTrainee.TextAlign = ContentAlignment.BottomCenter;
             btnTrainee.TextImageRelation = TextImageRelation.ImageAboveText;
             btnTrainee.UseVisualStyleBackColor = false;
             btnTrainee.Click += btnTrainee_Click;
+            btnTrainee.MouseLeave += btnTrainee_MouseLeave;
+            btnTrainee.MouseHover += btnTrainee_MouseHover;
             // 
             // btnClass
             // 
@@ -82,29 +86,36 @@
             btnClass.Dock = DockStyle.Fill;
             btnClass.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnClass.Image = (Image)resources.GetObject("btnClass.Image");
-            btnClass.Location = new Point(492, 103);
+            btnClass.Location = new Point(344, 62);
+            btnClass.Margin = new Padding(2);
             btnClass.Name = "btnClass";
-            btnClass.Size = new Size(294, 144);
+            btnClass.Size = new Size(206, 86);
             btnClass.TabIndex = 5;
             btnClass.Text = "Lớp học";
             btnClass.TextAlign = ContentAlignment.BottomCenter;
             btnClass.TextImageRelation = TextImageRelation.ImageAboveText;
             btnClass.UseVisualStyleBackColor = false;
+            btnClass.Click += btnClass_Click;
+            btnClass.MouseLeave += btnClass_MouseLeave;
+            btnClass.MouseHover += btnClass_MouseHover;
             // 
-            // btnCourse
+            // btnGrades
             // 
-            btnCourse.BackColor = Color.OrangeRed;
-            btnCourse.Dock = DockStyle.Fill;
-            btnCourse.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            btnCourse.Image = (Image)resources.GetObject("btnCourse.Image");
-            btnCourse.Location = new Point(842, 103);
-            btnCourse.Name = "btnCourse";
-            btnCourse.Size = new Size(294, 144);
-            btnCourse.TabIndex = 6;
-            btnCourse.Text = "Khóa học";
-            btnCourse.TextAlign = ContentAlignment.BottomCenter;
-            btnCourse.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnCourse.UseVisualStyleBackColor = false;
+            btnGrades.BackColor = Color.OrangeRed;
+            btnGrades.Dock = DockStyle.Fill;
+            btnGrades.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnGrades.Image = (Image)resources.GetObject("btnGrades.Image");
+            btnGrades.Location = new Point(589, 62);
+            btnGrades.Margin = new Padding(2);
+            btnGrades.Name = "btnGrades";
+            btnGrades.Size = new Size(206, 86);
+            btnGrades.TabIndex = 6;
+            btnGrades.Text = "Điểm số";
+            btnGrades.TextAlign = ContentAlignment.BottomCenter;
+            btnGrades.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnGrades.UseVisualStyleBackColor = false;
+            btnGrades.MouseLeave += btnGrades_MouseLeave;
+            btnGrades.MouseHover += btnGrades_MouseHover;
             // 
             // lblTitle
             // 
@@ -114,21 +125,23 @@
             lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.Crimson;
             lblTitle.Location = new Point(0, 0);
+            lblTitle.Margin = new Padding(2, 0, 2, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(0, 100, 0, 0);
-            lblTitle.Size = new Size(1280, 206);
+            lblTitle.Padding = new Padding(0, 60, 0, 0);
+            lblTitle.Size = new Size(896, 124);
             lblTitle.TabIndex = 15;
             lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ucHome
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Controls.Add(lblTitle);
+            Margin = new Padding(2);
             Name = "ucHome";
-            Size = new Size(1280, 720);
+            Size = new Size(896, 432);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -138,7 +151,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnTrainee;
         private Button btnClass;
-        private Button btnCourse;
+        private Button btnGrades;
         private Label lblTitle;
     }
 }

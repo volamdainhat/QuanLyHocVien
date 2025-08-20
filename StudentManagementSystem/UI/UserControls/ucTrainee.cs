@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ClosedXML;
+using ClosedXML.Excel;
+using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
@@ -524,5 +526,59 @@ namespace StudentManagementSystem.UI.UserControls
             MaskedTextBox phoneNumber = (MaskedTextBox)sender;
             phoneNumber.SelectAll();
         }
+
+        private void btnImportfromExcel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
+            openFileDialog.Title = "Select an Excel File";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                using (var workbook = new XLWorkbook(filePath))
+                {
+                    var worksheet = workbook.Worksheet(1);
+                    var headerRow = worksheet.FirstRowUsed();
+
+                    // Build a dictionary of column name -> column index
+                    var headerMap = headerRow.Cells()
+                        .ToDictionary(c => c.GetString().Trim(), c => c.Address.ColumnNumber);
+
+                    var rows = worksheet.RowsUsed().Skip(1); // Skip header
+
+                    foreach (var row in rows)
+                    {
+                        var trainee = new Trainee
+                        {
+                            FullName = row.Cell(headerMap["Họ và tên"]).GetString(),
+                            ClassId = row.Cell(headerMap["Mã lớp"]).GetValue<int>(),
+                            ClassName = row.Cell(headerMap["Tên lớp"]).GetString(),
+                            //PhoneNumber = row.Cell(headerMap["SĐT"]).GetString(),
+                            //DayOfBirth = row.Cell(headerMap["Ngày sinh"]).TryGetValue<DateTime?>(),
+                            Ranking = row.Cell(headerMap["Cấp bậc"]).GetString(),
+                            //EnlistmentDate = row.Cell(headerMap["Nhập ngũ"]).TryGetValue<DateTime?>(),
+                            //AverageScore = row.Cell(headerMap["ĐTB"]).TryGetValue<decimal?>(),
+                            Role = row.Cell(headerMap["Chức vụ"]).GetString(),
+                            FatherFullName = row.Cell(headerMap["Họ tên cha"]).GetString(),
+                            //FatherPhoneNumber = row.Cell(headerMap["SĐT cha"]).GetString(),
+                            MotherFullName = row.Cell(headerMap["Họ tên mẹ"]).GetString(),
+                            //MotherPhoneNumber = row.Cell(headerMap["SĐT mẹ"]).GetString(),
+                            AvatarUrl = null // leave empty for now
+                        };
+
+                        dbContext.Trainees.Add(trainee);
+                    }
+                }
+
+                dbContext.SaveChanges();
+
+                // Refresh binding source so UI updates with new trainees
+                traineeBindingSource.DataSource = dbContext.Trainees.Local.ToBindingList();
+            }
+        }
+
+
     }
 }

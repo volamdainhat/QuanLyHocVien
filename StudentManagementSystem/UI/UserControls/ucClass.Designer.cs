@@ -36,11 +36,6 @@
             btnRefresh = new Button();
             errorProvider1 = new ErrorProvider(components);
             dgvRead = new DataGridView();
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            startDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            endDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            totalStudentsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             classBindingSource = new BindingSource(components);
             tabTrainees = new TabPage();
             tabControl = new TabControl();
@@ -58,6 +53,11 @@
             txtClassid = new TextBox();
             lblFullName = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            Class_id = new DataGridViewTextBoxColumn();
+            Classname = new DataGridViewTextBoxColumn();
+            StartDate = new DataGridViewTextBoxColumn();
+            EndDate = new DataGridViewTextBoxColumn();
+            TotalStudents = new DataGridViewTextBoxColumn();
             pnAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
@@ -139,7 +139,7 @@
             dgvRead.AutoGenerateColumns = false;
             dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, startDateDataGridViewTextBoxColumn, endDateDataGridViewTextBoxColumn, totalStudentsDataGridViewTextBoxColumn });
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { Class_id, Classname, StartDate, EndDate, TotalStudents });
             dgvRead.DataSource = classBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(2, 2);
@@ -148,36 +148,6 @@
             dgvRead.RowHeadersWidth = 62;
             dgvRead.Size = new Size(909, 186);
             dgvRead.TabIndex = 0;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // startDateDataGridViewTextBoxColumn
-            // 
-            startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
-            startDateDataGridViewTextBoxColumn.HeaderText = "StartDate";
-            startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
-            // 
-            // endDateDataGridViewTextBoxColumn
-            // 
-            endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
-            endDateDataGridViewTextBoxColumn.HeaderText = "EndDate";
-            endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
-            // 
-            // totalStudentsDataGridViewTextBoxColumn
-            // 
-            totalStudentsDataGridViewTextBoxColumn.DataPropertyName = "TotalStudents";
-            totalStudentsDataGridViewTextBoxColumn.HeaderText = "TotalStudents";
-            totalStudentsDataGridViewTextBoxColumn.Name = "totalStudentsDataGridViewTextBoxColumn";
             // 
             // classBindingSource
             // 
@@ -358,6 +328,36 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
             // 
+            // Class_id
+            // 
+            Class_id.DataPropertyName = "Id";
+            Class_id.HeaderText = "Mã lớp học";
+            Class_id.Name = "Class_id";
+            // 
+            // Classname
+            // 
+            Classname.DataPropertyName = "Name";
+            Classname.HeaderText = "Tên ";
+            Classname.Name = "Classname";
+            // 
+            // StartDate
+            // 
+            StartDate.DataPropertyName = "StartDate";
+            StartDate.HeaderText = "Ngày khai giảng";
+            StartDate.Name = "StartDate";
+            // 
+            // EndDate
+            // 
+            EndDate.DataPropertyName = "EndDate";
+            EndDate.HeaderText = "Ngày tổng kết";
+            EndDate.Name = "EndDate";
+            // 
+            // TotalStudents
+            // 
+            TotalStudents.DataPropertyName = "TotalStudents";
+            TotalStudents.HeaderText = "Tổng số học viên";
+            TotalStudents.Name = "TotalStudents";
+            // 
             // ucClass
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -433,11 +433,11 @@
         private DataGridViewTextBoxColumn enlistmentDateDataGridViewTextBoxColumn;
         private ContextMenuStrip contextMenuStrip1;
         private TextBox txtClassname;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn totalStudentsDataGridViewTextBoxColumn;
         private BindingSource classBindingSource;
+        private DataGridViewTextBoxColumn Class_id;
+        private DataGridViewTextBoxColumn Classname;
+        private DataGridViewTextBoxColumn StartDate;
+        private DataGridViewTextBoxColumn EndDate;
+        private DataGridViewTextBoxColumn TotalStudents;
     }
 }
