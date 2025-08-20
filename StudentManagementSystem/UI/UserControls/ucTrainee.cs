@@ -527,58 +527,143 @@ namespace StudentManagementSystem.UI.UserControls
             phoneNumber.SelectAll();
         }
 
+        // QoL : Import from Excel
         private void btnImportfromExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
             openFileDialog.Title = "Select an Excel File";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = openFileDialog.FileName;
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
 
+            string filePath = openFileDialog.FileName;
+
+            try
+            {
                 using (var workbook = new XLWorkbook(filePath))
                 {
                     var worksheet = workbook.Worksheet(1);
+
+                    // Validate sheet
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("No worksheet found in the file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     var headerRow = worksheet.FirstRowUsed();
+                    if (headerRow == null)
+                    {
+                        MessageBox.Show("The Excel file is empty or has no header row.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                    // Build a dictionary of column name -> column index
+                    // Build header map with case-insensitive keys
                     var headerMap = headerRow.Cells()
-                        .ToDictionary(c => c.GetString().Trim(), c => c.Address.ColumnNumber);
+                        .Where(c => !string.IsNullOrWhiteSpace(c.GetString()))
+                        .ToDictionary(c => c.GetString().Trim(), c => c.Address.ColumnNumber, StringComparer.OrdinalIgnoreCase);
 
-                    var rows = worksheet.RowsUsed().Skip(1); // Skip header
+                    string[] requiredHeaders = {
+                "Họ và tên", "Mã lớp", "Tên lớp", "SĐT", "Ngày sinh",
+                "Cấp bậc", "Nhập ngũ", "ĐTB", "Chức vụ",
+                "Họ tên cha", "SĐT cha", "Họ tên mẹ", "SĐT mẹ"
+            };
 
+                    // Check for missing headers
+                    var missingHeaders = requiredHeaders.Where(h => !headerMap.ContainsKey(h)).ToList();
+                    if (missingHeaders.Any())
+                    {
+                        MessageBox.Show("Missing required columns: " + string.Join(", ", missingHeaders),
+                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    int importedCount = 0;
+                    int skippedCount = 0;
+
+                    var rows = worksheet.RowsUsed().Skip(1); // skip header
                     foreach (var row in rows)
                     {
-                        var trainee = new Trainee
+                        try
                         {
-                            FullName = row.Cell(headerMap["Họ và tên"]).GetString(),
-                            ClassId = row.Cell(headerMap["Mã lớp"]).GetValue<int>(),
-                            ClassName = row.Cell(headerMap["Tên lớp"]).GetString(),
-                            //PhoneNumber = row.Cell(headerMap["SĐT"]).GetString(),
-                            //DayOfBirth = row.Cell(headerMap["Ngày sinh"]).TryGetValue<DateTime?>(),
-                            Ranking = row.Cell(headerMap["Cấp bậc"]).GetString(),
-                            //EnlistmentDate = row.Cell(headerMap["Nhập ngũ"]).TryGetValue<DateTime?>(),
-                            //AverageScore = row.Cell(headerMap["ĐTB"]).TryGetValue<decimal?>(),
-                            Role = row.Cell(headerMap["Chức vụ"]).GetString(),
-                            FatherFullName = row.Cell(headerMap["Họ tên cha"]).GetString(),
-                            //FatherPhoneNumber = row.Cell(headerMap["SĐT cha"]).GetString(),
-                            MotherFullName = row.Cell(headerMap["Họ tên mẹ"]).GetString(),
-                            //MotherPhoneNumber = row.Cell(headerMap["SĐT mẹ"]).GetString(),
-                            AvatarUrl = null // leave empty for now
-                        };
+                            // Skip completely empty rows
+                            if (row.CellsUsed().All(c => string.IsNullOrWhiteSpace(c.GetString())))
+                                continue;
 
-                        dbContext.Trainees.Add(trainee);
+                            var trainee = new Trainee
+                            {
+                                FullName = row.Cell(headerMap["Họ và tên"]).GetString()?.Trim(),
+                                ClassId = SafeGetInt(row.Cell(headerMap["Mã lớp"])),
+                                ClassName = row.Cell(headerMap["Tên lớp"]).GetString()?.Trim(),
+                                PhoneNumber = row.Cell(headerMap["SĐT"]).GetString()?.Trim(),
+                                DayOfBirth = SafeGetDate(row.Cell(headerMap["Ngày sinh"])),
+                                Ranking = row.Cell(headerMap["Cấp bậc"]).GetString()?.Trim(),
+                                EnlistmentDate = SafeGetDate(row.Cell(headerMap["Nhập ngũ"])),
+                                AverageScore = SafeGetDecimal(row.Cell(headerMap["ĐTB"])),
+                                Role = row.Cell(headerMap["Chức vụ"]).GetString()?.Trim(),
+                                FatherFullName = row.Cell(headerMap["Họ tên cha"]).GetString()?.Trim(),
+                                FatherPhoneNumber = row.Cell(headerMap["SĐT cha"]).GetString()?.Trim(),
+                                MotherFullName = row.Cell(headerMap["Họ tên mẹ"]).GetString()?.Trim(),
+                                MotherPhoneNumber = row.Cell(headerMap["SĐT mẹ"]).GetString()?.Trim(),
+                                AvatarUrl = null
+                            };
+
+                            // Minimal validation: skip rows missing critical info
+                            if (string.IsNullOrWhiteSpace(trainee.FullName) || trainee.ClassId == 0)
+                            {
+                                skippedCount++;
+                                continue;
+                            }
+
+                            dbContext.Trainees.Add(trainee);
+                            importedCount++;
+                        }
+                        catch (Exception exRow)
+                        {
+                            // Log/skips bad row
+                            skippedCount++;
+                            Console.WriteLine($"Skipped row {row.RowNumber()}: {exRow.Message}");
+                        }
                     }
+
+                    dbContext.SaveChanges();
+
+                    traineeBindingSource.DataSource = dbContext.Trainees.Local.ToBindingList();
+
+                    MessageBox.Show($"Import completed. {importedCount} trainees imported, {skippedCount} rows skipped.",
+                                    "Import Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                dbContext.SaveChanges();
-
-                // Refresh binding source so UI updates with new trainees
-                traineeBindingSource.DataSource = dbContext.Trainees.Local.ToBindingList();
+            }
+            catch (IOException ioEx)
+            {
+                MessageBox.Show("The file could not be opened. It might be locked by another program.\n" + ioEx.Message,
+                                "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unexpected error: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Helpers to safely parse values
+        private int SafeGetInt(IXLCell cell)
+        {
+            return int.TryParse(cell.GetString(), out int value) ? value : 0;
+        }
+
+        private decimal? SafeGetDecimal(IXLCell cell)
+        {
+            return decimal.TryParse(cell.GetString(), out decimal value) ? value : null;
+        }
+
+        private DateTime? SafeGetDate(IXLCell cell)
+        {
+            return DateTime.TryParse(cell.GetString(), out DateTime value) ? value : null;
+        }
+
+        //--------------------------
 
     }
 }
