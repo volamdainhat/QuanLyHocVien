@@ -565,10 +565,10 @@ namespace StudentManagementSystem.UI.UserControls
                         .ToDictionary(c => c.GetString().Trim(), c => c.Address.ColumnNumber, StringComparer.OrdinalIgnoreCase);
 
                     string[] requiredHeaders = {
-                "Họ và tên", "Mã lớp", "Tên lớp", "SĐT", "Ngày sinh",
-                "Cấp bậc", "Nhập ngũ", "ĐTB", "Chức vụ",
-                "Họ tên cha", "SĐT cha", "Họ tên mẹ", "SĐT mẹ"
-            };
+                        "Họ và tên", "Mã lớp", "Tên lớp", "SĐT", "Ngày sinh",
+                        "Cấp bậc", "Nhập ngũ", "ĐTB", "Chức vụ",
+                        "Họ tên cha", "SĐT cha", "Họ tên mẹ", "SĐT mẹ"
+                    };
 
                     // Check for missing headers
                     var missingHeaders = requiredHeaders.Where(h => !headerMap.ContainsKey(h)).ToList();
