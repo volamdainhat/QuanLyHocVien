@@ -26,6 +26,11 @@ namespace StudentManagementSystem.UI.Forms
             NavigationService.Navigate(new ucClass());
         }
 
+        private void btnTimetable_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new ucSchedule());
+        }
+
         // QoL, maybe...
 
         private void btnTrainee_MouseHover(object sender, EventArgs e)
@@ -38,9 +43,9 @@ namespace StudentManagementSystem.UI.Forms
             btnClass.BackColor = Color.FromName(hover_color);
         }
 
-        private void btnGrades_MouseHover(object sender, EventArgs e)
+        private void btnTimetable_MouseHover(object sender, EventArgs e)
         {
-            btnGrades.BackColor = Color.FromName(hover_color);
+            btnTimetable.BackColor = Color.FromName(hover_color);
         }
 
         private void btnTrainee_MouseLeave(object sender, EventArgs e)
@@ -53,9 +58,9 @@ namespace StudentManagementSystem.UI.Forms
             btnClass.BackColor = Color.FromName(normal_color);
         }
 
-        private void btnGrades_MouseLeave(object sender, EventArgs e)
+        private void btnTimetable_MouseLeave(object sender, EventArgs e)
         {
-           btnGrades.BackColor = Color.FromName(normal_color);
+            btnTimetable.BackColor = Color.FromName(normal_color);
         }
     }
 }

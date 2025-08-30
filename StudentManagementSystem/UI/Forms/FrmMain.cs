@@ -37,6 +37,10 @@ namespace StudentManagementSystem.Forms
             {
                 LoadUserControl(new ucClass());
             }
+            else if (target == "ucSchedule")
+            {
+                LoadUserControl(new ucSchedule());
+            }
         }
 
         private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,6 +56,10 @@ namespace StudentManagementSystem.Forms
         private void lớpHọcToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Home_NavigateRequested("ucClass");
+        }
+        private void TkbToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Home_NavigateRequested("ucSchedule");
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -85,5 +93,6 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.ResumeLayout();
         }
 
+        
     }
 }

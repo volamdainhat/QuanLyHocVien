@@ -219,7 +219,6 @@ namespace StudentManagementSystem.UI.UserControls
             form.Controls.Add(grid);
             form.ShowDialog();
         }
-
     }
 }
 
