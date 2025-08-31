@@ -34,7 +34,7 @@ namespace StudentManagementSystem.Forms
             trangChủToolStripMenuItem = new ToolStripMenuItem();
             họcViênToolStripMenuItem = new ToolStripMenuItem();
             lớpHọcToolStripMenuItem = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
+            TkbToolStripMenuItem = new ToolStripMenuItem();
             pnlMainContent = new SmoothPanel();
             menuStrip.SuspendLayout();
             SuspendLayout();
@@ -42,7 +42,7 @@ namespace StudentManagementSystem.Forms
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, toolStripMenuItem1 });
+            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(4, 1, 0, 1);
@@ -71,17 +71,18 @@ namespace StudentManagementSystem.Forms
             lớpHọcToolStripMenuItem.Text = "2. Lớp học";
             lớpHọcToolStripMenuItem.Click += lớpHọcToolStripMenuItem_Click;
             // 
-            // toolStripMenuItem1
+            // TkbToolStripMenuItem
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(84, 22);
-            toolStripMenuItem1.Text = "3. Khóa học";
+            TkbToolStripMenuItem.Name = "TkbToolStripMenuItem";
+            TkbToolStripMenuItem.Size = new Size(114, 22);
+            TkbToolStripMenuItem.Text = "3. Thời khóa biểu";
+            TkbToolStripMenuItem.Click += TkbToolStripMenuItem_Click;
             // 
             // pnlMainContent
             // 
             pnlMainContent.Dock = DockStyle.Fill;
             pnlMainContent.Location = new Point(0, 24);
-            pnlMainContent.Margin = new Padding(2, 2, 2, 2);
+            pnlMainContent.Margin = new Padding(2);
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(881, 374);
             pnlMainContent.TabIndex = 10;
@@ -94,7 +95,7 @@ namespace StudentManagementSystem.Forms
             Controls.Add(pnlMainContent);
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ứng dụng quản lý học viên";
@@ -111,7 +112,7 @@ namespace StudentManagementSystem.Forms
         private MenuStrip menuStrip;
         private ToolStripMenuItem họcViênToolStripMenuItem;
         private ToolStripMenuItem lớpHọcToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem TkbToolStripMenuItem;
         private SmoothPanel pnlMainContent;
         private ToolStripMenuItem trangChủToolStripMenuItem;
     }

@@ -10,8 +10,11 @@ public class Class
     public DateTime EndDate { get; set; }
     public int MaxStudents { get; set; }
 
-    // Navigation property
+    // Navigation: students
     public ICollection<Trainee> Trainees { get; set; } = new List<Trainee>();
+
+    // Navigation: schedules
+    public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     // Computed property, not stored in DB
     [NotMapped]

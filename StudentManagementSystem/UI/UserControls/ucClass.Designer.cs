@@ -35,11 +35,9 @@
             btnAdd = new Button();
             btnRefresh = new Button();
             errorProvider1 = new ErrorProvider(components);
-            dgvRead = new DataGridView();
             classBindingSource = new BindingSource(components);
-            tabTrainees = new TabPage();
-            tabControl = new TabControl();
-            tableLayoutPanel = new TableLayoutPanel();
+            scheduleBindingSource = new BindingSource(components);
+            tlpTimetable = new TableLayoutPanel();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
             txtMaxStudents = new TextBox();
@@ -55,22 +53,26 @@
             txtClassid = new TextBox();
             lblFullName = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            startDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            endDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            maxStudentsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            traineesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            tabTrainees = new TabPage();
+            dgvRead = new DataGridView();
             totalStudentsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            traineesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            maxStudentsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            endDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            startDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            tabControl = new TabControl();
             pnAction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
             ((System.ComponentModel.ISupportInitialize)classBindingSource).BeginInit();
-            tabTrainees.SuspendLayout();
-            tabControl.SuspendLayout();
-            tableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)scheduleBindingSource).BeginInit();
+            tlpTimetable.SuspendLayout();
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
+            tabTrainees.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
+            tabControl.SuspendLayout();
             SuspendLayout();
             // 
             // pnAction
@@ -138,67 +140,32 @@
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // dgvRead
-            // 
-            dgvRead.AutoGenerateColumns = false;
-            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, startDateDataGridViewTextBoxColumn, endDateDataGridViewTextBoxColumn, maxStudentsDataGridViewTextBoxColumn, traineesDataGridViewTextBoxColumn, totalStudentsDataGridViewTextBoxColumn });
-            dgvRead.DataSource = classBindingSource;
-            dgvRead.Dock = DockStyle.Fill;
-            dgvRead.Location = new Point(2, 2);
-            dgvRead.Margin = new Padding(2);
-            dgvRead.Name = "dgvRead";
-            dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(909, 186);
-            dgvRead.TabIndex = 0;
-            dgvRead.CellDoubleClick += dgvRead_CellDoubleClick;
-            // 
             // classBindingSource
             // 
             classBindingSource.DataSource = typeof(Domain.Entities.Class);
             // 
-            // tabTrainees
+            // scheduleBindingSource
             // 
-            tabTrainees.Controls.Add(dgvRead);
-            tabTrainees.Location = new Point(4, 24);
-            tabTrainees.Margin = new Padding(2);
-            tabTrainees.Name = "tabTrainees";
-            tabTrainees.Padding = new Padding(2);
-            tabTrainees.Size = new Size(913, 190);
-            tabTrainees.TabIndex = 0;
-            tabTrainees.Text = "Danh sách";
-            tabTrainees.UseVisualStyleBackColor = true;
+            scheduleBindingSource.DataSource = typeof(Domain.Entities.Schedule);
             // 
-            // tabControl
+            // tlpTimetable
             // 
-            tabControl.Controls.Add(tabTrainees);
-            tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(2, 224);
-            tabControl.Margin = new Padding(2);
-            tabControl.Name = "tabControl";
-            tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(921, 218);
-            tabControl.TabIndex = 1;
-            // 
-            // tableLayoutPanel
-            // 
-            tableLayoutPanel.ColumnCount = 1;
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.Controls.Add(pnInformation, 0, 0);
-            tableLayoutPanel.Controls.Add(tabControl, 0, 1);
-            tableLayoutPanel.Controls.Add(pnAction, 0, 2);
-            tableLayoutPanel.Dock = DockStyle.Fill;
-            tableLayoutPanel.Location = new Point(0, 0);
-            tableLayoutPanel.Margin = new Padding(2);
-            tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.RowCount = 3;
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
-            tableLayoutPanel.Size = new Size(925, 469);
-            tableLayoutPanel.TabIndex = 2;
+            tlpTimetable.ColumnCount = 1;
+            tlpTimetable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlpTimetable.Controls.Add(pnInformation, 0, 0);
+            tlpTimetable.Controls.Add(tabControl, 0, 1);
+            tlpTimetable.Controls.Add(pnAction, 0, 2);
+            tlpTimetable.Dock = DockStyle.Fill;
+            tlpTimetable.Location = new Point(0, 0);
+            tlpTimetable.Margin = new Padding(2);
+            tlpTimetable.Name = "tlpTimetable";
+            tlpTimetable.RowCount = 3;
+            tlpTimetable.RowStyles.Add(new RowStyle(SizeType.Percent, 54.2792778F));
+            tlpTimetable.RowStyles.Add(new RowStyle(SizeType.Percent, 45.7207222F));
+            tlpTimetable.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            tlpTimetable.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
+            tlpTimetable.Size = new Size(925, 469);
+            tlpTimetable.TabIndex = 2;
             // 
             // pnInformation
             // 
@@ -207,7 +174,7 @@
             pnInformation.Location = new Point(2, 2);
             pnInformation.Margin = new Padding(2);
             pnInformation.Name = "pnInformation";
-            pnInformation.Size = new Size(921, 218);
+            pnInformation.Size = new Size(921, 237);
             pnInformation.TabIndex = 0;
             // 
             // gbDetail
@@ -229,7 +196,7 @@
             gbDetail.Margin = new Padding(2);
             gbDetail.Name = "gbDetail";
             gbDetail.Padding = new Padding(2);
-            gbDetail.Size = new Size(921, 218);
+            gbDetail.Size = new Size(921, 237);
             gbDetail.TabIndex = 0;
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin lớp học";
@@ -354,42 +321,33 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(61, 4);
             // 
-            // idDataGridViewTextBoxColumn
+            // tabTrainees
             // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Mã lớp";
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            tabTrainees.Controls.Add(dgvRead);
+            tabTrainees.Location = new Point(4, 24);
+            tabTrainees.Margin = new Padding(2);
+            tabTrainees.Name = "tabTrainees";
+            tabTrainees.Padding = new Padding(2);
+            tabTrainees.Size = new Size(913, 171);
+            tabTrainees.TabIndex = 0;
+            tabTrainees.Text = "Danh sách";
+            tabTrainees.UseVisualStyleBackColor = true;
             // 
-            // nameDataGridViewTextBoxColumn
+            // dgvRead
             // 
-            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn.HeaderText = "Tên lớp";
-            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // startDateDataGridViewTextBoxColumn
-            // 
-            startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
-            startDateDataGridViewTextBoxColumn.HeaderText = "Ngày khai giảng";
-            startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
-            // 
-            // endDateDataGridViewTextBoxColumn
-            // 
-            endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
-            endDateDataGridViewTextBoxColumn.HeaderText = "Ngày tổng kết";
-            endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
-            // 
-            // maxStudentsDataGridViewTextBoxColumn
-            // 
-            maxStudentsDataGridViewTextBoxColumn.DataPropertyName = "MaxStudents";
-            maxStudentsDataGridViewTextBoxColumn.HeaderText = "Học viên tối đa";
-            maxStudentsDataGridViewTextBoxColumn.Name = "maxStudentsDataGridViewTextBoxColumn";
-            // 
-            // traineesDataGridViewTextBoxColumn
-            // 
-            traineesDataGridViewTextBoxColumn.DataPropertyName = "Trainees";
-            traineesDataGridViewTextBoxColumn.HeaderText = "Trainees";
-            traineesDataGridViewTextBoxColumn.Name = "traineesDataGridViewTextBoxColumn";
-            traineesDataGridViewTextBoxColumn.Visible = false;
+            dgvRead.AutoGenerateColumns = false;
+            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, startDateDataGridViewTextBoxColumn, endDateDataGridViewTextBoxColumn, maxStudentsDataGridViewTextBoxColumn, traineesDataGridViewTextBoxColumn, totalStudentsDataGridViewTextBoxColumn });
+            dgvRead.DataSource = classBindingSource;
+            dgvRead.Dock = DockStyle.Fill;
+            dgvRead.Location = new Point(2, 2);
+            dgvRead.Margin = new Padding(2);
+            dgvRead.Name = "dgvRead";
+            dgvRead.RowHeadersWidth = 62;
+            dgvRead.Size = new Size(909, 167);
+            dgvRead.TabIndex = 0;
+            dgvRead.CellDoubleClick += dgvRead_CellDoubleClick;
             // 
             // totalStudentsDataGridViewTextBoxColumn
             // 
@@ -398,24 +356,73 @@
             totalStudentsDataGridViewTextBoxColumn.Name = "totalStudentsDataGridViewTextBoxColumn";
             totalStudentsDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // traineesDataGridViewTextBoxColumn
+            // 
+            traineesDataGridViewTextBoxColumn.DataPropertyName = "Trainees";
+            traineesDataGridViewTextBoxColumn.HeaderText = "Trainees";
+            traineesDataGridViewTextBoxColumn.Name = "traineesDataGridViewTextBoxColumn";
+            traineesDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // maxStudentsDataGridViewTextBoxColumn
+            // 
+            maxStudentsDataGridViewTextBoxColumn.DataPropertyName = "MaxStudents";
+            maxStudentsDataGridViewTextBoxColumn.HeaderText = "Học viên tối đa";
+            maxStudentsDataGridViewTextBoxColumn.Name = "maxStudentsDataGridViewTextBoxColumn";
+            // 
+            // endDateDataGridViewTextBoxColumn
+            // 
+            endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
+            endDateDataGridViewTextBoxColumn.HeaderText = "Ngày tổng kết";
+            endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
+            // 
+            // startDateDataGridViewTextBoxColumn
+            // 
+            startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
+            startDateDataGridViewTextBoxColumn.HeaderText = "Ngày khai giảng";
+            startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Tên lớp";
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "Mã lớp";
+            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(tabTrainees);
+            tabControl.Dock = DockStyle.Fill;
+            tabControl.Location = new Point(2, 243);
+            tabControl.Margin = new Padding(2);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(921, 199);
+            tabControl.TabIndex = 1;
+            // 
             // ucClass
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(tableLayoutPanel);
+            Controls.Add(tlpTimetable);
             Name = "ucClass";
             Size = new Size(925, 469);
             Load += ucClass_Load;
             pnAction.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
             ((System.ComponentModel.ISupportInitialize)classBindingSource).EndInit();
-            tabTrainees.ResumeLayout(false);
-            tabControl.ResumeLayout(false);
-            tableLayoutPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)scheduleBindingSource).EndInit();
+            tlpTimetable.ResumeLayout(false);
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
             gbDetail.PerformLayout();
+            tabTrainees.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
+            tabControl.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -457,14 +464,11 @@
         private Label lblFullName;
         private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
         private ErrorProvider errorProvider1;
-        private TableLayoutPanel tableLayoutPanel;
+        private TableLayoutPanel tlpTimetable;
         private Panel pnInformation;
         private GroupBox gbDetail;
         private TextBox txtId;
         private PictureBox pbAvatar;
-        private TabControl tabControl;
-        private TabPage tabTrainees;
-        private DataGridView dgvRead;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
@@ -476,6 +480,10 @@
         private BindingSource classBindingSource;
         private TextBox txtMaxStudents;
         private Label label1;
+        private BindingSource scheduleBindingSource;
+        private TabControl tabControl;
+        private TabPage tabTrainees;
+        private DataGridView dgvRead;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;

@@ -32,7 +32,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             btnTrainee = new Button();
             btnClass = new Button();
-            btnGrades = new Button();
+            btnTimetable = new Button();
             lblTitle = new Label();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -49,7 +49,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0000076F));
             tableLayoutPanel1.Controls.Add(btnTrainee, 1, 1);
             tableLayoutPanel1.Controls.Add(btnClass, 3, 1);
-            tableLayoutPanel1.Controls.Add(btnGrades, 5, 1);
+            tableLayoutPanel1.Controls.Add(btnTimetable, 5, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 124);
             tableLayoutPanel1.Margin = new Padding(2);
@@ -99,23 +99,24 @@
             btnClass.MouseLeave += btnClass_MouseLeave;
             btnClass.MouseHover += btnClass_MouseHover;
             // 
-            // btnGrades
+            // btnTimetable
             // 
-            btnGrades.BackColor = Color.OrangeRed;
-            btnGrades.Dock = DockStyle.Fill;
-            btnGrades.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            btnGrades.Image = (Image)resources.GetObject("btnGrades.Image");
-            btnGrades.Location = new Point(589, 62);
-            btnGrades.Margin = new Padding(2);
-            btnGrades.Name = "btnGrades";
-            btnGrades.Size = new Size(206, 86);
-            btnGrades.TabIndex = 6;
-            btnGrades.Text = "Điểm số";
-            btnGrades.TextAlign = ContentAlignment.BottomCenter;
-            btnGrades.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnGrades.UseVisualStyleBackColor = false;
-            btnGrades.MouseLeave += btnGrades_MouseLeave;
-            btnGrades.MouseHover += btnGrades_MouseHover;
+            btnTimetable.BackColor = Color.OrangeRed;
+            btnTimetable.Dock = DockStyle.Fill;
+            btnTimetable.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnTimetable.Image = (Image)resources.GetObject("btnTimetable.Image");
+            btnTimetable.Location = new Point(589, 62);
+            btnTimetable.Margin = new Padding(2);
+            btnTimetable.Name = "btnTimetable";
+            btnTimetable.Size = new Size(206, 86);
+            btnTimetable.TabIndex = 6;
+            btnTimetable.Text = "Thời khóa biểu";
+            btnTimetable.TextAlign = ContentAlignment.BottomCenter;
+            btnTimetable.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnTimetable.UseVisualStyleBackColor = false;
+            btnTimetable.Click += btnTimetable_Click;
+            btnTimetable.MouseLeave += btnTimetable_MouseLeave;
+            btnTimetable.MouseHover += btnTimetable_MouseHover;
             // 
             // lblTitle
             // 
@@ -151,7 +152,7 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnTrainee;
         private Button btnClass;
-        private Button btnGrades;
+        private Button btnTimetable;
         private Label lblTitle;
     }
 }
