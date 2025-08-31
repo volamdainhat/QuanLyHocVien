@@ -1,11 +1,13 @@
 ﻿using ClosedXML;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -70,10 +72,17 @@ namespace StudentManagementSystem.UI.UserControls
             dbContext.Database.EnsureCreated();
             dbContext.Trainees.Load();
             dbContext.Classes.Load();
+            dbContext.Subjects.Load();
+            dbContext.Grades.Load();
 
             traineeBindingSource.DataSource = dbContext?.Trainees.Local.ToBindingList();
             classBindingSource.DataSource = dbContext?.Classes.Local.ToBindingList();
+            subjectBindingSource.DataSource = dbContext?.Subjects.Local.ToBindingList();
+
+            var grades = dbContext?.Grades.Local.ToBindingList();
+            gradesBindingSource.DataSource = dbContext?.Grades.Local.ToBindingList();
             LoadComboBoxRole();
+            LoadComboBoxGradeType();
         }
 
         private void LoadComboBoxRole()
@@ -82,9 +91,17 @@ namespace StudentManagementSystem.UI.UserControls
             cbRole.SelectedIndex = 0;
         }
 
+        private void LoadComboBoxGradeType()
+        {
+            cbType.Items.Add("Kiểm tra 15 phút");
+            cbType.Items.Add("Kiểm tra 1 tiết");
+            cbType.Items.Add("Thi kết thúc môn");
+            cbType.SelectedIndex = 0;
+        }
+
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            Reload();
+            ReloadTrainee();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -92,10 +109,16 @@ namespace StudentManagementSystem.UI.UserControls
             ClearForm();
         }
 
-        private void Reload()
+        private void ReloadTrainee()
         {
             this.dgvRead.Refresh();
             this.dgvRead.Sort(dgvRead.Columns[0], ListSortDirection.Ascending);
+        }
+
+        private void ReloadGrade()
+        {
+            this.dgvGrades.Refresh();
+            this.dgvGrades.Sort(dgvGrades.Columns[0], ListSortDirection.Ascending);
         }
 
         private void SaveOrUpdate()
@@ -103,7 +126,7 @@ namespace StudentManagementSystem.UI.UserControls
             var item = ReadFromForm();
             Save(item);
             UploadAvatar();
-            Reload();
+            ReloadTrainee();
         }
 
         private void UploadAvatar()
@@ -196,12 +219,32 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            Delete();
+            // Lấy TabPage hiện tại
+            TabPage selectedTab = tabControl.SelectedTab;
+
+            // Tìm DataGridView trong TabPage này
+            DataGridView dgv = selectedTab.Controls.OfType<DataGridView>().FirstOrDefault();
+
+            if (dgv == null || dgv.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn ít nhất một bản ghi để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (dgv.Name == "dgvRead")
+            {
+                DeleteTrainee();
+            }
+
+            if (dgv.Name == "dgvGrades")
+            {
+                DeleteGrade();
+            }
         }
 
-        private void Delete()
+        private void DeleteTrainee()
         {
-            var ids = GetSelectedIds();
+            var ids = GetSelectedTraineeIds();
             if (ids == null || ids.Count == 0) return;
 
             var confirm = MessageBox.Show(
@@ -224,14 +267,27 @@ namespace StudentManagementSystem.UI.UserControls
                 MessageBox.Show("Không tìm thấy bản ghi để xóa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            Reload();
+            ReloadTrainee();
         }
 
-        private List<int> GetSelectedIds()
+        private void DeleteGrade()
+        {
+
+        }
+
+        private List<int> GetSelectedTraineeIds()
         {
             return [.. dgvRead.SelectedRows
                 .Cast<DataGridViewRow>()
                 .Select(row => (row.DataBoundItem as Trainee)?.Id ?? 0)
+                .Where(id => id > 0)];
+        }
+
+        private List<int> GetSelectedGradeIds()
+        {
+            return [.. dgvGrades.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Select(row => (row.DataBoundItem as Grades)?.Id ?? 0)
                 .Where(id => id > 0)];
         }
 
@@ -663,7 +719,27 @@ namespace StudentManagementSystem.UI.UserControls
             return DateTime.TryParse(cell.GetString(), out DateTime value) ? value : null;
         }
 
-        //--------------------------
+        private void btnSaveGrade_Click(object sender, EventArgs e)
+        {
+            Trainee entity = ReadFromForm();
 
+            if (entity.Id == 0)
+            {
+                MessageBox.Show("Vui lòng chọn học viên.");
+            }    
+            else
+            {
+                Grades grades = new Grades
+                {
+                    TraineeId = entity.Id,
+                    SubjectId = (cbSubject.SelectedItem as Subject)?.Id ?? 0,
+                    SubjectName = (cbSubject.SelectedItem as Subject)?.Name ?? "",
+                    Type = cbType.SelectedItem?.ToString() ?? "",
+                    Grade = (float)numGrade.Value
+                };
+                dbContext?.Grades.Add(grades);
+                dbContext?.SaveChanges();
+            }
+        }
     }
 }

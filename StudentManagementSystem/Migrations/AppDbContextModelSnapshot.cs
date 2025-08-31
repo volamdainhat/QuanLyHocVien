@@ -206,7 +206,7 @@ namespace StudentManagementSystem.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Day")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Period")
@@ -221,6 +221,10 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Schedules");
                 });
@@ -317,6 +321,25 @@ namespace StudentManagementSystem.Migrations
                     b.ToTable("UserInfos");
                 });
 
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Schedule", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
+                        .WithMany("Schedules")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Subject", "Subject")
+                        .WithMany("Schedules")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
                 {
                     b.HasOne("StudentManagementSystem.Domain.Entities.Class", null)
@@ -328,7 +351,14 @@ namespace StudentManagementSystem.Migrations
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Class", b =>
                 {
+                    b.Navigation("Schedules");
+
                     b.Navigation("Trainees");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Subject", b =>
+                {
+                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }

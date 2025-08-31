@@ -33,6 +33,14 @@ namespace StudentManagementSystem.UI.UserControls
             components = new Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
+            gbGrades = new GroupBox();
+            numGrade = new NumericUpDown();
+            lblType = new Label();
+            lblGrade = new Label();
+            cbType = new ComboBox();
+            lblSubject = new Label();
+            cbSubject = new ComboBox();
+            subjectBindingSource = new BindingSource(components);
             numAverageScore = new NumericUpDown();
             lblAverageScore = new Label();
             cbRole = new ComboBox();
@@ -85,9 +93,13 @@ namespace StudentManagementSystem.UI.UserControls
             tabGrades = new TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
-            lblSubject = new Label();
-            cbSubject = new ComboBox();
-            dataGridView1 = new DataGridView();
+            dgvGrades = new DataGridView();
+            idDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            traineeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            typeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            gradeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             gradesBindingSource = new BindingSource(components);
             pnAction = new Panel();
             btnImportfromExcel = new Button();
@@ -97,15 +109,12 @@ namespace StudentManagementSystem.UI.UserControls
             btnRefresh = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
             errorProvider1 = new ErrorProvider(components);
-            idDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            traineeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subjectIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subjectNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            typeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            gradeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subjectBindingSource = new BindingSource(components);
+            btnSaveGrade = new Button();
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
+            gbGrades.SuspendLayout();
+            ((ISupportInitialize)numGrade).BeginInit();
+            ((ISupportInitialize)subjectBindingSource).BeginInit();
             ((ISupportInitialize)numAverageScore).BeginInit();
             ((ISupportInitialize)classBindingSource).BeginInit();
             ((ISupportInitialize)pbAvatar).BeginInit();
@@ -116,12 +125,10 @@ namespace StudentManagementSystem.UI.UserControls
             ((ISupportInitialize)traineeBindingSource).BeginInit();
             tabGrades.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            panel1.SuspendLayout();
-            ((ISupportInitialize)dataGridView1).BeginInit();
+            ((ISupportInitialize)dgvGrades).BeginInit();
             ((ISupportInitialize)gradesBindingSource).BeginInit();
             pnAction.SuspendLayout();
             ((ISupportInitialize)errorProvider1).BeginInit();
-            ((ISupportInitialize)subjectBindingSource).BeginInit();
             SuspendLayout();
             // 
             // pnInformation
@@ -130,11 +137,12 @@ namespace StudentManagementSystem.UI.UserControls
             pnInformation.Dock = DockStyle.Fill;
             pnInformation.Location = new Point(3, 3);
             pnInformation.Name = "pnInformation";
-            pnInformation.Size = new Size(1274, 334);
+            pnInformation.Size = new Size(1306, 361);
             pnInformation.TabIndex = 0;
             // 
             // gbDetail
             // 
+            gbDetail.Controls.Add(gbGrades);
             gbDetail.Controls.Add(numAverageScore);
             gbDetail.Controls.Add(lblAverageScore);
             gbDetail.Controls.Add(cbRole);
@@ -166,10 +174,85 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.Dock = DockStyle.Fill;
             gbDetail.Location = new Point(0, 0);
             gbDetail.Name = "gbDetail";
-            gbDetail.Size = new Size(1274, 334);
+            gbDetail.Size = new Size(1306, 361);
             gbDetail.TabIndex = 0;
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
+            // 
+            // gbGrades
+            // 
+            gbGrades.Controls.Add(btnSaveGrade);
+            gbGrades.Controls.Add(numGrade);
+            gbGrades.Controls.Add(lblType);
+            gbGrades.Controls.Add(lblGrade);
+            gbGrades.Controls.Add(cbType);
+            gbGrades.Controls.Add(lblSubject);
+            gbGrades.Controls.Add(cbSubject);
+            gbGrades.Location = new Point(850, 172);
+            gbGrades.Name = "gbGrades";
+            gbGrades.Size = new Size(396, 186);
+            gbGrades.TabIndex = 32;
+            gbGrades.TabStop = false;
+            gbGrades.Text = "Cập nhật điểm môn học";
+            // 
+            // numGrade
+            // 
+            numGrade.DecimalPlaces = 2;
+            numGrade.Location = new Point(101, 108);
+            numGrade.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            numGrade.Name = "numGrade";
+            numGrade.Size = new Size(289, 31);
+            numGrade.TabIndex = 34;
+            // 
+            // lblType
+            // 
+            lblType.AutoSize = true;
+            lblType.Location = new Point(6, 73);
+            lblType.Name = "lblType";
+            lblType.Size = new Size(89, 25);
+            lblType.TabIndex = 2;
+            lblType.Text = "Loại điểm";
+            // 
+            // lblGrade
+            // 
+            lblGrade.AutoSize = true;
+            lblGrade.Location = new Point(6, 110);
+            lblGrade.Name = "lblGrade";
+            lblGrade.Size = new Size(54, 25);
+            lblGrade.TabIndex = 33;
+            lblGrade.Text = "Điểm";
+            // 
+            // cbType
+            // 
+            cbType.FormattingEnabled = true;
+            cbType.Location = new Point(101, 69);
+            cbType.Name = "cbType";
+            cbType.Size = new Size(289, 33);
+            cbType.TabIndex = 3;
+            // 
+            // lblSubject
+            // 
+            lblSubject.AutoSize = true;
+            lblSubject.Location = new Point(6, 34);
+            lblSubject.Name = "lblSubject";
+            lblSubject.Size = new Size(83, 25);
+            lblSubject.TabIndex = 0;
+            lblSubject.Text = "Môn học";
+            // 
+            // cbSubject
+            // 
+            cbSubject.DataSource = subjectBindingSource;
+            cbSubject.DisplayMember = "Name";
+            cbSubject.FormattingEnabled = true;
+            cbSubject.Location = new Point(101, 30);
+            cbSubject.Name = "cbSubject";
+            cbSubject.Size = new Size(289, 33);
+            cbSubject.TabIndex = 1;
+            cbSubject.ValueMember = "Id";
+            // 
+            // subjectBindingSource
+            // 
+            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
             // 
             // numAverageScore
             // 
@@ -457,7 +540,7 @@ namespace StudentManagementSystem.UI.UserControls
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel.Size = new Size(1280, 720);
+            tableLayoutPanel.Size = new Size(1312, 774);
             tableLayoutPanel.TabIndex = 1;
             // 
             // tabControl
@@ -465,10 +548,10 @@ namespace StudentManagementSystem.UI.UserControls
             tabControl.Controls.Add(tabTrainees);
             tabControl.Controls.Add(tabGrades);
             tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(3, 343);
+            tabControl.Location = new Point(3, 370);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1274, 334);
+            tabControl.Size = new Size(1306, 361);
             tabControl.TabIndex = 1;
             // 
             // tabTrainees
@@ -477,7 +560,7 @@ namespace StudentManagementSystem.UI.UserControls
             tabTrainees.Location = new Point(4, 34);
             tabTrainees.Name = "tabTrainees";
             tabTrainees.Padding = new Padding(3);
-            tabTrainees.Size = new Size(1266, 296);
+            tabTrainees.Size = new Size(1298, 323);
             tabTrainees.TabIndex = 0;
             tabTrainees.Text = "Danh sách";
             tabTrainees.UseVisualStyleBackColor = true;
@@ -494,7 +577,7 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.Location = new Point(3, 3);
             dgvRead.Name = "dgvRead";
             dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(1260, 290);
+            dgvRead.Size = new Size(1292, 317);
             dgvRead.TabIndex = 0;
             dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
@@ -640,7 +723,7 @@ namespace StudentManagementSystem.UI.UserControls
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
-            tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
+            tableLayoutPanel1.Controls.Add(dgvGrades, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(3, 3);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -652,46 +735,75 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // panel1
             // 
-            panel1.Controls.Add(lblSubject);
-            panel1.Controls.Add(cbSubject);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
             panel1.Size = new Size(1254, 52);
             panel1.TabIndex = 0;
             // 
-            // lblSubject
+            // dgvGrades
             // 
-            lblSubject.AutoSize = true;
-            lblSubject.Location = new Point(7, 13);
-            lblSubject.Name = "lblSubject";
-            lblSubject.Size = new Size(83, 25);
-            lblSubject.TabIndex = 0;
-            lblSubject.Text = "Môn học";
+            dgvGrades.AutoGenerateColumns = false;
+            dgvGrades.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvGrades.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn1, traineeIdDataGridViewTextBoxColumn, subjectIdDataGridViewTextBoxColumn, subjectNameDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, gradeDataGridViewTextBoxColumn });
+            dgvGrades.DataSource = gradesBindingSource;
+            dgvGrades.Dock = DockStyle.Fill;
+            dgvGrades.Location = new Point(3, 61);
+            dgvGrades.Name = "dgvGrades";
+            dgvGrades.RowHeadersWidth = 62;
+            dgvGrades.Size = new Size(1254, 226);
+            dgvGrades.TabIndex = 1;
             // 
-            // cbSubject
+            // idDataGridViewTextBoxColumn1
             // 
-            cbSubject.DataSource = subjectBindingSource;
-            cbSubject.DisplayMember = "Name";
-            cbSubject.FormattingEnabled = true;
-            cbSubject.Location = new Point(96, 10);
-            cbSubject.Name = "cbSubject";
-            cbSubject.Size = new Size(300, 33);
-            cbSubject.TabIndex = 1;
-            cbSubject.ValueMember = "Id";
+            idDataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn1.HeaderText = "Id";
+            idDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            idDataGridViewTextBoxColumn1.Name = "idDataGridViewTextBoxColumn1";
+            idDataGridViewTextBoxColumn1.Visible = false;
+            idDataGridViewTextBoxColumn1.Width = 150;
             // 
-            // dataGridView1
+            // traineeIdDataGridViewTextBoxColumn
             // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn1, traineeIdDataGridViewTextBoxColumn, subjectIdDataGridViewTextBoxColumn, subjectNameDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, gradeDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = gradesBindingSource;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 61);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1254, 226);
-            dataGridView1.TabIndex = 1;
+            traineeIdDataGridViewTextBoxColumn.DataPropertyName = "TraineeId";
+            traineeIdDataGridViewTextBoxColumn.HeaderText = "TraineeId";
+            traineeIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            traineeIdDataGridViewTextBoxColumn.Name = "traineeIdDataGridViewTextBoxColumn";
+            traineeIdDataGridViewTextBoxColumn.Visible = false;
+            traineeIdDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectIdDataGridViewTextBoxColumn
+            // 
+            subjectIdDataGridViewTextBoxColumn.DataPropertyName = "SubjectId";
+            subjectIdDataGridViewTextBoxColumn.HeaderText = "SubjectId";
+            subjectIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            subjectIdDataGridViewTextBoxColumn.Name = "subjectIdDataGridViewTextBoxColumn";
+            subjectIdDataGridViewTextBoxColumn.Visible = false;
+            subjectIdDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectNameDataGridViewTextBoxColumn
+            // 
+            subjectNameDataGridViewTextBoxColumn.DataPropertyName = "SubjectName";
+            subjectNameDataGridViewTextBoxColumn.HeaderText = "Môn học";
+            subjectNameDataGridViewTextBoxColumn.MinimumWidth = 8;
+            subjectNameDataGridViewTextBoxColumn.Name = "subjectNameDataGridViewTextBoxColumn";
+            subjectNameDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // typeDataGridViewTextBoxColumn
+            // 
+            typeDataGridViewTextBoxColumn.DataPropertyName = "Type";
+            typeDataGridViewTextBoxColumn.HeaderText = "Loại";
+            typeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
+            typeDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // gradeDataGridViewTextBoxColumn
+            // 
+            gradeDataGridViewTextBoxColumn.DataPropertyName = "Grade";
+            gradeDataGridViewTextBoxColumn.HeaderText = "Điểm";
+            gradeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            gradeDataGridViewTextBoxColumn.Name = "gradeDataGridViewTextBoxColumn";
+            gradeDataGridViewTextBoxColumn.Width = 150;
             // 
             // gradesBindingSource
             // 
@@ -705,15 +817,15 @@ namespace StudentManagementSystem.UI.UserControls
             pnAction.Controls.Add(btnAdd);
             pnAction.Controls.Add(btnRefresh);
             pnAction.Dock = DockStyle.Fill;
-            pnAction.Location = new Point(3, 683);
+            pnAction.Location = new Point(3, 737);
             pnAction.Name = "pnAction";
-            pnAction.Size = new Size(1274, 34);
+            pnAction.Size = new Size(1306, 34);
             pnAction.TabIndex = 2;
             // 
             // btnImportfromExcel
             // 
             btnImportfromExcel.Dock = DockStyle.Right;
-            btnImportfromExcel.Location = new Point(1083, 0);
+            btnImportfromExcel.Location = new Point(1115, 0);
             btnImportfromExcel.Name = "btnImportfromExcel";
             btnImportfromExcel.Size = new Size(191, 34);
             btnImportfromExcel.TabIndex = 6;
@@ -775,60 +887,15 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             errorProvider1.ContainerControl = this;
             // 
-            // idDataGridViewTextBoxColumn1
+            // btnSaveGrade
             // 
-            idDataGridViewTextBoxColumn1.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn1.HeaderText = "Id";
-            idDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            idDataGridViewTextBoxColumn1.Name = "idDataGridViewTextBoxColumn1";
-            idDataGridViewTextBoxColumn1.Visible = false;
-            idDataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // traineeIdDataGridViewTextBoxColumn
-            // 
-            traineeIdDataGridViewTextBoxColumn.DataPropertyName = "TraineeId";
-            traineeIdDataGridViewTextBoxColumn.HeaderText = "TraineeId";
-            traineeIdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            traineeIdDataGridViewTextBoxColumn.Name = "traineeIdDataGridViewTextBoxColumn";
-            traineeIdDataGridViewTextBoxColumn.Visible = false;
-            traineeIdDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // subjectIdDataGridViewTextBoxColumn
-            // 
-            subjectIdDataGridViewTextBoxColumn.DataPropertyName = "SubjectId";
-            subjectIdDataGridViewTextBoxColumn.HeaderText = "SubjectId";
-            subjectIdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            subjectIdDataGridViewTextBoxColumn.Name = "subjectIdDataGridViewTextBoxColumn";
-            subjectIdDataGridViewTextBoxColumn.Visible = false;
-            subjectIdDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // subjectNameDataGridViewTextBoxColumn
-            // 
-            subjectNameDataGridViewTextBoxColumn.DataPropertyName = "SubjectName";
-            subjectNameDataGridViewTextBoxColumn.HeaderText = "Môn học";
-            subjectNameDataGridViewTextBoxColumn.MinimumWidth = 8;
-            subjectNameDataGridViewTextBoxColumn.Name = "subjectNameDataGridViewTextBoxColumn";
-            subjectNameDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // typeDataGridViewTextBoxColumn
-            // 
-            typeDataGridViewTextBoxColumn.DataPropertyName = "Type";
-            typeDataGridViewTextBoxColumn.HeaderText = "Loại";
-            typeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
-            typeDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // gradeDataGridViewTextBoxColumn
-            // 
-            gradeDataGridViewTextBoxColumn.DataPropertyName = "Grade";
-            gradeDataGridViewTextBoxColumn.HeaderText = "Điểm";
-            gradeDataGridViewTextBoxColumn.MinimumWidth = 8;
-            gradeDataGridViewTextBoxColumn.Name = "gradeDataGridViewTextBoxColumn";
-            gradeDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // subjectBindingSource
-            // 
-            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
+            btnSaveGrade.Location = new Point(278, 145);
+            btnSaveGrade.Name = "btnSaveGrade";
+            btnSaveGrade.Size = new Size(112, 34);
+            btnSaveGrade.TabIndex = 35;
+            btnSaveGrade.Text = "Lưu điểm";
+            btnSaveGrade.UseVisualStyleBackColor = true;
+            btnSaveGrade.Click += btnSaveGrade_Click;
             // 
             // ucTrainee
             // 
@@ -836,11 +903,15 @@ namespace StudentManagementSystem.UI.UserControls
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel);
             Name = "ucTrainee";
-            Size = new Size(1280, 720);
+            Size = new Size(1312, 774);
             Load += ucTrainee_Load;
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
             gbDetail.PerformLayout();
+            gbGrades.ResumeLayout(false);
+            gbGrades.PerformLayout();
+            ((ISupportInitialize)numGrade).EndInit();
+            ((ISupportInitialize)subjectBindingSource).EndInit();
             ((ISupportInitialize)numAverageScore).EndInit();
             ((ISupportInitialize)classBindingSource).EndInit();
             ((ISupportInitialize)pbAvatar).EndInit();
@@ -851,13 +922,10 @@ namespace StudentManagementSystem.UI.UserControls
             ((ISupportInitialize)traineeBindingSource).EndInit();
             tabGrades.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((ISupportInitialize)dataGridView1).EndInit();
+            ((ISupportInitialize)dgvGrades).EndInit();
             ((ISupportInitialize)gradesBindingSource).EndInit();
             pnAction.ResumeLayout(false);
             ((ISupportInitialize)errorProvider1).EndInit();
-            ((ISupportInitialize)subjectBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -927,7 +995,7 @@ namespace StudentManagementSystem.UI.UserControls
         private ComboBox cbSubject;
         private Label lblSubject;
         private Panel panel1;
-        private DataGridView dataGridView1;
+        private DataGridView dgvGrades;
         private BindingSource gradesBindingSource;
         private BindingSource subjectBindingSource;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn1;
@@ -936,5 +1004,11 @@ namespace StudentManagementSystem.UI.UserControls
         private DataGridViewTextBoxColumn subjectNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn gradeDataGridViewTextBoxColumn;
+        private GroupBox gbGrades;
+        private NumericUpDown numGrade;
+        private Label lblType;
+        private Label lblGrade;
+        private ComboBox cbType;
+        private Button btnSaveGrade;
     }
 }
