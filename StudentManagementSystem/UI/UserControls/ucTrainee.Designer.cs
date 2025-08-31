@@ -82,6 +82,13 @@ namespace StudentManagementSystem.UI.UserControls
             motherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             avatarUrlDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             traineeBindingSource = new BindingSource(components);
+            tabGrades = new TabPage();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panel1 = new Panel();
+            lblSubject = new Label();
+            cbSubject = new ComboBox();
+            dataGridView1 = new DataGridView();
+            gradesBindingSource = new BindingSource(components);
             pnAction = new Panel();
             btnImportfromExcel = new Button();
             btnDelete = new Button();
@@ -90,6 +97,13 @@ namespace StudentManagementSystem.UI.UserControls
             btnRefresh = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
             errorProvider1 = new ErrorProvider(components);
+            idDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            traineeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            typeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            gradeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectBindingSource = new BindingSource(components);
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
             ((ISupportInitialize)numAverageScore).BeginInit();
@@ -100,18 +114,23 @@ namespace StudentManagementSystem.UI.UserControls
             tabTrainees.SuspendLayout();
             ((ISupportInitialize)dgvRead).BeginInit();
             ((ISupportInitialize)traineeBindingSource).BeginInit();
+            tabGrades.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            panel1.SuspendLayout();
+            ((ISupportInitialize)dataGridView1).BeginInit();
+            ((ISupportInitialize)gradesBindingSource).BeginInit();
             pnAction.SuspendLayout();
             ((ISupportInitialize)errorProvider1).BeginInit();
+            ((ISupportInitialize)subjectBindingSource).BeginInit();
             SuspendLayout();
             // 
             // pnInformation
             // 
             pnInformation.Controls.Add(gbDetail);
             pnInformation.Dock = DockStyle.Fill;
-            pnInformation.Location = new Point(2, 2);
-            pnInformation.Margin = new Padding(2);
+            pnInformation.Location = new Point(3, 3);
             pnInformation.Name = "pnInformation";
-            pnInformation.Size = new Size(892, 200);
+            pnInformation.Size = new Size(1274, 334);
             pnInformation.TabIndex = 0;
             // 
             // gbDetail
@@ -146,10 +165,8 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.Controls.Add(pbAvatar);
             gbDetail.Dock = DockStyle.Fill;
             gbDetail.Location = new Point(0, 0);
-            gbDetail.Margin = new Padding(2);
             gbDetail.Name = "gbDetail";
-            gbDetail.Padding = new Padding(2);
-            gbDetail.Size = new Size(892, 200);
+            gbDetail.Size = new Size(1274, 334);
             gbDetail.TabIndex = 0;
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
@@ -157,20 +174,18 @@ namespace StudentManagementSystem.UI.UserControls
             // numAverageScore
             // 
             numAverageScore.DecimalPlaces = 2;
-            numAverageScore.Location = new Point(345, 124);
-            numAverageScore.Margin = new Padding(2);
+            numAverageScore.Location = new Point(493, 207);
             numAverageScore.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numAverageScore.Name = "numAverageScore";
-            numAverageScore.Size = new Size(210, 21);
+            numAverageScore.Size = new Size(300, 31);
             numAverageScore.TabIndex = 31;
             // 
             // lblAverageScore
             // 
             lblAverageScore.AutoSize = true;
-            lblAverageScore.Location = new Point(244, 126);
-            lblAverageScore.Margin = new Padding(2, 0, 2, 0);
+            lblAverageScore.Location = new Point(349, 210);
             lblAverageScore.Name = "lblAverageScore";
-            lblAverageScore.Size = new Size(95, 15);
+            lblAverageScore.Size = new Size(142, 25);
             lblAverageScore.TabIndex = 30;
             lblAverageScore.Text = "Điểm trung bình";
             // 
@@ -178,10 +193,9 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
             cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(345, 101);
-            cbRole.Margin = new Padding(2);
+            cbRole.Location = new Point(493, 168);
             cbRole.Name = "cbRole";
-            cbRole.Size = new Size(211, 23);
+            cbRole.Size = new Size(300, 33);
             cbRole.TabIndex = 29;
             // 
             // cbClassId
@@ -190,10 +204,9 @@ namespace StudentManagementSystem.UI.UserControls
             cbClassId.DisplayMember = "Name";
             cbClassId.DropDownStyle = ComboBoxStyle.DropDownList;
             cbClassId.FormattingEnabled = true;
-            cbClassId.Location = new Point(113, 80);
-            cbClassId.Margin = new Padding(2);
+            cbClassId.Location = new Point(161, 133);
             cbClassId.Name = "cbClassId";
-            cbClassId.Size = new Size(129, 23);
+            cbClassId.Size = new Size(183, 33);
             cbClassId.TabIndex = 28;
             cbClassId.ValueMember = "Id";
             // 
@@ -204,30 +217,27 @@ namespace StudentManagementSystem.UI.UserControls
             // lblRanking
             // 
             lblRanking.AutoSize = true;
-            lblRanking.Location = new Point(113, 103);
-            lblRanking.Margin = new Padding(2, 0, 2, 0);
+            lblRanking.Location = new Point(161, 172);
             lblRanking.Name = "lblRanking";
-            lblRanking.Size = new Size(53, 15);
+            lblRanking.Size = new Size(76, 25);
             lblRanking.TabIndex = 27;
             lblRanking.Text = "Cấp bậc";
             // 
             // lblClassId
             // 
             lblClassId.AutoSize = true;
-            lblClassId.Location = new Point(113, 59);
-            lblClassId.Margin = new Padding(2, 0, 2, 0);
+            lblClassId.Location = new Point(161, 98);
             lblClassId.Name = "lblClassId";
-            lblClassId.Size = new Size(29, 15);
+            lblClassId.Size = new Size(42, 25);
             lblClassId.TabIndex = 26;
             lblClassId.Text = "Lớp";
             // 
             // lblId
             // 
             lblId.AutoSize = true;
-            lblId.Location = new Point(113, 14);
-            lblId.Margin = new Padding(2, 0, 2, 0);
+            lblId.Location = new Point(161, 23);
             lblId.Name = "lblId";
-            lblId.Size = new Size(71, 15);
+            lblId.Size = new Size(108, 25);
             lblId.TabIndex = 25;
             lblId.Text = "Mã học viên";
             // 
@@ -235,18 +245,16 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             dtpEnlistmentDate.CustomFormat = "dd/MM/yyyy";
             dtpEnlistmentDate.Format = DateTimePickerFormat.Custom;
-            dtpEnlistmentDate.Location = new Point(345, 79);
-            dtpEnlistmentDate.Margin = new Padding(2);
+            dtpEnlistmentDate.Location = new Point(493, 132);
             dtpEnlistmentDate.Name = "dtpEnlistmentDate";
-            dtpEnlistmentDate.Size = new Size(211, 21);
+            dtpEnlistmentDate.Size = new Size(300, 31);
             dtpEnlistmentDate.TabIndex = 24;
             // 
             // btnUpload
             // 
-            btnUpload.Location = new Point(18, 142);
-            btnUpload.Margin = new Padding(2);
+            btnUpload.Location = new Point(26, 237);
             btnUpload.Name = "btnUpload";
-            btnUpload.Size = new Size(78, 20);
+            btnUpload.Size = new Size(111, 33);
             btnUpload.TabIndex = 23;
             btnUpload.Text = "Cập nhật";
             btnUpload.UseVisualStyleBackColor = true;
@@ -254,12 +262,11 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // txtMotherPhoneNumber
             // 
-            txtMotherPhoneNumber.Location = new Point(662, 79);
-            txtMotherPhoneNumber.Margin = new Padding(2);
+            txtMotherPhoneNumber.Location = new Point(946, 132);
             txtMotherPhoneNumber.Mask = "0000 000 000";
             txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
             txtMotherPhoneNumber.ResetOnSpace = false;
-            txtMotherPhoneNumber.Size = new Size(211, 21);
+            txtMotherPhoneNumber.Size = new Size(300, 31);
             txtMotherPhoneNumber.TabIndex = 21;
             txtMotherPhoneNumber.Click += txtMotherPhoneNumber_Click;
             txtMotherPhoneNumber.Enter += txtMotherPhoneNumber_Enter;
@@ -269,39 +276,35 @@ namespace StudentManagementSystem.UI.UserControls
             // lblMotherPhoneNumber
             // 
             lblMotherPhoneNumber.AutoSize = true;
-            lblMotherPhoneNumber.Location = new Point(595, 80);
-            lblMotherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
+            lblMotherPhoneNumber.Location = new Point(850, 133);
             lblMotherPhoneNumber.Name = "lblMotherPhoneNumber";
-            lblMotherPhoneNumber.Size = new Size(52, 15);
+            lblMotherPhoneNumber.Size = new Size(74, 25);
             lblMotherPhoneNumber.TabIndex = 20;
             lblMotherPhoneNumber.Text = "SĐT mẹ";
             // 
             // txtMotherFullName
             // 
-            txtMotherFullName.Location = new Point(662, 56);
-            txtMotherFullName.Margin = new Padding(2);
+            txtMotherFullName.Location = new Point(946, 93);
             txtMotherFullName.Name = "txtMotherFullName";
-            txtMotherFullName.Size = new Size(211, 21);
+            txtMotherFullName.Size = new Size(300, 31);
             txtMotherFullName.TabIndex = 19;
             // 
             // lblMotherFullName
             // 
             lblMotherFullName.AutoSize = true;
-            lblMotherFullName.Location = new Point(595, 58);
-            lblMotherFullName.Margin = new Padding(2, 0, 2, 0);
+            lblMotherFullName.Location = new Point(850, 97);
             lblMotherFullName.Name = "lblMotherFullName";
-            lblMotherFullName.Size = new Size(49, 15);
+            lblMotherFullName.Size = new Size(68, 25);
             lblMotherFullName.TabIndex = 18;
             lblMotherFullName.Text = "Tên mẹ";
             // 
             // txtFatherPhoneNumber
             // 
-            txtFatherPhoneNumber.Location = new Point(662, 34);
-            txtFatherPhoneNumber.Margin = new Padding(2);
+            txtFatherPhoneNumber.Location = new Point(946, 57);
             txtFatherPhoneNumber.Mask = "0000 000 000";
             txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
             txtFatherPhoneNumber.ResetOnSpace = false;
-            txtFatherPhoneNumber.Size = new Size(211, 21);
+            txtFatherPhoneNumber.Size = new Size(300, 31);
             txtFatherPhoneNumber.TabIndex = 17;
             txtFatherPhoneNumber.Click += txtFatherPhoneNumber_Click;
             txtFatherPhoneNumber.Enter += txtFatherPhoneNumber_Enter;
@@ -311,57 +314,51 @@ namespace StudentManagementSystem.UI.UserControls
             // lblFatherPhoneNumber
             // 
             lblFatherPhoneNumber.AutoSize = true;
-            lblFatherPhoneNumber.Location = new Point(595, 36);
-            lblFatherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
+            lblFatherPhoneNumber.Location = new Point(850, 60);
             lblFatherPhoneNumber.Name = "lblFatherPhoneNumber";
-            lblFatherPhoneNumber.Size = new Size(54, 15);
+            lblFatherPhoneNumber.Size = new Size(76, 25);
             lblFatherPhoneNumber.TabIndex = 16;
             lblFatherPhoneNumber.Text = "SĐT cha";
             // 
             // txtFatherFullName
             // 
-            txtFatherFullName.Location = new Point(662, 12);
-            txtFatherFullName.Margin = new Padding(2);
+            txtFatherFullName.Location = new Point(946, 20);
             txtFatherFullName.Name = "txtFatherFullName";
-            txtFatherFullName.Size = new Size(211, 21);
+            txtFatherFullName.Size = new Size(300, 31);
             txtFatherFullName.TabIndex = 15;
             // 
             // lblFatherFullName
             // 
             lblFatherFullName.AutoSize = true;
-            lblFatherFullName.Location = new Point(595, 14);
-            lblFatherFullName.Margin = new Padding(2, 0, 2, 0);
+            lblFatherFullName.Location = new Point(850, 23);
             lblFatherFullName.Name = "lblFatherFullName";
-            lblFatherFullName.Size = new Size(51, 15);
+            lblFatherFullName.Size = new Size(70, 25);
             lblFatherFullName.TabIndex = 14;
             lblFatherFullName.Text = "Tên cha";
             // 
             // lblRole
             // 
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(289, 103);
-            lblRole.Margin = new Padding(2, 0, 2, 0);
+            lblRole.Location = new Point(413, 172);
             lblRole.Name = "lblRole";
-            lblRole.Size = new Size(52, 15);
+            lblRole.Size = new Size(76, 25);
             lblRole.TabIndex = 12;
             lblRole.Text = "Chức vụ";
             // 
             // lblEnlistmentDate
             // 
             lblEnlistmentDate.AutoSize = true;
-            lblEnlistmentDate.Location = new Point(279, 80);
-            lblEnlistmentDate.Margin = new Padding(2, 0, 2, 0);
+            lblEnlistmentDate.Location = new Point(399, 133);
             lblEnlistmentDate.Name = "lblEnlistmentDate";
-            lblEnlistmentDate.Size = new Size(61, 15);
+            lblEnlistmentDate.Size = new Size(91, 25);
             lblEnlistmentDate.TabIndex = 10;
             lblEnlistmentDate.Text = "Nhập ngũ";
             // 
             // txtRanking
             // 
-            txtRanking.Location = new Point(113, 123);
-            txtRanking.Margin = new Padding(2);
+            txtRanking.Location = new Point(161, 205);
             txtRanking.Name = "txtRanking";
-            txtRanking.Size = new Size(129, 21);
+            txtRanking.Size = new Size(183, 31);
             txtRanking.TabIndex = 9;
             txtRanking.TextAlign = HorizontalAlignment.Center;
             // 
@@ -369,30 +366,27 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             dtpDayOfBirth.CustomFormat = "dd/MM/yyyy";
             dtpDayOfBirth.Format = DateTimePickerFormat.Custom;
-            dtpDayOfBirth.Location = new Point(345, 56);
-            dtpDayOfBirth.Margin = new Padding(2);
+            dtpDayOfBirth.Location = new Point(493, 93);
             dtpDayOfBirth.Name = "dtpDayOfBirth";
-            dtpDayOfBirth.Size = new Size(211, 21);
+            dtpDayOfBirth.Size = new Size(300, 31);
             dtpDayOfBirth.TabIndex = 8;
             // 
             // lblDayOfBirth
             // 
             lblDayOfBirth.AutoSize = true;
-            lblDayOfBirth.Location = new Point(279, 58);
-            lblDayOfBirth.Margin = new Padding(2, 0, 2, 0);
+            lblDayOfBirth.Location = new Point(399, 97);
             lblDayOfBirth.Name = "lblDayOfBirth";
-            lblDayOfBirth.Size = new Size(62, 15);
+            lblDayOfBirth.Size = new Size(91, 25);
             lblDayOfBirth.TabIndex = 7;
             lblDayOfBirth.Text = "Ngày sinh";
             // 
             // txtPhoneNumber
             // 
-            txtPhoneNumber.Location = new Point(345, 34);
-            txtPhoneNumber.Margin = new Padding(2);
+            txtPhoneNumber.Location = new Point(493, 57);
             txtPhoneNumber.Mask = "0000 000 000";
             txtPhoneNumber.Name = "txtPhoneNumber";
             txtPhoneNumber.ResetOnSpace = false;
-            txtPhoneNumber.Size = new Size(211, 21);
+            txtPhoneNumber.Size = new Size(300, 31);
             txtPhoneNumber.TabIndex = 6;
             txtPhoneNumber.Click += txtPhoneNumber_Click;
             txtPhoneNumber.Enter += txtPhoneNumber_Enter;
@@ -402,38 +396,34 @@ namespace StudentManagementSystem.UI.UserControls
             // lblPhoneNumber
             // 
             lblPhoneNumber.AutoSize = true;
-            lblPhoneNumber.Location = new Point(310, 36);
-            lblPhoneNumber.Margin = new Padding(2, 0, 2, 0);
+            lblPhoneNumber.Location = new Point(443, 60);
             lblPhoneNumber.Name = "lblPhoneNumber";
-            lblPhoneNumber.Size = new Size(31, 15);
+            lblPhoneNumber.Size = new Size(44, 25);
             lblPhoneNumber.TabIndex = 5;
             lblPhoneNumber.Text = "SĐT";
             // 
             // txtFullName
             // 
-            txtFullName.Location = new Point(345, 12);
-            txtFullName.Margin = new Padding(2);
+            txtFullName.Location = new Point(493, 20);
             txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(211, 21);
+            txtFullName.Size = new Size(300, 31);
             txtFullName.TabIndex = 3;
             // 
             // lblFullName
             // 
             lblFullName.AutoSize = true;
-            lblFullName.Location = new Point(279, 14);
-            lblFullName.Margin = new Padding(2, 0, 2, 0);
+            lblFullName.Location = new Point(399, 23);
             lblFullName.Name = "lblFullName";
-            lblFullName.Size = new Size(58, 15);
+            lblFullName.Size = new Size(89, 25);
             lblFullName.TabIndex = 2;
             lblFullName.Text = "Họ và tên";
             // 
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(113, 34);
-            txtId.Margin = new Padding(2);
+            txtId.Location = new Point(161, 57);
             txtId.Name = "txtId";
-            txtId.Size = new Size(128, 21);
+            txtId.Size = new Size(181, 31);
             txtId.TabIndex = 1;
             txtId.Text = "0";
             txtId.TextAlign = HorizontalAlignment.Center;
@@ -442,10 +432,9 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             pbAvatar.BorderStyle = BorderStyle.Fixed3D;
             pbAvatar.Image = Properties.Resources.avatar;
-            pbAvatar.Location = new Point(4, 18);
-            pbAvatar.Margin = new Padding(2);
+            pbAvatar.Location = new Point(6, 30);
             pbAvatar.Name = "pbAvatar";
-            pbAvatar.Size = new Size(106, 122);
+            pbAvatar.Size = new Size(150, 201);
             pbAvatar.SizeMode = PictureBoxSizeMode.Zoom;
             pbAvatar.TabIndex = 0;
             pbAvatar.TabStop = false;
@@ -462,35 +451,33 @@ namespace StudentManagementSystem.UI.UserControls
             tableLayoutPanel.Controls.Add(pnAction, 0, 2);
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 0);
-            tableLayoutPanel.Margin = new Padding(2);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 3;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
-            tableLayoutPanel.Size = new Size(896, 432);
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel.Size = new Size(1280, 720);
             tableLayoutPanel.TabIndex = 1;
             // 
             // tabControl
             // 
             tabControl.Controls.Add(tabTrainees);
+            tabControl.Controls.Add(tabGrades);
             tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(2, 206);
-            tabControl.Margin = new Padding(2);
+            tabControl.Location = new Point(3, 343);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(892, 200);
+            tabControl.Size = new Size(1274, 334);
             tabControl.TabIndex = 1;
             // 
             // tabTrainees
             // 
             tabTrainees.Controls.Add(dgvRead);
-            tabTrainees.Location = new Point(4, 24);
-            tabTrainees.Margin = new Padding(2);
+            tabTrainees.Location = new Point(4, 34);
             tabTrainees.Name = "tabTrainees";
-            tabTrainees.Padding = new Padding(2);
-            tabTrainees.Size = new Size(884, 172);
+            tabTrainees.Padding = new Padding(3);
+            tabTrainees.Size = new Size(1266, 296);
             tabTrainees.TabIndex = 0;
             tabTrainees.Text = "Danh sách";
             tabTrainees.UseVisualStyleBackColor = true;
@@ -504,11 +491,10 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, ClassName, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
             dgvRead.DataSource = traineeBindingSource;
             dgvRead.Dock = DockStyle.Fill;
-            dgvRead.Location = new Point(2, 2);
-            dgvRead.Margin = new Padding(2);
+            dgvRead.Location = new Point(3, 3);
             dgvRead.Name = "dgvRead";
             dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(880, 168);
+            dgvRead.Size = new Size(1260, 290);
             dgvRead.TabIndex = 0;
             dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
@@ -518,7 +504,7 @@ namespace StudentManagementSystem.UI.UserControls
             idDataGridViewTextBoxColumn.HeaderText = "Mã học viên";
             idDataGridViewTextBoxColumn.MinimumWidth = 8;
             idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            idDataGridViewTextBoxColumn.Width = 88;
+            idDataGridViewTextBoxColumn.Width = 144;
             // 
             // fullNameDataGridViewTextBoxColumn
             // 
@@ -526,7 +512,7 @@ namespace StudentManagementSystem.UI.UserControls
             fullNameDataGridViewTextBoxColumn.HeaderText = "Họ và tên";
             fullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
-            fullNameDataGridViewTextBoxColumn.Width = 77;
+            fullNameDataGridViewTextBoxColumn.Width = 125;
             // 
             // classIdDataGridViewTextBoxColumn
             // 
@@ -543,7 +529,7 @@ namespace StudentManagementSystem.UI.UserControls
             ClassName.HeaderText = "Lớp";
             ClassName.MinimumWidth = 8;
             ClassName.Name = "ClassName";
-            ClassName.Width = 54;
+            ClassName.Width = 78;
             // 
             // phoneNumberDataGridViewTextBoxColumn
             // 
@@ -551,7 +537,7 @@ namespace StudentManagementSystem.UI.UserControls
             phoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT";
             phoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
-            phoneNumberDataGridViewTextBoxColumn.Width = 56;
+            phoneNumberDataGridViewTextBoxColumn.Width = 80;
             // 
             // dayOfBirthDataGridViewTextBoxColumn
             // 
@@ -559,7 +545,7 @@ namespace StudentManagementSystem.UI.UserControls
             dayOfBirthDataGridViewTextBoxColumn.HeaderText = "Ngày sinh";
             dayOfBirthDataGridViewTextBoxColumn.MinimumWidth = 8;
             dayOfBirthDataGridViewTextBoxColumn.Name = "dayOfBirthDataGridViewTextBoxColumn";
-            dayOfBirthDataGridViewTextBoxColumn.Width = 80;
+            dayOfBirthDataGridViewTextBoxColumn.Width = 127;
             // 
             // rankingDataGridViewTextBoxColumn
             // 
@@ -567,7 +553,7 @@ namespace StudentManagementSystem.UI.UserControls
             rankingDataGridViewTextBoxColumn.HeaderText = "Cấp bậc";
             rankingDataGridViewTextBoxColumn.MinimumWidth = 8;
             rankingDataGridViewTextBoxColumn.Name = "rankingDataGridViewTextBoxColumn";
-            rankingDataGridViewTextBoxColumn.Width = 72;
+            rankingDataGridViewTextBoxColumn.Width = 112;
             // 
             // enlistmentDateDataGridViewTextBoxColumn
             // 
@@ -575,7 +561,7 @@ namespace StudentManagementSystem.UI.UserControls
             enlistmentDateDataGridViewTextBoxColumn.HeaderText = "Nhập ngũ";
             enlistmentDateDataGridViewTextBoxColumn.MinimumWidth = 8;
             enlistmentDateDataGridViewTextBoxColumn.Name = "enlistmentDateDataGridViewTextBoxColumn";
-            enlistmentDateDataGridViewTextBoxColumn.Width = 79;
+            enlistmentDateDataGridViewTextBoxColumn.Width = 127;
             // 
             // averageScoreDataGridViewTextBoxColumn
             // 
@@ -583,7 +569,7 @@ namespace StudentManagementSystem.UI.UserControls
             averageScoreDataGridViewTextBoxColumn.HeaderText = "Điểm trung bình";
             averageScoreDataGridViewTextBoxColumn.MinimumWidth = 8;
             averageScoreDataGridViewTextBoxColumn.Name = "averageScoreDataGridViewTextBoxColumn";
-            averageScoreDataGridViewTextBoxColumn.Width = 88;
+            averageScoreDataGridViewTextBoxColumn.Width = 178;
             // 
             // roleDataGridViewTextBoxColumn
             // 
@@ -591,7 +577,7 @@ namespace StudentManagementSystem.UI.UserControls
             roleDataGridViewTextBoxColumn.HeaderText = "Chức vụ";
             roleDataGridViewTextBoxColumn.MinimumWidth = 8;
             roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
-            roleDataGridViewTextBoxColumn.Width = 71;
+            roleDataGridViewTextBoxColumn.Width = 112;
             // 
             // fatherFullNameDataGridViewTextBoxColumn
             // 
@@ -599,7 +585,7 @@ namespace StudentManagementSystem.UI.UserControls
             fatherFullNameDataGridViewTextBoxColumn.HeaderText = "Tên Cha";
             fatherFullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             fatherFullNameDataGridViewTextBoxColumn.Name = "fatherFullNameDataGridViewTextBoxColumn";
-            fatherFullNameDataGridViewTextBoxColumn.Width = 73;
+            fatherFullNameDataGridViewTextBoxColumn.Width = 109;
             // 
             // fatherPhoneNumberDataGridViewTextBoxColumn
             // 
@@ -607,7 +593,7 @@ namespace StudentManagementSystem.UI.UserControls
             fatherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT Cha";
             fatherPhoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             fatherPhoneNumberDataGridViewTextBoxColumn.Name = "fatherPhoneNumberDataGridViewTextBoxColumn";
-            fatherPhoneNumberDataGridViewTextBoxColumn.Width = 76;
+            fatherPhoneNumberDataGridViewTextBoxColumn.Width = 115;
             // 
             // motherFullNameDataGridViewTextBoxColumn
             // 
@@ -615,7 +601,7 @@ namespace StudentManagementSystem.UI.UserControls
             motherFullNameDataGridViewTextBoxColumn.HeaderText = "Tên Mẹ";
             motherFullNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             motherFullNameDataGridViewTextBoxColumn.Name = "motherFullNameDataGridViewTextBoxColumn";
-            motherFullNameDataGridViewTextBoxColumn.Width = 67;
+            motherFullNameDataGridViewTextBoxColumn.Width = 104;
             // 
             // motherPhoneNumberDataGridViewTextBoxColumn
             // 
@@ -623,7 +609,7 @@ namespace StudentManagementSystem.UI.UserControls
             motherPhoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT Mẹ";
             motherPhoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
             motherPhoneNumberDataGridViewTextBoxColumn.Name = "motherPhoneNumberDataGridViewTextBoxColumn";
-            motherPhoneNumberDataGridViewTextBoxColumn.Width = 70;
+            motherPhoneNumberDataGridViewTextBoxColumn.Width = 110;
             // 
             // avatarUrlDataGridViewTextBoxColumn
             // 
@@ -638,6 +624,79 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             traineeBindingSource.DataSource = typeof(Domain.Entities.Trainee);
             // 
+            // tabGrades
+            // 
+            tabGrades.Controls.Add(tableLayoutPanel1);
+            tabGrades.Location = new Point(4, 34);
+            tabGrades.Name = "tabGrades";
+            tabGrades.Padding = new Padding(3);
+            tabGrades.Size = new Size(1266, 296);
+            tabGrades.TabIndex = 1;
+            tabGrades.Text = "Điểm môn học";
+            tabGrades.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(3, 3);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(1260, 290);
+            tableLayoutPanel1.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(lblSubject);
+            panel1.Controls.Add(cbSubject);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1254, 52);
+            panel1.TabIndex = 0;
+            // 
+            // lblSubject
+            // 
+            lblSubject.AutoSize = true;
+            lblSubject.Location = new Point(7, 13);
+            lblSubject.Name = "lblSubject";
+            lblSubject.Size = new Size(83, 25);
+            lblSubject.TabIndex = 0;
+            lblSubject.Text = "Môn học";
+            // 
+            // cbSubject
+            // 
+            cbSubject.DataSource = subjectBindingSource;
+            cbSubject.DisplayMember = "Name";
+            cbSubject.FormattingEnabled = true;
+            cbSubject.Location = new Point(96, 10);
+            cbSubject.Name = "cbSubject";
+            cbSubject.Size = new Size(300, 33);
+            cbSubject.TabIndex = 1;
+            cbSubject.ValueMember = "Id";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn1, traineeIdDataGridViewTextBoxColumn, subjectIdDataGridViewTextBoxColumn, subjectNameDataGridViewTextBoxColumn, typeDataGridViewTextBoxColumn, gradeDataGridViewTextBoxColumn });
+            dataGridView1.DataSource = gradesBindingSource;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(3, 61);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(1254, 226);
+            dataGridView1.TabIndex = 1;
+            // 
+            // gradesBindingSource
+            // 
+            gradesBindingSource.DataSource = typeof(Domain.Entities.Grades);
+            // 
             // pnAction
             // 
             pnAction.Controls.Add(btnImportfromExcel);
@@ -646,19 +705,17 @@ namespace StudentManagementSystem.UI.UserControls
             pnAction.Controls.Add(btnAdd);
             pnAction.Controls.Add(btnRefresh);
             pnAction.Dock = DockStyle.Fill;
-            pnAction.Location = new Point(2, 410);
-            pnAction.Margin = new Padding(2);
+            pnAction.Location = new Point(3, 683);
             pnAction.Name = "pnAction";
-            pnAction.Size = new Size(892, 20);
+            pnAction.Size = new Size(1274, 34);
             pnAction.TabIndex = 2;
             // 
             // btnImportfromExcel
             // 
             btnImportfromExcel.Dock = DockStyle.Right;
-            btnImportfromExcel.Location = new Point(758, 0);
-            btnImportfromExcel.Margin = new Padding(2);
+            btnImportfromExcel.Location = new Point(1083, 0);
             btnImportfromExcel.Name = "btnImportfromExcel";
-            btnImportfromExcel.Size = new Size(134, 20);
+            btnImportfromExcel.Size = new Size(191, 34);
             btnImportfromExcel.TabIndex = 6;
             btnImportfromExcel.Text = "Thêm từ file Excel";
             btnImportfromExcel.UseVisualStyleBackColor = true;
@@ -667,10 +724,9 @@ namespace StudentManagementSystem.UI.UserControls
             // btnDelete
             // 
             btnDelete.Dock = DockStyle.Left;
-            btnDelete.Location = new Point(234, 0);
-            btnDelete.Margin = new Padding(2);
+            btnDelete.Location = new Point(333, 0);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(78, 20);
+            btnDelete.Size = new Size(111, 34);
             btnDelete.TabIndex = 5;
             btnDelete.Text = "Xóa";
             btnDelete.UseVisualStyleBackColor = true;
@@ -679,10 +735,9 @@ namespace StudentManagementSystem.UI.UserControls
             // btnSave
             // 
             btnSave.Dock = DockStyle.Left;
-            btnSave.Location = new Point(156, 0);
-            btnSave.Margin = new Padding(2);
+            btnSave.Location = new Point(222, 0);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(78, 20);
+            btnSave.Size = new Size(111, 34);
             btnSave.TabIndex = 4;
             btnSave.Text = "Lưu";
             btnSave.UseVisualStyleBackColor = true;
@@ -691,10 +746,9 @@ namespace StudentManagementSystem.UI.UserControls
             // btnAdd
             // 
             btnAdd.Dock = DockStyle.Left;
-            btnAdd.Location = new Point(78, 0);
-            btnAdd.Margin = new Padding(2);
+            btnAdd.Location = new Point(111, 0);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(78, 20);
+            btnAdd.Size = new Size(111, 34);
             btnAdd.TabIndex = 3;
             btnAdd.Text = "Thêm mới";
             btnAdd.UseVisualStyleBackColor = true;
@@ -704,9 +758,8 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             btnRefresh.Dock = DockStyle.Left;
             btnRefresh.Location = new Point(0, 0);
-            btnRefresh.Margin = new Padding(2);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(78, 20);
+            btnRefresh.Size = new Size(111, 34);
             btnRefresh.TabIndex = 2;
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
@@ -722,14 +775,68 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             errorProvider1.ContainerControl = this;
             // 
+            // idDataGridViewTextBoxColumn1
+            // 
+            idDataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn1.HeaderText = "Id";
+            idDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            idDataGridViewTextBoxColumn1.Name = "idDataGridViewTextBoxColumn1";
+            idDataGridViewTextBoxColumn1.Visible = false;
+            idDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // traineeIdDataGridViewTextBoxColumn
+            // 
+            traineeIdDataGridViewTextBoxColumn.DataPropertyName = "TraineeId";
+            traineeIdDataGridViewTextBoxColumn.HeaderText = "TraineeId";
+            traineeIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            traineeIdDataGridViewTextBoxColumn.Name = "traineeIdDataGridViewTextBoxColumn";
+            traineeIdDataGridViewTextBoxColumn.Visible = false;
+            traineeIdDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectIdDataGridViewTextBoxColumn
+            // 
+            subjectIdDataGridViewTextBoxColumn.DataPropertyName = "SubjectId";
+            subjectIdDataGridViewTextBoxColumn.HeaderText = "SubjectId";
+            subjectIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            subjectIdDataGridViewTextBoxColumn.Name = "subjectIdDataGridViewTextBoxColumn";
+            subjectIdDataGridViewTextBoxColumn.Visible = false;
+            subjectIdDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectNameDataGridViewTextBoxColumn
+            // 
+            subjectNameDataGridViewTextBoxColumn.DataPropertyName = "SubjectName";
+            subjectNameDataGridViewTextBoxColumn.HeaderText = "Môn học";
+            subjectNameDataGridViewTextBoxColumn.MinimumWidth = 8;
+            subjectNameDataGridViewTextBoxColumn.Name = "subjectNameDataGridViewTextBoxColumn";
+            subjectNameDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // typeDataGridViewTextBoxColumn
+            // 
+            typeDataGridViewTextBoxColumn.DataPropertyName = "Type";
+            typeDataGridViewTextBoxColumn.HeaderText = "Loại";
+            typeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
+            typeDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // gradeDataGridViewTextBoxColumn
+            // 
+            gradeDataGridViewTextBoxColumn.DataPropertyName = "Grade";
+            gradeDataGridViewTextBoxColumn.HeaderText = "Điểm";
+            gradeDataGridViewTextBoxColumn.MinimumWidth = 8;
+            gradeDataGridViewTextBoxColumn.Name = "gradeDataGridViewTextBoxColumn";
+            gradeDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectBindingSource
+            // 
+            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
+            // 
             // ucTrainee
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel);
-            Margin = new Padding(2);
             Name = "ucTrainee";
-            Size = new Size(896, 432);
+            Size = new Size(1280, 720);
             Load += ucTrainee_Load;
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
@@ -742,8 +849,15 @@ namespace StudentManagementSystem.UI.UserControls
             tabTrainees.ResumeLayout(false);
             ((ISupportInitialize)dgvRead).EndInit();
             ((ISupportInitialize)traineeBindingSource).EndInit();
+            tabGrades.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((ISupportInitialize)dataGridView1).EndInit();
+            ((ISupportInitialize)gradesBindingSource).EndInit();
             pnAction.ResumeLayout(false);
             ((ISupportInitialize)errorProvider1).EndInit();
+            ((ISupportInitialize)subjectBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -808,5 +922,19 @@ namespace StudentManagementSystem.UI.UserControls
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
         private Button btnImportfromExcel;
+        private TabPage tabGrades;
+        private TableLayoutPanel tableLayoutPanel1;
+        private ComboBox cbSubject;
+        private Label lblSubject;
+        private Panel panel1;
+        private DataGridView dataGridView1;
+        private BindingSource gradesBindingSource;
+        private BindingSource subjectBindingSource;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn traineeIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn subjectIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn subjectNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn gradeDataGridViewTextBoxColumn;
     }
 }
