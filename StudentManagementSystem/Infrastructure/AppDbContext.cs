@@ -18,10 +18,9 @@ namespace StudentManagementSystem.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var baseDir = AppContext.BaseDirectory; // = bin\Debug\net...
-            var dbPath = Path.Combine(baseDir, "StudentManagementSystem.db"); // tên file DB bạn muốn dùng ở output folder
+            var baseDir = AppContext.BaseDirectory;
+            var dbPath = Path.Combine(baseDir, "StudentManagementSystem.db");
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
-            //optionsBuilder.UseSqlite("Data Source=StudentManagementSystem.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +31,17 @@ namespace StudentManagementSystem.Infrastructure
             {
                 b.HasKey(x => x.Id);
                 b.Property(x => x.Id).ValueGeneratedOnAdd().HasAnnotation("Sqlite:Autoincrement", true);
+
+                // Relationships
+                b.HasMany(t => t.Grades)
+                    .WithOne(g => g.Trainee)
+                    .HasForeignKey(g => g.TraineeId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasMany(t => t.Misconducts)
+                    .WithOne(m => m.Trainee)
+                    .HasForeignKey(m => m.TraineeId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Class>(b =>

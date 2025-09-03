@@ -11,8 +11,8 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250831010927_Init")]
-    partial class Init
+    [Migration("20250903135809_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,8 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TraineeId");
+
                     b.ToTable("Grades");
                 });
 
@@ -162,6 +164,8 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
 
                     b.ToTable("Misconducts");
                 });
@@ -324,6 +328,28 @@ namespace StudentManagementSystem.Migrations
                     b.ToTable("UserInfos");
                 });
 
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Grades", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
+                        .WithMany("Grades")
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
+                        .WithMany("Misconducts")
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Schedule", b =>
                 {
                     b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
@@ -362,6 +388,13 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Subject", b =>
                 {
                     b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
+                {
+                    b.Navigation("Grades");
+
+                    b.Navigation("Misconducts");
                 });
 #pragma warning restore 612, 618
         }
