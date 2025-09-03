@@ -1,13 +1,10 @@
-﻿using ClosedXML;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Vml.Office;
+﻿using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -32,6 +29,19 @@ namespace StudentManagementSystem.UI.UserControls
             txtFatherPhoneNumber.LostFocus += TxtFatherPhoneNumber_LostFocus;
             txtMotherPhoneNumber.GotFocus += TxtMotherPhoneNumber_GotFocus;
             txtMotherPhoneNumber.LostFocus += TxtMotherPhoneNumber_LostFocus;
+
+            BindFirstRowToForm();
+
+            int entityId = int.TryParse(txtId.Text, out var id) ? id : 0;
+            if (entityId != 0 && entityId > 0)
+            {
+                LoadGradesFromTraineeId(entityId);
+            }
+
+            LoadComboBoxRole();
+            LoadComboBoxGradeType();
+
+            dgvGrades.AutoGenerateColumns = false;
         }
 
         private void TxtMotherPhoneNumber_LostFocus(object? sender, EventArgs e)
@@ -76,13 +86,18 @@ namespace StudentManagementSystem.UI.UserControls
             dbContext.Grades.Load();
 
             traineeBindingSource.DataSource = dbContext?.Trainees.Local.ToBindingList();
+            gradesBindingSource.DataSource = dbContext?.Grades.Local.ToBindingList();
             classBindingSource.DataSource = dbContext?.Classes.Local.ToBindingList();
             subjectBindingSource.DataSource = dbContext?.Subjects.Local.ToBindingList();
+        }
 
-            var grades = dbContext?.Grades.Local.ToBindingList();
-            gradesBindingSource.DataSource = dbContext?.Grades.Local.ToBindingList();
-            LoadComboBoxRole();
-            LoadComboBoxGradeType();
+        private void LoadGradesFromTraineeId(int traineeId)
+        {
+            if (traineeId != 0 && traineeId > 0)
+            {
+                var traineeGrades = dbContext?.Grades.Where(r => r.TraineeId == traineeId).ToList();
+                gradesBindingSource.DataSource = new BindingList<Grades>(traineeGrades);
+            }
         }
 
         private void LoadComboBoxRole()
@@ -113,12 +128,6 @@ namespace StudentManagementSystem.UI.UserControls
         {
             this.dgvRead.Refresh();
             this.dgvRead.Sort(dgvRead.Columns[0], ListSortDirection.Ascending);
-        }
-
-        private void ReloadGrade()
-        {
-            this.dgvGrades.Refresh();
-            this.dgvGrades.Sort(dgvGrades.Columns[0], ListSortDirection.Ascending);
         }
 
         private void SaveOrUpdate()
@@ -272,7 +281,31 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void DeleteGrade()
         {
+            var ids = GetSelectedGradeIds();
+            if (ids == null || ids.Count == 0) return;
 
+            var confirm = MessageBox.Show(
+                $"Bạn có chắc muốn xóa {ids.Count} bản ghi?",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+            if (confirm != DialogResult.Yes) return;
+
+            ids = [.. ids.Distinct()];
+            var toDelete = dbContext?.Grades.Where(t => ids.Contains(t.Id)).ToList();
+            if (toDelete != null)
+            {
+                dbContext?.Grades.RemoveRange(toDelete);
+                dbContext?.SaveChanges();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy bản ghi để xóa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            var trainee = ReadFromForm();
+            LoadGradesFromTraineeId(trainee.Id);
         }
 
         private List<int> GetSelectedTraineeIds()
@@ -296,6 +329,14 @@ namespace StudentManagementSystem.UI.UserControls
             if (dgvRead.SelectedRows.Count == 0) return;
 
             var item = dgvRead.SelectedRows[0].DataBoundItem!;
+            BindToForm(item);
+        }
+
+        private void BindFirstRowToForm()
+        {
+            if (dgvRead.RowCount == 0) return;
+
+            var item = dgvRead.Rows[0].DataBoundItem!;
             BindToForm(item);
         }
 
@@ -349,7 +390,12 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void dgvRead_SelectionChanged(object sender, EventArgs e)
         {
+            if (dgvRead.SelectedRows.Count == 0) return;
+
+            var item = (Trainee)dgvRead.SelectedRows[0].DataBoundItem!;
+
             BindSelectedRowToForm();
+            LoadGradesFromTraineeId(item.Id);
         }
 
         private void pbAvatar_DragEnter(object sender, DragEventArgs e)
@@ -726,7 +772,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (entity.Id == 0)
             {
                 MessageBox.Show("Vui lòng chọn học viên.");
-            }    
+            }
             else
             {
                 Grades grades = new Grades
@@ -739,6 +785,17 @@ namespace StudentManagementSystem.UI.UserControls
                 };
                 dbContext?.Grades.Add(grades);
                 dbContext?.SaveChanges();
+            }
+
+            // Refresh lại
+            LoadGradesFromTraineeId(entity.Id);
+        }
+
+        private void dgvRead_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                tabControl.SelectedTab = tabGrades;
             }
         }
     }
