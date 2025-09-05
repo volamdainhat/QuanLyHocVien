@@ -4,8 +4,10 @@
     {
         public int Id { get; set; }
         public int TraineeId { get; set; }
+        public Trainee Trainee { get; set; } = null!;
         public required string Type { get; set; }
         public DateTime Time { get; set; }
         public string? Description { get; set; }
+
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,23 +46,6 @@ namespace StudentManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Grades",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SubjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SubjectName = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Grade = table.Column<float>(type: "REAL", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Grades", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ImageGalleries",
                 columns: table => new
                 {
@@ -79,22 +62,6 @@ namespace StudentManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ImageGalleries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Misconducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false),
-                    Time = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Misconducts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,6 +171,61 @@ namespace StudentManagementSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Grades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubjectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubjectName = table.Column<string>(type: "TEXT", nullable: false),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    Grade = table.Column<float>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Grades_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Misconducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    Time = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Misconducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Misconducts_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_TraineeId",
+                table: "Grades",
+                column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Misconducts_TraineeId",
+                table: "Misconducts",
+                column: "TraineeId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_ClassId",
                 table: "Schedules",
@@ -242,10 +264,10 @@ namespace StudentManagementSystem.Migrations
                 name: "Schedules");
 
             migrationBuilder.DropTable(
-                name: "Trainees");
+                name: "UserInfos");
 
             migrationBuilder.DropTable(
-                name: "UserInfos");
+                name: "Trainees");
 
             migrationBuilder.DropTable(
                 name: "Subjects");

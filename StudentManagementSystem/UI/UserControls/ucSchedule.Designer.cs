@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             splitContainer1 = new SplitContainer();
+            cbSubject = new ComboBox();
+            subjectBindingSource = new BindingSource(components);
             button2 = new Button();
             button1 = new Button();
             btnRefresh = new Button();
@@ -47,7 +49,6 @@
             label3 = new Label();
             cbClassName = new ComboBox();
             label2 = new Label();
-            txtSubjectName = new TextBox();
             label1 = new Label();
             splitContainer2 = new SplitContainer();
             mcTimetable = new MonthCalendar();
@@ -66,6 +67,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
@@ -79,10 +81,8 @@
             groupBox1.Controls.Add(splitContainer1);
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(0, 0);
-            groupBox1.Margin = new Padding(4, 5, 4, 5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(4, 5, 4, 5);
-            groupBox1.Size = new Size(1417, 932);
+            groupBox1.Size = new Size(992, 559);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thời khóa biểu";
@@ -90,13 +90,13 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(4, 29);
-            splitContainer1.Margin = new Padding(4, 5, 4, 5);
+            splitContainer1.Location = new Point(3, 17);
             splitContainer1.Name = "splitContainer1";
             splitContainer1.Orientation = Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(cbSubject);
             splitContainer1.Panel1.Controls.Add(button2);
             splitContainer1.Panel1.Controls.Add(button1);
             splitContainer1.Panel1.Controls.Add(btnRefresh);
@@ -113,24 +113,38 @@
             splitContainer1.Panel1.Controls.Add(label3);
             splitContainer1.Panel1.Controls.Add(cbClassName);
             splitContainer1.Panel1.Controls.Add(label2);
-            splitContainer1.Panel1.Controls.Add(txtSubjectName);
             splitContainer1.Panel1.Controls.Add(label1);
             // 
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(splitContainer2);
-            splitContainer1.Size = new Size(1409, 898);
-            splitContainer1.SplitterDistance = 524;
-            splitContainer1.SplitterWidth = 7;
+            splitContainer1.Size = new Size(986, 539);
+            splitContainer1.SplitterDistance = 314;
             splitContainer1.TabIndex = 0;
+            // 
+            // cbSubject
+            // 
+            cbSubject.DataSource = subjectBindingSource;
+            cbSubject.DisplayMember = "Name";
+            cbSubject.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSubject.FormattingEnabled = true;
+            cbSubject.Location = new Point(125, 31);
+            cbSubject.Margin = new Padding(2);
+            cbSubject.Name = "cbSubject";
+            cbSubject.Size = new Size(216, 23);
+            cbSubject.TabIndex = 45;
+            cbSubject.ValueMember = "Id";
+            // 
+            // subjectBindingSource
+            // 
+            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
             // 
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(1254, 482);
-            button2.Margin = new Padding(4, 5, 4, 5);
+            button2.Location = new Point(878, 289);
             button2.Name = "button2";
-            button2.Size = new Size(126, 38);
+            button2.Size = new Size(88, 23);
             button2.TabIndex = 44;
             button2.Text = "Xóa lịch";
             button2.UseVisualStyleBackColor = true;
@@ -139,10 +153,9 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.Location = new Point(1119, 482);
-            button1.Margin = new Padding(4, 5, 4, 5);
+            button1.Location = new Point(783, 289);
             button1.Name = "button1";
-            button1.Size = new Size(127, 38);
+            button1.Size = new Size(89, 23);
             button1.TabIndex = 43;
             button1.Text = "Sửa lịch";
             button1.UseVisualStyleBackColor = true;
@@ -151,10 +164,9 @@
             // btnRefresh
             // 
             btnRefresh.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnRefresh.Location = new Point(886, 481);
-            btnRefresh.Margin = new Padding(4, 5, 4, 5);
+            btnRefresh.Location = new Point(620, 289);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(224, 38);
+            btnRefresh.Size = new Size(157, 23);
             btnRefresh.TabIndex = 42;
             btnRefresh.Text = "Làm mới danh sách";
             btnRefresh.UseVisualStyleBackColor = true;
@@ -163,66 +175,59 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(711, 322);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(498, 193);
             label7.Name = "label7";
-            label7.Size = new Size(122, 25);
+            label7.Size = new Size(80, 15);
             label7.TabIndex = 41;
             label7.Text = "Ngày kết thúc";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(711, 240);
-            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Location = new Point(498, 144);
             label6.Name = "label6";
-            label6.Size = new Size(120, 25);
+            label6.Size = new Size(79, 15);
             label6.TabIndex = 40;
             label6.Text = "Ngày bắt đầu";
             // 
             // dtpEndDate
             // 
-            dtpEndDate.Location = new Point(886, 322);
-            dtpEndDate.Margin = new Padding(4, 5, 4, 5);
+            dtpEndDate.Location = new Point(620, 193);
             dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.Size = new Size(284, 31);
+            dtpEndDate.Size = new Size(252, 21);
             dtpEndDate.TabIndex = 39;
             // 
             // dtpStartDate
             // 
-            dtpStartDate.Location = new Point(886, 235);
-            dtpStartDate.Margin = new Padding(4, 5, 4, 5);
+            dtpStartDate.Location = new Point(620, 141);
             dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.Size = new Size(284, 31);
+            dtpStartDate.Size = new Size(252, 21);
             dtpStartDate.TabIndex = 38;
             // 
             // chlbDaysofWeek
             // 
             chlbDaysofWeek.FormattingEnabled = true;
             chlbDaysofWeek.Items.AddRange(new object[] { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6" });
-            chlbDaysofWeek.Location = new Point(886, 53);
-            chlbDaysofWeek.Margin = new Padding(4, 5, 4, 5);
+            chlbDaysofWeek.Location = new Point(620, 32);
             chlbDaysofWeek.Name = "chlbDaysofWeek";
-            chlbDaysofWeek.Size = new Size(91, 116);
+            chlbDaysofWeek.Size = new Size(132, 68);
             chlbDaysofWeek.TabIndex = 37;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(711, 57);
-            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Location = new Point(498, 34);
             label5.Name = "label5";
-            label5.Size = new Size(177, 25);
+            label5.Size = new Size(116, 15);
             label5.TabIndex = 36;
             label5.Text = "Ngày học trong tuần";
             // 
             // btnAddSubject
             // 
             btnAddSubject.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnAddSubject.Location = new Point(710, 481);
-            btnAddSubject.Margin = new Padding(4, 5, 4, 5);
+            btnAddSubject.Location = new Point(497, 289);
             btnAddSubject.Name = "btnAddSubject";
-            btnAddSubject.Size = new Size(167, 38);
+            btnAddSubject.Size = new Size(117, 23);
             btnAddSubject.TabIndex = 34;
             btnAddSubject.Text = "Thêm môn học";
             btnAddSubject.UseVisualStyleBackColor = true;
@@ -230,19 +235,17 @@
             // 
             // txtRoom
             // 
-            txtRoom.Location = new Point(179, 230);
-            txtRoom.Margin = new Padding(4, 5, 4, 5);
+            txtRoom.Location = new Point(125, 138);
             txtRoom.Name = "txtRoom";
-            txtRoom.Size = new Size(53, 31);
+            txtRoom.Size = new Size(100, 21);
             txtRoom.TabIndex = 33;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(41, 235);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(29, 141);
             label4.Name = "label4";
-            label4.Size = new Size(126, 25);
+            label4.Size = new Size(83, 15);
             label4.TabIndex = 32;
             label4.Text = "Học tại phòng";
             // 
@@ -251,19 +254,19 @@
             cbPeriod.DisplayMember = "Name";
             cbPeriod.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPeriod.FormattingEnabled = true;
-            cbPeriod.Location = new Point(179, 327);
+            cbPeriod.Location = new Point(125, 196);
+            cbPeriod.Margin = new Padding(2);
             cbPeriod.Name = "cbPeriod";
-            cbPeriod.Size = new Size(141, 33);
+            cbPeriod.Size = new Size(100, 23);
             cbPeriod.TabIndex = 31;
             cbPeriod.ValueMember = "Id";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(41, 332);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(29, 199);
             label3.Name = "label3";
-            label3.Size = new Size(81, 25);
+            label3.Size = new Size(55, 15);
             label3.TabIndex = 30;
             label3.Text = "Buổi học";
             // 
@@ -272,37 +275,28 @@
             cbClassName.DisplayMember = "Name";
             cbClassName.DropDownStyle = ComboBoxStyle.DropDownList;
             cbClassName.FormattingEnabled = true;
-            cbClassName.Location = new Point(179, 135);
+            cbClassName.Location = new Point(125, 81);
+            cbClassName.Margin = new Padding(2);
             cbClassName.Name = "cbClassName";
-            cbClassName.Size = new Size(141, 33);
+            cbClassName.Size = new Size(216, 23);
             cbClassName.TabIndex = 29;
             cbClassName.ValueMember = "Id";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(41, 148);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(29, 89);
             label2.Name = "label2";
-            label2.Size = new Size(42, 25);
+            label2.Size = new Size(29, 15);
             label2.TabIndex = 2;
             label2.Text = "Lớp";
-            // 
-            // txtSubjectName
-            // 
-            txtSubjectName.Location = new Point(179, 57);
-            txtSubjectName.Margin = new Padding(4, 5, 4, 5);
-            txtSubjectName.Name = "txtSubjectName";
-            txtSubjectName.Size = new Size(141, 31);
-            txtSubjectName.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(41, 62);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(29, 37);
             label1.Name = "label1";
-            label1.Size = new Size(114, 25);
+            label1.Size = new Size(79, 15);
             label1.TabIndex = 0;
             label1.Text = "Tên môn học";
             // 
@@ -310,7 +304,6 @@
             // 
             splitContainer2.Dock = DockStyle.Fill;
             splitContainer2.Location = new Point(0, 0);
-            splitContainer2.Margin = new Padding(4, 5, 4, 5);
             splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -321,9 +314,8 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(dgvRead);
-            splitContainer2.Size = new Size(1409, 367);
-            splitContainer2.SplitterDistance = 668;
-            splitContainer2.SplitterWidth = 6;
+            splitContainer2.Size = new Size(986, 221);
+            splitContainer2.SplitterDistance = 467;
             splitContainer2.TabIndex = 0;
             // 
             // mcTimetable
@@ -331,7 +323,6 @@
             mcTimetable.CalendarDimensions = new Size(2, 1);
             mcTimetable.Dock = DockStyle.Fill;
             mcTimetable.Location = new Point(0, 0);
-            mcTimetable.Margin = new Padding(13, 15, 13, 15);
             mcTimetable.Name = "mcTimetable";
             mcTimetable.TabIndex = 0;
             mcTimetable.DateChanged += mcTimetable_DateChanged;
@@ -345,10 +336,9 @@
             dgvRead.DataSource = scheduleBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(0, 0);
-            dgvRead.Margin = new Padding(4, 5, 4, 5);
             dgvRead.Name = "dgvRead";
             dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(735, 367);
+            dgvRead.Size = new Size(515, 221);
             dgvRead.TabIndex = 0;
             // 
             // idDataGridViewTextBoxColumn
@@ -414,18 +404,18 @@
             // 
             // ucSchedule
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "ucSchedule";
-            Size = new Size(1417, 932);
+            Size = new Size(992, 559);
             groupBox1.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).EndInit();
             splitContainer2.Panel1.ResumeLayout(false);
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
@@ -447,7 +437,6 @@
         private DataGridView dgvRead;
         private DataGridViewTextBoxColumn dayDataGridViewTextBoxColumn;
         private Label label2;
-        private TextBox txtSubjectName;
         private ComboBox cbPeriod;
         private Label label3;
         private ComboBox cbClassName;
@@ -470,5 +459,7 @@
         private DataGridViewTextBoxColumn subjectDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn roomDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn periodDataGridViewTextBoxColumn;
+        private ComboBox cbSubject;
+        private BindingSource subjectBindingSource;
     }
 }

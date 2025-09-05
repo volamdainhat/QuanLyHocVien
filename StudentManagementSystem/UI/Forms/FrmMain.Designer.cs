@@ -35,6 +35,7 @@ namespace StudentManagementSystem.Forms
             họcViênToolStripMenuItem = new ToolStripMenuItem();
             lớpHọcToolStripMenuItem = new ToolStripMenuItem();
             TkbToolStripMenuItem = new ToolStripMenuItem();
+            htchToolStripMenuItem = new ToolStripMenuItem();
             pnlMainContent = new SmoothPanel();
             menuStrip.SuspendLayout();
             SuspendLayout();
@@ -42,7 +43,7 @@ namespace StudentManagementSystem.Forms
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(4, 1, 0, 1);
@@ -77,6 +78,13 @@ namespace StudentManagementSystem.Forms
             TkbToolStripMenuItem.Size = new Size(114, 22);
             TkbToolStripMenuItem.Text = "3. Thời khóa biểu";
             TkbToolStripMenuItem.Click += TkbToolStripMenuItem_Click;
+            // 
+            // htchToolStripMenuItem
+            // 
+            htchToolStripMenuItem.Name = "htchToolStripMenuItem";
+            htchToolStripMenuItem.Size = new Size(128, 22);
+            htchToolStripMenuItem.Text = "4. Chấp hành kỉ luật";
+            htchToolStripMenuItem.Click += htchToolStripMenuItem_Click;
             // 
             // pnlMainContent
             // 
@@ -115,5 +123,6 @@ namespace StudentManagementSystem.Forms
         private ToolStripMenuItem TkbToolStripMenuItem;
         private SmoothPanel pnlMainContent;
         private ToolStripMenuItem trangChủToolStripMenuItem;
+        private ToolStripMenuItem htchToolStripMenuItem;
     }
 }

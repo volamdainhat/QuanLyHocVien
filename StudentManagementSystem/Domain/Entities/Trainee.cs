@@ -32,5 +32,9 @@
         public string? MotherPhoneNumber { get; set; }
         // Empty for now
         public string? AvatarUrl { get; set; }
+
+        // Relations
+        public ICollection<Grades> Grades { get; set; } = new List<Grades>();
+        public ICollection<Misconduct> Misconducts { get; set; } = new List<Misconduct>();
     }
 }

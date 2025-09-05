@@ -25,21 +25,26 @@ namespace StudentManagementSystem.Forms
 
         private void Home_NavigateRequested(string target)
         {
-            if (target == "ucHome")
+            switch(target)
             {
-                LoadUserControl(new ucHome());
-            }
-            else if (target == "ucTrainee")
-            {
-                LoadUserControl(new ucTrainee());
-            }
-            else if (target == "ucClass")
-            {
-                LoadUserControl(new ucClass());
-            }
-            else if (target == "ucSchedule")
-            {
-                LoadUserControl(new ucSchedule());
+                case "ucHome":
+                    LoadUserControl(new ucHome());
+                    break;
+                case "ucTrainee":
+                    LoadUserControl(new ucTrainee());
+                    break;
+                case "ucClass":
+                    LoadUserControl(new ucClass());
+                    break;
+                case "ucSchedule":
+                    LoadUserControl(new ucSchedule());
+                    break;
+                case "ucStudentMonitoring":
+                    LoadUserControl(new ucStudentMonitoring());
+                    break;
+                default:
+                    // Optionally handle unknown targets
+                    break;
             }
         }
 
@@ -60,6 +65,11 @@ namespace StudentManagementSystem.Forms
         private void TkbToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Home_NavigateRequested("ucSchedule");
+        }
+
+        private void htchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Home_NavigateRequested("ucStudentMonitoring");
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -92,7 +102,5 @@ namespace StudentManagementSystem.Forms
 
             pnlMainContent.ResumeLayout();
         }
-
-        
     }
 }
