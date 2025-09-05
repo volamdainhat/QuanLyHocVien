@@ -42,7 +42,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (dgvRead.Columns.Contains("Description"))
                 dgvRead.Columns["Description"].HeaderText = "Mô tả vi phạm";
             if (dgvRead.Columns.Contains("Time"))
-                dgvRead.Columns["Timee"].HeaderText = "Ngày xảy ra";
+                dgvRead.Columns["Time"].HeaderText = "Ngày xảy ra";
         }
 
         private void LoadStudents()
