@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using Microsoft.EntityFrameworkCore;
+using StudentManagementSystem.Applications.DTOs;
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Helper;
 using StudentManagementSystem.Infrastructure;
@@ -36,12 +37,8 @@ namespace StudentManagementSystem.UI.UserControls
             if (entityId != 0 && entityId > 0)
             {
                 LoadGradesFromTraineeId(entityId);
+                LoadSubjectAverageScoreFromTraineeId(entityId);
             }
-
-            LoadComboBoxRole();
-            LoadComboBoxGradeType();
-
-            dgvGrades.AutoGenerateColumns = false;
         }
 
         private void TxtMotherPhoneNumber_LostFocus(object? sender, EventArgs e)
@@ -84,11 +81,43 @@ namespace StudentManagementSystem.UI.UserControls
             dbContext.Classes.Load();
             dbContext.Subjects.Load();
             dbContext.Grades.Load();
+            dbContext.Categories.Load();
+            dbContext.SubjectAverageScores.Load();
 
             traineeBindingSource.DataSource = dbContext?.Trainees.Local.ToBindingList();
             gradesBindingSource.DataSource = dbContext?.Grades.Local.ToBindingList();
             classBindingSource.DataSource = dbContext?.Classes.Local.ToBindingList();
             subjectBindingSource.DataSource = dbContext?.Subjects.Local.ToBindingList();
+
+            var roles = dbContext?.Categories
+                .Where(c => c.Type == "Role" && c.IsActive)
+                .OrderBy(c => c.SortOrder)
+                .ToList();
+            roleBindingSource.DataSource = roles;
+
+            var examType = dbContext?.Categories
+                .Where(c => c.Type == "ExamType" && c.IsActive)
+                .OrderBy(c => c.SortOrder)
+                .ToList();
+            examTypeBindingSource.DataSource = examType;
+
+            var data = dbContext?.SubjectAverageScores
+                .Include(s => s.Trainee)
+                .Include(s => s.Subject)
+                .Select(s => new SubjectAverageScoreView
+                {
+                    Id = s.Id,
+                    //TraineeName = s.Trainee.FullName,
+                    SubjectName = s.Subject.Name,
+                    AverageScore = s.AverageScore,
+                    Grade = s.Grade,
+                    Semester = s.Semester,
+                    SchoolYear = s.SchoolYear
+                })
+                .ToList();
+
+            subjectAverageScoreBindingSource.DataSource = data;
+            dgvSubjectAverageScore.DataSource = subjectAverageScoreBindingSource;
         }
 
         private void LoadGradesFromTraineeId(int traineeId)
@@ -97,6 +126,29 @@ namespace StudentManagementSystem.UI.UserControls
             {
                 var traineeGrades = dbContext?.Grades.Where(r => r.TraineeId == traineeId).ToList();
                 gradesBindingSource.DataSource = new BindingList<Grades>(traineeGrades);
+                dgvGrades.AutoGenerateColumns = false;
+                dgvGrades.Columns["idDataGridViewTextBoxColumn1"].Visible = false;
+            }
+        }
+
+        private void LoadSubjectAverageScoreFromTraineeId(int traineeId)
+        {
+            if (traineeId != 0 && traineeId > 0)
+            {
+                var traineeSubjectAverageScores = dbContext?.SubjectAverageScores
+                    .Where(r => r.TraineeId == traineeId)
+                    .Select(r => new SubjectAverageScoreView()
+                    {
+                        Id = r.Id,
+                        SubjectName = r.Subject.Name,
+                        AverageScore = r.AverageScore,
+                        Grade = r.Grade,
+                        Semester = r.Semester,
+                        SchoolYear = r.SchoolYear
+                    }).ToList();
+                subjectAverageScoreBindingSource.DataSource = new BindingList<SubjectAverageScoreView>(traineeSubjectAverageScores);
+                dgvSubjectAverageScore.AutoGenerateColumns = false;
+                dgvSubjectAverageScore.Columns["idDataGridViewTextBoxColumn2"].Visible = false;
             }
         }
 
@@ -213,9 +265,10 @@ namespace StudentManagementSystem.UI.UserControls
                 trainee.ClassName = selectClass.Name;
             }
 
-            if (cbRole.SelectedItem != null)
+            var selectRole = cbRole.SelectedItem as Category;
+            if (selectRole != null)
             {
-                trainee.Role = cbRole.SelectedItem.ToString();
+                trainee.Role = selectRole.Name;
             }
 
             return trainee;
@@ -306,6 +359,7 @@ namespace StudentManagementSystem.UI.UserControls
 
             var trainee = ReadFromForm();
             LoadGradesFromTraineeId(trainee.Id);
+            LoadSubjectAverageScoreFromTraineeId(trainee.Id);
         }
 
         private List<int> GetSelectedTraineeIds()
@@ -396,6 +450,7 @@ namespace StudentManagementSystem.UI.UserControls
 
             BindSelectedRowToForm();
             LoadGradesFromTraineeId(item.Id);
+            LoadSubjectAverageScoreFromTraineeId(item.Id);
         }
 
         private void pbAvatar_DragEnter(object sender, DragEventArgs e)
@@ -780,15 +835,57 @@ namespace StudentManagementSystem.UI.UserControls
                     TraineeId = entity.Id,
                     SubjectId = (cbSubject.SelectedItem as Subject)?.Id ?? 0,
                     SubjectName = (cbSubject.SelectedItem as Subject)?.Name ?? "",
-                    Type = cbType.SelectedItem?.ToString() ?? "",
+                    ExamTypeCode = (cbType.SelectedItem as Category)?.Code ?? "",
+                    Type = (cbType.SelectedItem as Category)?.Name ?? "",
                     Grade = (float)numGrade.Value
                 };
                 dbContext?.Grades.Add(grades);
                 dbContext?.SaveChanges();
             }
 
+            UpdateSubjectAverageScoreByTrainee(entity);
+            UpdateAverageScoreByTrainee(entity);
+
             // Refresh lại
+            numAverageScore.Value = entity.AverageScore ?? 0;
             LoadGradesFromTraineeId(entity.Id);
+            LoadSubjectAverageScoreFromTraineeId(entity.Id);
+        }
+
+        private void UpdateAverageScoreByTrainee(Trainee entity)
+        {
+            var subjectAverageScoreByTrainee = dbContext?.SubjectAverageScores.Where(r => r.TraineeId == entity.Id).ToList();
+            var averageScore = subjectAverageScoreByTrainee != null && subjectAverageScoreByTrainee.Count > 0
+                ? subjectAverageScoreByTrainee.Average(r => r.AverageScore)
+                : 0;
+            entity.AverageScore = Convert.ToDecimal(averageScore);
+            Save(entity);
+        }
+
+        private void UpdateSubjectAverageScoreByTrainee(Trainee entity)
+        {
+            var traineeGrades = dbContext?.Grades.Where(r => r.TraineeId == entity.Id).ToList();
+            var newSubjectAverageScores = CalculateAverageScores(traineeGrades);
+            var traineeSubjectAverageScores = dbContext?.SubjectAverageScores.Where(r => r.TraineeId == entity.Id).ToList();
+            
+            var existing = traineeSubjectAverageScores
+                .Where(r => newSubjectAverageScores.Any(n => n.SubjectId.Equals(r.SubjectId)))
+                .ToList();
+            existing.ForEach(r =>
+            {
+                var newScore = newSubjectAverageScores.First(n => n.SubjectId.Equals(r.SubjectId));
+                r.AverageScore = newScore.AverageScore;
+                r.Grade = newScore.Grade;
+                r.CalculatedAt = DateTime.Now;
+                dbContext?.SubjectAverageScores.Update(r);
+            });
+            
+            var toAdd = newSubjectAverageScores
+                .Where(n => !existing.Any(r => r.SubjectId.Equals(n.SubjectId)))
+                .ToList();
+            dbContext?.SubjectAverageScores.AddRange(toAdd);
+            
+            dbContext?.SaveChanges();
         }
 
         private void dgvRead_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -798,5 +895,78 @@ namespace StudentManagementSystem.UI.UserControls
                 tabControl.SelectedTab = tabGrades;
             }
         }
+
+        public static List<SubjectAverageScore> CalculateAverageScores(List<Grades> grades)
+        {
+            // Trọng số cho từng loại điểm
+            var weights = new Dictionary<string, float>
+            {
+                { "TEST_15M", 0.2f }, // Kiểm tra 15 phút: 20%
+                { "TEST_1H", 0.3f }, // Kiểm tra 1 tiết: 30%
+                { "FINAL", 0.5f } // Thi cuối kỳ: 50%
+            };
+
+            // Gom nhóm theo học viên + môn học
+            var query = grades
+                .GroupBy(g => new { g.TraineeId, g.SubjectId })
+                .Select(group =>
+                {
+                    float total = 0;
+                    float totalWeight = 0;
+
+                    // Gom tiếp theo Type
+                    var byType = group.GroupBy(g => g.ExamTypeCode);
+                    foreach (var typeGroup in byType)
+                    {
+                        var type = typeGroup.Key;
+                        var avg = typeGroup.Average(g => g.Grade);
+
+                        if (weights.ContainsKey(type))
+                        {
+                            total += avg * weights[type];
+                            totalWeight += weights[type];
+                        }
+                    }
+
+                    // Nếu thiếu loại điểm thì scale theo trọng số thực có
+                    float finalScore = totalWeight > 0 ? total / totalWeight : 0;
+                    string grade = CalculateGradeType(finalScore);
+
+                    return new SubjectAverageScore
+                    {
+                        TraineeId = group.Key.TraineeId,
+                        SubjectId = group.Key.SubjectId,
+                        AverageScore = Convert.ToDecimal(finalScore),
+                        Grade = grade,
+                    };
+                });
+
+            return query.ToList();
+        }
+
+        public static string CalculateGradeType(float score)
+        {
+            if (score >= 9.0)
+            {
+                return "Xuất sắc";
+            }
+            else if (score >= 8.0)
+            {
+                return "Giỏi";
+            }
+            else if (score >= 7.0)
+            {
+                return "Khá";
+            }
+            else if (score >= 5.0)
+            {
+                return "Trung bình";
+            }
+            else
+            {
+                return "Yếu";
+            }
+        }
     }
 }
+                                                                                                        

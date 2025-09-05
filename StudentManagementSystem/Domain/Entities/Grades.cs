@@ -6,6 +6,7 @@
         public int TraineeId { get; set; }
         public int SubjectId { get; set; }
         public required string SubjectName { get; set; }
+        public required string ExamTypeCode { get; set; }
         public required string Type { get; set; }
         public float Grade { get; set; }
     }

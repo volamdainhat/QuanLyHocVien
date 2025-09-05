@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem.Infrastructure;
 
@@ -10,9 +11,11 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250905141156_AddSubjectAverageScore")]
+    partial class AddSubjectAverageScore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -193,10 +196,6 @@ namespace StudentManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Sqlite:Autoincrement", true);
-
-                    b.Property<string>("ExamTypeCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<float>("Grade")
                         .HasColumnType("REAL");
