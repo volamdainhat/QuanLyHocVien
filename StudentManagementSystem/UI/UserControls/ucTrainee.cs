@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Vml.Office;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Applications.DTOs;
 using StudentManagementSystem.Domain.Entities;
@@ -301,6 +302,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (dgv.Name == "dgvGrades")
             {
                 DeleteGrade();
+
             }
         }
 
@@ -358,6 +360,12 @@ namespace StudentManagementSystem.UI.UserControls
             }
 
             var trainee = ReadFromForm();
+
+            UpdateSubjectAverageScoreByTrainee(trainee);
+            UpdateAverageScoreByTrainee(trainee);
+
+            // Refresh lại
+            numAverageScore.Value = trainee.AverageScore ?? 0;
             LoadGradesFromTraineeId(trainee.Id);
             LoadSubjectAverageScoreFromTraineeId(trainee.Id);
         }
