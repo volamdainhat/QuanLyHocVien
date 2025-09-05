@@ -1,166 +1,200 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Infrastructure;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace StudentManagementSystem.UI.UserControls
 {
     public partial class ucStudentMonitoring : UserControl
     {
+        private readonly AppDbContext _context = new AppDbContext();
+
         public ucStudentMonitoring()
         {
             InitializeComponent();
+            LoadStudents();
+            LoadMisconductTypes();
+            LoadData();
+
+            dgvRead.CellClick += dgvRead_CellClick;
+            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged; // auto-fill class when trainee changes
+
+            btnAdd.Click += (s, e) => AddMisconduct();
+            btnSave.Click += (s, e) => UpdateMisconduct();
+            btnDelete.Click += (s, e) => DeleteMisconduct();
+            btnRefresh.Click += (s, e) => ClearForm();
+
         }
+
+        private void LoadStudents()
+        {
+            Console.WriteLine("[LoadStudents] Loading trainees...");
+            _context.Trainees.Load();
+            var students = _context.Trainees.Local.ToBindingList();
+
+            Console.WriteLine($"[LoadStudents] Loaded {students.Count} trainees.");
+            comboBox1.DataSource = students;
+            comboBox1.DisplayMember = "FullName";
+            comboBox1.ValueMember = "Id";
+        }
+
+        private void LoadMisconductTypes()
+        {
+            Console.WriteLine("[LoadMisconductTypes] Loading misconduct types...");
+            comboBox3.Items.Clear();
+            comboBox3.Items.AddRange(new string[]
+            {
+        "Đi trễ",
+        "Nghỉ học không phép",
+        "Gian lận kiểm tra",
+        "Mất trật tự",
+        "Khác"
+            });
+            Console.WriteLine("[LoadMisconductTypes] Types loaded.");
+        }
+
+        private void LoadData()
+        {
+            Console.WriteLine("[LoadData] Fetching misconduct records...");
+
+            var misconducts = _context.Misconducts
+                .Include(m => m.Trainee)
+                .Select(m => new
+                {
+                    m.Id,
+                    StudentName = m.Trainee.FullName,
+                    ClassName = m.Trainee.ClassName,
+                    m.Type,
+                    m.Time,
+                    m.Description
+                })
+                .OrderByDescending(m => m.Time)
+                .ToList();
+
+            Console.WriteLine($"[LoadData] Loaded {misconducts.Count} records.");
+            dgvRead.DataSource = misconducts;
+        }
+
+        private void dgvRead_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            Console.WriteLine($"[dgvRead_CellClick] Row {e.RowIndex} clicked.");
+
+            var row = dgvRead.Rows[e.RowIndex];
+
+            comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
+            txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
+            comboBox3.Text = row.Cells["Type"].Value?.ToString();
+            dateTimePicker1.Value = Convert.ToDateTime(row.Cells["Time"].Value);
+            textBox1.Text = row.Cells["Description"].Value?.ToString();
+
+            Console.WriteLine($"[dgvRead_CellClick] Selected Misconduct -> Student: {comboBox1.Text}, Class: {txtClassName.Text}, Type: {comboBox3.Text}");
+        }
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem is Trainee trainee)
+            {
+                Console.WriteLine($"[ComboBox1_SelectedIndexChanged] Trainee selected: {trainee.FullName}, Class: {trainee.ClassName}");
+                txtClassName.Text = trainee.ClassName;
+            }
+        }
+
+        private void AddMisconduct()
+        {
+            Console.WriteLine("[AddMisconduct] Attempting to add misconduct...");
+
+            if (comboBox1.SelectedItem == null || comboBox3.SelectedItem == null)
+            {
+                Console.WriteLine("[AddMisconduct] Missing required fields.");
+                MessageBox.Show("Vui lòng chọn học viên và loại vi phạm.");
+                return;
+            }
+
+            var misconduct = new Misconduct
+            {
+                TraineeId = (int)comboBox1.SelectedValue,
+                Type = comboBox3.SelectedItem.ToString(),
+                Time = dateTimePicker1.Value,
+                Description = textBox1.Text
+            };
+
+            _context.Misconducts.Add(misconduct);
+            _context.SaveChanges();
+
+            Console.WriteLine($"[AddMisconduct] Added Misconduct (ID={misconduct.Id}, StudentId={misconduct.TraineeId}, Type={misconduct.Type})");
+
+            LoadData();
+            ClearForm();
+        }
+
+        private void UpdateMisconduct()
+        {
+            if (dgvRead.CurrentRow == null)
+            {
+                Console.WriteLine("[UpdateMisconduct] No row selected.");
+                return;
+            }
+
+            int misconductId = Convert.ToInt32(dgvRead.CurrentRow.Cells["Id"].Value);
+            var misconduct = _context.Misconducts.FirstOrDefault(m => m.Id == misconductId);
+
+            if (misconduct == null)
+            {
+                Console.WriteLine($"[UpdateMisconduct] Misconduct ID {misconductId} not found.");
+                return;
+            }
+
+            misconduct.TraineeId = (int)comboBox1.SelectedValue;
+            misconduct.Type = comboBox3.SelectedItem?.ToString();
+            misconduct.Time = dateTimePicker1.Value;
+            misconduct.Description = textBox1.Text;
+
+            _context.SaveChanges();
+            Console.WriteLine($"[UpdateMisconduct] Updated Misconduct (ID={misconduct.Id}).");
+
+            LoadData();
+            ClearForm();
+        }
+
+        private void DeleteMisconduct()
+        {
+            if (dgvRead.CurrentRow == null)
+            {
+                Console.WriteLine("[DeleteMisconduct] No row selected.");
+                return;
+            }
+
+            int misconductId = Convert.ToInt32(dgvRead.CurrentRow.Cells["Id"].Value);
+            var misconduct = _context.Misconducts.FirstOrDefault(m => m.Id == misconductId);
+
+            if (misconduct == null)
+            {
+                Console.WriteLine($"[DeleteMisconduct] Misconduct ID {misconductId} not found.");
+                return;
+            }
+
+            _context.Misconducts.Remove(misconduct);
+            _context.SaveChanges();
+            Console.WriteLine($"[DeleteMisconduct] Deleted Misconduct (ID={misconduct.Id}).");
+
+            LoadData();
+            ClearForm();
+        }
+
+        private void ClearForm()
+        {
+            Console.WriteLine("[ClearForm] Resetting form inputs...");
+
+            comboBox1.SelectedIndex = -1;
+            comboBox3.SelectedIndex = -1;
+            textBox1.Clear();
+            dateTimePicker1.Value = DateTime.Today;
+            txtClassName.Clear();
+        }
+
     }
-
-
-//    public partial class ucStudentMonitoring : UserControl
-//    {
-//        private readonly AppDbContext _context;
-
-//        public ucStudentMonitoring()
-//        {
-//            InitializeComponent();
-//            _context = new AppDbContext();
-//            LoadMonitoringData();
-//            LoadSubjects();
-//        }
-
-//        private void LoadMonitoringData()
-//        {
-//            var trainees = _context.Trainees
-//                .Include(t => t.Grades)
-//                .Include(t => t.Misconducts)
-//                .ToList();
-
-//            var summaries = trainees.Select(t => new TraineeMonitoringSummary
-//            {
-//                TraineeId = t.Id,
-//                FullName = t.FullName ?? "Không rõ",
-//                ClassName = t.ClassName,
-//                AverageGrade = t.Grades.Any() ? Math.Round(t.Grades.Average(g => g.Grade), 2) : 0,
-//                MisconductCount = t.Misconducts.Count,
-//                Status = GetTraineeStatus(
-//                    t.Grades.Any() ? t.Grades.Average(g => g.Grade) : 0,
-//                    t.Misconducts.Count
-//                )
-//            }).ToList();
-
-//            dgvRead.DataSource = summaries;
-//        }
-
-//        private void LoadSubjects()
-//        {
-//            cbSubject.DataSource = _context.Subjects.ToList();
-//            cbSubject.DisplayMember = "Name";
-//            cbSubject.ValueMember = "Id";
-
-//            cbGradeType.Items.Clear();
-//            cbGradeType.Items.AddRange(new[] { "Thi", "Kiểm tra", "Bài tập" });
-//        }
-
-//        private string GetTraineeStatus(double avgGrade, int misconducts)
-//        {
-//            if (misconducts == 0 && avgGrade >= 8.5) return "Xuất sắc";
-//            if (misconducts <= 2 && avgGrade >= 6.5) return "Đạt";
-//            if (avgGrade < 5 || misconducts > 3) return "Cảnh cáo";
-//            return "Cần cải thiện";
-//        }
-
-//        // -------------------------------
-//        // ADD MISCONDUCT
-//        // -------------------------------
-//        private void btnAddMisconduct_Click(object sender, EventArgs e)
-//        {
-//            if (dgvRead.CurrentRow == null) return;
-//            int traineeId = (int)dgvRead.CurrentRow.Cells["TraineeId"].Value;
-
-//            var misconduct = new Misconduct
-//            {
-//                TraineeId = traineeId,
-//                Type = txtMisconductType.Text,
-//                Time = dtpMisconductTime.Value,
-//                Description = txtMisconductDesc.Text
-//            };
-
-//            _context.Misconducts.Add(misconduct);
-//            _context.SaveChanges();
-//            LoadMonitoringData();
-
-//            MessageBox.Show("Đã thêm vi phạm.");
-//        }
-
-//        // -------------------------------
-//        // ADD GRADE
-//        // -------------------------------
-//        private void btnAddGrade_Click(object sender, EventArgs e)
-//        {
-//            if (dgvRead.CurrentRow == null) return;
-//            int traineeId = (int)dgvRead.CurrentRow.Cells["TraineeId"].Value;
-
-//            var grade = new Grades
-//            {
-//                TraineeId = traineeId,
-//                SubjectId = (int)cbSubject.SelectedValue,
-//                SubjectName = cbSubject.Text,
-//                Type = cbGradeType.Text,
-//                Grade = (float)numGrade.Value
-//            };
-
-//            _context.Grades.Add(grade);
-//            _context.SaveChanges();
-//            LoadMonitoringData();
-
-//            MessageBox.Show("Đã thêm điểm.");
-//        }
-
-//        // -------------------------------
-//        // EDIT TRAINEE
-//        // -------------------------------
-//        private void btnUpdateTrainee_Click(object sender, EventArgs e)
-//        {
-//            if (dgvRead.CurrentRow == null) return;
-//            int traineeId = (int)dgvRead.CurrentRow.Cells["TraineeId"].Value;
-
-//            var trainee = _context.Trainees.Find(traineeId);
-//            if (trainee == null) return;
-
-//            trainee.FullName = txtTraineeName.Text;
-//            trainee.PhoneNumber = txtTraineePhone.Text;
-//            trainee.Role = txtTraineeRole.Text;
-
-//            _context.SaveChanges();
-//            LoadMonitoringData();
-
-//            MessageBox.Show("Cập nhật học viên thành công.");
-//        }
-
-//        // -------------------------------
-//        // AUTOFILL WHEN ROW SELECTED
-//        // -------------------------------
-//        private void dgvRead_CellClick(object sender, DataGridViewCellEventArgs e)
-//        {
-//            if (e.RowIndex < 0) return;
-
-//            var row = dgvRead.Rows[e.RowIndex];
-//            txtTraineeName.Text = row.Cells["FullName"].Value?.ToString();
-//            txtTraineePhone.Text = ""; // Optional: pull actual phone if needed
-//            txtTraineeRole.Text = "";
-//        }
-//    }
-
-//    // =======================
-//    // Summary DTO
-//    // =======================
-//    public class TraineeMonitoringSummary
-//    {
-//        public int TraineeId { get; set; }
-//        public string FullName { get; set; } = string.Empty;
-//        public string? ClassName { get; set; }
-//        public double AverageGrade { get; set; }
-//        public int MisconductCount { get; set; }
-//        public string Status { get; set; } = "Chưa xác định";
-//    }
 }

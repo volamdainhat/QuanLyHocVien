@@ -19,6 +19,7 @@ namespace StudentManagementSystem.UI.UserControls
             InitializeComponent();
             LoadClasses();
             LoadPeriods();
+            LoadSubjects();
             LoadData();
 
             // Hook cell click for autofill
@@ -43,6 +44,8 @@ namespace StudentManagementSystem.UI.UserControls
         private void LoadData()
         {
             var schedules = _context.Schedules
+                .Include(s => s.Class)
+                .Include(s => s.Subject)
                 .Select(s => new
                 {
                     s.Id,
@@ -61,7 +64,17 @@ namespace StudentManagementSystem.UI.UserControls
             HideUnwantedColumns();
             RenameColumns();
 
-            HighlightScheduleDates(); // 🔥 bold schedule dates in calendar
+            HighlightScheduleDates();
+        }
+
+        private void LoadSubjects()
+        {
+            _context.Subjects.Load();
+            var subjects = _context.Subjects.Local.ToBindingList();
+
+            cbSubject.DataSource = subjects;
+            cbSubject.DisplayMember = "Name";
+            cbSubject.ValueMember = "Id";
         }
 
         private void HideUnwantedColumns()
@@ -108,22 +121,14 @@ namespace StudentManagementSystem.UI.UserControls
                 MessageBox.Show("Vui lòng chọn lớp.");
                 return;
             }
-
-            if (string.IsNullOrWhiteSpace(txtSubjectName.Text))
+            if (cbSubject.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng nhập tên môn học.");
+                MessageBox.Show("Vui lòng chọn môn học.");
                 return;
             }
 
             var selectedClass = (Class)cbClassName.SelectedItem;
-            var subjectName = txtSubjectName.Text.Trim();
-            var subject = _context.Subjects.FirstOrDefault(s => s.Name == subjectName);
-            if (subject == null)
-            {
-                subject = new Subject { Name = subjectName };
-                _context.Subjects.Add(subject);
-                _context.SaveChanges();
-            }
+            var selectedSubject = (Subject)cbSubject.SelectedItem;
 
             var start = dtpStartDate.Value.Date;
             var end = dtpEndDate.Value.Date;
@@ -148,7 +153,7 @@ namespace StudentManagementSystem.UI.UserControls
                         var schedule = new Schedule
                         {
                             ClassId = selectedClass.Id,
-                            SubjectId = subject.Id,
+                            SubjectId = selectedSubject.Id,
                             Room = txtRoom.Text,
                             Period = cbPeriod.SelectedItem?.ToString(),
                             Date = date
@@ -159,8 +164,9 @@ namespace StudentManagementSystem.UI.UserControls
             }
 
             _context.SaveChanges();
-            LoadData(); // reload & refresh highlights
+            LoadData();
         }
+
 
         private void mcTimetable_DateChanged(object sender, DateRangeEventArgs e)
         {
@@ -205,11 +211,11 @@ namespace StudentManagementSystem.UI.UserControls
 
             var row = dgvRead.Rows[e.RowIndex];
 
-            txtRoom.Text = row.Cells[3].Value?.ToString();                 // Room
-            cbPeriod.SelectedItem = row.Cells[4].Value?.ToString();        // Period
-            dtpStartDate.Value = Convert.ToDateTime(row.Cells[5].Value);   // Date
-            txtSubjectName.Text = row.Cells[2].Value?.ToString();          // SubjectName
+            txtRoom.Text = row.Cells[3].Value?.ToString();
+            cbPeriod.SelectedItem = row.Cells[4].Value?.ToString();
+            dtpStartDate.Value = Convert.ToDateTime(row.Cells[5].Value);
 
+            // Class autofill
             var className = row.Cells[1].Value?.ToString();
             if (!string.IsNullOrEmpty(className))
             {
@@ -217,6 +223,16 @@ namespace StudentManagementSystem.UI.UserControls
                     .FirstOrDefault(c => c.Name == className);
                 if (classItem != null)
                     cbClassName.SelectedItem = classItem;
+            }
+
+            // Subject autofill
+            var subjectName = row.Cells[2].Value?.ToString();
+            if (!string.IsNullOrEmpty(subjectName))
+            {
+                var subjectItem = ((BindingList<Subject>)cbSubject.DataSource)
+                    .FirstOrDefault(s => s.Name == subjectName);
+                if (subjectItem != null)
+                    cbSubject.SelectedItem = subjectItem;
             }
         }
 
@@ -247,26 +263,12 @@ namespace StudentManagementSystem.UI.UserControls
             if (cbClassName.SelectedItem is Class selectedClass)
                 schedule.ClassId = selectedClass.Id;
 
-            var newSubjectName = txtSubjectName.Text.Trim();
-            if (!string.IsNullOrEmpty(newSubjectName))
-            {
-                var existingSubject = _context.Subjects.FirstOrDefault(s => s.Name == newSubjectName);
-                if (existingSubject != null)
-                {
-                    schedule.SubjectId = existingSubject.Id;
-                }
-                else
-                {
-                    var newSubject = new Subject { Name = newSubjectName };
-                    _context.Subjects.Add(newSubject);
-                    _context.SaveChanges();
-                    schedule.SubjectId = newSubject.Id;
-                }
-            }
+            if (cbSubject.SelectedItem is Subject selectedSubject)
+                schedule.SubjectId = selectedSubject.Id;
 
             _context.SaveChanges();
             ClearForm();
-            LoadData(); // reload & refresh highlights
+            LoadData();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -299,7 +301,7 @@ namespace StudentManagementSystem.UI.UserControls
         private void ClearForm()
         {
             txtRoom.Clear();
-            txtSubjectName.Clear();
+            cbSubject.SelectedItem = 0;
             cbPeriod.SelectedIndex = -1;
             cbClassName.SelectedIndex = -1;
             dtpStartDate.Value = DateTime.Today;

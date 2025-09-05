@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             splitContainer1 = new SplitContainer();
+            cbSubject = new ComboBox();
+            subjectBindingSource = new BindingSource(components);
             button2 = new Button();
             button1 = new Button();
             btnRefresh = new Button();
@@ -47,7 +49,6 @@
             label3 = new Label();
             cbClassName = new ComboBox();
             label2 = new Label();
-            txtSubjectName = new TextBox();
             label1 = new Label();
             splitContainer2 = new SplitContainer();
             mcTimetable = new MonthCalendar();
@@ -66,6 +67,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
@@ -94,6 +96,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(cbSubject);
             splitContainer1.Panel1.Controls.Add(button2);
             splitContainer1.Panel1.Controls.Add(button1);
             splitContainer1.Panel1.Controls.Add(btnRefresh);
@@ -110,7 +113,6 @@
             splitContainer1.Panel1.Controls.Add(label3);
             splitContainer1.Panel1.Controls.Add(cbClassName);
             splitContainer1.Panel1.Controls.Add(label2);
-            splitContainer1.Panel1.Controls.Add(txtSubjectName);
             splitContainer1.Panel1.Controls.Add(label1);
             // 
             // splitContainer1.Panel2
@@ -119,6 +121,23 @@
             splitContainer1.Size = new Size(986, 539);
             splitContainer1.SplitterDistance = 314;
             splitContainer1.TabIndex = 0;
+            // 
+            // cbSubject
+            // 
+            cbSubject.DataSource = subjectBindingSource;
+            cbSubject.DisplayMember = "Name";
+            cbSubject.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSubject.FormattingEnabled = true;
+            cbSubject.Location = new Point(125, 31);
+            cbSubject.Margin = new Padding(2);
+            cbSubject.Name = "cbSubject";
+            cbSubject.Size = new Size(216, 23);
+            cbSubject.TabIndex = 45;
+            cbSubject.ValueMember = "Id";
+            // 
+            // subjectBindingSource
+            // 
+            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
             // 
             // button2
             // 
@@ -175,14 +194,14 @@
             // 
             dtpEndDate.Location = new Point(620, 193);
             dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.Size = new Size(200, 21);
+            dtpEndDate.Size = new Size(252, 21);
             dtpEndDate.TabIndex = 39;
             // 
             // dtpStartDate
             // 
             dtpStartDate.Location = new Point(620, 141);
             dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.Size = new Size(200, 21);
+            dtpStartDate.Size = new Size(252, 21);
             dtpStartDate.TabIndex = 38;
             // 
             // chlbDaysofWeek
@@ -191,7 +210,7 @@
             chlbDaysofWeek.Items.AddRange(new object[] { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6" });
             chlbDaysofWeek.Location = new Point(620, 32);
             chlbDaysofWeek.Name = "chlbDaysofWeek";
-            chlbDaysofWeek.Size = new Size(65, 68);
+            chlbDaysofWeek.Size = new Size(132, 68);
             chlbDaysofWeek.TabIndex = 37;
             // 
             // label5
@@ -218,7 +237,7 @@
             // 
             txtRoom.Location = new Point(125, 138);
             txtRoom.Name = "txtRoom";
-            txtRoom.Size = new Size(38, 21);
+            txtRoom.Size = new Size(100, 21);
             txtRoom.TabIndex = 33;
             // 
             // label4
@@ -259,7 +278,7 @@
             cbClassName.Location = new Point(125, 81);
             cbClassName.Margin = new Padding(2);
             cbClassName.Name = "cbClassName";
-            cbClassName.Size = new Size(100, 23);
+            cbClassName.Size = new Size(216, 23);
             cbClassName.TabIndex = 29;
             cbClassName.ValueMember = "Id";
             // 
@@ -271,13 +290,6 @@
             label2.Size = new Size(29, 15);
             label2.TabIndex = 2;
             label2.Text = "Lớp";
-            // 
-            // txtSubjectName
-            // 
-            txtSubjectName.Location = new Point(125, 34);
-            txtSubjectName.Name = "txtSubjectName";
-            txtSubjectName.Size = new Size(100, 21);
-            txtSubjectName.TabIndex = 1;
             // 
             // label1
             // 
@@ -403,6 +415,7 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).EndInit();
             splitContainer2.Panel1.ResumeLayout(false);
             splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
@@ -424,7 +437,6 @@
         private DataGridView dgvRead;
         private DataGridViewTextBoxColumn dayDataGridViewTextBoxColumn;
         private Label label2;
-        private TextBox txtSubjectName;
         private ComboBox cbPeriod;
         private Label label3;
         private ComboBox cbClassName;
@@ -447,5 +459,7 @@
         private DataGridViewTextBoxColumn subjectDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn roomDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn periodDataGridViewTextBoxColumn;
+        private ComboBox cbSubject;
+        private BindingSource subjectBindingSource;
     }
 }

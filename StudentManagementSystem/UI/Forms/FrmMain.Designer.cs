@@ -82,8 +82,8 @@ namespace StudentManagementSystem.Forms
             // htchToolStripMenuItem
             // 
             htchToolStripMenuItem.Name = "htchToolStripMenuItem";
-            htchToolStripMenuItem.Size = new Size(145, 22);
-            htchToolStripMenuItem.Text = "4. Học tập - Chấp hành";
+            htchToolStripMenuItem.Size = new Size(128, 22);
+            htchToolStripMenuItem.Text = "4. Chấp hành kỉ luật";
             htchToolStripMenuItem.Click += htchToolStripMenuItem_Click;
             // 
             // pnlMainContent
