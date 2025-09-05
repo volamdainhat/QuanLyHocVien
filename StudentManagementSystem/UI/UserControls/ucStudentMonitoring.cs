@@ -17,6 +17,7 @@ namespace StudentManagementSystem.UI.UserControls
             LoadStudents();
             LoadMisconductTypes();
             LoadData();
+            RenameColumns();
 
             dgvRead.CellClick += dgvRead_CellClick;
             comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged; // auto-fill class when trainee changes
@@ -26,6 +27,22 @@ namespace StudentManagementSystem.UI.UserControls
             btnDelete.Click += (s, e) => DeleteMisconduct();
             btnRefresh.Click += (s, e) => ClearForm();
 
+        }
+
+        private void RenameColumns()
+        {
+            if (dgvRead.Columns.Contains("StudentName"))
+                dgvRead.Columns["StudentName"].HeaderText = "Tên học viên";
+            if (dgvRead.Columns.Contains("ClassName"))
+                dgvRead.Columns["ClassName"].HeaderText = "Lớp";
+            if (dgvRead.Columns.Contains("Date"))
+                dgvRead.Columns["Date"].HeaderText = "Ngày học";
+            if (dgvRead.Columns.Contains("Type"))
+                dgvRead.Columns["Type"].HeaderText = "Loại vi phạm";
+            if (dgvRead.Columns.Contains("Description"))
+                dgvRead.Columns["Description"].HeaderText = "Mô tả vi phạm";
+            if (dgvRead.Columns.Contains("Time"))
+                dgvRead.Columns["Timee"].HeaderText = "Ngày xảy ra";
         }
 
         private void LoadStudents()
@@ -46,11 +63,7 @@ namespace StudentManagementSystem.UI.UserControls
             comboBox3.Items.Clear();
             comboBox3.Items.AddRange(new string[]
             {
-        "Đi trễ",
-        "Nghỉ học không phép",
-        "Gian lận kiểm tra",
-        "Mất trật tự",
-        "Khác"
+                "Thường", "Nghiêm trọng", "Rất nghiêm trọng"
             });
             Console.WriteLine("[LoadMisconductTypes] Types loaded.");
         }
