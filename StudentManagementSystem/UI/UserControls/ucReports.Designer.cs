@@ -30,6 +30,11 @@
         {
             groupBox1 = new GroupBox();
             splitContainer1 = new SplitContainer();
+            groupBox2 = new GroupBox();
+            dtpEndDate = new DateTimePicker();
+            dtpStartDate = new DateTimePicker();
+            label4 = new Label();
+            label3 = new Label();
             comboBoxClass = new ComboBox();
             label1 = new Label();
             dgvReports = new DataGridView();
@@ -42,6 +47,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvReports).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -67,6 +73,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(groupBox2);
             splitContainer1.Panel1.Controls.Add(comboBoxClass);
             splitContainer1.Panel1.Controls.Add(label1);
             // 
@@ -74,8 +81,53 @@
             // 
             splitContainer1.Panel2.Controls.Add(dgvReports);
             splitContainer1.Size = new Size(880, 495);
-            splitContainer1.SplitterDistance = 69;
+            splitContainer1.SplitterDistance = 205;
             splitContainer1.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(dtpEndDate);
+            groupBox2.Controls.Add(dtpStartDate);
+            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(label3);
+            groupBox2.Location = new Point(17, 72);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(406, 114);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Thời gian lập báo cáo";
+            // 
+            // dtpEndDate
+            // 
+            dtpEndDate.Location = new Point(171, 84);
+            dtpEndDate.Name = "dtpEndDate";
+            dtpEndDate.Size = new Size(224, 21);
+            dtpEndDate.TabIndex = 10;
+            // 
+            // dtpStartDate
+            // 
+            dtpStartDate.Location = new Point(171, 38);
+            dtpStartDate.Name = "dtpStartDate";
+            dtpStartDate.Size = new Size(224, 21);
+            dtpStartDate.TabIndex = 9;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 84);
+            label4.Name = "label4";
+            label4.Size = new Size(80, 15);
+            label4.TabIndex = 8;
+            label4.Text = "Ngày kết thúc";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 43);
+            label3.Name = "label3";
+            label3.Size = new Size(79, 15);
+            label3.TabIndex = 7;
+            label3.Text = "Ngày bắt đầu";
             // 
             // comboBoxClass
             // 
@@ -101,7 +153,7 @@
             dgvReports.Dock = DockStyle.Fill;
             dgvReports.Location = new Point(0, 0);
             dgvReports.Name = "dgvReports";
-            dgvReports.Size = new Size(880, 422);
+            dgvReports.Size = new Size(880, 286);
             dgvReports.TabIndex = 0;
             // 
             // panel1
@@ -158,6 +210,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvReports).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -175,5 +229,10 @@
         private ComboBox comboBoxClass;
         private Label label1;
         private DataGridView dgvReports;
+        private GroupBox groupBox2;
+        private DateTimePicker dtpEndDate;
+        private DateTimePicker dtpStartDate;
+        private Label label4;
+        private Label label3;
     }
 }

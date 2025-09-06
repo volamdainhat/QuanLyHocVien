@@ -25,7 +25,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnAdd.Click += (s, e) => ClearForm();          // Add → Clear form (set _editingId = 0)
             btnSave.Click += (s, e) => SaveOrUpdate();      // Save/Add
             btnDelete.Click += (s, e) => DeleteMisconduct();
-            btnRefresh.Click += (s, e) => { Refresh(); Console.WriteLine("[Refresh] Grid refreshed."); };
+            btnRefresh.Click += (s, e) => { Reload(); Console.WriteLine("[Refresh] Data reloaded."); };
 
             // load data
             LoadStudents();
@@ -76,7 +76,7 @@ namespace StudentManagementSystem.UI.UserControls
 
             var misconducts = _context.Misconducts
                 .Include(m => m.Trainee)
-                .OrderByDescending(m => m.Time)
+                .OrderBy(m => m.Id) // ✅ Sort at query level
                 .Select(m => new
                 {
                     m.Id,
@@ -92,7 +92,6 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.DataSource = misconducts;
             RenameColumns();
 
-            // don’t keep a row selected by default
             dgvRead.ClearSelection();
             dgvRead.CurrentCell = null;
         }
@@ -130,7 +129,7 @@ namespace StudentManagementSystem.UI.UserControls
         }
 
         // ===============================
-        // SaveOrUpdate Logic (fixed)
+        // SaveOrUpdate Logic
         // ===============================
         private void SaveOrUpdate()
         {
@@ -160,8 +159,6 @@ namespace StudentManagementSystem.UI.UserControls
                 Console.WriteLine($"[SaveOrUpdate][ERROR] {ex}");
                 MessageBox.Show("Không thể lưu vi phạm. Xem Output/Console để biết chi tiết.");
             }
-
-            Reload();
         }
 
         private Misconduct ReadFromForm()
@@ -175,7 +172,7 @@ namespace StudentManagementSystem.UI.UserControls
 
             return new Misconduct
             {
-                Id = _editingId,                  // <-- critical: use form state, not grid selection
+                Id = _editingId,
                 TraineeId = traineeId,
                 Type = type,
                 Time = time,
@@ -192,7 +189,7 @@ namespace StudentManagementSystem.UI.UserControls
             }
             else
             {
-                // Detach any tracked instance with the same Id to avoid state conflicts
+                // Detach any tracked instance with the same Id
                 var tracked = _context.ChangeTracker
                     .Entries<Misconduct>()
                     .FirstOrDefault(e => e.Entity.Id == entity.Id);
@@ -248,12 +245,9 @@ namespace StudentManagementSystem.UI.UserControls
             Console.WriteLine("[ClearForm] Resetting form inputs...");
 
             _editingId = 0; // switch to "Add new" mode
-
-            // Clear grid selection so we don't accidentally read its Id
             dgvRead.ClearSelection();
             dgvRead.CurrentCell = null;
 
-            // Keep trainee selected or set as needed
             if (comboBox1.Items.Count > 0)
                 comboBox1.SelectedIndex = 0;
 
@@ -267,8 +261,7 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void Reload()
         {
-            this.dgvRead.Refresh();
-            this.dgvRead.Sort(dgvRead.Columns[0], ListSortDirection.Ascending);
+            LoadData(); // ✅ just reload data, sorted by Id at query
         }
     }
 }
