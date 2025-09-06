@@ -32,13 +32,11 @@ namespace StudentManagementSystem.Forms
         {
             menuStrip = new MenuStrip();
             trangChủToolStripMenuItem = new ToolStripMenuItem();
-            dashboardToolStripMenuItem = new ToolStripMenuItem();
             họcViênToolStripMenuItem = new ToolStripMenuItem();
             lớpHọcToolStripMenuItem = new ToolStripMenuItem();
             TkbToolStripMenuItem = new ToolStripMenuItem();
             htchToolStripMenuItem = new ToolStripMenuItem();
             pnlMainContent = new SmoothPanel();
-            báoCáoToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -58,13 +56,6 @@ namespace StudentManagementSystem.Forms
             trangChủToolStripMenuItem.Size = new Size(104, 29);
             trangChủToolStripMenuItem.Text = "Trang chủ";
             trangChủToolStripMenuItem.Click += trangChủToolStripMenuItem_Click;
-            // 
-            // dashboardToolStripMenuItem
-            // 
-            dashboardToolStripMenuItem.Name = "dashboardToolStripMenuItem";
-            dashboardToolStripMenuItem.Size = new Size(116, 29);
-            dashboardToolStripMenuItem.Text = "Dashboard";
-            dashboardToolStripMenuItem.Click += dashboardToolStripMenuItem_Click;
             // 
             // họcViênToolStripMenuItem
             // 
@@ -101,13 +92,6 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Name = "pnlMainContent";
             pnlMainContent.Size = new Size(1259, 630);
             pnlMainContent.TabIndex = 10;
-            // 
-            // báoCáoToolStripMenuItem
-            // 
-            báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
-            báoCáoToolStripMenuItem.Size = new Size(138, 22);
-            báoCáoToolStripMenuItem.Text = "5. Báo cáo - Thống kê";
-            báoCáoToolStripMenuItem.Click += báoCáoToolStripMenuItem_Click;
             // 
             // FrmMain
             // 
