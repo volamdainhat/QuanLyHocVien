@@ -2,6 +2,7 @@
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Infrastructure;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,23 +11,26 @@ namespace StudentManagementSystem.UI.UserControls
     public partial class ucStudentMonitoring : UserControl
     {
         private readonly AppDbContext _context = new AppDbContext();
+        private int _editingId = 0; // 0 = add new; >0 = update this Id
 
         public ucStudentMonitoring()
         {
             InitializeComponent();
+
+            // wire events
+            dgvRead.CellClick += dgvRead_CellClick;
+            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
+
+            btnAdd.Click += (s, e) => ClearForm();          // Add → Clear form (set _editingId = 0)
+            btnSave.Click += (s, e) => SaveOrUpdate();      // Save/Add
+            btnDelete.Click += (s, e) => DeleteMisconduct();
+            btnRefresh.Click += (s, e) => { Refresh(); Console.WriteLine("[Refresh] Grid refreshed."); };
+
+            // load data
             LoadStudents();
             LoadMisconductTypes();
             LoadData();
-            RenameColumns();
-
-            dgvRead.CellClick += dgvRead_CellClick;
-            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged; // auto-fill class when trainee changes
-
-            btnAdd.Click += (s, e) => AddMisconduct();
-            btnSave.Click += (s, e) => UpdateMisconduct();
-            btnDelete.Click += (s, e) => DeleteMisconduct();
-            btnRefresh.Click += (s, e) => ClearForm();
-
         }
 
         private void RenameColumns()
@@ -35,8 +39,6 @@ namespace StudentManagementSystem.UI.UserControls
                 dgvRead.Columns["StudentName"].HeaderText = "Tên học viên";
             if (dgvRead.Columns.Contains("ClassName"))
                 dgvRead.Columns["ClassName"].HeaderText = "Lớp";
-            if (dgvRead.Columns.Contains("Date"))
-                dgvRead.Columns["Date"].HeaderText = "Ngày học";
             if (dgvRead.Columns.Contains("Type"))
                 dgvRead.Columns["Type"].HeaderText = "Loại vi phạm";
             if (dgvRead.Columns.Contains("Description"))
@@ -63,7 +65,7 @@ namespace StudentManagementSystem.UI.UserControls
             comboBox3.Items.Clear();
             comboBox3.Items.AddRange(new string[]
             {
-                "Thường", "Nghiêm trọng", "Rất nghiêm trọng"
+                "Vắng", "Rất nghiêm trọng", "Đi trễ", "Gian lận kiểm tra", "Mất trật tự", "Khác"
             });
             Console.WriteLine("[LoadMisconductTypes] Types loaded.");
         }
@@ -74,6 +76,7 @@ namespace StudentManagementSystem.UI.UserControls
 
             var misconducts = _context.Misconducts
                 .Include(m => m.Trainee)
+                .OrderByDescending(m => m.Time)
                 .Select(m => new
                 {
                     m.Id,
@@ -83,20 +86,23 @@ namespace StudentManagementSystem.UI.UserControls
                     m.Time,
                     m.Description
                 })
-                .OrderByDescending(m => m.Time)
                 .ToList();
 
             Console.WriteLine($"[LoadData] Loaded {misconducts.Count} records.");
             dgvRead.DataSource = misconducts;
+            RenameColumns();
+
+            // don’t keep a row selected by default
+            dgvRead.ClearSelection();
+            dgvRead.CurrentCell = null;
         }
 
         private void dgvRead_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            Console.WriteLine($"[dgvRead_CellClick] Row {e.RowIndex} clicked.");
-
             var row = dgvRead.Rows[e.RowIndex];
+            _editingId = Convert.ToInt32(row.Cells["Id"].Value); // set editing mode
 
             comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
             txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
@@ -104,110 +110,165 @@ namespace StudentManagementSystem.UI.UserControls
             dateTimePicker1.Value = Convert.ToDateTime(row.Cells["Time"].Value);
             textBox1.Text = row.Cells["Description"].Value?.ToString();
 
-            Console.WriteLine($"[dgvRead_CellClick] Selected Misconduct -> Student: {comboBox1.Text}, Class: {txtClassName.Text}, Type: {comboBox3.Text}");
+            Console.WriteLine($"[dgvRead_CellClick] Editing Misconduct Id={_editingId} | Student={comboBox1.Text} | Class={txtClassName.Text} | Type={comboBox3.Text}");
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.SelectedItem is Trainee trainee)
             {
-                Console.WriteLine($"[ComboBox1_SelectedIndexChanged] Trainee selected: {trainee.FullName}, Class: {trainee.ClassName}");
                 txtClassName.Text = trainee.ClassName;
+                Console.WriteLine($"[ComboBox1_SelectedIndexChanged] Trainee={trainee.FullName}, Class={trainee.ClassName}");
             }
         }
 
-        private void AddMisconduct()
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("[AddMisconduct] Attempting to add misconduct...");
+            // Example rule: when 'Vắng' selected, description optional; otherwise editable
+            textBox1.ReadOnly = comboBox3.SelectedIndex == 0;
+            Console.WriteLine($"[comboBox3_SelectedIndexChanged] Type={comboBox3.SelectedItem}, DescReadOnly={textBox1.ReadOnly}");
+        }
 
-            if (comboBox1.SelectedItem == null || comboBox3.SelectedItem == null)
+        // ===============================
+        // SaveOrUpdate Logic (fixed)
+        // ===============================
+        private void SaveOrUpdate()
+        {
+            if (comboBox1.SelectedItem == null)
             {
-                Console.WriteLine("[AddMisconduct] Missing required fields.");
-                MessageBox.Show("Vui lòng chọn học viên và loại vi phạm.");
+                MessageBox.Show("Vui lòng chọn học viên.");
+                Console.WriteLine("[SaveOrUpdate] Missing trainee.");
+                return;
+            }
+            if (comboBox3.SelectedItem == null || string.IsNullOrWhiteSpace(comboBox3.SelectedItem.ToString()))
+            {
+                MessageBox.Show("Vui lòng chọn loại vi phạm.");
+                Console.WriteLine("[SaveOrUpdate] Missing misconduct type.");
                 return;
             }
 
-            var misconduct = new Misconduct
+            var entity = ReadFromForm();
+
+            try
             {
-                TraineeId = (int)comboBox1.SelectedValue,
-                Type = comboBox3.SelectedItem.ToString(),
-                Time = dateTimePicker1.Value,
-                Description = textBox1.Text
+                Save(entity);
+                LoadData();
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SaveOrUpdate][ERROR] {ex}");
+                MessageBox.Show("Không thể lưu vi phạm. Xem Output/Console để biết chi tiết.");
+            }
+
+            Reload();
+        }
+
+        private Misconduct ReadFromForm()
+        {
+            var traineeId = (int)comboBox1.SelectedValue;
+            var type = comboBox3.SelectedItem?.ToString() ?? "";
+            var time = dateTimePicker1.Value;
+            var desc = textBox1.Text;
+
+            Console.WriteLine($"[ReadFromForm] _editingId={_editingId}, TraineeId={traineeId}, Type={type}, Time={time}, DescLen={(desc ?? "").Length}");
+
+            return new Misconduct
+            {
+                Id = _editingId,                  // <-- critical: use form state, not grid selection
+                TraineeId = traineeId,
+                Type = type,
+                Time = time,
+                Description = desc
             };
-
-            _context.Misconducts.Add(misconduct);
-            _context.SaveChanges();
-
-            Console.WriteLine($"[AddMisconduct] Added Misconduct (ID={misconduct.Id}, StudentId={misconduct.TraineeId}, Type={misconduct.Type})");
-
-            LoadData();
-            ClearForm();
         }
 
-        private void UpdateMisconduct()
+        private void Save(Misconduct entity)
         {
-            if (dgvRead.CurrentRow == null)
+            if (entity.Id == 0)
             {
-                Console.WriteLine("[UpdateMisconduct] No row selected.");
-                return;
+                _context.Misconducts.Add(entity);
+                Console.WriteLine($"[Save] Add new -> TraineeId={entity.TraineeId}, Type={entity.Type}");
             }
-
-            int misconductId = Convert.ToInt32(dgvRead.CurrentRow.Cells["Id"].Value);
-            var misconduct = _context.Misconducts.FirstOrDefault(m => m.Id == misconductId);
-
-            if (misconduct == null)
+            else
             {
-                Console.WriteLine($"[UpdateMisconduct] Misconduct ID {misconductId} not found.");
-                return;
-            }
+                // Detach any tracked instance with the same Id to avoid state conflicts
+                var tracked = _context.ChangeTracker
+                    .Entries<Misconduct>()
+                    .FirstOrDefault(e => e.Entity.Id == entity.Id);
 
-            misconduct.TraineeId = (int)comboBox1.SelectedValue;
-            misconduct.Type = comboBox3.SelectedItem?.ToString();
-            misconduct.Time = dateTimePicker1.Value;
-            misconduct.Description = textBox1.Text;
+                if (tracked != null)
+                {
+                    _context.Entry(tracked.Entity).State = EntityState.Detached;
+                    Console.WriteLine($"[Save] Detached tracked entity Id={entity.Id}");
+                }
+
+                _context.Misconducts.Update(entity);
+                Console.WriteLine($"[Save] Update -> Id={entity.Id}, Type={entity.Type}");
+            }
 
             _context.SaveChanges();
-            Console.WriteLine($"[UpdateMisconduct] Updated Misconduct (ID={misconduct.Id}).");
-
-            LoadData();
-            ClearForm();
+            Console.WriteLine("[Save] Changes committed.");
         }
 
+        // ===============================
+        // Delete
+        // ===============================
         private void DeleteMisconduct()
         {
-            if (dgvRead.CurrentRow == null)
+            if (dgvRead.SelectedRows.Count == 0)
             {
                 Console.WriteLine("[DeleteMisconduct] No row selected.");
                 return;
             }
 
-            int misconductId = Convert.ToInt32(dgvRead.CurrentRow.Cells["Id"].Value);
-            var misconduct = _context.Misconducts.FirstOrDefault(m => m.Id == misconductId);
+            var row = dgvRead.SelectedRows[0];
+            var id = Convert.ToInt32(row.Cells["Id"].Value);
+            var entity = _context.Misconducts.FirstOrDefault(m => m.Id == id);
 
-            if (misconduct == null)
+            if (entity == null)
             {
-                Console.WriteLine($"[DeleteMisconduct] Misconduct ID {misconductId} not found.");
+                Console.WriteLine($"[DeleteMisconduct] Id={id} not found.");
                 return;
             }
 
-            _context.Misconducts.Remove(misconduct);
+            _context.Misconducts.Remove(entity);
             _context.SaveChanges();
-            Console.WriteLine($"[DeleteMisconduct] Deleted Misconduct (ID={misconduct.Id}).");
 
+            Console.WriteLine($"[DeleteMisconduct] Deleted Id={id}.");
             LoadData();
             ClearForm();
         }
 
+        // ===============================
+        // Utility
+        // ===============================
         private void ClearForm()
         {
             Console.WriteLine("[ClearForm] Resetting form inputs...");
 
-            comboBox1.SelectedIndex = -1;
+            _editingId = 0; // switch to "Add new" mode
+
+            // Clear grid selection so we don't accidentally read its Id
+            dgvRead.ClearSelection();
+            dgvRead.CurrentCell = null;
+
+            // Keep trainee selected or set as needed
+            if (comboBox1.Items.Count > 0)
+                comboBox1.SelectedIndex = 0;
+
             comboBox3.SelectedIndex = -1;
             textBox1.Clear();
             dateTimePicker1.Value = DateTime.Today;
             txtClassName.Clear();
+
+            Console.WriteLine("[ClearForm] _editingId set to 0 (add mode).");
         }
 
+        private void Reload()
+        {
+            this.dgvRead.Refresh();
+            this.dgvRead.Sort(dgvRead.Columns[0], ListSortDirection.Ascending);
+        }
     }
 }
