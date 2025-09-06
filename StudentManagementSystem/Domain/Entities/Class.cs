@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using StudentManagementSystem.Domain.Entities;
 
 namespace StudentManagementSystem.Domain.Entities;
 public class Class

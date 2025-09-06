@@ -42,9 +42,6 @@ namespace StudentManagementSystem.Forms
                 case "ucStudentMonitoring":
                     LoadUserControl(new ucStudentMonitoring());
                     break;
-                case "ucReports":
-                    LoadUserControl(new ucReports());
-                    break;
                 default:
                     // Optionally handle unknown targets
                     break;
@@ -104,11 +101,6 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Controls.Add(uc);
 
             pnlMainContent.ResumeLayout();
-        }
-
-        private void báoCáoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Home_NavigateRequested("ucReports");
         }
     }
 }
