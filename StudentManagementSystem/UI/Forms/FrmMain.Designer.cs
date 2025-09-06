@@ -37,13 +37,14 @@ namespace StudentManagementSystem.Forms
             TkbToolStripMenuItem = new ToolStripMenuItem();
             htchToolStripMenuItem = new ToolStripMenuItem();
             pnlMainContent = new SmoothPanel();
+            báoCáoToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem, báoCáoToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(4, 1, 0, 1);
@@ -95,6 +96,13 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Size = new Size(881, 374);
             pnlMainContent.TabIndex = 10;
             // 
+            // báoCáoToolStripMenuItem
+            // 
+            báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
+            báoCáoToolStripMenuItem.Size = new Size(138, 22);
+            báoCáoToolStripMenuItem.Text = "5. Báo cáo - Thống kê";
+            báoCáoToolStripMenuItem.Click += báoCáoToolStripMenuItem_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -124,5 +132,6 @@ namespace StudentManagementSystem.Forms
         private SmoothPanel pnlMainContent;
         private ToolStripMenuItem trangChủToolStripMenuItem;
         private ToolStripMenuItem htchToolStripMenuItem;
+        private ToolStripMenuItem báoCáoToolStripMenuItem;
     }
 }

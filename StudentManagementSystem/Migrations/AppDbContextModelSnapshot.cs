@@ -186,9 +186,6 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("ReportDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ReportId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("TotalAbsences")
                         .HasColumnType("INTEGER");
 
@@ -196,6 +193,8 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("Reports");
                 });
@@ -345,6 +344,17 @@ namespace StudentManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Reports", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Schedule", b =>

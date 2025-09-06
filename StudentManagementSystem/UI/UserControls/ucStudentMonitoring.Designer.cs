@@ -42,11 +42,11 @@
             comboBox1 = new ComboBox();
             label1 = new Label();
             panel1 = new Panel();
-            dgvRead = new DataGridView();
             btnDelete = new Button();
             btnSave = new Button();
             btnAdd = new Button();
             btnRefresh = new Button();
+            dgvRead = new DataGridView();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -154,6 +154,7 @@
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(121, 23);
             comboBox3.TabIndex = 6;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // label4
             // 
@@ -203,16 +204,6 @@
             panel1.Size = new Size(966, 29);
             panel1.TabIndex = 1;
             // 
-            // dgvRead
-            // 
-            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Dock = DockStyle.Fill;
-            dgvRead.Location = new Point(0, 0);
-            dgvRead.Name = "dgvRead";
-            dgvRead.Size = new Size(966, 277);
-            dgvRead.TabIndex = 0;
-            // 
             // btnDelete
             // 
             btnDelete.Dock = DockStyle.Left;
@@ -256,6 +247,16 @@
             btnRefresh.TabIndex = 6;
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // dgvRead
+            // 
+            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRead.Dock = DockStyle.Fill;
+            dgvRead.Location = new Point(0, 0);
+            dgvRead.Name = "dgvRead";
+            dgvRead.Size = new Size(966, 277);
+            dgvRead.TabIndex = 0;
             // 
             // ucStudentMonitoring
             // 

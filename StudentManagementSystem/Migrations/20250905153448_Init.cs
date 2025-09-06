@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,25 +65,6 @@ namespace StudentManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reports",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ReportId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MisconductCount = table.Column<int>(type: "INTEGER", nullable: false),
-                    TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
-                    TotalAbsences = table.Column<int>(type: "INTEGER", nullable: false),
-                    AverageScore = table.Column<float>(type: "REAL", nullable: false),
-                    ReportDate = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reports", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Subjects",
                 columns: table => new
                 {
@@ -108,6 +89,30 @@ namespace StudentManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserInfos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MisconductCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalAbsences = table.Column<int>(type: "INTEGER", nullable: false),
+                    AverageScore = table.Column<float>(type: "REAL", nullable: false),
+                    ReportDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reports_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +230,11 @@ namespace StudentManagementSystem.Migrations
                 name: "IX_Misconducts_TraineeId",
                 table: "Misconducts",
                 column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reports_ClassId",
+                table: "Reports",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_ClassId",
