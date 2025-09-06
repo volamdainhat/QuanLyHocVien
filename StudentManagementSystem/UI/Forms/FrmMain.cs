@@ -25,7 +25,7 @@ namespace StudentManagementSystem.Forms
 
         private void Home_NavigateRequested(string target)
         {
-            switch(target)
+            switch (target)
             {
                 case "ucHome":
                     LoadUserControl(new ucHome());
@@ -41,6 +41,9 @@ namespace StudentManagementSystem.Forms
                     break;
                 case "ucStudentMonitoring":
                     LoadUserControl(new ucStudentMonitoring());
+                    break;
+                case "ucDashboard":
+                    LoadUserControl(new ucDashboard());
                     break;
                 default:
                     // Optionally handle unknown targets
@@ -101,6 +104,11 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Controls.Add(uc);
 
             pnlMainContent.ResumeLayout();
+        }
+
+        private void dashboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Home_NavigateRequested("ucDashboard");
         }
     }
 }

@@ -153,20 +153,6 @@ namespace StudentManagementSystem.UI.UserControls
             }
         }
 
-        private void LoadComboBoxRole()
-        {
-            cbRole.Items.Add("Học viên");
-            cbRole.SelectedIndex = 0;
-        }
-
-        private void LoadComboBoxGradeType()
-        {
-            cbType.Items.Add("Kiểm tra 15 phút");
-            cbType.Items.Add("Kiểm tra 1 tiết");
-            cbType.Items.Add("Thi kết thúc môn");
-            cbType.SelectedIndex = 0;
-        }
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             ReloadTrainee();
