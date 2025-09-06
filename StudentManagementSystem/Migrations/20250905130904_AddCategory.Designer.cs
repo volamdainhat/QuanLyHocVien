@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem.Infrastructure;
 
@@ -10,9 +11,11 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250905130904_AddCategory")]
+    partial class AddCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -86,80 +89,6 @@ namespace StudentManagementSystem.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "STUDENT",
-                            IsActive = true,
-                            Name = "Học viên",
-                            SortOrder = 1,
-                            Type = "Role"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "SQUAD_LEADER",
-                            IsActive = true,
-                            Name = "Tiểu đội trưởng",
-                            SortOrder = 2,
-                            Type = "Role"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "CLASS_MONITOR",
-                            IsActive = true,
-                            Name = "Lớp trưởng",
-                            SortOrder = 3,
-                            Type = "Role"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Code = "STUDY_ASSISTANT",
-                            IsActive = true,
-                            Name = "Lớp phó học tập",
-                            SortOrder = 4,
-                            Type = "Role"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Code = "LOGISTICS_ASSISTANT",
-                            IsActive = true,
-                            Name = "Lớp phó hậu cần",
-                            SortOrder = 5,
-                            Type = "Role"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Code = "TEST_15M",
-                            IsActive = true,
-                            Name = "Kiểm tra 15 phút",
-                            SortOrder = 1,
-                            Type = "ExamType"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Code = "TEST_1H",
-                            IsActive = true,
-                            Name = "Kiểm tra 1 tiết",
-                            SortOrder = 2,
-                            Type = "ExamType"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Code = "FINAL",
-                            IsActive = true,
-                            Name = "Thi cuối môn",
-                            SortOrder = 3,
-                            Type = "ExamType"
-                        });
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Class", b =>
@@ -194,10 +123,6 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Sqlite:Autoincrement", true);
 
-                    b.Property<string>("ExamTypeCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<float>("Grade")
                         .HasColumnType("REAL");
 
@@ -216,8 +141,6 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TraineeId");
 
                     b.ToTable("Grades");
                 });
@@ -280,8 +203,6 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TraineeId");
-
                     b.ToTable("Misconducts");
                 });
 
@@ -304,6 +225,9 @@ namespace StudentManagementSystem.Migrations
                     b.Property<DateTime>("ReportDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ReportId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("TotalAbsences")
                         .HasColumnType("INTEGER");
 
@@ -311,8 +235,6 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.ToTable("Reports");
                 });
@@ -364,50 +286,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.SubjectAverageScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
-
-                    b.Property<decimal>("AverageScore")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<DateTime>("CalculatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Grade")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SchoolYear")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Semester")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TraineeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.HasIndex("TraineeId", "SubjectId", "Semester", "SchoolYear")
-                        .IsUnique();
-
-                    b.ToTable("SubjectAverageScores");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
@@ -486,39 +364,6 @@ namespace StudentManagementSystem.Migrations
                     b.ToTable("UserInfos");
                 });
 
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Grades", b =>
-                {
-                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
-                        .WithMany("Grades")
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Trainee");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Misconduct", b =>
-                {
-                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
-                        .WithMany("Misconducts")
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Trainee");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Reports", b =>
-                {
-                    b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-                });
-
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Schedule", b =>
                 {
                     b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
@@ -536,25 +381,6 @@ namespace StudentManagementSystem.Migrations
                     b.Navigation("Class");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.SubjectAverageScore", b =>
-                {
-                    b.HasOne("StudentManagementSystem.Domain.Entities.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
-                        .WithMany()
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
-
-                    b.Navigation("Trainee");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
@@ -576,13 +402,6 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Subject", b =>
                 {
                     b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
-                {
-                    b.Navigation("Grades");
-
-                    b.Navigation("Misconducts");
                 });
 #pragma warning restore 612, 618
         }

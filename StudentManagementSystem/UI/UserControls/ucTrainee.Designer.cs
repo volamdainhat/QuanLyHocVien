@@ -39,12 +39,14 @@ namespace StudentManagementSystem.UI.UserControls
             lblType = new Label();
             lblGrade = new Label();
             cbType = new ComboBox();
+            examTypeBindingSource = new BindingSource(components);
             lblSubject = new Label();
             cbSubject = new ComboBox();
             subjectBindingSource = new BindingSource(components);
             numAverageScore = new NumericUpDown();
             lblAverageScore = new Label();
             cbRole = new ComboBox();
+            roleBindingSource = new BindingSource(components);
             cbClassId = new ComboBox();
             classBindingSource = new BindingSource(components);
             lblRanking = new Label();
@@ -100,6 +102,15 @@ namespace StudentManagementSystem.UI.UserControls
             typeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             gradeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             gradesBindingSource = new BindingSource(components);
+            tabSubjectAverageScore = new TabPage();
+            dgvSubjectAverageScore = new DataGridView();
+            idDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            subjectNameDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            averageScoreDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            gradeDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            semesterDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            schoolYearDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            subjectAverageScoreBindingSource = new BindingSource(components);
             pnAction = new Panel();
             btnImportfromExcel = new Button();
             btnDelete = new Button();
@@ -112,8 +123,10 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.SuspendLayout();
             gbGrades.SuspendLayout();
             ((ISupportInitialize)numGrade).BeginInit();
+            ((ISupportInitialize)examTypeBindingSource).BeginInit();
             ((ISupportInitialize)subjectBindingSource).BeginInit();
             ((ISupportInitialize)numAverageScore).BeginInit();
+            ((ISupportInitialize)roleBindingSource).BeginInit();
             ((ISupportInitialize)classBindingSource).BeginInit();
             ((ISupportInitialize)pbAvatar).BeginInit();
             tableLayoutPanel.SuspendLayout();
@@ -124,6 +137,9 @@ namespace StudentManagementSystem.UI.UserControls
             tabGrades.SuspendLayout();
             ((ISupportInitialize)dgvGrades).BeginInit();
             ((ISupportInitialize)gradesBindingSource).BeginInit();
+            tabSubjectAverageScore.SuspendLayout();
+            ((ISupportInitialize)dgvSubjectAverageScore).BeginInit();
+            ((ISupportInitialize)subjectAverageScoreBindingSource).BeginInit();
             pnAction.SuspendLayout();
             ((ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
@@ -231,12 +247,19 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // cbType
             // 
+            cbType.DataSource = examTypeBindingSource;
+            cbType.DisplayMember = "Name";
             cbType.DropDownStyle = ComboBoxStyle.DropDownList;
             cbType.FormattingEnabled = true;
             cbType.Location = new Point(101, 69);
             cbType.Name = "cbType";
             cbType.Size = new Size(289, 33);
             cbType.TabIndex = 3;
+            cbType.ValueMember = "Code";
+            // 
+            // examTypeBindingSource
+            // 
+            examTypeBindingSource.DataSource = typeof(Domain.Entities.Category);
             // 
             // lblSubject
             // 
@@ -269,6 +292,7 @@ namespace StudentManagementSystem.UI.UserControls
             numAverageScore.Location = new Point(493, 207);
             numAverageScore.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numAverageScore.Name = "numAverageScore";
+            numAverageScore.ReadOnly = true;
             numAverageScore.Size = new Size(300, 31);
             numAverageScore.TabIndex = 31;
             // 
@@ -283,12 +307,19 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             // cbRole
             // 
+            cbRole.DataSource = roleBindingSource;
+            cbRole.DisplayMember = "Name";
             cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
             cbRole.FormattingEnabled = true;
             cbRole.Location = new Point(493, 168);
             cbRole.Name = "cbRole";
             cbRole.Size = new Size(300, 33);
             cbRole.TabIndex = 29;
+            cbRole.ValueMember = "Code";
+            // 
+            // roleBindingSource
+            // 
+            roleBindingSource.DataSource = typeof(Domain.Entities.Category);
             // 
             // cbClassId
             // 
@@ -556,6 +587,7 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             tabControl.Controls.Add(tabTrainees);
             tabControl.Controls.Add(tabGrades);
+            tabControl.Controls.Add(tabSubjectAverageScore);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Location = new Point(3, 370);
             tabControl.Name = "tabControl";
@@ -822,6 +854,92 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             gradesBindingSource.DataSource = typeof(Domain.Entities.Grades);
             // 
+            // tabSubjectAverageScore
+            // 
+            tabSubjectAverageScore.Controls.Add(dgvSubjectAverageScore);
+            tabSubjectAverageScore.Location = new Point(4, 34);
+            tabSubjectAverageScore.Name = "tabSubjectAverageScore";
+            tabSubjectAverageScore.Padding = new Padding(3);
+            tabSubjectAverageScore.Size = new Size(1298, 323);
+            tabSubjectAverageScore.TabIndex = 2;
+            tabSubjectAverageScore.Text = "Điểm trung bình môn học";
+            tabSubjectAverageScore.UseVisualStyleBackColor = true;
+            // 
+            // dgvSubjectAverageScore
+            // 
+            dgvSubjectAverageScore.AllowUserToAddRows = false;
+            dgvSubjectAverageScore.AllowUserToOrderColumns = true;
+            dgvSubjectAverageScore.AutoGenerateColumns = false;
+            dgvSubjectAverageScore.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSubjectAverageScore.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn2, subjectNameDataGridViewTextBoxColumn1, averageScoreDataGridViewTextBoxColumn1, gradeDataGridViewTextBoxColumn1, semesterDataGridViewTextBoxColumn, schoolYearDataGridViewTextBoxColumn });
+            dgvSubjectAverageScore.DataSource = subjectAverageScoreBindingSource;
+            dgvSubjectAverageScore.Dock = DockStyle.Fill;
+            dgvSubjectAverageScore.Location = new Point(3, 3);
+            dgvSubjectAverageScore.Name = "dgvSubjectAverageScore";
+            dgvSubjectAverageScore.ReadOnly = true;
+            dgvSubjectAverageScore.RowHeadersWidth = 62;
+            dgvSubjectAverageScore.Size = new Size(1292, 317);
+            dgvSubjectAverageScore.TabIndex = 2;
+            // 
+            // idDataGridViewTextBoxColumn2
+            // 
+            idDataGridViewTextBoxColumn2.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn2.HeaderText = "Id";
+            idDataGridViewTextBoxColumn2.MinimumWidth = 8;
+            idDataGridViewTextBoxColumn2.Name = "idDataGridViewTextBoxColumn2";
+            idDataGridViewTextBoxColumn2.ReadOnly = true;
+            idDataGridViewTextBoxColumn2.Visible = false;
+            idDataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // subjectNameDataGridViewTextBoxColumn1
+            // 
+            subjectNameDataGridViewTextBoxColumn1.DataPropertyName = "SubjectName";
+            subjectNameDataGridViewTextBoxColumn1.HeaderText = "Môn học";
+            subjectNameDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            subjectNameDataGridViewTextBoxColumn1.Name = "subjectNameDataGridViewTextBoxColumn1";
+            subjectNameDataGridViewTextBoxColumn1.ReadOnly = true;
+            subjectNameDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // averageScoreDataGridViewTextBoxColumn1
+            // 
+            averageScoreDataGridViewTextBoxColumn1.DataPropertyName = "AverageScore";
+            averageScoreDataGridViewTextBoxColumn1.HeaderText = "Điểm TB môn";
+            averageScoreDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            averageScoreDataGridViewTextBoxColumn1.Name = "averageScoreDataGridViewTextBoxColumn1";
+            averageScoreDataGridViewTextBoxColumn1.ReadOnly = true;
+            averageScoreDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // gradeDataGridViewTextBoxColumn1
+            // 
+            gradeDataGridViewTextBoxColumn1.DataPropertyName = "Grade";
+            gradeDataGridViewTextBoxColumn1.HeaderText = "Xếp loại";
+            gradeDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            gradeDataGridViewTextBoxColumn1.Name = "gradeDataGridViewTextBoxColumn1";
+            gradeDataGridViewTextBoxColumn1.ReadOnly = true;
+            gradeDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // semesterDataGridViewTextBoxColumn
+            // 
+            semesterDataGridViewTextBoxColumn.DataPropertyName = "Semester";
+            semesterDataGridViewTextBoxColumn.HeaderText = "Học kỳ";
+            semesterDataGridViewTextBoxColumn.MinimumWidth = 8;
+            semesterDataGridViewTextBoxColumn.Name = "semesterDataGridViewTextBoxColumn";
+            semesterDataGridViewTextBoxColumn.ReadOnly = true;
+            semesterDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // schoolYearDataGridViewTextBoxColumn
+            // 
+            schoolYearDataGridViewTextBoxColumn.DataPropertyName = "SchoolYear";
+            schoolYearDataGridViewTextBoxColumn.HeaderText = "Niên khóa";
+            schoolYearDataGridViewTextBoxColumn.MinimumWidth = 8;
+            schoolYearDataGridViewTextBoxColumn.Name = "schoolYearDataGridViewTextBoxColumn";
+            schoolYearDataGridViewTextBoxColumn.ReadOnly = true;
+            schoolYearDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // subjectAverageScoreBindingSource
+            // 
+            subjectAverageScoreBindingSource.DataSource = typeof(Applications.DTOs.SubjectAverageScoreView);
+            // 
             // pnAction
             // 
             pnAction.Controls.Add(btnImportfromExcel);
@@ -914,8 +1032,10 @@ namespace StudentManagementSystem.UI.UserControls
             gbGrades.ResumeLayout(false);
             gbGrades.PerformLayout();
             ((ISupportInitialize)numGrade).EndInit();
+            ((ISupportInitialize)examTypeBindingSource).EndInit();
             ((ISupportInitialize)subjectBindingSource).EndInit();
             ((ISupportInitialize)numAverageScore).EndInit();
+            ((ISupportInitialize)roleBindingSource).EndInit();
             ((ISupportInitialize)classBindingSource).EndInit();
             ((ISupportInitialize)pbAvatar).EndInit();
             tableLayoutPanel.ResumeLayout(false);
@@ -926,6 +1046,9 @@ namespace StudentManagementSystem.UI.UserControls
             tabGrades.ResumeLayout(false);
             ((ISupportInitialize)dgvGrades).EndInit();
             ((ISupportInitialize)gradesBindingSource).EndInit();
+            tabSubjectAverageScore.ResumeLayout(false);
+            ((ISupportInitialize)dgvSubjectAverageScore).EndInit();
+            ((ISupportInitialize)subjectAverageScoreBindingSource).EndInit();
             pnAction.ResumeLayout(false);
             ((ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
@@ -1004,11 +1127,22 @@ namespace StudentManagementSystem.UI.UserControls
         private Label lblGrade;
         private ComboBox cbType;
         private Button btnSaveGrade;
+        private BindingSource roleBindingSource;
+        private BindingSource examTypeBindingSource;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn traineeIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn subjectIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn subjectNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn gradeDataGridViewTextBoxColumn;
+        private TabPage tabSubjectAverageScore;
+        private DataGridView dgvSubjectAverageScore;
+        private BindingSource subjectAverageScoreBindingSource;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn subjectNameDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn averageScoreDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn gradeDataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn semesterDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn schoolYearDataGridViewTextBoxColumn;
     }
 }
