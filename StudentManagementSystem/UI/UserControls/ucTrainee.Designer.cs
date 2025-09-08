@@ -104,6 +104,12 @@ namespace StudentManagementSystem.UI.UserControls
             gradesBindingSource = new BindingSource(components);
             tabSubjectAverageScore = new TabPage();
             dgvSubjectAverageScore = new DataGridView();
+            idDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            subjectNameDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            averageScoreDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            gradeDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            semesterDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            schoolYearDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             subjectAverageScoreBindingSource = new BindingSource(components);
             pnAction = new Panel();
             btnImportfromExcel = new Button();
@@ -113,12 +119,6 @@ namespace StudentManagementSystem.UI.UserControls
             btnRefresh = new Button();
             contextMenuStrip1 = new ContextMenuStrip(components);
             errorProvider1 = new ErrorProvider(components);
-            idDataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            subjectNameDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            averageScoreDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            gradeDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            semesterDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            schoolYearDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
             gbGrades.SuspendLayout();
@@ -881,6 +881,63 @@ namespace StudentManagementSystem.UI.UserControls
             dgvSubjectAverageScore.Size = new Size(1292, 317);
             dgvSubjectAverageScore.TabIndex = 2;
             // 
+            // idDataGridViewTextBoxColumn2
+            // 
+            idDataGridViewTextBoxColumn2.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn2.HeaderText = "Id";
+            idDataGridViewTextBoxColumn2.MinimumWidth = 8;
+            idDataGridViewTextBoxColumn2.Name = "idDataGridViewTextBoxColumn2";
+            idDataGridViewTextBoxColumn2.ReadOnly = true;
+            idDataGridViewTextBoxColumn2.Visible = false;
+            idDataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // subjectNameDataGridViewTextBoxColumn1
+            // 
+            subjectNameDataGridViewTextBoxColumn1.DataPropertyName = "SubjectName";
+            subjectNameDataGridViewTextBoxColumn1.HeaderText = "Môn học";
+            subjectNameDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            subjectNameDataGridViewTextBoxColumn1.Name = "subjectNameDataGridViewTextBoxColumn1";
+            subjectNameDataGridViewTextBoxColumn1.ReadOnly = true;
+            subjectNameDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // averageScoreDataGridViewTextBoxColumn1
+            // 
+            averageScoreDataGridViewTextBoxColumn1.DataPropertyName = "AverageScore";
+            averageScoreDataGridViewTextBoxColumn1.HeaderText = "Điểm TB môn";
+            averageScoreDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            averageScoreDataGridViewTextBoxColumn1.Name = "averageScoreDataGridViewTextBoxColumn1";
+            averageScoreDataGridViewTextBoxColumn1.ReadOnly = true;
+            averageScoreDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // gradeDataGridViewTextBoxColumn1
+            // 
+            gradeDataGridViewTextBoxColumn1.DataPropertyName = "Grade";
+            gradeDataGridViewTextBoxColumn1.HeaderText = "Xếp loại";
+            gradeDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            gradeDataGridViewTextBoxColumn1.Name = "gradeDataGridViewTextBoxColumn1";
+            gradeDataGridViewTextBoxColumn1.ReadOnly = true;
+            gradeDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // semesterDataGridViewTextBoxColumn
+            // 
+            semesterDataGridViewTextBoxColumn.DataPropertyName = "Semester";
+            semesterDataGridViewTextBoxColumn.HeaderText = "Học kỳ";
+            semesterDataGridViewTextBoxColumn.MinimumWidth = 8;
+            semesterDataGridViewTextBoxColumn.Name = "semesterDataGridViewTextBoxColumn";
+            semesterDataGridViewTextBoxColumn.ReadOnly = true;
+            semesterDataGridViewTextBoxColumn.Visible = false;
+            semesterDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // schoolYearDataGridViewTextBoxColumn
+            // 
+            schoolYearDataGridViewTextBoxColumn.DataPropertyName = "SchoolYear";
+            schoolYearDataGridViewTextBoxColumn.HeaderText = "Niên khóa";
+            schoolYearDataGridViewTextBoxColumn.MinimumWidth = 8;
+            schoolYearDataGridViewTextBoxColumn.Name = "schoolYearDataGridViewTextBoxColumn";
+            schoolYearDataGridViewTextBoxColumn.ReadOnly = true;
+            schoolYearDataGridViewTextBoxColumn.Visible = false;
+            schoolYearDataGridViewTextBoxColumn.Width = 150;
+            // 
             // subjectAverageScoreBindingSource
             // 
             subjectAverageScoreBindingSource.DataSource = typeof(Applications.DTOs.SubjectAverageScoreView);
@@ -962,63 +1019,6 @@ namespace StudentManagementSystem.UI.UserControls
             // errorProvider1
             // 
             errorProvider1.ContainerControl = this;
-            // 
-            // idDataGridViewTextBoxColumn2
-            // 
-            idDataGridViewTextBoxColumn2.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn2.HeaderText = "Id";
-            idDataGridViewTextBoxColumn2.MinimumWidth = 8;
-            idDataGridViewTextBoxColumn2.Name = "idDataGridViewTextBoxColumn2";
-            idDataGridViewTextBoxColumn2.ReadOnly = true;
-            idDataGridViewTextBoxColumn2.Visible = false;
-            idDataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // subjectNameDataGridViewTextBoxColumn1
-            // 
-            subjectNameDataGridViewTextBoxColumn1.DataPropertyName = "SubjectName";
-            subjectNameDataGridViewTextBoxColumn1.HeaderText = "Môn học";
-            subjectNameDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            subjectNameDataGridViewTextBoxColumn1.Name = "subjectNameDataGridViewTextBoxColumn1";
-            subjectNameDataGridViewTextBoxColumn1.ReadOnly = true;
-            subjectNameDataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // averageScoreDataGridViewTextBoxColumn1
-            // 
-            averageScoreDataGridViewTextBoxColumn1.DataPropertyName = "AverageScore";
-            averageScoreDataGridViewTextBoxColumn1.HeaderText = "Điểm TB môn";
-            averageScoreDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            averageScoreDataGridViewTextBoxColumn1.Name = "averageScoreDataGridViewTextBoxColumn1";
-            averageScoreDataGridViewTextBoxColumn1.ReadOnly = true;
-            averageScoreDataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // gradeDataGridViewTextBoxColumn1
-            // 
-            gradeDataGridViewTextBoxColumn1.DataPropertyName = "Grade";
-            gradeDataGridViewTextBoxColumn1.HeaderText = "Xếp loại";
-            gradeDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            gradeDataGridViewTextBoxColumn1.Name = "gradeDataGridViewTextBoxColumn1";
-            gradeDataGridViewTextBoxColumn1.ReadOnly = true;
-            gradeDataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // semesterDataGridViewTextBoxColumn
-            // 
-            semesterDataGridViewTextBoxColumn.DataPropertyName = "Semester";
-            semesterDataGridViewTextBoxColumn.HeaderText = "Học kỳ";
-            semesterDataGridViewTextBoxColumn.MinimumWidth = 8;
-            semesterDataGridViewTextBoxColumn.Name = "semesterDataGridViewTextBoxColumn";
-            semesterDataGridViewTextBoxColumn.ReadOnly = true;
-            semesterDataGridViewTextBoxColumn.Visible = false;
-            semesterDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // schoolYearDataGridViewTextBoxColumn
-            // 
-            schoolYearDataGridViewTextBoxColumn.DataPropertyName = "SchoolYear";
-            schoolYearDataGridViewTextBoxColumn.HeaderText = "Niên khóa";
-            schoolYearDataGridViewTextBoxColumn.MinimumWidth = 8;
-            schoolYearDataGridViewTextBoxColumn.Name = "schoolYearDataGridViewTextBoxColumn";
-            schoolYearDataGridViewTextBoxColumn.ReadOnly = true;
-            schoolYearDataGridViewTextBoxColumn.Visible = false;
-            schoolYearDataGridViewTextBoxColumn.Width = 150;
             // 
             // ucTrainee
             // 

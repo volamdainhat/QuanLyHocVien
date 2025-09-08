@@ -33,10 +33,12 @@
             btnTrainee = new Button();
             btnClass = new Button();
             btnTimetable = new Button();
-            lblTitle = new Label();
             button1 = new Button();
             button2 = new Button();
+            pcIcon = new PictureBox();
+            lblTitle = new Label();
             tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pcIcon).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -54,6 +56,7 @@
             tableLayoutPanel1.Controls.Add(btnTimetable, 5, 1);
             tableLayoutPanel1.Controls.Add(button1, 1, 3);
             tableLayoutPanel1.Controls.Add(button2, 5, 3);
+            tableLayoutPanel1.Controls.Add(pcIcon, 3, 3);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 207);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -120,21 +123,6 @@
             btnTimetable.MouseLeave += btnTimetable_MouseLeave;
             btnTimetable.MouseHover += btnTimetable_MouseHover;
             // 
-            // lblTitle
-            // 
-            lblTitle.BackColor = Color.Transparent;
-            lblTitle.BorderStyle = BorderStyle.Fixed3D;
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.ForeColor = Color.Crimson;
-            lblTitle.Location = new Point(0, 0);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(0, 100, 0, 0);
-            lblTitle.Size = new Size(1280, 207);
-            lblTitle.TabIndex = 15;
-            lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // button1
             // 
             button1.BackColor = Color.OrangeRed;
@@ -164,6 +152,33 @@
             button2.TextImageRelation = TextImageRelation.ImageAboveText;
             button2.UseVisualStyleBackColor = false;
             // 
+            // pcIcon
+            // 
+            pcIcon.BackColor = SystemColors.Control;
+            pcIcon.BackgroundImage = (Image)resources.GetObject("pcIcon.BackgroundImage");
+            pcIcon.BackgroundImageLayout = ImageLayout.Zoom;
+            pcIcon.Dock = DockStyle.Fill;
+            pcIcon.Location = new Point(492, 353);
+            pcIcon.Name = "pcIcon";
+            pcIcon.Size = new Size(294, 144);
+            pcIcon.TabIndex = 9;
+            pcIcon.TabStop = false;
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = Color.Transparent;
+            lblTitle.BorderStyle = BorderStyle.Fixed3D;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Crimson;
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Padding = new Padding(0, 100, 0, 0);
+            lblTitle.Size = new Size(1280, 207);
+            lblTitle.TabIndex = 15;
+            lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // ucHome
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -173,6 +188,7 @@
             Name = "ucHome";
             Size = new Size(1280, 720);
             tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pcIcon).EndInit();
             ResumeLayout(false);
         }
 
@@ -185,5 +201,6 @@
         private Label lblTitle;
         private Button button1;
         private Button button2;
+        private PictureBox pcIcon;
     }
 }
