@@ -38,14 +38,13 @@ namespace StudentManagementSystem.Forms
             htchToolStripMenuItem = new ToolStripMenuItem();
             báoCáoToolStripMenuItem = new ToolStripMenuItem();
             pnlMainContent = new SmoothPanel();
-            cácMônHọcToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem, báoCáoToolStripMenuItem, cácMônHọcToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem, báoCáoToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(4, 1, 0, 1);
@@ -104,12 +103,6 @@ namespace StudentManagementSystem.Forms
             pnlMainContent.Size = new Size(881, 374);
             pnlMainContent.TabIndex = 10;
             // 
-            // cácMônHọcToolStripMenuItem
-            // 
-            cácMônHọcToolStripMenuItem.Name = "cácMônHọcToolStripMenuItem";
-            cácMônHọcToolStripMenuItem.Size = new Size(105, 22);
-            cácMônHọcToolStripMenuItem.Text = "6. Các môn học";
-            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -140,6 +133,5 @@ namespace StudentManagementSystem.Forms
         private ToolStripMenuItem trangChủToolStripMenuItem;
         private ToolStripMenuItem htchToolStripMenuItem;
         private ToolStripMenuItem báoCáoToolStripMenuItem;
-        private ToolStripMenuItem cácMônHọcToolStripMenuItem;
     }
 }

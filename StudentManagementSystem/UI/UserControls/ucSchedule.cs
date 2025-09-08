@@ -89,12 +89,18 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void RenameColumns()
         {
+            if (dgvRead.Columns.Contains("Id"))
+                dgvRead.Columns["Id"].HeaderText = "Mã môn";
             if (dgvRead.Columns.Contains("ClassName"))
                 dgvRead.Columns["ClassName"].HeaderText = "Lớp";
             if (dgvRead.Columns.Contains("SubjectName"))
                 dgvRead.Columns["SubjectName"].HeaderText = "Môn";
             if (dgvRead.Columns.Contains("Date"))
                 dgvRead.Columns["Date"].HeaderText = "Ngày học";
+            if (dgvRead.Columns.Contains("Period"))
+                dgvRead.Columns["Period"].HeaderText = "Buổi học";
+            if (dgvRead.Columns.Contains("Room"))
+                dgvRead.Columns["Room"].HeaderText = "Phòng học";
         }
 
         private void HighlightScheduleDates()
@@ -314,55 +320,133 @@ namespace StudentManagementSystem.UI.UserControls
         // BtnAddNewSubject should open a new form to add subjects
         private void btnAddNewSubject_Click(object sender, EventArgs e)
         {
-            // Inline form
             using (var form = new Form())
             {
-                form.Text = "Thêm môn học";
-                form.Size = new Size(300, 150);
+                form.Text = "Quản lý môn học";
+                form.Size = new Size(420, 320);
                 form.FormBorderStyle = FormBorderStyle.FixedDialog;
                 form.StartPosition = FormStartPosition.CenterParent;
                 form.MaximizeBox = false;
                 form.MinimizeBox = false;
 
-                var lbl = new Label { Text = "Tên môn học:", Left = 10, Top = 20, AutoSize = true };
-                var txt = new TextBox { Left = 100, Top = 18, Width = 150 };
-                var btnSave = new Button { Text = "Lưu", Left = 100, Top = 60, Width = 70, DialogResult = DialogResult.OK };
-                var btnCancel = new Button { Text = "Hủy", Left = 180, Top = 60, Width = 70, DialogResult = DialogResult.Cancel };
+                // Controls
+                var lbl = new Label { Text = "Tên môn học:", Left = 10, Top = 15, AutoSize = true };
+                var txt = new TextBox { Left = 100, Top = 12, Width = 200 };
 
-                form.Controls.Add(lbl);
-                form.Controls.Add(txt);
-                form.Controls.Add(btnSave);
-                form.Controls.Add(btnCancel);
+                var btnAdd = new Button { Text = "Thêm", Left = 310, Top = 10, Width = 80 };
+                var btnUpdate = new Button { Text = "Sửa", Left = 310, Top = 50, Width = 80 };
+                var btnDelete = new Button { Text = "Xóa", Left = 310, Top = 90, Width = 80 };
 
-                form.AcceptButton = btnSave;
-                form.CancelButton = btnCancel;
+                var lst = new ListBox { Left = 10, Top = 50, Width = 280, Height = 200 };
 
-                if (form.ShowDialog() == DialogResult.OK)
+                var btnClose = new Button { Text = "Đóng", Left = 310, Top = 210, Width = 80, DialogResult = DialogResult.Cancel };
+
+                // Load subjects
+                Action refreshList = () =>
                 {
-                    string subjectName = txt.Text.Trim();
-                    if (string.IsNullOrEmpty(subjectName))
+                    lst.DataSource = null;
+                    lst.DataSource = _context.Subjects.OrderBy(s => s.Name).ToList();
+                    lst.DisplayMember = "Name";
+                    lst.ValueMember = "Id";
+                };
+                refreshList();
+
+                // Autofill textbox on select
+                lst.SelectedIndexChanged += (s, ev) =>
+                {
+                    if (lst.SelectedItem is Subject subj)
+                        txt.Text = subj.Name;
+                };
+
+                // Add subject
+                btnAdd.Click += (s, ev) =>
+                {
+                    string name = txt.Text.Trim();
+                    if (string.IsNullOrEmpty(name))
                     {
                         MessageBox.Show("Tên môn học không được để trống.");
                         return;
                     }
-
-                    // Prevent duplicates
-                    if (_context.Subjects.Any(s => s.Name.ToLower() == subjectName.ToLower()))
+                    if (_context.Subjects.Any(x => x.Name.ToLower() == name.ToLower()))
                     {
                         MessageBox.Show("Môn học đã tồn tại.");
                         return;
                     }
 
-                    var newSubject = new Subject { Name = subjectName };
-                    _context.Subjects.Add(newSubject);
+                    _context.Subjects.Add(new Subject { Name = name });
                     _context.SaveChanges();
+                    txt.Clear();
+                    refreshList();
+                };
 
-                    // Refresh combo
-                    LoadSubjects();
-                    cbSubject.SelectedItem = _context.Subjects.Local.FirstOrDefault(s => s.Id == newSubject.Id);
-                }
+                // Update subject
+                btnUpdate.Click += (s, ev) =>
+                {
+                    if (lst.SelectedItem is Subject subj)
+                    {
+                        string newName = txt.Text.Trim();
+                        if (string.IsNullOrEmpty(newName))
+                        {
+                            MessageBox.Show("Tên môn học không được để trống.");
+                            return;
+                        }
+
+                        if (_context.Subjects.Any(x => x.Name.ToLower() == newName.ToLower() && x.Id != subj.Id))
+                        {
+                            MessageBox.Show("Tên môn học đã tồn tại.");
+                            return;
+                        }
+
+                        subj.Name = newName;
+                        _context.SaveChanges();
+                        refreshList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vui lòng chọn môn học để sửa.");
+                    }
+                };
+
+                // Delete subject
+                btnDelete.Click += (s, ev) =>
+                {
+                    if (lst.SelectedItem is Subject subj)
+                    {
+                        var confirm = MessageBox.Show($"Xóa môn học '{subj.Name}'?",
+                                                      "Xác nhận", MessageBoxButtons.YesNo);
+                        if (confirm == DialogResult.Yes)
+                        {
+                            _context.Subjects.Remove(subj);
+                            _context.SaveChanges();
+                            txt.Clear();
+                            refreshList();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vui lòng chọn môn học để xóa.");
+                    }
+                };
+
+                // Add controls to form
+                form.Controls.Add(lbl);
+                form.Controls.Add(txt);
+                form.Controls.Add(btnAdd);
+                form.Controls.Add(btnUpdate);
+                form.Controls.Add(btnDelete);
+                form.Controls.Add(lst);
+                form.Controls.Add(btnClose);
+
+                form.AcceptButton = btnAdd;
+                form.CancelButton = btnClose;
+
+                // Always refresh parent after dialog closes
+                form.FormClosed += (s, ev) => LoadSubjects();
+
+                form.ShowDialog();
             }
         }
+
 
     }
 }

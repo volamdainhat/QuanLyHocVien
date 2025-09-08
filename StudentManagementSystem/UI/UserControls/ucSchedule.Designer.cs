@@ -170,7 +170,7 @@
             // 
             txtRoom.Location = new Point(117, 123);
             txtRoom.Name = "txtRoom";
-            txtRoom.Size = new Size(87, 21);
+            txtRoom.Size = new Size(170, 21);
             txtRoom.TabIndex = 7;
             // 
             // cbPeriod
@@ -249,51 +249,55 @@
             // btnDelete
             // 
             btnDelete.AutoSize = true;
-            btnDelete.Location = new Point(543, 4);
+            btnDelete.Location = new Point(548, 4);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(78, 25);
             btnDelete.TabIndex = 4;
             btnDelete.Text = "Xóa lịch";
             btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnUpdate
             // 
             btnUpdate.AutoSize = true;
-            btnUpdate.Location = new Point(425, 3);
+            btnUpdate.Location = new Point(430, 3);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(112, 25);
             btnUpdate.TabIndex = 3;
             btnUpdate.Text = "Cập nhật lịch học";
             btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnRefresh
             // 
             btnRefresh.AutoSize = true;
-            btnRefresh.Location = new Point(267, 3);
+            btnRefresh.Location = new Point(272, 3);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(152, 25);
             btnRefresh.TabIndex = 2;
             btnRefresh.Text = "Làm mới thời khóa biểu";
             btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // btnAddSubject
             // 
             btnAddSubject.AutoSize = true;
-            btnAddSubject.Location = new Point(109, 3);
+            btnAddSubject.Location = new Point(114, 3);
             btnAddSubject.Name = "btnAddSubject";
             btnAddSubject.Size = new Size(152, 25);
             btnAddSubject.TabIndex = 1;
             btnAddSubject.Text = "Thêm vào thời khóa biểu";
             btnAddSubject.UseVisualStyleBackColor = true;
+            btnAddSubject.Click += btnAddSubject_Click;
             // 
             // btnAddNewSubject
             // 
             btnAddNewSubject.AutoSize = true;
             btnAddNewSubject.Location = new Point(3, 3);
             btnAddNewSubject.Name = "btnAddNewSubject";
-            btnAddNewSubject.Size = new Size(100, 25);
+            btnAddNewSubject.Size = new Size(109, 25);
             btnAddNewSubject.TabIndex = 0;
-            btnAddNewSubject.Text = "Thêm môn học";
+            btnAddNewSubject.Text = "Quản lý môn học";
             btnAddNewSubject.UseVisualStyleBackColor = true;
             btnAddNewSubject.Click += btnAddNewSubject_Click;
             // 
@@ -321,9 +325,12 @@
             mcTimetable.Location = new Point(0, 0);
             mcTimetable.Name = "mcTimetable";
             mcTimetable.TabIndex = 0;
+            mcTimetable.DateChanged += mcTimetable_DateChanged;
             // 
             // dgvRead
             // 
+            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvRead.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(0, 0);
