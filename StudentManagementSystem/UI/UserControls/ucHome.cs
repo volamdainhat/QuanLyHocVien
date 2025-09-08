@@ -31,6 +31,16 @@ namespace StudentManagementSystem.UI.Forms
             NavigationService.Navigate(new ucSchedule());
         }
 
+        private void btnMisconduct_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new ucStudentMonitoring());
+        }
+
+        private void btnReports_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new ucReports());
+        }
+
         // QoL, maybe...
 
         private void btnTrainee_MouseHover(object sender, EventArgs e)
@@ -62,5 +72,6 @@ namespace StudentManagementSystem.UI.Forms
         {
             btnTimetable.BackColor = Color.FromName(normal_color);
         }
+
     }
 }
