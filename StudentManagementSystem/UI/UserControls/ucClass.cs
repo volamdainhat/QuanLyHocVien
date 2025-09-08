@@ -8,7 +8,7 @@ namespace StudentManagementSystem.UI.UserControls
 {
     public partial class ucClass : UserControl
     {
-        private AppDbContext? dbContext;
+        private AppDbContext? dbContext = null;
 
         public ucClass()
         {

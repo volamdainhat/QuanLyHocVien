@@ -18,6 +18,7 @@ namespace StudentManagementSystem.UI.UserControls
             LoadClasses();
             RenameColumns();
 
+            dgvReports.CellDoubleClick += dgvReports_CellDoubleClick;
             dgvReports.CellClick += dgvReports_CellClick;
             btnGenerate.Click += (s, e) => GenerateReport();
             btnDelete.Click += (s, e) => DeleteReport();
@@ -152,7 +153,87 @@ namespace StudentManagementSystem.UI.UserControls
             var row = dgvReports.Rows[e.RowIndex];
             comboBoxClass.Text = row.Cells["ClassName"].Value?.ToString();
         }
+
+        private void dgvReports_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            int reportId = Convert.ToInt32(dgvReports.Rows[e.RowIndex].Cells["Id"].Value);
+
+            var report = _context.Reports
+                .Include(r => r.Class)
+                .FirstOrDefault(r => r.Id == reportId);
+
+            if (report == null) return;
+
+            int classId = report.ClassId;
+
+            // 📅 Same range as report generation
+            DateTime startDate = dtpStartDate.Value.Date;
+            DateTime endDate = dtpEndDate.Value.Date.AddDays(1).AddTicks(-1);
+
+            // 🔎 Query misconducts
+            var misconducts = _context.Misconducts
+                .Include(m => m.Trainee)
+                .Where(m => m.Trainee.ClassId == classId
+                         && m.Time >= startDate && m.Time <= endDate)
+                .OrderByDescending(m => m.Time)
+                .Select(m => new
+                {
+                    m.Id,
+                    TraineeName = m.Trainee.FullName,
+                    MisconductType = m.Type,
+                    MisconductDescription = m.Description,
+                    MisconductTime = m.Time
+                })
+                .ToList();
+
+            if (misconducts.Count == 0)
+            {
+                MessageBox.Show("Không có vi phạm nào trong khoảng thời gian này.", "Thông báo");
+                return;
+            }
+
+            // 📋 Show in a new form with grid
+            Form form = new Form
+            {
+                Text = $"Chi tiết vi phạm - {report.Class.Name}",
+                Size = new Size(800, 500)
+            };
+
+            DataGridView grid = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                DataSource = misconducts
+            };
+
+            form.Controls.Add(grid);
+
+            // 🎨 Rename column headers
+            form.Load += (s, args) =>
+            {
+                if (grid.Columns.Contains("Id"))
+                    grid.Columns["Id"].HeaderText = "Mã vi phạm";
+
+                if (grid.Columns.Contains("TraineeName"))
+                    grid.Columns["TraineeName"].HeaderText = "Tên học viên";
+
+                if (grid.Columns.Contains("MisconductType"))
+                    grid.Columns["MisconductType"].HeaderText = "Loại vi phạm";
+
+                if (grid.Columns.Contains("MisconductDescription"))
+                    grid.Columns["MisconductDescription"].HeaderText = "Mô tả";
+
+                if (grid.Columns.Contains("MisconductTime"))
+                    grid.Columns["MisconductTime"].HeaderText = "Thời gian";
+            };
+
+            form.ShowDialog();
+        }
+
+
     }
 
-    // ?
 }
