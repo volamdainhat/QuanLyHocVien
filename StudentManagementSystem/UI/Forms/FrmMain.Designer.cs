@@ -36,15 +36,16 @@ namespace StudentManagementSystem.Forms
             lớpHọcToolStripMenuItem = new ToolStripMenuItem();
             TkbToolStripMenuItem = new ToolStripMenuItem();
             htchToolStripMenuItem = new ToolStripMenuItem();
-            pnlMainContent = new SmoothPanel();
             báoCáoToolStripMenuItem = new ToolStripMenuItem();
+            pnlMainContent = new SmoothPanel();
+            cácMônHọcToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
             menuStrip.ImageScalingSize = new Size(24, 24);
-            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem, báoCáoToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, họcViênToolStripMenuItem, lớpHọcToolStripMenuItem, TkbToolStripMenuItem, htchToolStripMenuItem, báoCáoToolStripMenuItem, cácMônHọcToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Padding = new Padding(4, 1, 0, 1);
@@ -87,21 +88,27 @@ namespace StudentManagementSystem.Forms
             htchToolStripMenuItem.Text = "4. Chấp hành kỉ luật";
             htchToolStripMenuItem.Click += htchToolStripMenuItem_Click;
             // 
-            // pnlMainContent
-            // 
-            pnlMainContent.Dock = DockStyle.Fill;
-            pnlMainContent.Location = new Point(0, 24);
-            pnlMainContent.Margin = new Padding(2, 2, 2, 2);
-            pnlMainContent.Name = "pnlMainContent";
-            pnlMainContent.Size = new Size(881, 374);
-            pnlMainContent.TabIndex = 10;
-            // 
             // báoCáoToolStripMenuItem
             // 
             báoCáoToolStripMenuItem.Name = "báoCáoToolStripMenuItem";
             báoCáoToolStripMenuItem.Size = new Size(77, 22);
             báoCáoToolStripMenuItem.Text = "5. Báo cáo";
             báoCáoToolStripMenuItem.Click += báoCáoToolStripMenuItem_Click;
+            // 
+            // pnlMainContent
+            // 
+            pnlMainContent.Dock = DockStyle.Fill;
+            pnlMainContent.Location = new Point(0, 24);
+            pnlMainContent.Margin = new Padding(2);
+            pnlMainContent.Name = "pnlMainContent";
+            pnlMainContent.Size = new Size(881, 374);
+            pnlMainContent.TabIndex = 10;
+            // 
+            // cácMônHọcToolStripMenuItem
+            // 
+            cácMônHọcToolStripMenuItem.Name = "cácMônHọcToolStripMenuItem";
+            cácMônHọcToolStripMenuItem.Size = new Size(105, 22);
+            cácMônHọcToolStripMenuItem.Text = "6. Các môn học";
             // 
             // FrmMain
             // 
@@ -111,7 +118,7 @@ namespace StudentManagementSystem.Forms
             Controls.Add(pnlMainContent);
             Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ứng dụng quản lý học viên";
@@ -133,5 +140,6 @@ namespace StudentManagementSystem.Forms
         private ToolStripMenuItem trangChủToolStripMenuItem;
         private ToolStripMenuItem htchToolStripMenuItem;
         private ToolStripMenuItem báoCáoToolStripMenuItem;
+        private ToolStripMenuItem cácMônHọcToolStripMenuItem;
     }
 }

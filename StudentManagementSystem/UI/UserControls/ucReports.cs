@@ -118,8 +118,11 @@ namespace StudentManagementSystem.UI.UserControls
                 TotalStudents = totalStudents,
                 TotalAbsences = totalAbsences,
                 AverageScore = averageScore,
-                ReportDate = DateTime.Now
+                ReportDate = DateTime.Now,
+                StartDate = startDate,  // 🔑 keep range
+                EndDate = endDate       // 🔑 keep range
             };
+
 
             _context.Reports.Add(report);
             _context.SaveChanges();
@@ -127,8 +130,6 @@ namespace StudentManagementSystem.UI.UserControls
             LoadReports();
             MessageBox.Show("Báo cáo đã được tạo thành công!");
         }
-
-
 
         private void DeleteReport()
         {
@@ -169,8 +170,10 @@ namespace StudentManagementSystem.UI.UserControls
             int classId = report.ClassId;
 
             // 📅 Same range as report generation
-            DateTime startDate = dtpStartDate.Value.Date;
-            DateTime endDate = dtpEndDate.Value.Date.AddDays(1).AddTicks(-1);
+            // 📅 Use stored range from report, not UI
+            DateTime startDate = report.StartDate;
+            DateTime endDate = report.EndDate;
+
 
             // 🔎 Query misconducts
             var misconducts = _context.Misconducts
@@ -228,6 +231,12 @@ namespace StudentManagementSystem.UI.UserControls
 
                 if (grid.Columns.Contains("MisconductTime"))
                     grid.Columns["MisconductTime"].HeaderText = "Thời gian";
+
+                if (dgvReports.Columns.Contains("StartDate"))
+                    dgvReports.Columns["StartDate"].HeaderText = "Từ ngày";
+
+                if (dgvReports.Columns.Contains("EndDate"))
+                    dgvReports.Columns["EndDate"].HeaderText = "Đến ngày";
             };
 
             form.ShowDialog();

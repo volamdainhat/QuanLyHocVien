@@ -178,7 +178,6 @@ namespace StudentManagementSystem.UI.UserControls
             ShowTraineesForClass(selectedClass.Id);
         }
 
-
         // ===============================
         //  Query and display trainees for a class
         // ===============================
@@ -244,7 +243,7 @@ public class TraineeService
         if (cls == null) return false;
 
         if (cls.TotalStudents >= cls.MaxStudents)
-            throw new InvalidOperationException("Class has reached max capacity.");
+            throw new InvalidOperationException("Lớp đã đầy, không thể thêm học viên.");
 
         trainee.ClassId = classId;
         _db.Trainees.Add(trainee);

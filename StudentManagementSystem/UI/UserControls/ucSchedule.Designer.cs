@@ -28,295 +28,291 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
-            splitContainer1 = new SplitContainer();
-            cbSubject = new ComboBox();
-            subjectBindingSource = new BindingSource(components);
-            button2 = new Button();
-            button1 = new Button();
-            btnRefresh = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            panel1 = new Panel();
             label7 = new Label();
             label6 = new Label();
             dtpEndDate = new DateTimePicker();
             dtpStartDate = new DateTimePicker();
             chlbDaysofWeek = new CheckedListBox();
             label5 = new Label();
-            btnAddSubject = new Button();
             txtRoom = new TextBox();
-            label4 = new Label();
             cbPeriod = new ComboBox();
+            label4 = new Label();
             label3 = new Label();
             cbClassName = new ComboBox();
             label2 = new Label();
+            cbSubject = new ComboBox();
             label1 = new Label();
-            splitContainer2 = new SplitContainer();
+            panel2 = new Panel();
+            btnDelete = new Button();
+            btnUpdate = new Button();
+            btnRefresh = new Button();
+            btnAddSubject = new Button();
+            btnAddNewSubject = new Button();
+            splitContainer1 = new SplitContainer();
             mcTimetable = new MonthCalendar();
             dgvRead = new DataGridView();
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subjectIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            classDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            subjectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            roomDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            periodDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            scheduleBindingSource = new BindingSource(components);
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
             groupBox1.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
-            splitContainer2.Panel1.SuspendLayout();
-            splitContainer2.Panel2.SuspendLayout();
-            splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)scheduleBindingSource).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(splitContainer1);
+            groupBox1.Controls.Add(tableLayoutPanel1);
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(992, 559);
+            groupBox1.Size = new Size(869, 508);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Thời khóa biểu";
             // 
-            // splitContainer1
+            // tableLayoutPanel1
             // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(3, 17);
-            splitContainer1.Name = "splitContainer1";
-            splitContainer1.Orientation = Orientation.Horizontal;
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel1.Controls.Add(panel2, 0, 2);
+            tableLayoutPanel1.Controls.Add(splitContainer1, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(3, 17);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            tableLayoutPanel1.Size = new Size(863, 488);
+            tableLayoutPanel1.TabIndex = 0;
             // 
-            // splitContainer1.Panel1
+            // panel1
             // 
-            splitContainer1.Panel1.Controls.Add(cbSubject);
-            splitContainer1.Panel1.Controls.Add(button2);
-            splitContainer1.Panel1.Controls.Add(button1);
-            splitContainer1.Panel1.Controls.Add(btnRefresh);
-            splitContainer1.Panel1.Controls.Add(label7);
-            splitContainer1.Panel1.Controls.Add(label6);
-            splitContainer1.Panel1.Controls.Add(dtpEndDate);
-            splitContainer1.Panel1.Controls.Add(dtpStartDate);
-            splitContainer1.Panel1.Controls.Add(chlbDaysofWeek);
-            splitContainer1.Panel1.Controls.Add(label5);
-            splitContainer1.Panel1.Controls.Add(btnAddSubject);
-            splitContainer1.Panel1.Controls.Add(txtRoom);
-            splitContainer1.Panel1.Controls.Add(label4);
-            splitContainer1.Panel1.Controls.Add(cbPeriod);
-            splitContainer1.Panel1.Controls.Add(label3);
-            splitContainer1.Panel1.Controls.Add(cbClassName);
-            splitContainer1.Panel1.Controls.Add(label2);
-            splitContainer1.Panel1.Controls.Add(label1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            splitContainer1.Panel2.Controls.Add(splitContainer2);
-            splitContainer1.Size = new Size(986, 539);
-            splitContainer1.SplitterDistance = 314;
-            splitContainer1.TabIndex = 0;
-            // 
-            // cbSubject
-            // 
-            cbSubject.DataSource = subjectBindingSource;
-            cbSubject.DisplayMember = "Name";
-            cbSubject.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbSubject.FormattingEnabled = true;
-            cbSubject.Location = new Point(125, 31);
-            cbSubject.Margin = new Padding(2);
-            cbSubject.Name = "cbSubject";
-            cbSubject.Size = new Size(216, 23);
-            cbSubject.TabIndex = 45;
-            cbSubject.ValueMember = "Id";
-            // 
-            // subjectBindingSource
-            // 
-            subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
-            // 
-            // button2
-            // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button2.Location = new Point(878, 289);
-            button2.Name = "button2";
-            button2.Size = new Size(88, 23);
-            button2.TabIndex = 44;
-            button2.Text = "Xóa lịch";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += btnDelete_Click;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.Location = new Point(783, 289);
-            button1.Name = "button1";
-            button1.Size = new Size(89, 23);
-            button1.TabIndex = 43;
-            button1.Text = "Sửa lịch";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += btnUpdate_Click;
-            // 
-            // btnRefresh
-            // 
-            btnRefresh.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnRefresh.Location = new Point(620, 289);
-            btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(157, 23);
-            btnRefresh.TabIndex = 42;
-            btnRefresh.Text = "Làm mới danh sách";
-            btnRefresh.UseVisualStyleBackColor = true;
-            btnRefresh.Click += btnRefresh_Click;
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(dtpEndDate);
+            panel1.Controls.Add(dtpStartDate);
+            panel1.Controls.Add(chlbDaysofWeek);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(txtRoom);
+            panel1.Controls.Add(cbPeriod);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(cbClassName);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(cbSubject);
+            panel1.Controls.Add(label1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(857, 219);
+            panel1.TabIndex = 0;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(498, 193);
+            label7.Location = new Point(379, 169);
             label7.Name = "label7";
             label7.Size = new Size(80, 15);
-            label7.TabIndex = 41;
+            label7.TabIndex = 13;
             label7.Text = "Ngày kết thúc";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(498, 144);
+            label6.Location = new Point(379, 130);
             label6.Name = "label6";
             label6.Size = new Size(79, 15);
-            label6.TabIndex = 40;
+            label6.TabIndex = 12;
             label6.Text = "Ngày bắt đầu";
             // 
             // dtpEndDate
             // 
-            dtpEndDate.Location = new Point(620, 193);
+            dtpEndDate.Location = new Point(505, 169);
             dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.Size = new Size(252, 21);
-            dtpEndDate.TabIndex = 39;
+            dtpEndDate.Size = new Size(223, 21);
+            dtpEndDate.TabIndex = 11;
             // 
             // dtpStartDate
             // 
-            dtpStartDate.Location = new Point(620, 141);
+            dtpStartDate.Location = new Point(505, 130);
             dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.Size = new Size(252, 21);
-            dtpStartDate.TabIndex = 38;
+            dtpStartDate.Size = new Size(223, 21);
+            dtpStartDate.TabIndex = 10;
             // 
             // chlbDaysofWeek
             // 
             chlbDaysofWeek.FormattingEnabled = true;
             chlbDaysofWeek.Items.AddRange(new object[] { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6" });
-            chlbDaysofWeek.Location = new Point(620, 32);
+            chlbDaysofWeek.Location = new Point(501, 13);
             chlbDaysofWeek.Name = "chlbDaysofWeek";
-            chlbDaysofWeek.Size = new Size(132, 68);
-            chlbDaysofWeek.TabIndex = 37;
+            chlbDaysofWeek.Size = new Size(120, 84);
+            chlbDaysofWeek.TabIndex = 9;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(498, 34);
+            label5.Location = new Point(379, 26);
             label5.Name = "label5";
             label5.Size = new Size(116, 15);
-            label5.TabIndex = 36;
+            label5.TabIndex = 8;
             label5.Text = "Ngày học trong tuần";
-            // 
-            // btnAddSubject
-            // 
-            btnAddSubject.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnAddSubject.Location = new Point(497, 289);
-            btnAddSubject.Name = "btnAddSubject";
-            btnAddSubject.Size = new Size(117, 23);
-            btnAddSubject.TabIndex = 34;
-            btnAddSubject.Text = "Thêm môn học";
-            btnAddSubject.UseVisualStyleBackColor = true;
-            btnAddSubject.Click += btnAddSubject_Click;
             // 
             // txtRoom
             // 
-            txtRoom.Location = new Point(125, 138);
+            txtRoom.Location = new Point(117, 123);
             txtRoom.Name = "txtRoom";
-            txtRoom.Size = new Size(100, 21);
-            txtRoom.TabIndex = 33;
+            txtRoom.Size = new Size(87, 21);
+            txtRoom.TabIndex = 7;
+            // 
+            // cbPeriod
+            // 
+            cbPeriod.FormattingEnabled = true;
+            cbPeriod.Location = new Point(117, 169);
+            cbPeriod.Name = "cbPeriod";
+            cbPeriod.Size = new Size(87, 23);
+            cbPeriod.TabIndex = 6;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(29, 141);
+            label4.Location = new Point(28, 172);
             label4.Name = "label4";
-            label4.Size = new Size(83, 15);
-            label4.TabIndex = 32;
-            label4.Text = "Học tại phòng";
-            // 
-            // cbPeriod
-            // 
-            cbPeriod.DisplayMember = "Name";
-            cbPeriod.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbPeriod.FormattingEnabled = true;
-            cbPeriod.Location = new Point(125, 196);
-            cbPeriod.Margin = new Padding(2);
-            cbPeriod.Name = "cbPeriod";
-            cbPeriod.Size = new Size(100, 23);
-            cbPeriod.TabIndex = 31;
-            cbPeriod.ValueMember = "Id";
+            label4.Size = new Size(55, 15);
+            label4.TabIndex = 5;
+            label4.Text = "Buổi học";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(29, 199);
+            label3.Location = new Point(28, 126);
             label3.Name = "label3";
-            label3.Size = new Size(55, 15);
-            label3.TabIndex = 30;
-            label3.Text = "Buổi học";
+            label3.Size = new Size(83, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Học tại phòng";
             // 
             // cbClassName
             // 
-            cbClassName.DisplayMember = "Name";
-            cbClassName.DropDownStyle = ComboBoxStyle.DropDownList;
             cbClassName.FormattingEnabled = true;
-            cbClassName.Location = new Point(125, 81);
-            cbClassName.Margin = new Padding(2);
+            cbClassName.Location = new Point(117, 74);
             cbClassName.Name = "cbClassName";
-            cbClassName.Size = new Size(216, 23);
-            cbClassName.TabIndex = 29;
-            cbClassName.ValueMember = "Id";
+            cbClassName.Size = new Size(170, 23);
+            cbClassName.TabIndex = 3;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(29, 89);
+            label2.Location = new Point(28, 77);
             label2.Name = "label2";
             label2.Size = new Size(29, 15);
             label2.TabIndex = 2;
             label2.Text = "Lớp";
             // 
+            // cbSubject
+            // 
+            cbSubject.FormattingEnabled = true;
+            cbSubject.Location = new Point(117, 23);
+            cbSubject.Name = "cbSubject";
+            cbSubject.Size = new Size(170, 23);
+            cbSubject.TabIndex = 1;
+            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(29, 37);
+            label1.Location = new Point(28, 26);
             label1.Name = "label1";
             label1.Size = new Size(79, 15);
             label1.TabIndex = 0;
             label1.Text = "Tên môn học";
             // 
-            // splitContainer2
+            // panel2
             // 
-            splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(0, 0);
-            splitContainer2.Name = "splitContainer2";
+            panel2.Controls.Add(btnDelete);
+            panel2.Controls.Add(btnUpdate);
+            panel2.Controls.Add(btnRefresh);
+            panel2.Controls.Add(btnAddSubject);
+            panel2.Controls.Add(btnAddNewSubject);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(3, 453);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(857, 32);
+            panel2.TabIndex = 1;
             // 
-            // splitContainer2.Panel1
+            // btnDelete
             // 
-            splitContainer2.Panel1.BackColor = SystemColors.Control;
-            splitContainer2.Panel1.Controls.Add(mcTimetable);
+            btnDelete.AutoSize = true;
+            btnDelete.Location = new Point(543, 4);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(78, 25);
+            btnDelete.TabIndex = 4;
+            btnDelete.Text = "Xóa lịch";
+            btnDelete.UseVisualStyleBackColor = true;
             // 
-            // splitContainer2.Panel2
+            // btnUpdate
             // 
-            splitContainer2.Panel2.Controls.Add(dgvRead);
-            splitContainer2.Size = new Size(986, 221);
-            splitContainer2.SplitterDistance = 467;
-            splitContainer2.TabIndex = 0;
+            btnUpdate.AutoSize = true;
+            btnUpdate.Location = new Point(425, 3);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(112, 25);
+            btnUpdate.TabIndex = 3;
+            btnUpdate.Text = "Cập nhật lịch học";
+            btnUpdate.UseVisualStyleBackColor = true;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.AutoSize = true;
+            btnRefresh.Location = new Point(267, 3);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(152, 25);
+            btnRefresh.TabIndex = 2;
+            btnRefresh.Text = "Làm mới thời khóa biểu";
+            btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // btnAddSubject
+            // 
+            btnAddSubject.AutoSize = true;
+            btnAddSubject.Location = new Point(109, 3);
+            btnAddSubject.Name = "btnAddSubject";
+            btnAddSubject.Size = new Size(152, 25);
+            btnAddSubject.TabIndex = 1;
+            btnAddSubject.Text = "Thêm vào thời khóa biểu";
+            btnAddSubject.UseVisualStyleBackColor = true;
+            // 
+            // btnAddNewSubject
+            // 
+            btnAddNewSubject.AutoSize = true;
+            btnAddNewSubject.Location = new Point(3, 3);
+            btnAddNewSubject.Name = "btnAddNewSubject";
+            btnAddNewSubject.Size = new Size(100, 25);
+            btnAddNewSubject.TabIndex = 0;
+            btnAddNewSubject.Text = "Thêm môn học";
+            btnAddNewSubject.UseVisualStyleBackColor = true;
+            btnAddNewSubject.Click += btnAddNewSubject_Click;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(3, 228);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(mcTimetable);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(dgvRead);
+            splitContainer1.Size = new Size(857, 219);
+            splitContainer1.SplitterDistance = 463;
+            splitContainer1.TabIndex = 2;
             // 
             // mcTimetable
             // 
@@ -325,75 +321,15 @@
             mcTimetable.Location = new Point(0, 0);
             mcTimetable.Name = "mcTimetable";
             mcTimetable.TabIndex = 0;
-            mcTimetable.DateChanged += mcTimetable_DateChanged;
             // 
             // dgvRead
             // 
-            dgvRead.AutoGenerateColumns = false;
-            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, subjectIdDataGridViewTextBoxColumn, classDataGridViewTextBoxColumn, subjectDataGridViewTextBoxColumn, roomDataGridViewTextBoxColumn, periodDataGridViewTextBoxColumn });
-            dgvRead.DataSource = scheduleBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(0, 0);
             dgvRead.Name = "dgvRead";
-            dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(515, 221);
+            dgvRead.Size = new Size(390, 219);
             dgvRead.TabIndex = 0;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.MinimumWidth = 8;
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            idDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // classIdDataGridViewTextBoxColumn
-            // 
-            classIdDataGridViewTextBoxColumn.DataPropertyName = "ClassId";
-            classIdDataGridViewTextBoxColumn.HeaderText = "ClassId";
-            classIdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            classIdDataGridViewTextBoxColumn.Name = "classIdDataGridViewTextBoxColumn";
-            // 
-            // subjectIdDataGridViewTextBoxColumn
-            // 
-            subjectIdDataGridViewTextBoxColumn.DataPropertyName = "SubjectId";
-            subjectIdDataGridViewTextBoxColumn.HeaderText = "SubjectId";
-            subjectIdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            subjectIdDataGridViewTextBoxColumn.Name = "subjectIdDataGridViewTextBoxColumn";
-            // 
-            // classDataGridViewTextBoxColumn
-            // 
-            classDataGridViewTextBoxColumn.DataPropertyName = "Class";
-            classDataGridViewTextBoxColumn.HeaderText = "Class";
-            classDataGridViewTextBoxColumn.MinimumWidth = 8;
-            classDataGridViewTextBoxColumn.Name = "classDataGridViewTextBoxColumn";
-            // 
-            // subjectDataGridViewTextBoxColumn
-            // 
-            subjectDataGridViewTextBoxColumn.DataPropertyName = "Subject";
-            subjectDataGridViewTextBoxColumn.HeaderText = "Subject";
-            subjectDataGridViewTextBoxColumn.MinimumWidth = 8;
-            subjectDataGridViewTextBoxColumn.Name = "subjectDataGridViewTextBoxColumn";
-            // 
-            // roomDataGridViewTextBoxColumn
-            // 
-            roomDataGridViewTextBoxColumn.DataPropertyName = "Room";
-            roomDataGridViewTextBoxColumn.HeaderText = "Phòng học";
-            roomDataGridViewTextBoxColumn.MinimumWidth = 8;
-            roomDataGridViewTextBoxColumn.Name = "roomDataGridViewTextBoxColumn";
-            // 
-            // periodDataGridViewTextBoxColumn
-            // 
-            periodDataGridViewTextBoxColumn.DataPropertyName = "Period";
-            periodDataGridViewTextBoxColumn.HeaderText = "Buổi";
-            periodDataGridViewTextBoxColumn.MinimumWidth = 8;
-            periodDataGridViewTextBoxColumn.Name = "periodDataGridViewTextBoxColumn";
-            // 
-            // scheduleBindingSource
-            // 
-            scheduleBindingSource.DataSource = typeof(Domain.Entities.Schedule);
             // 
             // sqliteCommand1
             // 
@@ -408,58 +344,49 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox1);
             Name = "ucSchedule";
-            Size = new Size(992, 559);
+            Size = new Size(869, 508);
             groupBox1.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)subjectBindingSource).EndInit();
-            splitContainer2.Panel1.ResumeLayout(false);
-            splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
-            splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
-            ((System.ComponentModel.ISupportInitialize)scheduleBindingSource).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private GroupBox groupBox1;
-        private BindingSource scheduleBindingSource;
-        private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-        private SplitContainer splitContainer1;
-        private Label label1;
-        private SplitContainer splitContainer2;
-        private MonthCalendar mcTimetable;
-        private DataGridView dgvRead;
-        private DataGridViewTextBoxColumn dayDataGridViewTextBoxColumn;
-        private Label label2;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Panel panel1;
+        private TextBox txtRoom;
         private ComboBox cbPeriod;
+        private Label label4;
         private Label label3;
         private ComboBox cbClassName;
-        private TextBox txtRoom;
-        private Label label4;
-        private Button btnAddSubject;
-        private Label label5;
-        private CheckedListBox chlbDaysofWeek;
+        private Label label2;
+        private ComboBox cbSubject;
+        private Label label1;
+        private Panel panel2;
+        private SplitContainer splitContainer1;
+        private MonthCalendar mcTimetable;
+        private DataGridView dgvRead;
+        private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
         private Label label7;
         private Label label6;
         private DateTimePicker dtpEndDate;
         private DateTimePicker dtpStartDate;
+        private CheckedListBox chlbDaysofWeek;
+        private Label label5;
+        private Button btnUpdate;
         private Button btnRefresh;
-        private Button button2;
-        private Button button1;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn subjectIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn subjectDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn roomDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn periodDataGridViewTextBoxColumn;
-        private ComboBox cbSubject;
-        private BindingSource subjectBindingSource;
+        private Button btnAddSubject;
+        private Button btnAddNewSubject;
+        private Button btnDelete;
     }
 }
