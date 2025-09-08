@@ -80,16 +80,27 @@ namespace StudentManagementSystem.UI.UserControls
 
             int classId = (int)comboBoxClass.SelectedValue;
 
-            // 🧮 Calculate report fields
-            int misconductCount = _context.Misconducts
-                .Count(m => m.Trainee.ClassId == classId);
+            // 📅 Get range
+            DateTime startDate = dtpStartDate.Value.Date;
+            DateTime endDate = dtpEndDate.Value.Date.AddDays(1).AddTicks(-1);
+            // include the entire end day
 
+            // 🧮 Misconducts only within range
+            int misconductCount = _context.Misconducts
+                .Count(m => m.Trainee.ClassId == classId
+                         && m.Time >= startDate && m.Time <= endDate);
+
+            // 👥 Students are all-time
             int totalStudents = _context.Trainees
                 .Count(t => t.ClassId == classId);
 
-            int totalAbsences = _context.Attendances
-                .Count(a => a.ClassId == classId && a.Type.ToLower() == "vắng");
+            // 📌 Absences also bounded by range
+            int totalAbsences = _context.Misconducts
+                .Count(m => m.Trainee.ClassId == classId
+                         && m.Type.ToLower() == "vắng"
+                         && m.Time >= startDate && m.Time <= endDate);
 
+            // 🎓 Average score is all-time
             float averageScore = 0;
             var grades = _context.Grades
                 .Where(g => g.Trainee.ClassId == classId)
@@ -98,7 +109,7 @@ namespace StudentManagementSystem.UI.UserControls
             if (grades.Any())
                 averageScore = grades.Average(g => g.Grade);
 
-            // 📝 Create and save report
+            // 📝 Save report
             var report = new Reports
             {
                 ClassId = classId,
@@ -115,6 +126,8 @@ namespace StudentManagementSystem.UI.UserControls
             LoadReports();
             MessageBox.Show("Báo cáo đã được tạo thành công!");
         }
+
+
 
         private void DeleteReport()
         {

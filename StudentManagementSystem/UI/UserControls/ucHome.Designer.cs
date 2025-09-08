@@ -33,10 +33,9 @@
             btnTrainee = new Button();
             btnClass = new Button();
             btnTimetable = new Button();
+            lblTitle = new Label();
             button1 = new Button();
             button2 = new Button();
-            pcIcon = new PictureBox();
-            lblTitle = new Label();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pcIcon).BeginInit();
             SuspendLayout();
@@ -45,28 +44,28 @@
             // 
             tableLayoutPanel1.ColumnCount = 7;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.9999962F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0000076F));
             tableLayoutPanel1.Controls.Add(btnTrainee, 1, 1);
             tableLayoutPanel1.Controls.Add(btnClass, 3, 1);
             tableLayoutPanel1.Controls.Add(btnTimetable, 5, 1);
             tableLayoutPanel1.Controls.Add(button1, 1, 3);
             tableLayoutPanel1.Controls.Add(button2, 5, 3);
-            tableLayoutPanel1.Controls.Add(pcIcon, 3, 3);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 207);
+            tableLayoutPanel1.Location = new Point(0, 124);
+            tableLayoutPanel1.Margin = new Padding(2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 5;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(1280, 513);
+            tableLayoutPanel1.Size = new Size(896, 308);
             tableLayoutPanel1.TabIndex = 16;
             // 
             // btnTrainee
@@ -75,9 +74,10 @@
             btnTrainee.Dock = DockStyle.Fill;
             btnTrainee.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnTrainee.Image = (Image)resources.GetObject("btnTrainee.Image");
-            btnTrainee.Location = new Point(142, 103);
+            btnTrainee.Location = new Point(99, 62);
+            btnTrainee.Margin = new Padding(2);
             btnTrainee.Name = "btnTrainee";
-            btnTrainee.Size = new Size(294, 144);
+            btnTrainee.Size = new Size(206, 86);
             btnTrainee.TabIndex = 4;
             btnTrainee.Text = "Hoc viên";
             btnTrainee.TextAlign = ContentAlignment.BottomCenter;
@@ -93,9 +93,10 @@
             btnClass.Dock = DockStyle.Fill;
             btnClass.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnClass.Image = (Image)resources.GetObject("btnClass.Image");
-            btnClass.Location = new Point(492, 103);
+            btnClass.Location = new Point(344, 62);
+            btnClass.Margin = new Padding(2);
             btnClass.Name = "btnClass";
-            btnClass.Size = new Size(294, 144);
+            btnClass.Size = new Size(206, 86);
             btnClass.TabIndex = 5;
             btnClass.Text = "Lớp học";
             btnClass.TextAlign = ContentAlignment.BottomCenter;
@@ -111,9 +112,10 @@
             btnTimetable.Dock = DockStyle.Fill;
             btnTimetable.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             btnTimetable.Image = (Image)resources.GetObject("btnTimetable.Image");
-            btnTimetable.Location = new Point(842, 103);
+            btnTimetable.Location = new Point(589, 62);
+            btnTimetable.Margin = new Padding(2);
             btnTimetable.Name = "btnTimetable";
-            btnTimetable.Size = new Size(294, 144);
+            btnTimetable.Size = new Size(206, 86);
             btnTimetable.TabIndex = 6;
             btnTimetable.Text = "Thời khóa biểu";
             btnTimetable.TextAlign = ContentAlignment.BottomCenter;
@@ -122,6 +124,21 @@
             btnTimetable.Click += btnTimetable_Click;
             btnTimetable.MouseLeave += btnTimetable_MouseLeave;
             btnTimetable.MouseHover += btnTimetable_MouseHover;
+            // 
+            // lblTitle
+            // 
+            lblTitle.BackColor = Color.Transparent;
+            lblTitle.BorderStyle = BorderStyle.Fixed3D;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.Crimson;
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Padding = new Padding(0, 100, 0, 0);
+            lblTitle.Size = new Size(1280, 207);
+            lblTitle.TabIndex = 15;
+            lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
@@ -152,41 +169,15 @@
             button2.TextImageRelation = TextImageRelation.ImageAboveText;
             button2.UseVisualStyleBackColor = false;
             // 
-            // pcIcon
-            // 
-            pcIcon.BackColor = SystemColors.Control;
-            pcIcon.BackgroundImage = (Image)resources.GetObject("pcIcon.BackgroundImage");
-            pcIcon.BackgroundImageLayout = ImageLayout.Zoom;
-            pcIcon.Dock = DockStyle.Fill;
-            pcIcon.Location = new Point(492, 353);
-            pcIcon.Name = "pcIcon";
-            pcIcon.Size = new Size(294, 144);
-            pcIcon.TabIndex = 9;
-            pcIcon.TabStop = false;
-            // 
-            // lblTitle
-            // 
-            lblTitle.BackColor = Color.Transparent;
-            lblTitle.BorderStyle = BorderStyle.Fixed3D;
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.ForeColor = Color.Crimson;
-            lblTitle.Location = new Point(0, 0);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(0, 100, 0, 0);
-            lblTitle.Size = new Size(1280, 207);
-            lblTitle.TabIndex = 15;
-            lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
-            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // ucHome
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Controls.Add(lblTitle);
+            Margin = new Padding(2);
             Name = "ucHome";
-            Size = new Size(1280, 720);
+            Size = new Size(896, 432);
             tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pcIcon).EndInit();
             ResumeLayout(false);
@@ -201,6 +192,5 @@
         private Label lblTitle;
         private Button button1;
         private Button button2;
-        private PictureBox pcIcon;
     }
 }
