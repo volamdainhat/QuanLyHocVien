@@ -79,6 +79,7 @@ namespace StudentManagementSystem.Forms
         {
             Home_NavigateRequested("ucReports");
         }
+
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             base.OnClosing(e);

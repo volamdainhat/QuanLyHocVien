@@ -33,9 +33,9 @@
             btnTrainee = new Button();
             btnClass = new Button();
             btnTimetable = new Button();
+            btnMisconduct = new Button();
+            btnReports = new Button();
             lblTitle = new Label();
-            button1 = new Button();
-            button2 = new Button();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,8 +52,8 @@
             tableLayoutPanel1.Controls.Add(btnTrainee, 1, 1);
             tableLayoutPanel1.Controls.Add(btnClass, 3, 1);
             tableLayoutPanel1.Controls.Add(btnTimetable, 5, 1);
-            tableLayoutPanel1.Controls.Add(button1, 1, 3);
-            tableLayoutPanel1.Controls.Add(button2, 5, 3);
+            tableLayoutPanel1.Controls.Add(btnMisconduct, 1, 3);
+            tableLayoutPanel1.Controls.Add(btnReports, 5, 3);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 124);
             tableLayoutPanel1.Margin = new Padding(2);
@@ -124,6 +124,37 @@
             btnTimetable.MouseLeave += btnTimetable_MouseLeave;
             btnTimetable.MouseHover += btnTimetable_MouseHover;
             // 
+            // btnMisconduct
+            // 
+            btnMisconduct.BackColor = Color.OrangeRed;
+            btnMisconduct.Dock = DockStyle.Fill;
+            btnMisconduct.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnMisconduct.Location = new Point(99, 212);
+            btnMisconduct.Margin = new Padding(2);
+            btnMisconduct.Name = "btnMisconduct";
+            btnMisconduct.Size = new Size(206, 86);
+            btnMisconduct.TabIndex = 7;
+            btnMisconduct.Text = "Chấp hành kỷ luật";
+            btnMisconduct.TextAlign = ContentAlignment.BottomCenter;
+            btnMisconduct.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnMisconduct.UseVisualStyleBackColor = false;
+            btnMisconduct.Click += btnMisconduct_Click;
+            // 
+            // btnReports
+            // 
+            btnReports.BackColor = Color.OrangeRed;
+            btnReports.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            btnReports.Location = new Point(589, 212);
+            btnReports.Margin = new Padding(2);
+            btnReports.Name = "btnReports";
+            btnReports.Size = new Size(206, 86);
+            btnReports.TabIndex = 8;
+            btnReports.Text = "Báo cáo";
+            btnReports.TextAlign = ContentAlignment.BottomCenter;
+            btnReports.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnReports.UseVisualStyleBackColor = false;
+            btnReports.Click += btnReports_Click;
+            // 
             // lblTitle
             // 
             lblTitle.BackColor = Color.Transparent;
@@ -132,41 +163,13 @@
             lblTitle.Font = new Font("Segoe UI", 40F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.Crimson;
             lblTitle.Location = new Point(0, 0);
+            lblTitle.Margin = new Padding(2, 0, 2, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(0, 100, 0, 0);
-            lblTitle.Size = new Size(1280, 207);
+            lblTitle.Padding = new Padding(0, 60, 0, 0);
+            lblTitle.Size = new Size(896, 124);
             lblTitle.TabIndex = 15;
             lblTitle.Text = "ỨNG DỤNG QUẢN LÝ HỌC VIÊN";
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.OrangeRed;
-            button1.Dock = DockStyle.Fill;
-            button1.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(142, 353);
-            button1.Name = "button1";
-            button1.Size = new Size(294, 144);
-            button1.TabIndex = 7;
-            button1.Text = "Chấp hành kỷ luật";
-            button1.TextAlign = ContentAlignment.BottomCenter;
-            button1.TextImageRelation = TextImageRelation.ImageAboveText;
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            button2.BackColor = Color.OrangeRed;
-            button2.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(842, 353);
-            button2.Name = "button2";
-            button2.Size = new Size(294, 144);
-            button2.TabIndex = 8;
-            button2.Text = "Báo cáo";
-            button2.TextAlign = ContentAlignment.BottomCenter;
-            button2.TextImageRelation = TextImageRelation.ImageAboveText;
-            button2.UseVisualStyleBackColor = false;
             // 
             // ucHome
             // 
@@ -188,7 +191,7 @@
         private Button btnClass;
         private Button btnTimetable;
         private Label lblTitle;
-        private Button button1;
-        private Button button2;
+        private Button btnMisconduct;
+        private Button btnReports;
     }
 }
