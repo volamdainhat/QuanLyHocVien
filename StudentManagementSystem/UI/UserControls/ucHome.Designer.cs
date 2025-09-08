@@ -37,7 +37,6 @@
             button1 = new Button();
             button2 = new Button();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pcIcon).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -179,7 +178,6 @@
             Name = "ucHome";
             Size = new Size(896, 432);
             tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pcIcon).EndInit();
             ResumeLayout(false);
         }
 
