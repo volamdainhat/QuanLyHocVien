@@ -156,22 +156,39 @@ namespace StudentManagementSystem.UI.UserControls
                 {
                     if (date.DayOfWeek == targetDay)
                     {
+                        string selectedPeriod = cbPeriod.SelectedItem?.ToString();
+
+                        // 🚫 Check conflict before adding
+                        bool conflict = _context.Schedules.Any(s =>
+                            s.ClassId == selectedClass.Id &&
+                            s.Date == date &&
+                            s.Period == selectedPeriod
+                        );
+
+                        if (conflict)
+                        {
+                            MessageBox.Show($"Lớp {selectedClass.Name} đã có môn khác trong {selectedPeriod} ngày {date:dd/MM/yyyy}.");
+                            continue; // skip adding this one
+                        }
+
                         var schedule = new Schedule
                         {
                             ClassId = selectedClass.Id,
                             SubjectId = selectedSubject.Id,
                             Room = txtRoom.Text,
-                            Period = cbPeriod.SelectedItem?.ToString(),
+                            Period = selectedPeriod,
                             Date = date
                         };
                         _context.Schedules.Add(schedule);
                     }
                 }
+
             }
 
             _context.SaveChanges();
             LoadData();
         }
+
 
 
         private void mcTimetable_DateChanged(object sender, DateRangeEventArgs e)
