@@ -213,9 +213,8 @@ namespace StudentManagementSystem.UI.UserControls
             Button btnAdd = new Button { Text = "➕ Thêm", Width = 80 };
             Button btnEdit = new Button { Text = "✏️ Sửa", Width = 80 };
             Button btnDelete = new Button { Text = "🗑️ Xóa", Width = 80 };
-            Button btnExport = new Button { Text = "⬇️ Xuất CSV", Width = 100 };
 
-            panel.Controls.AddRange(new Control[] { txtSearch, btnAdd, btnEdit, btnDelete, btnExport });
+            panel.Controls.AddRange(new Control[] { txtSearch, btnAdd, btnEdit, btnDelete});
 
             DataGridView grid = new DataGridView
             {
@@ -305,15 +304,6 @@ namespace StudentManagementSystem.UI.UserControls
                 UpdateCount();
             };
 
-            // ⬇️ Export
-            btnExport.Click += (s, e) =>
-            {
-                SaveFileDialog dlg = new SaveFileDialog { Filter = "CSV files|*.csv" };
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    ExportGridToCsv(grid, dlg.FileName);
-                }
-            };
 
             form.Controls.Add(grid);
             form.Controls.Add(panel);
@@ -508,6 +498,7 @@ namespace StudentManagementSystem.UI.UserControls
             grid.AllowUserToDeleteRows = false;
         }
 
+        // Optional
         private void ExportGridToCsv(DataGridView grid, string filePath)
         {
             using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
