@@ -4,31 +4,31 @@
     {
         // This one is auto-increment
         public int Id { get; set; }
-        // 'Họ và tên'
+        // 'Họ và tên' - Required
         public string? FullName { get; set; }
         // 'Mã lớp '
-        public int ClassId { get; set; }
+        public int? ClassId { get; set; }
         // 'Tên lớp'
         public string? ClassName { get; set; }
-        // 'SĐT'
+        // 'SĐT' - Required
         public string? PhoneNumber { get; set; }
-        // 'Ngày sinh'
+        // 'Ngày sinh' - Required
         public DateTime? DayOfBirth { get; set; }
-        // 'Cấp bậc'
+        // 'Cấp bậc' - Required
         public string? Ranking { get; set; }
-        // 'Nhập ngũ'
+        // 'Nhập ngũ' - Required
         public DateTime? EnlistmentDate { get; set; }
         // 'ĐTB'
         public decimal? AverageScore { get; set; }
-        // 'Chức vụ'
+        // 'Chức vụ' - Required
         public string? Role { get; set; }
-        // 'Họ tên cha'
+        // 'Họ tên cha' - Required
         public string? FatherFullName { get; set; }
-        // 'SĐT cha'
+        // 'SĐT cha' - Required
         public string? FatherPhoneNumber { get; set; }
-        // 'Họ tên mẹ'
+        // 'Họ tên mẹ' - Required
         public string? MotherFullName { get; set; }
-        // 'SĐT mẹ'
+        // 'SĐT mẹ' - Required
         public string? MotherPhoneNumber { get; set; }
         // Empty for now
         public string? AvatarUrl { get; set; }

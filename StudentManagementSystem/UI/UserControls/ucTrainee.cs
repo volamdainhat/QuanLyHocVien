@@ -681,9 +681,11 @@ namespace StudentManagementSystem.UI.UserControls
         // QoL : Import from Excel
         private void btnImportfromExcel_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
-            openFileDialog.Title = "Select an Excel File";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*.xls",
+                Title = "Chọn file Excel"
+            };
 
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
@@ -696,72 +698,80 @@ namespace StudentManagementSystem.UI.UserControls
                 {
                     var worksheet = workbook.Worksheet(1);
 
-                    // Validate sheet
                     if (worksheet == null)
                     {
-                        MessageBox.Show("No worksheet found in the file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Không tìm thấy worksheet trong file.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
                     var headerRow = worksheet.FirstRowUsed();
                     if (headerRow == null)
                     {
-                        MessageBox.Show("The Excel file is empty or has no header row.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("File Excel trống hoặc không có tiêu đề.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    // Build header map with case-insensitive keys
+                    // Map tiêu đề
                     var headerMap = headerRow.Cells()
                         .Where(c => !string.IsNullOrWhiteSpace(c.GetString()))
                         .ToDictionary(c => c.GetString().Trim(), c => c.Address.ColumnNumber, StringComparer.OrdinalIgnoreCase);
 
+                    // Chỉ yêu cầu các cột bắt buộc (Required)
                     string[] requiredHeaders = {
-                        "Họ và tên", "Mã lớp", "Tên lớp", "SĐT", "Ngày sinh",
-                        "Cấp bậc", "Nhập ngũ", "ĐTB", "Chức vụ",
-                        "Họ tên cha", "SĐT cha", "Họ tên mẹ", "SĐT mẹ"
-                    };
+                "Họ và tên", "SĐT", "Ngày sinh",
+                "Cấp bậc", "Nhập ngũ", "Chức vụ",
+                "Họ tên cha", "SĐT cha", "Họ tên mẹ", "SĐT mẹ"
+            };
 
-                    // Check for missing headers
                     var missingHeaders = requiredHeaders.Where(h => !headerMap.ContainsKey(h)).ToList();
                     if (missingHeaders.Any())
                     {
-                        MessageBox.Show("Missing required columns: " + string.Join(", ", missingHeaders),
-                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Thiếu các cột bắt buộc: " + string.Join(", ", missingHeaders),
+                                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    int importedCount = 0;
-                    int skippedCount = 0;
+                    int importedCount = 0, skippedCount = 0;
 
-                    var rows = worksheet.RowsUsed().Skip(1); // skip header
+                    var rows = worksheet.RowsUsed().Skip(1); // bỏ tiêu đề
                     foreach (var row in rows)
                     {
                         try
                         {
-                            // Skip completely empty rows
                             if (row.CellsUsed().All(c => string.IsNullOrWhiteSpace(c.GetString())))
                                 continue;
 
                             var trainee = new Trainee
                             {
                                 FullName = row.Cell(headerMap["Họ và tên"]).GetString()?.Trim(),
-                                ClassId = SafeGetInt(row.Cell(headerMap["Mã lớp"])),
-                                ClassName = row.Cell(headerMap["Tên lớp"]).GetString()?.Trim(),
                                 PhoneNumber = row.Cell(headerMap["SĐT"]).GetString()?.Trim(),
                                 DayOfBirth = SafeGetDate(row.Cell(headerMap["Ngày sinh"])),
                                 Ranking = row.Cell(headerMap["Cấp bậc"]).GetString()?.Trim(),
                                 EnlistmentDate = SafeGetDate(row.Cell(headerMap["Nhập ngũ"])),
-                                AverageScore = SafeGetDecimal(row.Cell(headerMap["ĐTB"])),
                                 Role = row.Cell(headerMap["Chức vụ"]).GetString()?.Trim(),
                                 FatherFullName = row.Cell(headerMap["Họ tên cha"]).GetString()?.Trim(),
                                 FatherPhoneNumber = row.Cell(headerMap["SĐT cha"]).GetString()?.Trim(),
                                 MotherFullName = row.Cell(headerMap["Họ tên mẹ"]).GetString()?.Trim(),
                                 MotherPhoneNumber = row.Cell(headerMap["SĐT mẹ"]).GetString()?.Trim(),
+
+                                // Optional
+                                ClassId = headerMap.ContainsKey("Mã lớp") ? SafeGetInt(row.Cell(headerMap["Mã lớp"])) : null,
+                                ClassName = headerMap.ContainsKey("Tên lớp") ? row.Cell(headerMap["Tên lớp"]).GetString()?.Trim() : null,
+                                AverageScore = headerMap.ContainsKey("ĐTB") ? SafeGetDecimal(row.Cell(headerMap["ĐTB"])) : 0,
                                 AvatarUrl = null
                             };
 
-                            // Minimal validation: skip rows missing critical info
-                            if (string.IsNullOrWhiteSpace(trainee.FullName) || trainee.ClassId == 0)
+                            // Validate required fields
+                            if (string.IsNullOrWhiteSpace(trainee.FullName) ||
+                                string.IsNullOrWhiteSpace(trainee.PhoneNumber) ||
+                                !trainee.DayOfBirth.HasValue ||
+                                !trainee.EnlistmentDate.HasValue ||
+                                string.IsNullOrWhiteSpace(trainee.Ranking) ||
+                                string.IsNullOrWhiteSpace(trainee.Role) ||
+                                string.IsNullOrWhiteSpace(trainee.FatherFullName) ||
+                                string.IsNullOrWhiteSpace(trainee.FatherPhoneNumber) ||
+                                string.IsNullOrWhiteSpace(trainee.MotherFullName) ||
+                                string.IsNullOrWhiteSpace(trainee.MotherPhoneNumber))
                             {
                                 skippedCount++;
                                 continue;
@@ -772,31 +782,30 @@ namespace StudentManagementSystem.UI.UserControls
                         }
                         catch (Exception exRow)
                         {
-                            // Log/skips bad row
                             skippedCount++;
                             Console.WriteLine($"Skipped row {row.RowNumber()}: {exRow.Message}");
                         }
                     }
 
                     dbContext.SaveChanges();
-
                     traineeBindingSource.DataSource = dbContext.Trainees.Local.ToBindingList();
 
-                    MessageBox.Show($"Import completed. {importedCount} trainees imported, {skippedCount} rows skipped.",
-                                    "Import Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Import hoàn tất. {importedCount} học viên được nhập, {skippedCount} hàng bị bỏ qua.",
+                                    "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (IOException ioEx)
             {
-                MessageBox.Show("The file could not be opened. It might be locked by another program.\n" + ioEx.Message,
-                                "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Không mở được file. Có thể file đang bị khóa.\n" + ioEx.Message,
+                                "Lỗi file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unexpected error: " + ex.Message,
-                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi không xác định: " + ex.Message,
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         // Helpers to safely parse values
         private int SafeGetInt(IXLCell cell)
