@@ -1,6 +1,7 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
+using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -21,14 +22,39 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void InitializeSchoolYearList()
         {
-            this.Text = "SchoolYear Management";
+            this.Text = "Quản lý Niên khóa";
             this.Size = new Size(800, 600);
 
             // Toolbar
             var toolStrip = new ToolStrip();
-            var btnAdd = new ToolStripButton("Add");
-            var btnEdit = new ToolStripButton("Edit");
-            var btnRefresh = new ToolStripButton("Refresh");
+
+            // Tạo ImageList
+            ImageList imageList = new ImageList();
+            imageList.ImageSize = new Size(32, 32);
+            imageList.ColorDepth = ColorDepth.Depth32Bit;
+
+            // Thêm ảnh vào ImageList
+            imageList.Images.Add(Properties.Resources.add_icon);
+            imageList.Images.Add(Properties.Resources.edit_icon);
+            imageList.Images.Add(Properties.Resources.refresh_icon);
+
+            // Gán ImageList cho ToolStrip
+            toolStrip.ImageList = imageList;
+
+            var btnAdd = new ToolStripButton("Thêm");
+            btnAdd.ImageIndex = 0;
+            btnAdd.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnAdd.ImageTransparentColor = Color.Magenta;
+
+            var btnEdit = new ToolStripButton("Sửa");
+            btnEdit.ImageIndex = 1;
+            btnEdit.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnEdit.ImageTransparentColor = Color.Magenta;
+
+            var btnRefresh = new ToolStripButton("Làm mới");
+            btnRefresh.ImageIndex = 2;
+            btnRefresh.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnRefresh.ImageTransparentColor = Color.Magenta;
 
             toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh]);
             toolStrip.Dock = DockStyle.Top;
@@ -55,26 +81,34 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var schoolYears = await _schoolYearRepository.GetAllAsync();
             dataGridView.DataSource = schoolYears.ToList();
+
+            // Đổi tên cột
+            dataGridView.Columns["Name"].HeaderText = "Khóa";
+            dataGridView.Columns["StartDate"].HeaderText = "Ngày khai giảng";
+            dataGridView.Columns["EndDate"].HeaderText = "Ngày tổng kết";
+
+            // Sắp xếp lại thứ tự cột
+            dataGridView.Columns["Id"].DisplayIndex = 0;
         }
 
         private void AddSchoolYear()
         {
-            //var form = new SchoolYearForm(_schoolYearRepository, _validationService);
-            //if (form.ShowDialog() == DialogResult.OK)
-            //{
-            //    LoadSchoolYears();
-            //}
+            var form = new SchoolYearForm(_schoolYearRepository, _validationService);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadSchoolYears();
+            }
         }
 
         private void EditSchoolYear()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is SchoolYear selectedSchoolYear)
             {
-                //var form = new SchoolYearForm(_schoolYearRepository, _validationService, selectedSchoolYear);
-                //if (form.ShowDialog() == DialogResult.OK)
-                //{
-                //    LoadSchoolYears();
-                //}
+                var form = new SchoolYearForm(_schoolYearRepository, _validationService, selectedSchoolYear);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadSchoolYears();
+                }
             }
         }
     }

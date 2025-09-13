@@ -20,7 +20,7 @@ namespace StudentManagementApp.UI.Forms
 
         private void InitializeLayout()
         {
-            this.Text = "My Project Management System";
+            this.Text = "Ứng dụng Quản lý học viên";
             this.WindowState = FormWindowState.Maximized;
             this.IsMdiContainer = true;
 

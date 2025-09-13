@@ -1,4 +1,6 @@
-﻿namespace StudentManagementApp.UI.Forms
+﻿using System.Drawing;
+
+namespace StudentManagementApp.UI.Forms
 {
     public partial class BaseCrudForm : Form
     {
@@ -18,7 +20,7 @@
         {
             this.errorProvider = new ErrorProvider();
 
-            this.Size = new System.Drawing.Size(600, 500);
+            this.Size = new Size(600, 500);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -39,27 +41,39 @@
 
             btnSave = new Button
             {
-                Text = "Save",
-                Size = new System.Drawing.Size(80, 30),
-                Location = new System.Drawing.Point(400, 15)
+                Text = "Lưu",
+                Size = new Size(100, 40),
+                Location = new Point(400, 15),
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Image = Properties.Resources.save_icon
             };
 
             btnCancel = new Button
             {
-                Text = "Cancel",
-                Size = new System.Drawing.Size(80, 30),
-                Location = new System.Drawing.Point(490, 15)
+                Text = "Hủy",
+                Size = new Size(100, 40),
+                Location = new Point(510, 15),
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Image = Properties.Resources.cancel_icon
             };
 
             btnDelete = new Button
             {
-                Text = "Delete",
-                Size = new System.Drawing.Size(80, 30),
-                Location = new System.Drawing.Point(20, 15),
-                BackColor = Color.LightCoral
+                Text = "Xóa",
+                Size = new Size(100, 40),
+                Location = new Point(20, 15),
+                BackColor = Color.LightCoral,
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Image = Properties.Resources.delete_icon
             };
 
-            buttonPanel.Controls.AddRange(new Control[] { btnSave, btnCancel, btnDelete });
+            buttonPanel.Controls.AddRange([btnSave, btnCancel, btnDelete]);
 
             this.Controls.Add(formPanel);
             this.Controls.Add(buttonPanel);

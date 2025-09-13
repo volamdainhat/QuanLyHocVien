@@ -27,6 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CRUD\SchoolYears\SchoolYearForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\CRUD\SchoolYears\SchoolYearListForm.cs">
       <SubType>Form</SubType>
     </Compile>

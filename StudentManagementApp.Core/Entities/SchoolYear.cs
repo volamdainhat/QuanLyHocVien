@@ -18,6 +18,13 @@ namespace StudentManagementApp.Core.Entities
 
         // Navigation property
         public virtual ICollection<Class>? Classes { get; set; }
+
+        public SchoolYear()
+        {
+            Name = string.Empty;
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
+        }
     }
 
     // Class để validate ngày kết thúc phải sau ngày bắt đầu

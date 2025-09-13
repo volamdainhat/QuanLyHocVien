@@ -41,7 +41,7 @@ namespace StudentManagementApp.Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
                 // Lấy đường dẫn đến thư mục project
-                string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+                string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
                 // Kết hợp với tên file database của bạn
                 string databasePath = Path.Combine(projectPath, "StudentManagementDB.db");

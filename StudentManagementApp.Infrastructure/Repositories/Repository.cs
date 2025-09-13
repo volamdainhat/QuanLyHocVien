@@ -36,7 +36,11 @@ namespace StudentManagementApp.Infrastructure.Repositories
             await _context.SaveChangesAsync(); // Tự động validation
         }
 
-        public async Task DeleteAsync(T entity) => _entities.Remove(entity);
+        public async Task DeleteAsync(T entity)
+        {
+            _entities.Remove(entity);
+            await _context.SaveChangesAsync(); // Tự động validation
+        }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null)
             => predicate == null ? await _entities.CountAsync() : await _entities.CountAsync(predicate);
