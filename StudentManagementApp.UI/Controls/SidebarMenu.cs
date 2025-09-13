@@ -34,11 +34,11 @@
             // Tạo các nút menu
             var dashboardBtn = CreateMenuButton("Dashboard", Properties.Resources.dashboard_icon);
             var productsBtn = CreateMenuButton("Products", Properties.Resources.products_icon);
-            var categoriesBtn = CreateMenuButton("Categories", Properties.Resources.categories_icon);
+            var schoolYearsBtn = CreateMenuButton("SchoolYears", Properties.Resources.schoolyears_icon);
             var reportsBtn = CreateMenuButton("Reports", Properties.Resources.reports_icon);
             var settingsBtn = CreateMenuButton("Settings", Properties.Resources.settings_icon);
 
-            menuButtons = new[] { dashboardBtn, productsBtn, categoriesBtn, reportsBtn, settingsBtn };
+            menuButtons = new[] { dashboardBtn, productsBtn, schoolYearsBtn, reportsBtn, settingsBtn };
 
             // Đặt vị trí các nút
             int yPos = 20;

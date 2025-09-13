@@ -1,16 +1,56 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementApp.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentManagementApp.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<SchoolYear> SchoolYears { get; set; }
+        public DbSet<Class> Classes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public override int SaveChanges()
+        {
+            ValidateEntities();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ValidateEntities();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void ValidateEntities()
+        {
+            var entities = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+                .Select(e => e.Entity);
+
+            foreach (var entity in entities)
+            {
+                var validationContext = new ValidationContext(entity);
+                Validator.ValidateObject(entity, validationContext, validateAllProperties: true);
+            }
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=StudentManagementDB.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                // Lấy đường dẫn đến thư mục project
+                string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+
+                // Kết hợp với tên file database của bạn
+                string databasePath = Path.Combine(projectPath, "StudentManagementDB.db");
+
+                // Thiết lập kết nối SQLite
+                optionsBuilder.UseSqlite($"Data Source={databasePath}");
+            }
+
+            //optionsBuilder.UseSqlite("Data Source=StudentManagementDB.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

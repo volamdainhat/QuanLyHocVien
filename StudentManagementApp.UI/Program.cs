@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.UI.Forms;
@@ -39,14 +40,19 @@ namespace StudentManagementApp.UI
         {
             services.AddDbContext<AppDbContext>();
 
-            // ??ng ký repositories
+            // Register repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-            // ??ng ký forms
+            // Register validation services
+            services.AddScoped<IValidationService, ValidationService>();
+
+            // Register forms
             services.AddTransient<MainForm>();
             services.AddTransient<DashboardForm>();
             services.AddTransient<ProductListForm>();
             services.AddTransient<ProductForm>();
+            services.AddTransient<SchoolYearListForm>();
+            //services.AddTransient<SchoolYearForm>();
         }
     }
 }

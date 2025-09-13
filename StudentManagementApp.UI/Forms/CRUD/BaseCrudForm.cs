@@ -2,6 +2,7 @@
 {
     public partial class BaseCrudForm : Form
     {
+        protected ErrorProvider errorProvider;
         protected Panel formPanel;
         protected Button btnSave;
         protected Button btnCancel;
@@ -15,6 +16,8 @@
 
         private void InitializeCrudLayout()
         {
+            this.errorProvider = new ErrorProvider();
+
             this.Size = new System.Drawing.Size(600, 500);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;

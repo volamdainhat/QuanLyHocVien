@@ -1,4 +1,5 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 
 namespace StudentManagementApp.UI.Forms.CRUD
@@ -6,11 +7,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
     public partial class ProductListForm : Form
     {
         private readonly IRepository<Product> _productRepository;
+        private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public ProductListForm(IRepository<Product> productRepository)
+        public ProductListForm(IRepository<Product> productRepository, IValidationService validationService)
         {
             _productRepository = productRepository;
+            _validationService = validationService;
             InitializeComponent();
             InitializeProductList();
             LoadProducts();
@@ -56,7 +59,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void AddProduct()
         {
-            var form = new ProductForm(_productRepository);
+            var form = new ProductForm(_productRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadProducts();
@@ -67,7 +70,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             if (dataGridView.CurrentRow?.DataBoundItem is Product selectedProduct)
             {
-                var form = new ProductForm(_productRepository, selectedProduct);
+                var form = new ProductForm(_productRepository, _validationService, selectedProduct);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadProducts();
