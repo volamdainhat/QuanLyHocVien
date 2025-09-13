@@ -17,6 +17,8 @@ namespace StudentManagementSystem.Infrastructure
         public DbSet<ImageGallery> ImageGalleries { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<SubjectAverageScore> SubjectAverageScores { get; set; }
+        public DbSet<WeeklyCritique> WeeklyCritiques { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -101,6 +103,12 @@ namespace StudentManagementSystem.Infrastructure
             {
                 b.Property(x => x.Id).ValueGeneratedOnAdd().HasAnnotation("Sqlite:Autoincrement", true);
                 b.HasIndex(c => new { c.TraineeId, c.SubjectId, c.Semester, c.SchoolYear }).IsUnique();
+            });
+
+            modelBuilder.Entity<WeeklyCritique>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.Id).ValueGeneratedOnAdd().HasAnnotation("Sqlite:Autoincrement", true);
             });
 
             // Seed dữ liệu mẫu

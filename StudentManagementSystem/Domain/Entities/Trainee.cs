@@ -32,6 +32,7 @@
         public string? MotherPhoneNumber { get; set; }
         // Empty for now
         public string? AvatarUrl { get; set; }
+        public int MeritScore { get; set; } = 30;
 
         // Relations
         public ICollection<Grades> Grades { get; set; } = new List<Grades>();

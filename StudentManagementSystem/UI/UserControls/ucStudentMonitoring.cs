@@ -31,6 +31,7 @@ namespace StudentManagementSystem.UI.UserControls
             LoadStudents();
             LoadMisconductTypes();
             LoadData();
+            LoadCriterias();
         }
 
         private void RenameColumns()
@@ -65,9 +66,43 @@ namespace StudentManagementSystem.UI.UserControls
             comboBox3.Items.Clear();
             comboBox3.Items.AddRange(new string[]
             {
-                "Vắng", "Rất nghiêm trọng", "Đi trễ", "Gian lận kiểm tra", "Mất trật tự", "Khác"
+                "Vắng", "Vi phạm kỷ luật", "Đi trễ", "Gian lận kiểm tra", "Mất trật tự", "Khác"
             });
             Console.WriteLine("[LoadMisconductTypes] Types loaded.");
+        }
+
+        private void LoadCriterias()
+        {
+           cbPoliticalAttitude.Items.Clear();
+           cbPoliticalAttitude.Items.AddRange(new string[] { "Vững vàng, kiên định", "Tốt",
+               "Có khi còn hạn chế", "Một số còn hạn chế, còn bị nhắc nhở trươc tập thể" });
+            
+           cbStudyMotivation.Items.Clear();
+           cbStudyMotivation.Items.AddRange(new string[] { "Học tập tốt, nghiêm túc", "Chưa cao, còn dao động",
+                "Hạn chế, chưa nghiêm túc, thiếu cố gắng"});
+
+           cbEthicsLifestyle.Items.Clear();
+           cbEthicsLifestyle.Items.AddRange(new string[] { "Tích cực, gương mẫu, đoàn kết tốt", "Ý thức kém, đoàn kết còn hạn chế",
+                "Phẩm chất đạo đức kém, đoàn kết hạn chế, tác phon chậm", " Thiếu chủ động, thiếu tinh thần xây dựng đơn vị"});
+
+           cbDisciplineAwareness.Items.Clear();
+           cbDisciplineAwareness.Items.AddRange(new string[] { "Chấp hành nghiêm pháp luật, điều lệnh, điều lệ quân đội", "Chưa có ý thức trong các nhiệm vụ tập thể",
+                "Vi phạm kỷ luật, chuyển biến chậm"});
+
+           cbAcademicResult.Items.Clear();
+           cbAcademicResult.Items.AddRange(new string[] { "Tốt", "Chưa tốt", "Yếu"});
+
+           cbResearchActivity.Items.Clear();
+           cbResearchActivity.Items.AddRange(new string[] { "Có", "Không" });
+
+           cbPoliticalAttitude.SelectedIndex = 0;
+           cbStudyMotivation.SelectedIndex = 0;
+           cbEthicsLifestyle.SelectedIndex = 0;
+           cbDisciplineAwareness.SelectedIndex = 0;
+           cbAcademicResult.SelectedIndex = 0;
+           cbResearchActivity.SelectedIndex = 1;
+
+           Console.WriteLine("[LoadCriterias] Criterias loaded.");
         }
 
         private void LoadData()
@@ -126,6 +161,18 @@ namespace StudentManagementSystem.UI.UserControls
             // Example rule: when 'Vắng' selected, description optional; otherwise editable
             textBox1.ReadOnly = comboBox3.SelectedIndex == 0;
             Console.WriteLine($"[comboBox3_SelectedIndexChanged] Type={comboBox3.SelectedItem}, DescReadOnly={textBox1.ReadOnly}");
+
+            if (comboBox3.SelectedIndex == 1)
+            {
+                cbPoliticalAttitude.Items.Clear();
+                cbPoliticalAttitude.Items.AddRange(new string[] { "Có khi còn hạn chế", "Một số còn hạn chế, còn bị nhắc nhở trươc tập thể" });
+                cbPoliticalAttitude.SelectedIndex = 0;
+            }
+            else
+            {
+               LoadCriterias();
+               cbPoliticalAttitude.SelectedIndex = 0;
+            }
         }
 
         // ===============================

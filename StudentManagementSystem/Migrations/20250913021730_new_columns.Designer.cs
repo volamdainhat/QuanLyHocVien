@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementSystem.Infrastructure;
 
@@ -10,9 +11,11 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250913021730_new_columns")]
+    partial class new_columns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -493,39 +496,6 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfos");
-                });
-
-            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.WeeklyCritique", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasAnnotation("Sqlite:Autoincrement", true);
-
-                    b.Property<string>("AcademicResult")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DisciplineAwareness")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("EthicsLifestyle")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("FinalScore")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PoliticalAttitude")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ResearchActivity")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("StudyMotivation")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WeeklyCritiques");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Grades", b =>
