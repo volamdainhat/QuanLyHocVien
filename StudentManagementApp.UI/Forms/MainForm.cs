@@ -60,6 +60,10 @@ namespace StudentManagementApp.UI.Forms
                     var schoolYearsForm = _serviceProvider.GetRequiredService<SchoolYearListForm>();
                     OpenChildForm(schoolYearsForm);
                     break;
+                case "Classes":
+                    var classesForm = _serviceProvider.GetRequiredService<ClassListForm>();
+                    OpenChildForm(classesForm);
+                    break;
                 case "Reports":
                     // Mở form Reports
                     break;

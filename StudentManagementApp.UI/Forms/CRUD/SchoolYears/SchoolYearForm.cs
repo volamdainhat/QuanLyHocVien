@@ -3,7 +3,6 @@ using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -33,27 +32,30 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             this.Text = _schoolYear.Id == 0 ? "Thêm mới Niên khóa" : "Chỉnh sửa Niên khóa";
 
+            // Positioning
+            var x1 = 20;
+            var x2 = 170;
             var y = 20;
-            var labelWidth = 100;
+            var labelWidth = 150;
             var textBoxWidth = 300;
 
             // Name
-            formPanel.Controls.Add(new Label { Text = "Tên:", Location = new Point(20, y), Width = labelWidth });
-            txtName = new TextBox { Location = new Point(130, y), Width = textBoxWidth };
+            formPanel.Controls.Add(new Label { Text = "Khóa học:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            txtName = new TextBox { Location = new Point(x2, y), Width = textBoxWidth };
             formPanel.Controls.Add(txtName);
             y += 40;
 
             // StartDate
-            formPanel.Controls.Add(new Label { Text = "Bắt đầu:", Location = new Point(20, y), Width = labelWidth });
-            dtpStartDate = new DateTimePicker { Location = new Point(130, y), Width = textBoxWidth };
+            formPanel.Controls.Add(new Label { Text = "Ngày khai giảng:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            dtpStartDate = new DateTimePicker { Location = new Point(x2, y), Width = textBoxWidth };
             dtpStartDate.Format = DateTimePickerFormat.Custom;
             dtpStartDate.CustomFormat = "dd/MM/yyyy";
             formPanel.Controls.Add(dtpStartDate);
             y += 40;
 
             // EndDate
-            formPanel.Controls.Add(new Label { Text = "Kết thúc:", Location = new Point(20, y), Width = labelWidth });
-            dtpEndDate = new DateTimePicker { Location = new Point(130, y), Width = textBoxWidth };
+            formPanel.Controls.Add(new Label { Text = "Ngày tổng kết:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            dtpEndDate = new DateTimePicker { Location = new Point(x2, y), Width = textBoxWidth };
             dtpEndDate.Format = DateTimePickerFormat.Custom;
             dtpEndDate.CustomFormat = "dd/MM/yyyy";
             formPanel.Controls.Add(dtpEndDate);
@@ -99,12 +101,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     if (_schoolYear.Id == 0)
                     {
                         await _schoolYearRepository.AddAsync(_schoolYear);
-                        MessageBox.Show("Thêm sản phẩm thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
                         await _schoolYearRepository.UpdateAsync(_schoolYear);
-                        MessageBox.Show("Cập nhật sản phẩm thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -155,7 +155,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
             else if (txtName.Text.Length > 255)
             {
-                errorProvider.SetError(txtName, "Tên sản phẩm không được vượt quá 255 ký tự");
+                errorProvider.SetError(txtName, "Tên không được vượt quá 255 ký tự");
                 isValid = false;
             }
 
@@ -165,14 +165,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
             // Validate StartDate
             if (startDate >= endDate)
             {
-                errorProvider.SetError(dtpStartDate, "Ngày bắt đầu phải trước ngày kết thúc");
+                errorProvider.SetError(dtpStartDate, "Ngày khai giảng phải trước ngày tổng kết");
                 isValid = false;
             }
 
             // Validate EndDate
             if (endDate <= startDate)
             {
-                errorProvider.SetError(dtpEndDate, "Ngày kết thúc phải sau ngày bắt đầu");
+                errorProvider.SetError(dtpEndDate, "Ngày tổng kết phải sau ngày khai giảng");
                 isValid = false;
             }
 
@@ -199,7 +199,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             if (startDate >= endDate)
             {
-                errorProvider.SetError(dtpStartDate, "Ngày bắt đầu phải trước ngày kết thúc");
+                errorProvider.SetError(dtpStartDate, "Ngày khai giảng phải trước ngày tổng kết");
                 e.Cancel = true;
             }
             else
@@ -215,7 +215,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             if (endDate <= startDate)
             {
-                errorProvider.SetError(dtpEndDate, "Ngày kết thúc phải sau ngày bắt đầu");
+                errorProvider.SetError(dtpEndDate, "Ngày tổng kết phải sau ngày khai giảng");
                 e.Cancel = true;
             }
             else

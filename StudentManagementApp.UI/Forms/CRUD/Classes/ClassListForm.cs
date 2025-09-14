@@ -1,28 +1,31 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Models.Classes;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
-using System.Windows.Forms;
+using StudentManagementApp.Infrastructure.Repositories.Classes;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
-    public partial class SchoolYearListForm : Form
+    public partial class ClassListForm : Form
     {
+        private readonly IClassRepository _classRepository;
         private readonly IRepository<SchoolYear> _schoolYearRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public SchoolYearListForm(IRepository<SchoolYear> schoolYearRepository, IValidationService validationService)
+        public ClassListForm(IClassRepository classRepository, IRepository<SchoolYear> schoolYearRepository, IValidationService validationService)
         {
+            _classRepository = classRepository;
             _schoolYearRepository = schoolYearRepository;
             _validationService = validationService;
             InitializeComponent();
-            InitializeSchoolYearList();
-            LoadSchoolYears();
+            InitializeClassList();
+            LoadClasss();
         }
 
-        private void InitializeSchoolYearList()
+        private void InitializeClassList()
         {
-            this.Text = "Quản lý Niên khóa";
+            this.Text = "Quản lý Lớp học";
             this.Size = new Size(800, 600);
 
             // Toolbar
@@ -72,62 +75,35 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
 
-            btnAdd.Click += (s, e) => AddSchoolYear();
-            btnEdit.Click += (s, e) => EditSchoolYear();
-            btnRefresh.Click += (s, e) => LoadSchoolYears();
+            btnAdd.Click += (s, e) => AddClass();
+            btnEdit.Click += (s, e) => EditClass();
+            btnRefresh.Click += (s, e) => LoadClasss();
         }
 
-        private async void LoadSchoolYears()
+        private async void LoadClasss()
         {
-            var schoolYears = await _schoolYearRepository.GetAllAsync();
-            dataGridView.DataSource = schoolYears.ToList();
-
-            // Dictionary ánh xạ tên cột với cấu hình
-            var columnConfigurations = new Dictionary<string, Action<DataGridViewColumn>>
-            {
-                { "Id", col => col.Visible = false },
-                { "Classes", col => col.Visible = false },
-                { "Name", col => col.HeaderText = "Khóa học" },
-                { "StartDate", col => {
-                    col.HeaderText = "Ngày khai giảng";
-                    col.DefaultCellStyle.Format = "dd/MM/yyyy";
-                }},
-                { "EndDate", col => {
-                    col.HeaderText = "Ngày tổng kết";
-                    col.DefaultCellStyle.Format = "dd/MM/yyyy";
-                }},
-                { "CreatedDate", col => col.HeaderText = "Ngày tạo" },
-                { "ModifiedDate", col => col.HeaderText = "Ngày cập nhật" },
-                { "IsActive", col => col.HeaderText = "Đang hoạt động" }
-            };
-
-            // Áp dụng cấu hình
-            foreach (DataGridViewColumn column in dataGridView.Columns)
-            {
-                if (columnConfigurations.ContainsKey(column.DataPropertyName))
-                {
-                    columnConfigurations[column.DataPropertyName].Invoke(column);
-                }
-            }
+            var Classs = await _classRepository.GetClassesWithSchoolYearAsync();
+            dataGridView.DataSource = Classs.ToList();
         }
 
-        private void AddSchoolYear()
+        private void AddClass()
         {
-            var form = new SchoolYearForm(_schoolYearRepository, _validationService);
+            var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadSchoolYears();
+                LoadClasss();
             }
         }
 
-        private void EditSchoolYear()
+        private void EditClass()
         {
-            if (dataGridView.CurrentRow?.DataBoundItem is SchoolYear selectedSchoolYear)
+            if (dataGridView.CurrentRow?.DataBoundItem is ClassViewModel selectedClass)
             {
-                var form = new SchoolYearForm(_schoolYearRepository, _validationService, selectedSchoolYear);
+                var classEntity = _classRepository.GetByIdAsync(selectedClass.Id).Result;
+                var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService, classEntity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    LoadSchoolYears();
+                    LoadClasss();
                 }
             }
         }

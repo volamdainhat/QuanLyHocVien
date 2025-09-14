@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
+using StudentManagementApp.Infrastructure.Repositories.Classes;
 using StudentManagementApp.UI.Forms;
 using StudentManagementApp.UI.Forms.CRUD;
 
@@ -42,6 +43,7 @@ namespace StudentManagementApp.UI
 
             // Register repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IClassRepository, ClassRepository>();
 
             // Register validation services
             services.AddScoped<IValidationService, ValidationService>();
@@ -52,7 +54,7 @@ namespace StudentManagementApp.UI
             services.AddTransient<ProductListForm>();
             services.AddTransient<ProductForm>();
             services.AddTransient<SchoolYearListForm>();
-            //services.AddTransient<SchoolYearForm>();
+            services.AddTransient<ClassListForm>();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace StudentManagementApp.Core.Entities
         [MaxLength(255)]
         public required string Name { get; set; }
         [ForeignKey("SchoolYear")]
-        public int SchoolYearId { get; set; }
+        public required int SchoolYearId { get; set; }
         public int TotalStudents { get; set; }
         // Navigation property
         public virtual SchoolYear? SchoolYear { get; set; }
