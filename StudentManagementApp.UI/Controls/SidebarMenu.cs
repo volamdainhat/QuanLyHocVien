@@ -32,13 +32,14 @@
             };
 
             // Tạo các nút menu
-            var dashboardBtn = CreateMenuButton("Dashboard", Properties.Resources.dashboard_icon);
-            var productsBtn = CreateMenuButton("Products", Properties.Resources.products_icon);
-            var categoriesBtn = CreateMenuButton("Categories", Properties.Resources.categories_icon);
-            var reportsBtn = CreateMenuButton("Reports", Properties.Resources.reports_icon);
-            var settingsBtn = CreateMenuButton("Settings", Properties.Resources.settings_icon);
+            var dashboardBtn = CreateMenuButton("Dashboard", "Dashboard", Properties.Resources.dashboard_icon);
+            var classesBtn = CreateMenuButton("Lớp học", "Classes", Properties.Resources.class_icon);
+            var schoolYearsBtn = CreateMenuButton("Niên khóa", "SchoolYears", Properties.Resources.schoolyears_icon);
+            var productsBtn = CreateMenuButton("Sản phẩm", "Products", Properties.Resources.products_icon);
+            var reportsBtn = CreateMenuButton("Báo cáo", "Reports", Properties.Resources.reports_icon);
+            var settingsBtn = CreateMenuButton("Cài đặt", "Settings", Properties.Resources.settings_icon);
 
-            menuButtons = new[] { dashboardBtn, productsBtn, categoriesBtn, reportsBtn, settingsBtn };
+            menuButtons = [dashboardBtn, classesBtn, schoolYearsBtn, reportsBtn, settingsBtn];
 
             // Đặt vị trí các nút
             int yPos = 20;
@@ -59,7 +60,7 @@
 
             var logoLabel = new Label
             {
-                Text = "MY APP",
+                Text = "QUẢN LÝ HỌC VIÊN",
                 ForeColor = Color.White,
                 Font = new Font("Arial", 14, FontStyle.Bold),
                 Dock = DockStyle.Fill,
@@ -72,7 +73,7 @@
             this.Controls.Add(logoPanel);
         }
 
-        private Button CreateMenuButton(string text, Image icon)
+        private Button CreateMenuButton(string text, string tag, Image icon)
         {
             var btn = new Button
             {
@@ -86,7 +87,7 @@
                 BackColor = normalColor,
                 Font = new Font("Arial", 10, FontStyle.Regular),
                 Image = icon,
-                Tag = text,
+                Tag = tag,
                 TextImageRelation = TextImageRelation.ImageBeforeText,
                 BackgroundImageLayout = ImageLayout.Stretch
             };

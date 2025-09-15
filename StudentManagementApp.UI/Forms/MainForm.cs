@@ -20,7 +20,7 @@ namespace StudentManagementApp.UI.Forms
 
         private void InitializeLayout()
         {
-            this.Text = "My Project Management System";
+            this.Text = "Ứng dụng Quản lý học viên";
             this.WindowState = FormWindowState.Maximized;
             this.IsMdiContainer = true;
 
@@ -55,6 +55,14 @@ namespace StudentManagementApp.UI.Forms
                 case "Products":
                     var productsForm = _serviceProvider.GetRequiredService<ProductListForm>();
                     OpenChildForm(productsForm);
+                    break;
+                case "SchoolYears":
+                    var schoolYearsForm = _serviceProvider.GetRequiredService<SchoolYearListForm>();
+                    OpenChildForm(schoolYearsForm);
+                    break;
+                case "Classes":
+                    var classesForm = _serviceProvider.GetRequiredService<ClassListForm>();
+                    OpenChildForm(classesForm);
                     break;
                 case "Reports":
                     // Mở form Reports
