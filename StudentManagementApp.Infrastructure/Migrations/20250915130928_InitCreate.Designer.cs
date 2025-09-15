@@ -11,8 +11,8 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250913093358_Add_SchoolYear_Class")]
-    partial class Add_SchoolYear_Class
+    [Migration("20250915130928_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Code = "STUDENT",
+                            Code = "hoc_vien",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Học viên",
@@ -75,7 +75,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            Code = "SQUAD_LEADER",
+                            Code = "tieu_truong",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Tiểu đội trưởng",
@@ -85,7 +85,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-                            Code = "CLASS_MONITOR",
+                            Code = "lop_truong",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp trưởng",
@@ -95,7 +95,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 4,
-                            Code = "STUDY_ASSISTANT",
+                            Code = "hoc_tap",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp phó học tập",
@@ -105,7 +105,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 5,
-                            Code = "LOGISTICS_ASSISTANT",
+                            Code = "hau_can",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp phó hậu cần",
@@ -115,7 +115,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 6,
-                            Code = "TEST_15M",
+                            Code = "kt_15p",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Kiểm tra 15 phút",
@@ -125,7 +125,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 7,
-                            Code = "TEST_1H",
+                            Code = "kt_1t",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Kiểm tra 1 tiết",
@@ -135,12 +135,142 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 8,
-                            Code = "FINAL",
+                            Code = "thi",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thi cuối môn",
                             SortOrder = 3,
                             Type = "ExamType"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "B2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Binh nhì",
+                            SortOrder = 1,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "B1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Binh nhất",
+                            SortOrder = 2,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "H1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Hạ sĩ",
+                            SortOrder = 3,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "H2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Trung sĩ",
+                            SortOrder = 4,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "H3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thượng sĩ",
+                            SortOrder = 5,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "1/",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thiếu úy",
+                            SortOrder = 6,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "2/",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Trung úy",
+                            SortOrder = 7,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "3/",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thượng úy",
+                            SortOrder = 8,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "4/",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Đại úy",
+                            SortOrder = 9,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "1//",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thiếu tá",
+                            SortOrder = 10,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "2//",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Trung tá",
+                            SortOrder = 11,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "3//",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thượng tá",
+                            SortOrder = 12,
+                            Type = "MilitaryRank"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "4//",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Đại tá",
+                            SortOrder = 13,
+                            Type = "MilitaryRank"
                         });
                 });
 
@@ -246,6 +376,81 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("SchoolYears");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("AverageScore")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DayOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EnlistmentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FatherFullName")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FatherPhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MeritScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MilitaryRank")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MotherFullName")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MotherPhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Trainees");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
@@ -255,6 +460,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("SchoolYear");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.SchoolYear", b =>

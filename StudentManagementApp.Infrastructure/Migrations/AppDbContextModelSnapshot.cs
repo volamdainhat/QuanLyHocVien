@@ -141,7 +141,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 25,
+                            Id = 9,
                             Code = "B2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -151,7 +151,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 24,
+                            Id = 10,
                             Code = "B1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -161,7 +161,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 23,
+                            Id = 11,
                             Code = "H1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -171,7 +171,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 22,
+                            Id = 12,
                             Code = "H2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -181,7 +181,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 21,
+                            Id = 13,
                             Code = "H3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -191,7 +191,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 20,
+                            Id = 14,
                             Code = "1/",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -201,7 +201,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 19,
+                            Id = 15,
                             Code = "2/",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -211,7 +211,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 18,
+                            Id = 16,
                             Code = "3/",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -231,7 +231,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 16,
+                            Id = 18,
                             Code = "1//",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -241,7 +241,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 15,
+                            Id = 19,
                             Code = "2//",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -251,7 +251,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 20,
                             Code = "3//",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -261,7 +261,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 21,
                             Code = "4//",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
@@ -373,6 +373,81 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("SchoolYears");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("AverageScore")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DayOfBirth")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EnlistmentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FatherFullName")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FatherPhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MeritScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MilitaryRank")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MotherFullName")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MotherPhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Trainees");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
@@ -382,6 +457,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("SchoolYear");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.SchoolYear", b =>

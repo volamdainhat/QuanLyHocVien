@@ -13,7 +13,7 @@ namespace StudentManagementApp.Core.Models.Classes
         [DisplayName("Tổng học viên")]
         public int TotalStudents { get; set; }
         [DisplayName("Ngày tạo")]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
         [DisplayName("Ngày cập nhật")]
         public DateTime? ModifiedDate { get; set; }
         [DisplayName("Đang hoạt động")]

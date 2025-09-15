@@ -6,6 +6,7 @@ namespace StudentManagementApp.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Trainee> Trainees { get; set; }
         public DbSet<SchoolYear> SchoolYears { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -38,19 +39,19 @@ namespace StudentManagementApp.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                // Lấy đường dẫn đến thư mục project
-                string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    // Lấy đường dẫn đến thư mục project
+            //    string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-                // Kết hợp với tên file database của bạn
-                string databasePath = Path.Combine(projectPath, "StudentManagementDB.db");
+            //    // Kết hợp với tên file database của bạn
+            //    string databasePath = Path.Combine(projectPath, "StudentManagementDB.db");
 
-                // Thiết lập kết nối SQLite
-                optionsBuilder.UseSqlite($"Data Source={databasePath}");
-            }
+            //    // Thiết lập kết nối SQLite
+            //    optionsBuilder.UseSqlite($"Data Source={databasePath}");
+            //}
 
-            //optionsBuilder.UseSqlite("Data Source=StudentManagementDB.db");
+            optionsBuilder.UseSqlite("Data Source=StudentManagementDB.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,19 +76,19 @@ namespace StudentManagementApp.Infrastructure.Data
                 new Category { Id = 8, Type = "ExamType", Code = "thi", Name = "Thi cuối môn", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
 
                 // Military Ranks
-                new Category { Id = 25, Type = "MilitaryRank", Code = "B2", Name = "Binh nhì", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 24, Type = "MilitaryRank", Code = "B1", Name = "Binh nhất", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 23, Type = "MilitaryRank", Code = "H1", Name = "Hạ sĩ", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 22, Type = "MilitaryRank", Code = "H2", Name = "Trung sĩ", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 21, Type = "MilitaryRank", Code = "H3", Name = "Thượng sĩ", SortOrder = 5, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 20, Type = "MilitaryRank", Code = "1/", Name = "Thiếu úy", SortOrder = 6, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 19, Type = "MilitaryRank", Code = "2/", Name = "Trung úy", SortOrder = 7, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 18, Type = "MilitaryRank", Code = "3/", Name = "Thượng úy", SortOrder = 8, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 9, Type = "MilitaryRank", Code = "B2", Name = "Binh nhì", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 10, Type = "MilitaryRank", Code = "B1", Name = "Binh nhất", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 11, Type = "MilitaryRank", Code = "H1", Name = "Hạ sĩ", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 12, Type = "MilitaryRank", Code = "H2", Name = "Trung sĩ", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 13, Type = "MilitaryRank", Code = "H3", Name = "Thượng sĩ", SortOrder = 5, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 14, Type = "MilitaryRank", Code = "1/", Name = "Thiếu úy", SortOrder = 6, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 15, Type = "MilitaryRank", Code = "2/", Name = "Trung úy", SortOrder = 7, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 16, Type = "MilitaryRank", Code = "3/", Name = "Thượng úy", SortOrder = 8, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 17, Type = "MilitaryRank", Code = "4/", Name = "Đại úy", SortOrder = 9, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 16, Type = "MilitaryRank", Code = "1//", Name = "Thiếu tá", SortOrder = 10, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 15, Type = "MilitaryRank", Code = "2//", Name = "Trung tá", SortOrder = 11, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 14, Type = "MilitaryRank", Code = "3//", Name = "Thượng tá", SortOrder = 12, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 13, Type = "MilitaryRank", Code = "4//", Name = "Đại tá", SortOrder = 13, CreatedDate = seedDate, IsActive = true }
+                new Category { Id = 18, Type = "MilitaryRank", Code = "1//", Name = "Thiếu tá", SortOrder = 10, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 19, Type = "MilitaryRank", Code = "2//", Name = "Trung tá", SortOrder = 11, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 20, Type = "MilitaryRank", Code = "3//", Name = "Thượng tá", SortOrder = 12, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 21, Type = "MilitaryRank", Code = "4//", Name = "Đại tá", SortOrder = 13, CreatedDate = seedDate, IsActive = true }
             );
         }
     }
