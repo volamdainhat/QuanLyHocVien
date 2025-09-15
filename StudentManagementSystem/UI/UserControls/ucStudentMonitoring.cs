@@ -2,141 +2,262 @@
 using StudentManagementSystem.Domain.Entities;
 using StudentManagementSystem.Infrastructure;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace StudentManagementSystem.UI.UserControls
 {
     public partial class ucStudentMonitoring : UserControl
     {
         private readonly AppDbContext _context = new AppDbContext();
-        private int _editingId = 0; // 0 = add new; >0 = update this Id
+        private int _editingId = 0; // >0 = editing entity
+        private string _editingType = ""; // "Misconduct" or "WeeklyCritique"
+
+        private record ComboRule(string[] Values, bool Enabled);
+        private Dictionary<ComboBox, (ComboBox GradeBox, Dictionary<int, ComboRule> Rules)> _rules;
+        private readonly Dictionary<ComboBox, HashSet<int>> _disabledItems = new();
+
+        private readonly DayOfWeek CritiqueDay = DayOfWeek.Monday; // configurable if needed
 
         public ucStudentMonitoring()
         {
             InitializeComponent();
 
-            // wire events
-            dgvRead.CellClick += dgvRead_CellClick;
+            dgvMisconduct.CellClick += dgvMisconduct_CellClick;
+            dgvWeeklyCritique.CellClick += dgvWeeklyCritique_CellClick;
             comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
 
-            btnAdd.Click += (s, e) => ClearForm();          // Add → Clear form (set _editingId = 0)
-            btnSave.Click += (s, e) => SaveOrUpdate();      // Save/Add
-            btnDelete.Click += (s, e) => DeleteMisconduct();
-            btnRefresh.Click += (s, e) => { Reload(); Console.WriteLine("[Refresh] Data reloaded."); };
+            btnAdd.Click += (s, e) => ClearForm();
+            btnSave.Click += (s, e) => SaveOrUpdate();
+            btnDelete.Click += (s, e) => DeleteSelected();
+            btnRefresh.Click += (s, e) => Reload();
 
-            // load data
+            tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
+
+            InitRules();
             LoadStudents();
             LoadMisconductTypes();
-            LoadData();
             LoadCriterias();
+            LoadData();
+
+            foreach (var cb in _rules.Keys)
+                ApplyRule(cb);
         }
 
+        // ===============================
+        // Init Rules / Apply
+        // ===============================
+        private void InitRules()
+        {
+            _rules = new()
+            {
+                [cbPoliticalAttitude] = (cbPoliticalGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "7", "6" }, true) },
+                    { 2, new ComboRule(new[] { "4" }, false) }
+                }),
+                [cbStudyMotivation] = (cbStudyMovGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "7", "6" }, true) },
+                    { 2, new ComboRule(new[] { "4" }, false) }
+                }),
+                [cbEthicsLifestyle] = (cbLifestyleGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "7" }, false) },
+                    { 2, new ComboRule(new[] { "6", "5" }, true) },
+                    { 3, new ComboRule(new[] { "4" }, false) }
+                }),
+                [cbAcademicResult] = (cbStudyGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "7", "6" }, true) },
+                    { 2, new ComboRule(new[] { "4" }, false) }
+                }),
+                [cbDisciplineAwareness] = (cbDisciplineGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "7", "6" }, true) },
+                    { 2, new ComboRule(new[] { "4" }, true) }
+                }),
+                [cbResearchActivity] = (cbResearchGrade, new Dictionary<int, ComboRule>
+                {
+                    { 0, new ComboRule(new[] { "10" }, false) },
+                    { 1, new ComboRule(new[] { "8" }, false) }
+                })
+            };
+
+            foreach (var criteriaBox in _rules.Keys)
+            {
+                criteriaBox.SelectedIndexChanged += (s, e) =>
+                {
+                    var box = (ComboBox)s;
+                    if (_disabledItems.TryGetValue(box, out var disabled) && disabled.Contains(box.SelectedIndex))
+                    {
+                        box.SelectedIndex = box.Items.Count > 0 ? 0 : -1;
+                        return;
+                    }
+                    ApplyRule(box);
+                };
+
+                criteriaBox.DrawMode = DrawMode.OwnerDrawFixed;
+                criteriaBox.DrawItem += (s, e) => ComboBox_DrawItem((ComboBox)s, e);
+            }
+        }
+
+        private void ApplyRule(ComboBox criteriaBox)
+        {
+            if (!_rules.TryGetValue(criteriaBox, out var mapping)) return;
+            var (gradeBox, rules) = mapping;
+            if (!rules.TryGetValue(criteriaBox.SelectedIndex, out var rule)) return;
+
+            gradeBox.Items.Clear();
+            gradeBox.Items.AddRange(rule.Values);
+            gradeBox.SelectedIndex = 0;
+            gradeBox.Enabled = rule.Enabled;
+        }
+
+        private void ComboBox_DrawItem(ComboBox comboBox, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+            var text = comboBox.Items[e.Index].ToString();
+            bool disabled = _disabledItems.TryGetValue(comboBox, out var set) && set.Contains(e.Index);
+            e.DrawBackground();
+            using var brush = new SolidBrush(disabled ? Color.Gray : e.ForeColor);
+            e.Graphics.DrawString(text, e.Font, brush, e.Bounds);
+            e.DrawFocusRectangle();
+        }
+
+        // ===============================
+        // Load
+        // ===============================
         private void RenameColumns()
         {
-            if (dgvRead.Columns.Contains("StudentName"))
-                dgvRead.Columns["StudentName"].HeaderText = "Tên học viên";
-            if (dgvRead.Columns.Contains("ClassName"))
-                dgvRead.Columns["ClassName"].HeaderText = "Lớp";
-            if (dgvRead.Columns.Contains("Type"))
-                dgvRead.Columns["Type"].HeaderText = "Loại vi phạm";
-            if (dgvRead.Columns.Contains("Description"))
-                dgvRead.Columns["Description"].HeaderText = "Mô tả vi phạm";
-            if (dgvRead.Columns.Contains("Time"))
-                dgvRead.Columns["Time"].HeaderText = "Ngày xảy ra";
+            // Rename misconduct columns
+            if (dgvMisconduct.Columns.Contains("StudentName")) dgvMisconduct.Columns["StudentName"].HeaderText = "Tên học viên";
+            if (dgvMisconduct.Columns.Contains("ClassName")) dgvMisconduct.Columns["ClassName"].HeaderText = "Lớp";
+            if (dgvMisconduct.Columns.Contains("Type")) dgvMisconduct.Columns["Type"].HeaderText = "Loại vi phạm";
+            if (dgvMisconduct.Columns.Contains("Time")) dgvMisconduct.Columns["Time"].HeaderText = "Ngày";
+            if (dgvMisconduct.Columns.Contains("Description")) dgvMisconduct.Columns["Description"].HeaderText = "Mô tả";
+
+            // Rename critique columns
+            if (dgvWeeklyCritique.Columns.Contains("StudentName")) dgvWeeklyCritique.Columns["StudentName"].HeaderText = "Tên học viên";
+            if (dgvWeeklyCritique.Columns.Contains("ClassName")) dgvWeeklyCritique.Columns["ClassName"].HeaderText = "Lớp";
+            // if (dgvWeeklyCritique.Columns.Contains("WeekDate")) dgvWeeklyCritique.Columns["WeekDate"].HeaderText = "Tuần";
+            if (dgvWeeklyCritique.Columns.Contains("FinalScore")) dgvWeeklyCritique.Columns["FinalScore"].HeaderText = "Điểm";
+            if (dgvWeeklyCritique.Columns.Contains("PoliticalAttitude")) dgvWeeklyCritique.Columns["PoliticalAttitude"].HeaderText = "Thái độ chính trị";
+            if (dgvWeeklyCritique.Columns.Contains("StudyMotivation")) dgvWeeklyCritique.Columns["StudyMotivation"].HeaderText = "Động cơ học tập";
+            if (dgvWeeklyCritique.Columns.Contains("EthicsLifestyle")) dgvWeeklyCritique.Columns["EthicsLifestyle"].HeaderText = "Đạo đức lối sống";
+            if (dgvWeeklyCritique.Columns.Contains("DisciplineAwareness")) dgvWeeklyCritique.Columns["DisciplineAwareness"].HeaderText = "Ý thức kỷ luật";
+            if (dgvWeeklyCritique.Columns.Contains("AcademicResult")) dgvWeeklyCritique.Columns["AcademicResult"].HeaderText = "Kết quả học tập";
+            if (dgvWeeklyCritique.Columns.Contains("ResearchActivity")) dgvWeeklyCritique.Columns["ResearchActivity"].HeaderText = "Hoạt động nghiên cứu";
         }
 
         private void LoadStudents()
         {
-            Console.WriteLine("[LoadStudents] Loading trainees...");
-            _context.Trainees.Load();
-            var students = _context.Trainees.Local.ToBindingList();
+            // Only load trainees who have a class assigned (ClassId is not null)
+            _context.Trainees
+                .Where(t => t.ClassId != null) // Only trainees with assigned classes
+                .Load();
 
-            Console.WriteLine($"[LoadStudents] Loaded {students.Count} trainees.");
-            comboBox1.DataSource = students;
+            comboBox1.DataSource = _context.Trainees.Local.ToBindingList();
             comboBox1.DisplayMember = "FullName";
             comboBox1.ValueMember = "Id";
         }
 
+
         private void LoadMisconductTypes()
         {
-            Console.WriteLine("[LoadMisconductTypes] Loading misconduct types...");
             comboBox3.Items.Clear();
             comboBox3.Items.AddRange(new string[]
             {
                 "Vắng", "Vi phạm kỷ luật", "Đi trễ", "Gian lận kiểm tra", "Mất trật tự", "Khác"
             });
-            Console.WriteLine("[LoadMisconductTypes] Types loaded.");
         }
 
         private void LoadCriterias()
         {
-           cbPoliticalAttitude.Items.Clear();
-           cbPoliticalAttitude.Items.AddRange(new string[] { "Vững vàng, kiên định", "Tốt",
-               "Có khi còn hạn chế", "Một số còn hạn chế, còn bị nhắc nhở trươc tập thể" });
-            
-           cbStudyMotivation.Items.Clear();
-           cbStudyMotivation.Items.AddRange(new string[] { "Học tập tốt, nghiêm túc", "Chưa cao, còn dao động",
-                "Hạn chế, chưa nghiêm túc, thiếu cố gắng"});
+            cbPoliticalAttitude.Items.Clear();
+            cbPoliticalAttitude.Items.AddRange(new[] { "Vững vàng, kiên định", "Có khi còn hạn chế", "Một số còn hạn chế" });
+            cbStudyMotivation.Items.Clear();
+            cbStudyMotivation.Items.AddRange(new[] { "Học tập tốt, nghiêm túc", "Chưa cao", "Hạn chế" });
+            cbEthicsLifestyle.Items.Clear();
+            cbEthicsLifestyle.Items.AddRange(new[] { "Tích cực", "Ý thức kém", "Phẩm chất kém", "Thiếu chủ động" });
+            cbDisciplineAwareness.Items.Clear();
+            cbDisciplineAwareness.Items.AddRange(new[] { "Chấp hành nghiêm", "Chưa có ý thức", "Vi phạm kỷ luật" });
+            cbAcademicResult.Items.Clear();
+            cbAcademicResult.Items.AddRange(new[] { "Tốt", "Chưa tốt", "Yếu" });
+            cbResearchActivity.Items.Clear();
+            cbResearchActivity.Items.AddRange(new[] { "Có", "Không" });
 
-           cbEthicsLifestyle.Items.Clear();
-           cbEthicsLifestyle.Items.AddRange(new string[] { "Tích cực, gương mẫu, đoàn kết tốt", "Ý thức kém, đoàn kết còn hạn chế",
-                "Phẩm chất đạo đức kém, đoàn kết hạn chế, tác phon chậm", " Thiếu chủ động, thiếu tinh thần xây dựng đơn vị"});
-
-           cbDisciplineAwareness.Items.Clear();
-           cbDisciplineAwareness.Items.AddRange(new string[] { "Chấp hành nghiêm pháp luật, điều lệnh, điều lệ quân đội", "Chưa có ý thức trong các nhiệm vụ tập thể",
-                "Vi phạm kỷ luật, chuyển biến chậm"});
-
-           cbAcademicResult.Items.Clear();
-           cbAcademicResult.Items.AddRange(new string[] { "Tốt", "Chưa tốt", "Yếu"});
-
-           cbResearchActivity.Items.Clear();
-           cbResearchActivity.Items.AddRange(new string[] { "Có", "Không" });
-
-           cbPoliticalAttitude.SelectedIndex = 0;
-           cbStudyMotivation.SelectedIndex = 0;
-           cbEthicsLifestyle.SelectedIndex = 0;
-           cbDisciplineAwareness.SelectedIndex = 0;
-           cbAcademicResult.SelectedIndex = 0;
-           cbResearchActivity.SelectedIndex = 1;
-
-           Console.WriteLine("[LoadCriterias] Criterias loaded.");
+            cbPoliticalAttitude.SelectedIndex = 0;
+            cbStudyMotivation.SelectedIndex = 0;
+            cbEthicsLifestyle.SelectedIndex = 0;
+            cbDisciplineAwareness.SelectedIndex = 0;
+            cbAcademicResult.SelectedIndex = 0;
+            cbResearchActivity.SelectedIndex = 1;
         }
 
         private void LoadData()
         {
-            Console.WriteLine("[LoadData] Fetching misconduct records...");
+            // Pre-load the navigation data
+            _context.Misconducts.Include(m => m.Trainee).Load();
+            _context.WeeklyCritiques.Include(c => c.Trainee).Load();
 
-            var misconducts = _context.Misconducts
-                .Include(m => m.Trainee)
-                .OrderBy(m => m.Id) // ✅ Sort at query level
+            // Load misconducts
+            var misconducts = _context.Misconducts.Local
                 .Select(m => new
                 {
                     m.Id,
-                    StudentName = m.Trainee.FullName,
-                    ClassName = m.Trainee.ClassName,
+                    StudentName = m.Trainee?.FullName ?? "",
+                    ClassName = m.Trainee?.ClassName ?? "",
                     m.Type,
                     m.Time,
                     m.Description
-                })
-                .ToList();
+                }).ToList();
 
-            Console.WriteLine($"[LoadData] Loaded {misconducts.Count} records.");
-            dgvRead.DataSource = misconducts;
+            dgvMisconduct.DataSource = misconducts;
+
+            // Load critiques
+            var critiques = _context.WeeklyCritiques.Local
+                .Select(c => new
+                {
+                    c.Id,
+                    StudentName = c.Trainee?.FullName ?? "",
+                    ClassName = c.Trainee?.ClassName ?? "",
+                    c.WeekDate,
+                    c.PoliticalAttitude,
+                    c.StudyMotivation,
+                    c.EthicsLifestyle,
+                    c.DisciplineAwareness,
+                    c.AcademicResult,
+                    c.ResearchActivity,
+                    c.FinalScore
+                }).ToList();
+
+            dgvWeeklyCritique.DataSource = critiques;
+
             RenameColumns();
-
-            dgvRead.ClearSelection();
-            dgvRead.CurrentCell = null;
+            dgvMisconduct.ClearSelection();
+            dgvMisconduct.CurrentCell = null;
+            dgvWeeklyCritique.ClearSelection();
+            dgvWeeklyCritique.CurrentCell = null;
         }
 
-        private void dgvRead_CellClick(object sender, DataGridViewCellEventArgs e)
+        // ===============================
+        // Events
+        // ===============================
+        private void dgvMisconduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-
-            var row = dgvRead.Rows[e.RowIndex];
-            _editingId = Convert.ToInt32(row.Cells["Id"].Value); // set editing mode
+            var row = dgvMisconduct.Rows[e.RowIndex];
+            _editingId = Convert.ToInt32(row.Cells["Id"].Value);
+            _editingType = "Misconduct";
 
             comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
             txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
@@ -144,144 +265,236 @@ namespace StudentManagementSystem.UI.UserControls
             dateTimePicker1.Value = Convert.ToDateTime(row.Cells["Time"].Value);
             textBox1.Text = row.Cells["Description"].Value?.ToString();
 
-            Console.WriteLine($"[dgvRead_CellClick] Editing Misconduct Id={_editingId} | Student={comboBox1.Text} | Class={txtClassName.Text} | Type={comboBox3.Text}");
+            // Switch to misconduct tab
+            tabControl1.SelectedTab = tpMisconduct;
+        }
+
+        private void dgvWeeklyCritique_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var row = dgvWeeklyCritique.Rows[e.RowIndex];
+            _editingId = Convert.ToInt32(row.Cells["Id"].Value);
+            _editingType = "WeeklyCritique";
+
+            comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
+            txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
+            dateTimePicker1.Value = Convert.ToDateTime(row.Cells["WeekDate"].Value);
+
+            // Switch to critique tab
+            tabControl1.SelectedTab = tpWeeklyCritique;
+
+            // TODO: Load critique data back into controls if needed
+            // This would require parsing the stored values
+        }
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Clear selection when switching tabs
+            ClearSelection();
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBox1.SelectedItem is Trainee trainee)
-            {
                 txtClassName.Text = trainee.ClassName;
-                Console.WriteLine($"[ComboBox1_SelectedIndexChanged] Trainee={trainee.FullName}, Class={trainee.ClassName}");
-            }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Example rule: when 'Vắng' selected, description optional; otherwise editable
             textBox1.ReadOnly = comboBox3.SelectedIndex == 0;
-            Console.WriteLine($"[comboBox3_SelectedIndexChanged] Type={comboBox3.SelectedItem}, DescReadOnly={textBox1.ReadOnly}");
-
-            if (comboBox3.SelectedIndex == 1)
-            {
-                cbPoliticalAttitude.Items.Clear();
-                cbPoliticalAttitude.Items.AddRange(new string[] { "Có khi còn hạn chế", "Một số còn hạn chế, còn bị nhắc nhở trươc tập thể" });
-                cbPoliticalAttitude.SelectedIndex = 0;
-            }
-            else
-            {
-               LoadCriterias();
-               cbPoliticalAttitude.SelectedIndex = 0;
-            }
         }
 
         // ===============================
-        // SaveOrUpdate Logic
+        // Save / Update / Delete
         // ===============================
         private void SaveOrUpdate()
         {
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("Vui lòng chọn học viên.");
-                Console.WriteLine("[SaveOrUpdate] Missing trainee.");
-                return;
-            }
-            if (comboBox3.SelectedItem == null || string.IsNullOrWhiteSpace(comboBox3.SelectedItem.ToString()))
-            {
-                MessageBox.Show("Vui lòng chọn loại vi phạm.");
-                Console.WriteLine("[SaveOrUpdate] Missing misconduct type.");
                 return;
             }
 
-            var entity = ReadFromForm();
+            if (tabControl1.SelectedTab == tpMisconduct)
+            {
+                if (comboBox3.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Vui lòng chọn loại vi phạm.");
+                    return;
+                }
+
+                var misconduct = ReadFromFormMisconduct();
+                SaveMisconduct(misconduct);
+            }
+            else if (tabControl1.SelectedTab == tpWeeklyCritique)
+            {
+                if (!ValidateCritiqueForm()) return;
+                var critique = ReadFromFormCritique();
+                SaveCritique(critique);
+            }
+
+            LoadData();
+            ClearForm();
+        }
+
+        private bool ValidateCritiqueForm()
+        {
+            if (cbPoliticalAttitude.SelectedIndex < 0 ||
+                cbStudyMotivation.SelectedIndex < 0 ||
+                cbEthicsLifestyle.SelectedIndex < 0 ||
+                cbDisciplineAwareness.SelectedIndex < 0 ||
+                cbAcademicResult.SelectedIndex < 0 ||
+                cbResearchActivity.SelectedIndex < 0)
+            {
+                MessageBox.Show("Vui lòng chọn đầy đủ các tiêu chí đánh giá.");
+                return false;
+            }
+            return true;
+        }
+
+        private Misconduct ReadFromFormMisconduct() =>
+            new()
+            {
+                Id = _editingId,
+                TraineeId = (int)comboBox1.SelectedValue,
+                Type = comboBox3.SelectedItem?.ToString() ?? "",
+                Time = dateTimePicker1.Value,
+                Description = textBox1.Text
+            };
+
+        private WeeklyCritique ReadFromFormCritique()
+        {
+            int score = 0;
+            int.TryParse(cbPoliticalGrade.Text, out int g1);
+            int.TryParse(cbStudyMovGrade.Text, out int g2);
+            int.TryParse(cbLifestyleGrade.Text, out int g3);
+            int.TryParse(cbDisciplineGrade.Text, out int g4);
+            int.TryParse(cbStudyGrade.Text, out int g5);
+            int.TryParse(cbResearchGrade.Text, out int g6);
+            score = g1 + g2 + g3 + g4 + g5 + g6;
+
+            return new WeeklyCritique
+            {
+                Id = _editingId,
+                TraineeId = (int)comboBox1.SelectedValue,
+                PoliticalAttitude = cbPoliticalAttitude.Text,
+                StudyMotivation = cbStudyMotivation.Text,
+                EthicsLifestyle = cbEthicsLifestyle.Text,
+                DisciplineAwareness = cbDisciplineAwareness.Text,
+                AcademicResult = cbAcademicResult.Text,
+                ResearchActivity = cbResearchActivity.Text,
+                FinalScore = score,
+                WeekDate = dateTimePicker1.Value
+            };
+        }
+
+        private void SaveMisconduct(Misconduct entity)
+        {
+            try
+            {
+                if (entity.Id == 0)
+                    _context.Misconducts.Add(entity);
+                else
+                    _context.Misconducts.Update(entity);
+
+                _context.SaveChanges();
+                MessageBox.Show("Lưu vi phạm thành công!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lưu vi phạm: {ex.Message}");
+            }
+        }
+
+        private void SaveCritique(WeeklyCritique entity)
+        {
+            if (entity.WeekDate.DayOfWeek != CritiqueDay)
+            {
+                MessageBox.Show($"Phê bình chỉ có thể lưu vào {CritiqueDay}.");
+                return;
+            }
 
             try
             {
-                Save(entity);
+                if (entity.Id == 0)
+                    _context.WeeklyCritiques.Add(entity);
+                else
+                    _context.WeeklyCritiques.Update(entity);
+
+                _context.SaveChanges();
+
+                // recalc MeritScore
+                var trainee = _context.Trainees.Include(t => t.WeeklyCritiques)
+                                .FirstOrDefault(t => t.Id == entity.TraineeId);
+                if (trainee != null)
+                {
+                    trainee.MeritScore = trainee.WeeklyCritiques.Sum(c => c.FinalScore);
+                    _context.SaveChanges();
+                }
+
+                MessageBox.Show("Lưu phê bình thành công!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lưu phê bình: {ex.Message}");
+            }
+        }
+
+        private void DeleteSelected()
+        {
+            if (tabControl1.SelectedTab == tpMisconduct && dgvMisconduct.SelectedRows.Count == 0) return;
+            if (tabControl1.SelectedTab == tpWeeklyCritique && dgvWeeklyCritique.SelectedRows.Count == 0) return;
+
+            var result = MessageBox.Show("Bạn có chắc chắn muốn xóa mục này?", "Xác nhận xóa",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                if (tabControl1.SelectedTab == tpMisconduct)
+                {
+                    var row = dgvMisconduct.SelectedRows[0];
+                    var id = Convert.ToInt32(row.Cells["Id"].Value);
+                    var entity = _context.Misconducts.FirstOrDefault(m => m.Id == id);
+
+                    if (entity != null)
+                    {
+                        _context.Misconducts.Remove(entity);
+                        _context.SaveChanges();
+                        MessageBox.Show("Xóa vi phạm thành công!");
+                    }
+                }
+                else
+                {
+                    var row = dgvWeeklyCritique.SelectedRows[0];
+                    var id = Convert.ToInt32(row.Cells["Id"].Value);
+                    var entity = _context.WeeklyCritiques.FirstOrDefault(c => c.Id == id);
+
+                    if (entity != null)
+                    {
+                        _context.WeeklyCritiques.Remove(entity);
+
+                        // recalc MeritScore for the trainee
+                        var trainee = _context.Trainees.Include(t => t.WeeklyCritiques)
+                                        .FirstOrDefault(t => t.Id == entity.TraineeId);
+                        if (trainee != null)
+                        {
+                            trainee.MeritScore = trainee.WeeklyCritiques.Sum(c => c.FinalScore);
+                        }
+
+                        _context.SaveChanges();
+                        MessageBox.Show("Xóa phê bình thành công!");
+                    }
+                }
+
                 LoadData();
                 ClearForm();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[SaveOrUpdate][ERROR] {ex}");
-                MessageBox.Show("Không thể lưu vi phạm. Xem Output/Console để biết chi tiết.");
+                MessageBox.Show($"Lỗi khi xóa: {ex.Message}");
             }
-        }
-
-        private Misconduct ReadFromForm()
-        {
-            var traineeId = (int)comboBox1.SelectedValue;
-            var type = comboBox3.SelectedItem?.ToString() ?? "";
-            var time = dateTimePicker1.Value;
-            var desc = textBox1.Text;
-
-            Console.WriteLine($"[ReadFromForm] _editingId={_editingId}, TraineeId={traineeId}, Type={type}, Time={time}, DescLen={(desc ?? "").Length}");
-
-            return new Misconduct
-            {
-                Id = _editingId,
-                TraineeId = traineeId,
-                Type = type,
-                Time = time,
-                Description = desc
-            };
-        }
-
-        private void Save(Misconduct entity)
-        {
-            if (entity.Id == 0)
-            {
-                _context.Misconducts.Add(entity);
-                Console.WriteLine($"[Save] Add new -> TraineeId={entity.TraineeId}, Type={entity.Type}");
-            }
-            else
-            {
-                // Detach any tracked instance with the same Id
-                var tracked = _context.ChangeTracker
-                    .Entries<Misconduct>()
-                    .FirstOrDefault(e => e.Entity.Id == entity.Id);
-
-                if (tracked != null)
-                {
-                    _context.Entry(tracked.Entity).State = EntityState.Detached;
-                    Console.WriteLine($"[Save] Detached tracked entity Id={entity.Id}");
-                }
-
-                _context.Misconducts.Update(entity);
-                Console.WriteLine($"[Save] Update -> Id={entity.Id}, Type={entity.Type}");
-            }
-
-            _context.SaveChanges();
-            Console.WriteLine("[Save] Changes committed.");
-        }
-
-        // ===============================
-        // Delete
-        // ===============================
-        private void DeleteMisconduct()
-        {
-            if (dgvRead.SelectedRows.Count == 0)
-            {
-                Console.WriteLine("[DeleteMisconduct] No row selected.");
-                return;
-            }
-
-            var row = dgvRead.SelectedRows[0];
-            var id = Convert.ToInt32(row.Cells["Id"].Value);
-            var entity = _context.Misconducts.FirstOrDefault(m => m.Id == id);
-
-            if (entity == null)
-            {
-                Console.WriteLine($"[DeleteMisconduct] Id={id} not found.");
-                return;
-            }
-
-            _context.Misconducts.Remove(entity);
-            _context.SaveChanges();
-
-            Console.WriteLine($"[DeleteMisconduct] Deleted Id={id}.");
-            LoadData();
-            ClearForm();
         }
 
         // ===============================
@@ -289,11 +502,9 @@ namespace StudentManagementSystem.UI.UserControls
         // ===============================
         private void ClearForm()
         {
-            Console.WriteLine("[ClearForm] Resetting form inputs...");
-
-            _editingId = 0; // switch to "Add new" mode
-            dgvRead.ClearSelection();
-            dgvRead.CurrentCell = null;
+            _editingId = 0;
+            _editingType = "";
+            ClearSelection();
 
             if (comboBox1.Items.Count > 0)
                 comboBox1.SelectedIndex = 0;
@@ -303,12 +514,23 @@ namespace StudentManagementSystem.UI.UserControls
             dateTimePicker1.Value = DateTime.Today;
             txtClassName.Clear();
 
-            Console.WriteLine("[ClearForm] _editingId set to 0 (add mode).");
+            // Reset critique controls to defaults
+            cbPoliticalAttitude.SelectedIndex = 0;
+            cbStudyMotivation.SelectedIndex = 0;
+            cbEthicsLifestyle.SelectedIndex = 0;
+            cbDisciplineAwareness.SelectedIndex = 0;
+            cbAcademicResult.SelectedIndex = 0;
+            cbResearchActivity.SelectedIndex = 1;
         }
 
-        private void Reload()
+        private void ClearSelection()
         {
-            LoadData(); // ✅ just reload data, sorted by Id at query
+            dgvMisconduct.ClearSelection();
+            dgvMisconduct.CurrentCell = null;
+            dgvWeeklyCritique.ClearSelection();
+            dgvWeeklyCritique.CurrentCell = null;
         }
+
+        private void Reload() => LoadData();
     }
 }

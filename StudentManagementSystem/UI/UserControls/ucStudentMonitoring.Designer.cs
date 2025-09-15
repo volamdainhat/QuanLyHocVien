@@ -32,7 +32,7 @@
             splitContainer1 = new SplitContainer();
             groupBox3 = new GroupBox();
             label20 = new Label();
-            cbReseachGrade = new ComboBox();
+            cbResearchGrade = new ComboBox();
             label19 = new Label();
             cbStudyGrade = new ComboBox();
             label18 = new Label();
@@ -69,12 +69,16 @@
             label2 = new Label();
             comboBox1 = new ComboBox();
             label1 = new Label();
+            tabControl1 = new TabControl();
+            tpMisconduct = new TabPage();
+            dgvMisconduct = new DataGridView();
+            tpWeeklyCritique = new TabPage();
+            dgvWeeklyCritique = new DataGridView();
             panel1 = new Panel();
             btnDelete = new Button();
             btnSave = new Button();
             btnAdd = new Button();
             btnRefresh = new Button();
-            dgvRead = new DataGridView();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -82,8 +86,12 @@
             splitContainer1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tpMisconduct.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvMisconduct).BeginInit();
+            tpWeeklyCritique.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvWeeklyCritique).BeginInit();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvRead).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -115,8 +123,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(tabControl1);
             splitContainer1.Panel2.Controls.Add(panel1);
-            splitContainer1.Panel2.Controls.Add(dgvRead);
             splitContainer1.Size = new Size(1487, 894);
             splitContainer1.SplitterDistance = 469;
             splitContainer1.TabIndex = 0;
@@ -124,7 +132,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(label20);
-            groupBox3.Controls.Add(cbReseachGrade);
+            groupBox3.Controls.Add(cbResearchGrade);
             groupBox3.Controls.Add(label19);
             groupBox3.Controls.Add(cbStudyGrade);
             groupBox3.Controls.Add(label18);
@@ -152,7 +160,7 @@
             groupBox3.Controls.Add(label6);
             groupBox3.Location = new Point(681, 23);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(779, 431);
+            groupBox3.Size = new Size(712, 431);
             groupBox3.TabIndex = 9;
             groupBox3.TabStop = false;
             groupBox3.Text = "Bình rèn tuần ";
@@ -166,13 +174,13 @@
             label20.TabIndex = 26;
             label20.Text = "Điểm";
             // 
-            // cbReseachGrade
+            // cbResearchGrade
             // 
-            cbReseachGrade.FormattingEnabled = true;
-            cbReseachGrade.Location = new Point(635, 374);
-            cbReseachGrade.Name = "cbReseachGrade";
-            cbReseachGrade.Size = new Size(121, 23);
-            cbReseachGrade.TabIndex = 25;
+            cbResearchGrade.FormattingEnabled = true;
+            cbResearchGrade.Location = new Point(635, 374);
+            cbResearchGrade.Name = "cbResearchGrade";
+            cbResearchGrade.Size = new Size(71, 23);
+            cbResearchGrade.TabIndex = 25;
             // 
             // label19
             // 
@@ -188,7 +196,7 @@
             cbStudyGrade.FormattingEnabled = true;
             cbStudyGrade.Location = new Point(635, 345);
             cbStudyGrade.Name = "cbStudyGrade";
-            cbStudyGrade.Size = new Size(121, 23);
+            cbStudyGrade.Size = new Size(71, 23);
             cbStudyGrade.TabIndex = 23;
             // 
             // label18
@@ -205,7 +213,7 @@
             cbDisciplineGrade.FormattingEnabled = true;
             cbDisciplineGrade.Location = new Point(635, 234);
             cbDisciplineGrade.Name = "cbDisciplineGrade";
-            cbDisciplineGrade.Size = new Size(121, 23);
+            cbDisciplineGrade.Size = new Size(71, 23);
             cbDisciplineGrade.TabIndex = 21;
             // 
             // label17
@@ -222,7 +230,7 @@
             cbLifestyleGrade.FormattingEnabled = true;
             cbLifestyleGrade.Location = new Point(635, 202);
             cbLifestyleGrade.Name = "cbLifestyleGrade";
-            cbLifestyleGrade.Size = new Size(121, 23);
+            cbLifestyleGrade.Size = new Size(71, 23);
             cbLifestyleGrade.TabIndex = 19;
             // 
             // label16
@@ -239,7 +247,7 @@
             cbStudyMovGrade.FormattingEnabled = true;
             cbStudyMovGrade.Location = new Point(635, 101);
             cbStudyMovGrade.Name = "cbStudyMovGrade";
-            cbStudyMovGrade.Size = new Size(121, 23);
+            cbStudyMovGrade.Size = new Size(71, 23);
             cbStudyMovGrade.TabIndex = 17;
             // 
             // label15
@@ -256,7 +264,7 @@
             cbPoliticalGrade.FormattingEnabled = true;
             cbPoliticalGrade.Location = new Point(635, 66);
             cbPoliticalGrade.Name = "cbPoliticalGrade";
-            cbPoliticalGrade.Size = new Size(121, 23);
+            cbPoliticalGrade.Size = new Size(71, 23);
             cbPoliticalGrade.TabIndex = 15;
             // 
             // cbResearchActivity
@@ -489,6 +497,59 @@
             label1.TabIndex = 0;
             label1.Text = "Học viên";
             // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tpMisconduct);
+            tabControl1.Controls.Add(tpWeeklyCritique);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(1487, 392);
+            tabControl1.TabIndex = 2;
+            // 
+            // tpMisconduct
+            // 
+            tpMisconduct.Controls.Add(dgvMisconduct);
+            tpMisconduct.Location = new Point(4, 24);
+            tpMisconduct.Name = "tpMisconduct";
+            tpMisconduct.Padding = new Padding(3);
+            tpMisconduct.Size = new Size(1479, 364);
+            tpMisconduct.TabIndex = 0;
+            tpMisconduct.Text = "Vi phạm";
+            tpMisconduct.UseVisualStyleBackColor = true;
+            // 
+            // dgvMisconduct
+            // 
+            dgvMisconduct.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvMisconduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvMisconduct.Dock = DockStyle.Fill;
+            dgvMisconduct.Location = new Point(3, 3);
+            dgvMisconduct.Name = "dgvMisconduct";
+            dgvMisconduct.Size = new Size(1473, 358);
+            dgvMisconduct.TabIndex = 0;
+            // 
+            // tpWeeklyCritique
+            // 
+            tpWeeklyCritique.Controls.Add(dgvWeeklyCritique);
+            tpWeeklyCritique.Location = new Point(4, 24);
+            tpWeeklyCritique.Name = "tpWeeklyCritique";
+            tpWeeklyCritique.Padding = new Padding(3);
+            tpWeeklyCritique.Size = new Size(1479, 364);
+            tpWeeklyCritique.TabIndex = 1;
+            tpWeeklyCritique.Text = "Bình rèn";
+            tpWeeklyCritique.UseVisualStyleBackColor = true;
+            // 
+            // dgvWeeklyCritique
+            // 
+            dgvWeeklyCritique.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvWeeklyCritique.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvWeeklyCritique.Dock = DockStyle.Fill;
+            dgvWeeklyCritique.Location = new Point(3, 3);
+            dgvWeeklyCritique.Name = "dgvWeeklyCritique";
+            dgvWeeklyCritique.Size = new Size(1473, 358);
+            dgvWeeklyCritique.TabIndex = 0;
+            // 
             // panel1
             // 
             panel1.Controls.Add(btnDelete);
@@ -545,16 +606,6 @@
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
             // 
-            // dgvRead
-            // 
-            dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Dock = DockStyle.Fill;
-            dgvRead.Location = new Point(0, 0);
-            dgvRead.Name = "dgvRead";
-            dgvRead.Size = new Size(1487, 421);
-            dgvRead.TabIndex = 0;
-            // 
             // ucStudentMonitoring
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -572,8 +623,12 @@
             groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tpMisconduct.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvMisconduct).EndInit();
+            tpWeeklyCritique.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvWeeklyCritique).EndInit();
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvRead).EndInit();
             ResumeLayout(false);
         }
 
@@ -581,7 +636,6 @@
 
         private GroupBox groupBox1;
         private SplitContainer splitContainer1;
-        private DataGridView dgvRead;
         private Label label1;
         private Panel panel1;
         private Label label2;
@@ -615,7 +669,7 @@
         private Label label9;
         private ComboBox cbPoliticalAttitude;
         private Label label20;
-        private ComboBox cbReseachGrade;
+        private ComboBox cbResearchGrade;
         private Label label19;
         private ComboBox cbStudyGrade;
         private Label label18;
@@ -626,5 +680,10 @@
         private ComboBox cbStudyMovGrade;
         private Label label15;
         private ComboBox cbPoliticalGrade;
+        private TabControl tabControl1;
+        private TabPage tpMisconduct;
+        private TabPage tpWeeklyCritique;
+        private DataGridView dgvMisconduct;
+        private DataGridView dgvWeeklyCritique;
     }
 }
