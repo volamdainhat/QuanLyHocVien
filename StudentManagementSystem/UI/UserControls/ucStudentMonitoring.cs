@@ -19,7 +19,7 @@ namespace StudentManagementSystem.UI.UserControls
         private Dictionary<ComboBox, (ComboBox GradeBox, Dictionary<int, ComboRule> Rules)> _rules;
         private readonly Dictionary<ComboBox, HashSet<int>> _disabledItems = new();
 
-        private readonly DayOfWeek CritiqueDay = DayOfWeek.Monday; // configurable if needed
+        private readonly DayOfWeek CritiqueDay = DayOfWeek.Wednesday; // configurable if needed
 
         public ucStudentMonitoring()
         {
@@ -29,6 +29,7 @@ namespace StudentManagementSystem.UI.UserControls
             dgvWeeklyCritique.CellClick += dgvWeeklyCritique_CellClick;
             comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
+            cbClass.SelectedIndexChanged += CbClass_SelectedIndexChanged;
 
             btnAdd.Click += (s, e) => ClearForm();
             btnSave.Click += (s, e) => SaveOrUpdate();
@@ -38,6 +39,7 @@ namespace StudentManagementSystem.UI.UserControls
             tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
 
             InitRules();
+            LoadClasses();
             LoadStudents();
             LoadMisconductTypes();
             LoadCriterias();
@@ -136,40 +138,48 @@ namespace StudentManagementSystem.UI.UserControls
         // ===============================
         // Load
         // ===============================
-        private void RenameColumns()
+        private void LoadClasses()
         {
-            // Rename misconduct columns
-            if (dgvMisconduct.Columns.Contains("StudentName")) dgvMisconduct.Columns["StudentName"].HeaderText = "Tên học viên";
-            if (dgvMisconduct.Columns.Contains("ClassName")) dgvMisconduct.Columns["ClassName"].HeaderText = "Lớp";
-            if (dgvMisconduct.Columns.Contains("Type")) dgvMisconduct.Columns["Type"].HeaderText = "Loại vi phạm";
-            if (dgvMisconduct.Columns.Contains("Time")) dgvMisconduct.Columns["Time"].HeaderText = "Ngày";
-            if (dgvMisconduct.Columns.Contains("Description")) dgvMisconduct.Columns["Description"].HeaderText = "Mô tả";
+            // Load distinct class names from trainees
+            var classes = _context.Trainees
+                .Where(t => t.ClassName != null && t.ClassName != "")
+                .Select(t => t.ClassName)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
 
-            // Rename critique columns
-            if (dgvWeeklyCritique.Columns.Contains("StudentName")) dgvWeeklyCritique.Columns["StudentName"].HeaderText = "Tên học viên";
-            if (dgvWeeklyCritique.Columns.Contains("ClassName")) dgvWeeklyCritique.Columns["ClassName"].HeaderText = "Lớp";
-            // if (dgvWeeklyCritique.Columns.Contains("WeekDate")) dgvWeeklyCritique.Columns["WeekDate"].HeaderText = "Tuần";
-            if (dgvWeeklyCritique.Columns.Contains("FinalScore")) dgvWeeklyCritique.Columns["FinalScore"].HeaderText = "Điểm";
-            if (dgvWeeklyCritique.Columns.Contains("PoliticalAttitude")) dgvWeeklyCritique.Columns["PoliticalAttitude"].HeaderText = "Thái độ chính trị";
-            if (dgvWeeklyCritique.Columns.Contains("StudyMotivation")) dgvWeeklyCritique.Columns["StudyMotivation"].HeaderText = "Động cơ học tập";
-            if (dgvWeeklyCritique.Columns.Contains("EthicsLifestyle")) dgvWeeklyCritique.Columns["EthicsLifestyle"].HeaderText = "Đạo đức lối sống";
-            if (dgvWeeklyCritique.Columns.Contains("DisciplineAwareness")) dgvWeeklyCritique.Columns["DisciplineAwareness"].HeaderText = "Ý thức kỷ luật";
-            if (dgvWeeklyCritique.Columns.Contains("AcademicResult")) dgvWeeklyCritique.Columns["AcademicResult"].HeaderText = "Kết quả học tập";
-            if (dgvWeeklyCritique.Columns.Contains("ResearchActivity")) dgvWeeklyCritique.Columns["ResearchActivity"].HeaderText = "Hoạt động nghiên cứu";
+            cbClass.Items.Clear();
+            cbClass.Items.Add("Tất cả lớp"); // Option to show all trainees
+            cbClass.Items.AddRange(classes.ToArray());
+            cbClass.SelectedIndex = 0;
         }
 
         private void LoadStudents()
         {
-            // Only load trainees who have a class assigned (ClassId is not null)
-            _context.Trainees
-                .Where(t => t.ClassId != null) // Only trainees with assigned classes
-                .Load();
+            _context.Trainees.Load();
+            FilterStudentsByClass();
+        }
 
-            comboBox1.DataSource = _context.Trainees.Local.ToBindingList();
+        private void FilterStudentsByClass()
+        {
+            var selectedClass = cbClass.SelectedItem?.ToString();
+
+            if (selectedClass == "Tất cả lớp" || string.IsNullOrEmpty(selectedClass))
+            {
+                comboBox1.DataSource = _context.Trainees.Local.ToBindingList();
+            }
+            else
+            {
+                var filteredStudents = _context.Trainees.Local
+                    .Where(t => t.ClassName == selectedClass)
+                    .ToList();
+
+                comboBox1.DataSource = filteredStudents;
+            }
+
             comboBox1.DisplayMember = "FullName";
             comboBox1.ValueMember = "Id";
         }
-
 
         private void LoadMisconductTypes()
         {
@@ -243,15 +253,39 @@ namespace StudentManagementSystem.UI.UserControls
             dgvWeeklyCritique.DataSource = critiques;
 
             RenameColumns();
-            dgvMisconduct.ClearSelection();
-            dgvMisconduct.CurrentCell = null;
-            dgvWeeklyCritique.ClearSelection();
-            dgvWeeklyCritique.CurrentCell = null;
+            ClearSelection();
+        }
+
+        private void RenameColumns()
+        {
+            // Rename misconduct columns
+            if (dgvMisconduct.Columns.Contains("StudentName")) dgvMisconduct.Columns["StudentName"].HeaderText = "Tên học viên";
+            if (dgvMisconduct.Columns.Contains("ClassName")) dgvMisconduct.Columns["ClassName"].HeaderText = "Lớp";
+            if (dgvMisconduct.Columns.Contains("Type")) dgvMisconduct.Columns["Type"].HeaderText = "Loại vi phạm";
+            if (dgvMisconduct.Columns.Contains("Time")) dgvMisconduct.Columns["Time"].HeaderText = "Ngày";
+            if (dgvMisconduct.Columns.Contains("Description")) dgvMisconduct.Columns["Description"].HeaderText = "Mô tả";
+
+            // Rename critique columns
+            if (dgvWeeklyCritique.Columns.Contains("StudentName")) dgvWeeklyCritique.Columns["StudentName"].HeaderText = "Tên học viên";
+            if (dgvWeeklyCritique.Columns.Contains("ClassName")) dgvWeeklyCritique.Columns["ClassName"].HeaderText = "Lớp";
+            if (dgvWeeklyCritique.Columns.Contains("WeekDate")) dgvWeeklyCritique.Columns["WeekDate"].HeaderText = "Tuần";
+            if (dgvWeeklyCritique.Columns.Contains("FinalScore")) dgvWeeklyCritique.Columns["FinalScore"].HeaderText = "Điểm";
+            if (dgvWeeklyCritique.Columns.Contains("PoliticalAttitude")) dgvWeeklyCritique.Columns["PoliticalAttitude"].HeaderText = "Thái độ chính trị";
+            if (dgvWeeklyCritique.Columns.Contains("StudyMotivation")) dgvWeeklyCritique.Columns["StudyMotivation"].HeaderText = "Động cơ học tập";
+            if (dgvWeeklyCritique.Columns.Contains("EthicsLifestyle")) dgvWeeklyCritique.Columns["EthicsLifestyle"].HeaderText = "Đạo đức lối sống";
+            if (dgvWeeklyCritique.Columns.Contains("DisciplineAwareness")) dgvWeeklyCritique.Columns["DisciplineAwareness"].HeaderText = "Ý thức kỷ luật";
+            if (dgvWeeklyCritique.Columns.Contains("AcademicResult")) dgvWeeklyCritique.Columns["AcademicResult"].HeaderText = "Kết quả học tập";
+            if (dgvWeeklyCritique.Columns.Contains("ResearchActivity")) dgvWeeklyCritique.Columns["ResearchActivity"].HeaderText = "Hoạt động nghiên cứu";
         }
 
         // ===============================
         // Events
         // ===============================
+        private void CbClass_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterStudentsByClass();
+        }
+
         private void dgvMisconduct_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -259,8 +293,27 @@ namespace StudentManagementSystem.UI.UserControls
             _editingId = Convert.ToInt32(row.Cells["Id"].Value);
             _editingType = "Misconduct";
 
-            comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
-            txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
+            // Set the class filter first
+            var className = row.Cells["ClassName"].Value?.ToString();
+            if (!string.IsNullOrEmpty(className))
+            {
+                cbClass.SelectedItem = className;
+            }
+
+            // Find and select the student
+            var studentName = row.Cells["StudentName"].Value?.ToString();
+            if (!string.IsNullOrEmpty(studentName))
+            {
+                foreach (Trainee item in comboBox1.Items)
+                {
+                    if (item.FullName == studentName)
+                    {
+                        comboBox1.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
             comboBox3.Text = row.Cells["Type"].Value?.ToString();
             dateTimePicker1.Value = Convert.ToDateTime(row.Cells["Time"].Value);
             textBox1.Text = row.Cells["Description"].Value?.ToString();
@@ -276,8 +329,27 @@ namespace StudentManagementSystem.UI.UserControls
             _editingId = Convert.ToInt32(row.Cells["Id"].Value);
             _editingType = "WeeklyCritique";
 
-            comboBox1.Text = row.Cells["StudentName"].Value?.ToString();
-            txtClassName.Text = row.Cells["ClassName"].Value?.ToString();
+            // Set the class filter first
+            var className = row.Cells["ClassName"].Value?.ToString();
+            if (!string.IsNullOrEmpty(className))
+            {
+                cbClass.SelectedItem = className;
+            }
+
+            // Find and select the student
+            var studentName = row.Cells["StudentName"].Value?.ToString();
+            if (!string.IsNullOrEmpty(studentName))
+            {
+                foreach (Trainee item in comboBox1.Items)
+                {
+                    if (item.FullName == studentName)
+                    {
+                        comboBox1.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
             dateTimePicker1.Value = Convert.ToDateTime(row.Cells["WeekDate"].Value);
 
             // Switch to critique tab
@@ -295,8 +367,7 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem is Trainee trainee)
-                txtClassName.Text = trainee.ClassName;
+            // No need to set class name anymore since we're using cbClass for filtering
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -410,7 +481,7 @@ namespace StudentManagementSystem.UI.UserControls
         {
             if (entity.WeekDate.DayOfWeek != CritiqueDay)
             {
-                MessageBox.Show($"Phê bình chỉ có thể lưu vào {CritiqueDay}.");
+                MessageBox.Show($"Bình rèn chỉ có thể lưu vào {CritiqueDay}.");
                 return;
             }
 
@@ -512,7 +583,6 @@ namespace StudentManagementSystem.UI.UserControls
             comboBox3.SelectedIndex = -1;
             textBox1.Clear();
             dateTimePicker1.Value = DateTime.Today;
-            txtClassName.Clear();
 
             // Reset critique controls to defaults
             cbPoliticalAttitude.SelectedIndex = 0;

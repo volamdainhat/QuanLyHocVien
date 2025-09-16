@@ -476,7 +476,10 @@ namespace StudentManagementSystem.UI.UserControls
                 grid.Columns["MotherFullName"].HeaderText = "Họ tên mẹ";
             if (grid.Columns.Contains("MotherPhoneNumber"))
                 grid.Columns["MotherPhoneNumber"].HeaderText = "SĐT mẹ";
+            if (grid.Columns.Contains("MeritScore"))
+                grid.Columns["MeritScore"].HeaderText = "Điểm bình rèn";
 
+            // Hide irrelevant columns
             if (grid.Columns.Contains("AvatarUrl"))
                 grid.Columns["AvatarUrl"].Visible = false;
             if (grid.Columns.Contains("Misconducts"))
@@ -489,6 +492,8 @@ namespace StudentManagementSystem.UI.UserControls
                 grid.Columns["ClassId"].Visible = false;
             if (grid.Columns.Contains("ClassName"))
                 grid.Columns["ClassName"].Visible = false;
+            if (grid.Columns.Contains("WeeklyCritiques"))
+                grid.Columns["WeeklyCritiques"].Visible = false;
 
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

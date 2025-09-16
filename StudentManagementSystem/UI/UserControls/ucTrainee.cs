@@ -214,7 +214,6 @@ namespace StudentManagementSystem.UI.UserControls
         {
             txtId.Text = "0";
             txtFullName.Clear();
-            cbClassId.SelectedIndex = 0;
             txtPhoneNumber.Clear();
             dtpDayOfBirth.Value = DateTime.Now;
             dtpEnlistmentDate.Value = DateTime.Now;
