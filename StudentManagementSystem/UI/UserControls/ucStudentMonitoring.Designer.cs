@@ -30,6 +30,7 @@
         {
             groupBox1 = new GroupBox();
             splitContainer1 = new SplitContainer();
+            cbClass = new ComboBox();
             groupBox3 = new GroupBox();
             label20 = new Label();
             cbResearchGrade = new ComboBox();
@@ -78,7 +79,6 @@
             btnSave = new Button();
             btnAdd = new Button();
             btnRefresh = new Button();
-            cbClass = new ComboBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -128,6 +128,14 @@
             splitContainer1.Size = new Size(1487, 894);
             splitContainer1.SplitterDistance = 469;
             splitContainer1.TabIndex = 0;
+            // 
+            // cbClass
+            // 
+            cbClass.FormattingEnabled = true;
+            cbClass.Location = new Point(122, 20);
+            cbClass.Name = "cbClass";
+            cbClass.Size = new Size(198, 23);
+            cbClass.TabIndex = 10;
             // 
             // groupBox3
             // 
@@ -418,6 +426,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(298, 90);
             textBox1.TabIndex = 10;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label5
             // 
@@ -478,7 +487,6 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(198, 23);
             comboBox1.TabIndex = 1;
-            comboBox1.SelectedValueChanged += ComboBox1_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -597,14 +605,6 @@
             btnRefresh.TabIndex = 6;
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
-            // 
-            // cbClass
-            // 
-            cbClass.FormattingEnabled = true;
-            cbClass.Location = new Point(122, 20);
-            cbClass.Name = "cbClass";
-            cbClass.Size = new Size(198, 23);
-            cbClass.TabIndex = 10;
             // 
             // ucStudentMonitoring
             // 

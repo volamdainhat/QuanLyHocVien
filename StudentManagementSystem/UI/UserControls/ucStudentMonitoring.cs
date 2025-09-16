@@ -19,7 +19,7 @@ namespace StudentManagementSystem.UI.UserControls
         private Dictionary<ComboBox, (ComboBox GradeBox, Dictionary<int, ComboRule> Rules)> _rules;
         private readonly Dictionary<ComboBox, HashSet<int>> _disabledItems = new();
 
-        private readonly DayOfWeek CritiqueDay = DayOfWeek.Wednesday; // configurable if needed
+        private readonly DayOfWeek CritiqueDay = DayOfWeek.Tuesday; // configurable if needed
 
         public ucStudentMonitoring()
         {
@@ -27,7 +27,6 @@ namespace StudentManagementSystem.UI.UserControls
 
             dgvMisconduct.CellClick += dgvMisconduct_CellClick;
             dgvWeeklyCritique.CellClick += dgvWeeklyCritique_CellClick;
-            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             cbClass.SelectedIndexChanged += CbClass_SelectedIndexChanged;
 
@@ -101,14 +100,22 @@ namespace StudentManagementSystem.UI.UserControls
                     var box = (ComboBox)s;
                     if (_disabledItems.TryGetValue(box, out var disabled) && disabled.Contains(box.SelectedIndex))
                     {
-                        box.SelectedIndex = box.Items.Count > 0 ? 0 : -1;
+                        // Find the first allowed index
+                        for (int i = 0; i < box.Items.Count; i++)
+                        {
+                            if (!disabled.Contains(i))
+                            {
+                                box.SelectedIndex = i;
+                                break;
+                            }
+                        }
                         return;
                     }
                     ApplyRule(box);
-                };
 
-                criteriaBox.DrawMode = DrawMode.OwnerDrawFixed;
-                criteriaBox.DrawItem += (s, e) => ComboBox_DrawItem((ComboBox)s, e);
+                    criteriaBox.DrawMode = DrawMode.OwnerDrawFixed;
+                    criteriaBox.DrawItem += (s, e) => ComboBox_DrawItem((ComboBox)s, e);
+                };
             }
         }
 
@@ -365,15 +372,55 @@ namespace StudentManagementSystem.UI.UserControls
             ClearSelection();
         }
 
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // No need to set class name anymore since we're using cbClass for filtering
-        }
-
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox1.ReadOnly = comboBox3.SelectedIndex == 0;
+            // index 0 → read-only
+            // index 1 or last → required, so editable
+            // everything else → optional but still editable
+            if (comboBox3.SelectedIndex == 0)
+            {
+                textBox1.ReadOnly = true;
+                textBox1.BackColor = Color.LightGray;
+                textBox1.Clear();
+            }
+            else
+            {
+                textBox1.ReadOnly = false;
+                textBox1.BackColor = Color.White;
+
+                // highlight if required but empty
+                if ((comboBox3.SelectedIndex == 1 || comboBox3.SelectedIndex == 2 || comboBox3.SelectedIndex == comboBox3.Items.Count - 1)
+                    && string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    textBox1.BackColor = Color.MistyRose; // visual cue
+                }
+            }
+
+            // keep your cbPoliticalAttitude logic
+            if (comboBox3.SelectedIndex == 1) // lock index 0 for political attitude
+            {
+                if (!_disabledItems.ContainsKey(cbPoliticalAttitude))
+                    _disabledItems[cbPoliticalAttitude] = new HashSet<int>();
+
+                _disabledItems[cbPoliticalAttitude].Add(0);
+                if (cbPoliticalAttitude.SelectedIndex == 0 && cbPoliticalAttitude.Items.Count > 1)
+                    cbPoliticalAttitude.SelectedIndex = 1;
+            }
+            else
+            {
+                if (_disabledItems.ContainsKey(cbPoliticalAttitude))
+                {
+                    _disabledItems[cbPoliticalAttitude].Remove(0);
+                    if (_disabledItems[cbPoliticalAttitude].Count == 0)
+                        _disabledItems.Remove(cbPoliticalAttitude);
+                }
+            }
+
+            cbPoliticalAttitude.Invalidate();
+            UpdateSaveButtonState();
         }
+
+
 
         // ===============================
         // Save / Update / Delete
@@ -386,27 +433,57 @@ namespace StudentManagementSystem.UI.UserControls
                 return;
             }
 
-            if (tabControl1.SelectedTab == tpMisconduct)
+            if (DateTime.Today.DayOfWeek == CritiqueDay)
             {
+                // Weekly critique mode
+                if (!ValidateCritiqueForm()) return;
+                var critique = ReadFromFormCritique();
+                SaveCritique(critique);
+
+                // Misconduct mode
                 if (comboBox3.SelectedIndex < 0)
                 {
                     MessageBox.Show("Vui lòng chọn loại vi phạm.");
                     return;
                 }
 
+                // 🔹 New validation: if index 1 or last, textbox1 must not be empty
+                if ((comboBox3.SelectedIndex == 1 || comboBox3.SelectedIndex == comboBox3.Items.Count - 1)
+                    && string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập mô tả cho loại vi phạm này.");
+                    return;
+                }
+
                 var misconduct = ReadFromFormMisconduct();
                 SaveMisconduct(misconduct);
             }
-            else if (tabControl1.SelectedTab == tpWeeklyCritique)
+            else
             {
-                if (!ValidateCritiqueForm()) return;
-                var critique = ReadFromFormCritique();
-                SaveCritique(critique);
+                // Misconduct mode
+                if (comboBox3.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Vui lòng chọn loại vi phạm.");
+                    return;
+                }
+
+                // 🔹 Same validation here too
+                if ((comboBox3.SelectedIndex == 1 || comboBox3.SelectedIndex == comboBox3.Items.Count - 1)
+                    && string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập mô tả cho loại vi phạm này.");
+                    return;
+                }
+
+                var misconduct = ReadFromFormMisconduct();
+                SaveMisconduct(misconduct);
             }
 
             LoadData();
             ClearForm();
         }
+
+
 
         private bool ValidateCritiqueForm()
         {
@@ -479,19 +556,15 @@ namespace StudentManagementSystem.UI.UserControls
 
         private void SaveCritique(WeeklyCritique entity)
         {
-            if (entity.WeekDate.DayOfWeek != CritiqueDay)
-            {
-                MessageBox.Show($"Bình rèn chỉ có thể lưu vào {CritiqueDay}.");
-                return;
-            }
-
             try
             {
-                if (entity.Id == 0)
-                    _context.WeeklyCritiques.Add(entity);
-                else
-                    _context.WeeklyCritiques.Update(entity);
+                if (entity.Id != 0)
+                {
+                    MessageBox.Show("Không thể chỉnh sửa bình rèn đã có. Hãy xóa hoặc nhập mới.");
+                    return;
+                }
 
+                _context.WeeklyCritiques.Add(entity);
                 _context.SaveChanges();
 
                 // recalc MeritScore
@@ -503,13 +576,14 @@ namespace StudentManagementSystem.UI.UserControls
                     _context.SaveChanges();
                 }
 
-                MessageBox.Show("Lưu phê bình thành công!");
+                MessageBox.Show("Thêm phê bình thành công!");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi lưu phê bình: {ex.Message}");
             }
         }
+
 
         private void DeleteSelected()
         {
@@ -602,5 +676,44 @@ namespace StudentManagementSystem.UI.UserControls
         }
 
         private void Reload() => LoadData();
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if ((comboBox3.SelectedIndex == 1 || comboBox3.SelectedIndex == comboBox3.Items.Count - 1)
+                && string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                textBox1.BackColor = Color.MistyRose; // still required and empty
+            }
+            else
+            {
+                textBox1.BackColor = Color.White;
+            }
+
+            UpdateSaveButtonState();
+        }
+
+        private void UpdateSaveButtonState()
+        {
+            bool requireDescription = (comboBox3.SelectedIndex == 1 ||
+                                       comboBox3.SelectedIndex == comboBox3.Items.Count - 1);
+
+            if (comboBox3.SelectedIndex == 0)
+            {
+                textBox1.ReadOnly = true;
+                textBox1.BackColor = Color.LightGray;
+                textBox1.Clear();
+            }
+            else
+            {
+                textBox1.ReadOnly = false;
+                if (requireDescription && string.IsNullOrWhiteSpace(textBox1.Text))
+                    textBox1.BackColor = Color.MistyRose;
+                else
+                    textBox1.BackColor = Color.White;
+            }
+
+            // disable Save if required field is empty
+            btnSave.Enabled = !(requireDescription && string.IsNullOrWhiteSpace(textBox1.Text));
+        }
     }
 }
