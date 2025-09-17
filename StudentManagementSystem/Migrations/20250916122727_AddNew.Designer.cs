@@ -11,8 +11,8 @@ using StudentManagementSystem.Infrastructure;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250905141156_AddSubjectAverageScore")]
-    partial class AddSubjectAverageScore
+    [Migration("20250916122727_AddNew")]
+    partial class AddNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,6 +197,10 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER")
                         .HasAnnotation("Sqlite:Autoincrement", true);
 
+                    b.Property<string>("ExamTypeCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<float>("Grade")
                         .HasColumnType("REAL");
 
@@ -215,6 +219,8 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
 
                     b.ToTable("Grades");
                 });
@@ -277,6 +283,8 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TraineeId");
+
                     b.ToTable("Misconducts");
                 });
 
@@ -293,14 +301,17 @@ namespace StudentManagementSystem.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("MisconductCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ReportDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ReportId")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TotalAbsences")
                         .HasColumnType("INTEGER");
@@ -309,6 +320,8 @@ namespace StudentManagementSystem.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("Reports");
                 });
@@ -419,7 +432,7 @@ namespace StudentManagementSystem.Migrations
                     b.Property<decimal?>("AverageScore")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ClassName")
@@ -439,6 +452,9 @@ namespace StudentManagementSystem.Migrations
 
                     b.Property<string>("FullName")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("MeritScore")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MotherFullName")
                         .HasColumnType("TEXT");
@@ -480,6 +496,80 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInfos");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.WeeklyCritique", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("Sqlite:Autoincrement", true);
+
+                    b.Property<string>("AcademicResult")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisciplineAwareness")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EthicsLifestyle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FinalScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PoliticalAttitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResearchActivity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StudyMotivation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("WeekDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("WeeklyCritiques");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Grades", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
+                        .WithMany("Grades")
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
+                        .WithMany("Misconducts")
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Reports", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Schedule", b =>
@@ -524,9 +614,18 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.HasOne("StudentManagementSystem.Domain.Entities.Class", null)
                         .WithMany("Trainees")
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("ClassId");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.WeeklyCritique", b =>
+                {
+                    b.HasOne("StudentManagementSystem.Domain.Entities.Trainee", "Trainee")
+                        .WithMany("WeeklyCritiques")
+                        .HasForeignKey("TraineeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Trainee");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Class", b =>
@@ -539,6 +638,15 @@ namespace StudentManagementSystem.Migrations
             modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Subject", b =>
                 {
                     b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Domain.Entities.Trainee", b =>
+                {
+                    b.Navigation("Grades");
+
+                    b.Navigation("Misconducts");
+
+                    b.Navigation("WeeklyCritiques");
                 });
 #pragma warning restore 612, 618
         }

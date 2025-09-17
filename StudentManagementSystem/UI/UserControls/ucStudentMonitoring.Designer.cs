@@ -30,6 +30,7 @@
         {
             groupBox1 = new GroupBox();
             splitContainer1 = new SplitContainer();
+            cbClass = new ComboBox();
             groupBox3 = new GroupBox();
             label20 = new Label();
             cbResearchGrade = new ComboBox();
@@ -58,7 +59,6 @@
             label8 = new Label();
             label7 = new Label();
             label6 = new Label();
-            txtClassName = new TextBox();
             groupBox2 = new GroupBox();
             textBox1 = new TextBox();
             label5 = new Label();
@@ -114,8 +114,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(cbClass);
             splitContainer1.Panel1.Controls.Add(groupBox3);
-            splitContainer1.Panel1.Controls.Add(txtClassName);
             splitContainer1.Panel1.Controls.Add(groupBox2);
             splitContainer1.Panel1.Controls.Add(label2);
             splitContainer1.Panel1.Controls.Add(comboBox1);
@@ -128,6 +128,14 @@
             splitContainer1.Size = new Size(1487, 894);
             splitContainer1.SplitterDistance = 469;
             splitContainer1.TabIndex = 0;
+            // 
+            // cbClass
+            // 
+            cbClass.FormattingEnabled = true;
+            cbClass.Location = new Point(122, 20);
+            cbClass.Name = "cbClass";
+            cbClass.Size = new Size(198, 23);
+            cbClass.TabIndex = 10;
             // 
             // groupBox3
             // 
@@ -396,14 +404,6 @@
             label6.TabIndex = 0;
             label6.Text = "Tiêu chí 1";
             // 
-            // txtClassName
-            // 
-            txtClassName.Location = new Point(100, 66);
-            txtClassName.Name = "txtClassName";
-            txtClassName.ReadOnly = true;
-            txtClassName.Size = new Size(198, 21);
-            txtClassName.TabIndex = 8;
-            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(textBox1);
@@ -426,6 +426,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(298, 90);
             textBox1.TabIndex = 10;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label5
             // 
@@ -473,7 +474,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(18, 66);
+            label2.Location = new Point(40, 23);
             label2.Name = "label2";
             label2.Size = new Size(29, 15);
             label2.TabIndex = 2;
@@ -482,16 +483,15 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(100, 23);
+            comboBox1.Location = new Point(122, 70);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(198, 23);
             comboBox1.TabIndex = 1;
-            comboBox1.SelectedValueChanged += ComboBox1_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(18, 24);
+            label1.Location = new Point(40, 71);
             label1.Name = "label1";
             label1.Size = new Size(54, 15);
             label1.TabIndex = 0;
@@ -647,7 +647,6 @@
         private Label label5;
         private DateTimePicker dateTimePicker1;
         private Label label3;
-        private TextBox txtClassName;
         private Button btnDelete;
         private Button btnSave;
         private Button btnAdd;
@@ -685,5 +684,6 @@
         private TabPage tpWeeklyCritique;
         private DataGridView dgvMisconduct;
         private DataGridView dgvWeeklyCritique;
+        private ComboBox cbClass;
     }
 }
