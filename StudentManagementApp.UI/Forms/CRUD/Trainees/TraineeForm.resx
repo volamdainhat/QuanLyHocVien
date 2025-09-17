@@ -117,47 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cancel_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cancel_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="categories_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\categories_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="class_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\class_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="dashboard_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\dashboard_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="delete_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\delete_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="edit_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\edit_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="products_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\products_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="refresh_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\refresh_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="reports_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reports_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\save_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="schoolyears_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\schoolyears_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="settings_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\settings_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="trainee_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\trainee_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

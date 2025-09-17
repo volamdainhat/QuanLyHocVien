@@ -19,7 +19,7 @@ namespace StudentManagementApp.Infrastructure.Repositories.Classes
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    SchoolYearName = c.SchoolYear.Name,
+                    SchoolYearName = c.SchoolYear != null ? c.SchoolYear.Name : "",
                     TotalStudents = c.TotalStudents,
                     CreatedDate = c.CreatedDate,
                     ModifiedDate = c.ModifiedDate

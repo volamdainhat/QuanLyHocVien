@@ -29,12 +29,20 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _class = Class ?? new Class() { Name = string.Empty, SchoolYearId = 0 };
             InitializeComponent();
             InitializeClassForm();
-            LoadClassData();
+            LoadSchoolYearData();
         }
 
         private void InitializeClassForm()
         {
-            this.Text = _class.Id == 0 ? "Thêm mới Lớp học" : "Chỉnh sửa Lớp học";
+            if (_class.Id == 0)
+            {
+                this.Text = "Thêm mới Lớp học";
+                btnDelete.Visible = false;
+            }
+            else
+            {
+                this.Text = "Chỉnh sửa Lớp học";
+            }
 
             // Positioning
             var x1 = 20;
@@ -65,7 +73,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             txtName.Validating += TxtName_Validating;
         }
 
-        private async void LoadClassData()
+        private async void LoadSchoolYearData()
         {
             var schoolYears = await _schoolYearRepository.GetAllAsync();
             schoolYears = schoolYears.Where(sy => sy.IsActive).ToList();

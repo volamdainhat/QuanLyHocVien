@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementApp.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250917125659_UpdateDataSeed_17_9")]
+    partial class UpdateDataSeed_17_9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -666,127 +669,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 34,
                             Type = "Provinces"
-                        },
-                        new
-                        {
-                            Id = 57,
-                            Code = "mam_non",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Mầm non",
-                            ParentId = 0,
-                            SortOrder = 1,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            Code = "tieu_hoc",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Tiểu học",
-                            ParentId = 0,
-                            SortOrder = 2,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 59,
-                            Code = "thcs",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Trung học cơ sở",
-                            ParentId = 0,
-                            SortOrder = 3,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 60,
-                            Code = "thpt",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Trung học phổ thông",
-                            ParentId = 0,
-                            SortOrder = 4,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 61,
-                            Code = "trung_cap",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Trung cấp",
-                            ParentId = 0,
-                            SortOrder = 5,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 62,
-                            Code = "cao_dang",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Cao đẳng",
-                            ParentId = 0,
-                            SortOrder = 6,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 63,
-                            Code = "dai_hoc",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Đại học",
-                            ParentId = 0,
-                            SortOrder = 7,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 64,
-                            Code = "thac_si",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Thạc sĩ",
-                            ParentId = 0,
-                            SortOrder = 8,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 65,
-                            Code = "tien_si",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Tiến sĩ",
-                            ParentId = 0,
-                            SortOrder = 9,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 66,
-                            Code = "pho_giao_su",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Phó Giáo sư",
-                            ParentId = 0,
-                            SortOrder = 10,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 67,
-                            Code = "giao_su",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Giáo sư",
-                            ParentId = 0,
-                            SortOrder = 11,
-                            Type = "EducationLevel"
                         });
                 });
 

@@ -7,6 +7,8 @@ namespace StudentManagementApp.Core.Entities
     public class Category : BaseEntity
     {
         [Required]
+        public int ParentId { get; set; }
+        [Required]
         [MaxLength(100)]
         public required string Type { get; set; }
         [Required]

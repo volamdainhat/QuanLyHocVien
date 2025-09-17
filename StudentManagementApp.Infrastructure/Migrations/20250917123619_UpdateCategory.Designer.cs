@@ -11,8 +11,8 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250915130928_InitCreate")]
-    partial class InitCreate
+    [Migration("20250917123619_UpdateCategory")]
+    partial class UpdateCategory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ParentId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("SortOrder")
                         .HasColumnType("INTEGER");
 
@@ -69,6 +72,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Học viên",
+                            ParentId = 0,
                             SortOrder = 1,
                             Type = "Role"
                         },
@@ -79,6 +83,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Tiểu đội trưởng",
+                            ParentId = 0,
                             SortOrder = 2,
                             Type = "Role"
                         },
@@ -89,6 +94,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp trưởng",
+                            ParentId = 0,
                             SortOrder = 3,
                             Type = "Role"
                         },
@@ -99,6 +105,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp phó học tập",
+                            ParentId = 0,
                             SortOrder = 4,
                             Type = "Role"
                         },
@@ -109,6 +116,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Lớp phó hậu cần",
+                            ParentId = 0,
                             SortOrder = 5,
                             Type = "Role"
                         },
@@ -119,6 +127,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Kiểm tra 15 phút",
+                            ParentId = 0,
                             SortOrder = 1,
                             Type = "ExamType"
                         },
@@ -129,6 +138,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Kiểm tra 1 tiết",
+                            ParentId = 0,
                             SortOrder = 2,
                             Type = "ExamType"
                         },
@@ -139,6 +149,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thi cuối môn",
+                            ParentId = 0,
                             SortOrder = 3,
                             Type = "ExamType"
                         },
@@ -149,6 +160,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Binh nhì",
+                            ParentId = 0,
                             SortOrder = 1,
                             Type = "MilitaryRank"
                         },
@@ -159,6 +171,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Binh nhất",
+                            ParentId = 0,
                             SortOrder = 2,
                             Type = "MilitaryRank"
                         },
@@ -169,6 +182,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Hạ sĩ",
+                            ParentId = 0,
                             SortOrder = 3,
                             Type = "MilitaryRank"
                         },
@@ -179,6 +193,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Trung sĩ",
+                            ParentId = 0,
                             SortOrder = 4,
                             Type = "MilitaryRank"
                         },
@@ -189,6 +204,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thượng sĩ",
+                            ParentId = 0,
                             SortOrder = 5,
                             Type = "MilitaryRank"
                         },
@@ -199,6 +215,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thiếu úy",
+                            ParentId = 0,
                             SortOrder = 6,
                             Type = "MilitaryRank"
                         },
@@ -209,6 +226,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Trung úy",
+                            ParentId = 0,
                             SortOrder = 7,
                             Type = "MilitaryRank"
                         },
@@ -219,6 +237,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thượng úy",
+                            ParentId = 0,
                             SortOrder = 8,
                             Type = "MilitaryRank"
                         },
@@ -229,6 +248,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Đại úy",
+                            ParentId = 0,
                             SortOrder = 9,
                             Type = "MilitaryRank"
                         },
@@ -239,6 +259,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thiếu tá",
+                            ParentId = 0,
                             SortOrder = 10,
                             Type = "MilitaryRank"
                         },
@@ -249,6 +270,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Trung tá",
+                            ParentId = 0,
                             SortOrder = 11,
                             Type = "MilitaryRank"
                         },
@@ -259,6 +281,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Thượng tá",
+                            ParentId = 0,
                             SortOrder = 12,
                             Type = "MilitaryRank"
                         },
@@ -269,6 +292,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Đại tá",
+                            ParentId = 0,
                             SortOrder = 13,
                             Type = "MilitaryRank"
                         });
@@ -382,6 +406,10 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("AddressForCorrespondence")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("AvatarUrl")
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
@@ -398,7 +426,15 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<DateTime>("DayOfBirth")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EducationalLevel")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("EnlistmentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Ethnicity")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FatherFullName")
@@ -412,6 +448,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("HealthStatus")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IdentityCard")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -437,6 +484,18 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlaceOfOrigin")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlaceOfPermanentResidence")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProvinceOfEnlistment")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Role")

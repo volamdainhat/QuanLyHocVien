@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,19 +102,28 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     DayOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    MilitaryRank = table.Column<string>(type: "TEXT", nullable: false),
+                    Gender = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IdentityCard = table.Column<string>(type: "TEXT", nullable: false),
+                    Ethnicity = table.Column<string>(type: "TEXT", nullable: false),
+                    PlaceOfOrigin = table.Column<string>(type: "TEXT", nullable: false),
+                    PlaceOfPermanentResidence = table.Column<string>(type: "TEXT", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    ProvinceOfEnlistment = table.Column<string>(type: "TEXT", nullable: false),
+                    EducationalLevel = table.Column<string>(type: "TEXT", nullable: false),
+                    AddressForCorrespondence = table.Column<string>(type: "TEXT", nullable: false),
                     EnlistmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AverageScore = table.Column<decimal>(type: "TEXT", nullable: false),
+                    MilitaryRank = table.Column<string>(type: "TEXT", nullable: false),
+                    HealthStatus = table.Column<string>(type: "TEXT", nullable: false),
                     Role = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    AverageScore = table.Column<decimal>(type: "TEXT", nullable: false),
                     FatherFullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     FatherPhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     MotherFullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     MotherPhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     AvatarUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     MeritScore = table.Column<int>(type: "INTEGER", nullable: false),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)

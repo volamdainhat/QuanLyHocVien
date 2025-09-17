@@ -25,10 +25,18 @@ namespace StudentManagementApp.Core.Entities
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
         [Required]
+        public required string ProvinceOfEnlistment { get; set; }
+        [Required]
+        public required string EducationalLevel { get; set; }
+        [Required]
+        public required string AddressForCorrespondence { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         public required DateTime EnlistmentDate { get; set; }
         [Required]
         public required string MilitaryRank { get; set; }
+        [Required]
+        public required string HealthStatus { get; set; }
         [Required]
         [MaxLength(50)]
         public string? Role { get; set; }

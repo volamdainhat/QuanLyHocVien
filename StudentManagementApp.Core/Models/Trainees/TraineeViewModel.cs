@@ -10,10 +10,28 @@ namespace StudentManagementApp.Core.Models.Trainees
         public string? FullName { get; set; }
         [DisplayName("Lớp")]
         public string? ClassName { get; set; }
+        [DisplayName("Ngày sinh")]
+        public DateTime DayOfBirth { get; set; }
+        [DisplayName("Giới tính")]
+        public bool Gender { get; set; }
+        [DisplayName("Căn cước")]
+        public string? IdentityCard { get; set; }
+        [DisplayName("Dân tộc")]
+        public string? Ethnicity { get; set; }
+        [DisplayName("Nguyên quán")]
+        public string PlaceOfOrigin { get; set; }
+        [DisplayName("Thường trú")]
+        public string PlaceOfPermanentResidence { get; set; }
         [DisplayName("SĐT")]
         public string? PhoneNumber { get; set; }
-        [DisplayName("Ngày tạo")]
-        public DateTime DayOfBirth { get; set; }
+        [DisplayName("Tỉnh nhập ngũ")]
+        public string? ProvinceOfEnlistment { get; set; }
+        [DisplayName("Văn hóa")]
+        public string? EducationalLevel { get; set; }
+        [DisplayName("Địa chỉ báo tin")]
+        public string? AddressForCorrespondence { get; set; }
+        [DisplayName("Sức khỏe")]
+        public string? HealthStatus { get; set; }
         [DisplayName("Cấp bậc")]
         public string? MilitaryRank { get; set; }
         [DisplayName("Nhập ngũ")]

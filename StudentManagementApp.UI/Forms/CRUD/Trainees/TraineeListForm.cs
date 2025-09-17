@@ -1,31 +1,36 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Models.Classes;
+using StudentManagementApp.Core.Models.Trainees;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
+using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Classes;
+using StudentManagementApp.Infrastructure.Repositories.Trainees;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
-    public partial class ClassListForm : Form
+    public partial class TraineeListForm : Form
     {
-        private readonly IClassRepository _classRepository;
-        private readonly IRepository<SchoolYear> _schoolYearRepository;
+        private readonly ITraineeRepository _traineeRepository;
+        private readonly IRepository<Class> _classRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public ClassListForm(IClassRepository classRepository, IRepository<SchoolYear> schoolYearRepository, IValidationService validationService)
+        public TraineeListForm(ITraineeRepository traineeRepository, IRepository<Class> classRepository, ICategoryRepository categoryRepository, IValidationService validationService)
         {
+            _traineeRepository = traineeRepository;
             _classRepository = classRepository;
-            _schoolYearRepository = schoolYearRepository;
+            _categoryRepository = categoryRepository;
             _validationService = validationService;
             InitializeComponent();
-            InitializeClassList();
-            LoadClasses();
+            InitializeTraineeList();
+            LoadTrainees();
         }
 
-        private void InitializeClassList()
+        private void InitializeTraineeList()
         {
-            this.Text = "Quản lý Lớp học";
+            this.Text = "Quản lý Học viên";
             this.Size = new Size(800, 600);
 
             // Toolbar
@@ -75,35 +80,35 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
 
-            btnAdd.Click += (s, e) => AddClass();
-            btnEdit.Click += (s, e) => EditClass();
-            btnRefresh.Click += (s, e) => LoadClasses();
+            btnAdd.Click += (s, e) => AddTrainee();
+            btnEdit.Click += (s, e) => EditTrainee();
+            btnRefresh.Click += (s, e) => LoadTrainees();
         }
 
-        private async void LoadClasses()
+        private async void LoadTrainees()
         {
-            var Classs = await _classRepository.GetClassesWithSchoolYearAsync();
+            var Classs = await _traineeRepository.GetTraineesWithClassAsync();
             dataGridView.DataSource = Classs.ToList();
         }
 
-        private void AddClass()
+        private void AddTrainee()
         {
-            var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService);
+            var form = new TraineeForm(_traineeRepository, _classRepository, _categoryRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadClasses();
+                LoadTrainees();
             }
         }
 
-        private void EditClass()
+        private void EditTrainee()
         {
-            if (dataGridView.CurrentRow?.DataBoundItem is ClassViewModel selectedClass)
+            if (dataGridView.CurrentRow?.DataBoundItem is TraineeViewModel selectedTrainee)
             {
-                var classEntity = _classRepository.GetByIdAsync(selectedClass.Id).Result;
-                var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService, classEntity);
+                var traineeEntity = _traineeRepository.GetByIdAsync(selectedTrainee.Id).Result;
+                var form = new TraineeForm(_traineeRepository, _classRepository, _categoryRepository, _validationService, traineeEntity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    LoadClasses();
+                    LoadTrainees();
                 }
             }
         }

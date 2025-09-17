@@ -30,7 +30,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void InitializeSchoolYearForm()
         {
-            this.Text = _schoolYear.Id == 0 ? "Thêm mới Niên khóa" : "Chỉnh sửa Niên khóa";
+            if (_schoolYear.Id == 0)
+            {
+                this.Text = "Thêm mới Niên khóa";
+                btnDelete.Visible = false;
+            }
+            else
+            {
+                this.Text = "Chỉnh sửa Niên khóa";
+            }
 
             // Positioning
             var x1 = 20;
