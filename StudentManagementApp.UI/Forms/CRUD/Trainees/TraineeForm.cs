@@ -1,9 +1,9 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing.Imaging;
@@ -17,6 +17,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private Trainee _trainee;
+        private TabControl tabControl;
         private TextBox txtFullName;
         private DateTimePicker dtpDayOfBirth;
         private RadioButton rbMale;
@@ -32,7 +33,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private DateTimePicker dtpEnlistmentDate;
         private ComboBox cmbMilitaryRank;
         private TextBox txtHealthStatus;
-        private TextBox txtRole;
+        private ComboBox cmbRole;
         private NumericUpDown nudAverageScore;
         private TextBox txtFatherFullName;
         private TextBox txtFatherPhoneNumber;
@@ -88,7 +89,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
             this.Size = new Size(800, 750);
 
-            TabControl tabControl = new TabControl();
+            tabControl = new TabControl();
             tabControl.Dock = DockStyle.Fill;
             tabControl.TabPages.Add("tabPersonal", "Thông tin cá nhân");
             tabControl.TabPages.Add("tabMilitary", "Thông tin quân ngũ");
@@ -111,12 +112,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private void BtnBrowseAvatar_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All Files|*.*";
+            openFileDialog.Title = "Chọn ảnh đại diện";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
+                    // Lưu đường dẫn file được chọn
+                    avatarFilePath = openFileDialog.FileName;
+
+                    // Hiển thị ảnh trong PictureBox
                     picAvatar.Image = Image.FromFile(openFileDialog.FileName);
                 }
                 catch (Exception ex)
@@ -287,7 +293,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Vai trò
             AddLabel(tabPage, "Vai trò:", 20, y);
-            txtRole = AddTextBox(tabPage, 200, y, controlWidth);
+            cmbRole = new ComboBox
+            {
+                Location = new Point(200, y),
+                Size = new Size(controlWidth, 20),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            LoadRoles();
+            tabPage.Controls.Add(cmbRole);
         }
 
         private void SetupPersonalTab(TabPage? tabPage)
@@ -358,37 +371,59 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadTraineeData()
         {
-            //var classes = await _traineeRepository.GetAllAsync();
-            //classes = classes.Where(sy => sy.IsActive).ToList();
+            if (_trainee.Id > 0)
+            {
+                try
+                {
+                    // Điền các thông tin cơ bản
+                    txtFullName.Text = _trainee.FullName;
+                    dtpDayOfBirth.Value = _trainee.DayOfBirth;
+                    rbMale.Checked = _trainee.Gender;
+                    rbFemale.Checked = !_trainee.Gender;
+                    txtIdentityCard.Text = _trainee.IdentityCard;
+                    txtEthnicity.Text = _trainee.Ethnicity;
+                    txtPlaceOfOrigin.Text = _trainee.PlaceOfOrigin;
+                    txtPlaceOfPermanentResidence.Text = _trainee.PlaceOfPermanentResidence;
+                    txtPhoneNumber.Text = _trainee.PhoneNumber;
 
-            //txtName.Text = _trainee.Name;
+                    // Thông tin quân ngũ
+                    txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
+                    txtHealthStatus.Text = _trainee.HealthStatus;
+                    cmbRole.Text = _trainee.Role;
 
-            // Load Classs into ComboBox
-            //cbClassId.DataSource = Classs;
-            //cbClassId.DisplayMember = "Name";
-            //cbClassId.ValueMember = "Id";
+                    // Chọn tỉnh nhập ngũ trong ComboBox
+                    if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
+                    {
+                        cmbProvinceOfEnlistment.SelectedValue = _trainee.ProvinceOfEnlistment;
+                    }
 
-            //if (_trainee.Id > 0)
-            //{
-            //    try
-            //    {
-            //        // Set selected value
-            //        if (Classs.Any(s => s.Id == _trainee.ClassId))
-            //        {
-            //            cbClassId.SelectedValue = _trainee.ClassId;
-            //        }
-            //        else
-            //        {
-            //            cbClassId.SelectedIndex = 0; // Chọn item đầu tiên
-            //        }
+                    // Thông tin gia đình
+                    txtFatherFullName.Text = _trainee.FatherFullName;
+                    txtFatherPhoneNumber.Text = _trainee.FatherPhoneNumber;
+                    txtMotherFullName.Text = _trainee.MotherFullName;
+                    txtMotherPhoneNumber.Text = _trainee.MotherPhoneNumber;
 
-            //        //nudTotalStudents.Value = _trainee.TotalStudents;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show($"Lỗi khi tải dữ liệu năm học: {ex.Message}");
-            //    }
-            //}
+                    // Các thông tin khác...
+                    nudAverageScore.Value = _trainee.AverageScore;
+                    nudMeritScore.Value = _trainee.MeritScore;
+
+                    // Chọn lớp trong ComboBox
+                    if (_trainee.ClassId > 0)
+                    {
+                        cmbClass.SelectedValue = _trainee.ClassId;
+                    }
+
+                    // Tải ảnh đại diện nếu có
+                    if (!string.IsNullOrEmpty(_trainee.AvatarUrl))
+                    {
+                        LoadAvatarImage(_trainee.AvatarUrl);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi tải dữ liệu năm học: {ex.Message}");
+                }
+            }
         }
 
         private async void LoadProvinces()
@@ -429,6 +464,37 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbClass.DataSource = classes;
             cmbClass.DisplayMember = "Name";
             cmbClass.ValueMember = "Id";
+        }
+
+        private async void LoadRoles()
+        {
+            var roles = await _categoryRepository.GetCategoriesWithTypeAsync("Role");
+            roles = roles.Where(sy => sy.IsActive).ToList();
+
+            cmbRole.DataSource = roles;
+            cmbRole.DisplayMember = "Name";
+            cmbRole.ValueMember = "Code";
+        }
+
+        private void LoadAvatarImage(string avatarUrl)
+        {
+            try
+            {
+                string fullPath = Path.Combine(Application.StartupPath, avatarUrl);
+                if (File.Exists(fullPath))
+                {
+                    picAvatar.Image = Image.FromFile(fullPath);
+                    avatarFilePath = fullPath;
+                }
+                else
+                {
+                    MessageBox.Show($"Không tìm thấy ảnh: {fullPath}", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải ảnh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private string SaveAvatarImage()
@@ -504,13 +570,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _trainee.PlaceOfOrigin = txtPlaceOfOrigin.Text;
                     _trainee.PlaceOfPermanentResidence = txtPlaceOfPermanentResidence.Text;
                     _trainee.PhoneNumber = txtPhoneNumber.Text;
-                    _trainee.ProvinceOfEnlistment = cmbProvinceOfEnlistment.SelectedItem?.ToString();
-                    _trainee.EducationalLevel = cmbEducationalLevel.SelectedItem?.ToString();
                     _trainee.AddressForCorrespondence = txtAddressForCorrespondence.Text;
                     _trainee.EnlistmentDate = dtpEnlistmentDate.Value;
-                    _trainee.MilitaryRank = cmbMilitaryRank.SelectedItem?.ToString();
                     _trainee.HealthStatus = txtHealthStatus.Text;
-                    _trainee.Role = txtRole.Text;
                     _trainee.AverageScore = nudAverageScore.Value;
                     _trainee.FatherFullName = txtFatherFullName.Text;
                     _trainee.FatherPhoneNumber = txtFatherPhoneNumber.Text;
@@ -518,7 +580,26 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _trainee.MotherPhoneNumber = txtMotherPhoneNumber.Text;
                     _trainee.MeritScore = (int)nudMeritScore.Value;
                     _trainee.ClassId = cmbClass.SelectedIndex + 1; // Giả sử ID bắt đầu từ 1
-                    _trainee.ModifiedDate = DateTime.Now;
+
+                    if (cmbProvinceOfEnlistment.SelectedItem is CategoryViewModel selectProvinceOfEnlistment)
+                    {
+                        _trainee.ProvinceOfEnlistment = selectProvinceOfEnlistment.Code;
+                    }
+
+                    if (cmbEducationalLevel.SelectedItem is CategoryViewModel selectEducationalLevel)
+                    {
+                        _trainee.EducationalLevel = selectEducationalLevel.Code;
+                    }
+
+                    if (cmbMilitaryRank.SelectedItem is CategoryViewModel selectMilitaryRank)
+                    {
+                        _trainee.MilitaryRank = selectMilitaryRank.Code;
+                    }
+
+                    if (cmbRole.SelectedItem is CategoryViewModel selectRole)
+                    {
+                        _trainee.Role = selectRole.Code;
+                    }
 
                     // Lưu ảnh và lấy đường dẫn
                     string avatarUrl = SaveAvatarImage();
@@ -583,35 +664,217 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private bool ValidateForm()
         {
             errorProvider.Clear();
-
             bool isValid = true;
+            Control firstErrorControl = null;
 
-            // Validate Name
-            //if (string.IsNullOrWhiteSpace(txtName.Text))
-            //{
-            //    errorProvider.SetError(txtName, "Tên lớp là bắt buộc");
-            //    isValid = false;
-            //}
-            //else if (txtName.Text.Length > 255)
-            //{
-            //    errorProvider.SetError(txtName, "Tên không được vượt quá 255 ký tự");
-            //    isValid = false;
-            //}
+            // Validate FullName
+            if (string.IsNullOrWhiteSpace(txtFullName.Text))
+            {
+                errorProvider.SetError(txtFullName, "Họ tên là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtFullName;
+            }
+            else if (txtFullName.Text.Length > 255)
+            {
+                errorProvider.SetError(txtFullName, "Họ tên không được vượt quá 255 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtFullName;
+            }
+
+            // Validate DayOfBirth
+            if (dtpDayOfBirth.Value == DateTime.MinValue || dtpDayOfBirth.Value > DateTime.Now)
+            {
+                errorProvider.SetError(dtpDayOfBirth, "Ngày sinh không hợp lệ");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? dtpDayOfBirth;
+            }
+
+            // Validate IdentityCard
+            if (string.IsNullOrWhiteSpace(txtIdentityCard.Text))
+            {
+                errorProvider.SetError(txtIdentityCard, "Số CMND là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtIdentityCard;
+            }
+
+            // Validate Ethnicity
+            if (string.IsNullOrWhiteSpace(txtEthnicity.Text))
+            {
+                errorProvider.SetError(txtEthnicity, "Dân tộc là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtEthnicity;
+            }
+
+            // Validate PlaceOfOrigin
+            if (string.IsNullOrWhiteSpace(txtPlaceOfOrigin.Text))
+            {
+                errorProvider.SetError(txtPlaceOfOrigin, "Quê quán là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtPlaceOfOrigin;
+            }
+
+            // Validate PlaceOfPermanentResidence
+            if (string.IsNullOrWhiteSpace(txtPlaceOfPermanentResidence.Text))
+            {
+                errorProvider.SetError(txtPlaceOfPermanentResidence, "Nơi thường trú là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtPlaceOfPermanentResidence;
+            }
+
+            // Validate PhoneNumber (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length > 20)
+            {
+                errorProvider.SetError(txtPhoneNumber, "Số điện thoại không được vượt quá 20 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtPhoneNumber;
+            }
+
+            // Validate ProvinceOfEnlistment
+            if (cmbProvinceOfEnlistment.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbProvinceOfEnlistment, "Tỉnh nhập ngũ là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? cmbProvinceOfEnlistment;
+            }
+
+            // Validate EducationalLevel
+            if (cmbEducationalLevel.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbEducationalLevel, "Trình độ học vấn là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? cmbEducationalLevel;
+            }
+
+            // Validate AddressForCorrespondence
+            if (string.IsNullOrWhiteSpace(txtAddressForCorrespondence.Text))
+            {
+                errorProvider.SetError(txtAddressForCorrespondence, "Địa chỉ liên lạc là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtAddressForCorrespondence;
+            }
+
+            // Validate EnlistmentDate
+            if (dtpEnlistmentDate.Value == DateTime.MinValue || dtpEnlistmentDate.Value > DateTime.Now)
+            {
+                errorProvider.SetError(dtpEnlistmentDate, "Ngày nhập ngũ không hợp lệ");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? dtpEnlistmentDate;
+            }
+
+            // Validate MilitaryRank
+            if (cmbMilitaryRank.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbMilitaryRank, "Cấp bậc quân hàm là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? cmbMilitaryRank;
+            }
+
+            // Validate HealthStatus
+            if (string.IsNullOrWhiteSpace(txtHealthStatus.Text))
+            {
+                errorProvider.SetError(txtHealthStatus, "Tình trạng sức khỏe là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtHealthStatus;
+            }
+
+            // Validate Role (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(cmbRole.Text) && cmbRole.Text.Length > 50)
+            {
+                errorProvider.SetError(cmbRole, "Vai trò không được vượt quá 50 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? cmbRole;
+            }
+
+            // Validate AverageScore (range 0.0 - 10.0)
+            if (nudAverageScore.Value < 0.0m || nudAverageScore.Value > 10.0m)
+            {
+                errorProvider.SetError(nudAverageScore, "Điểm trung bình phải nằm trong khoảng 0.0 đến 10.0");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? nudAverageScore;
+            }
+
+            // Validate FatherFullName (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
+            {
+                errorProvider.SetError(txtFatherFullName, "Họ tên cha không được vượt quá 255 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtFatherFullName;
+            }
+
+            // Validate FatherPhoneNumber (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(txtFatherPhoneNumber.Text) && txtFatherPhoneNumber.Text.Length > 20)
+            {
+                errorProvider.SetError(txtFatherPhoneNumber, "Số điện thoại cha không được vượt quá 20 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtFatherPhoneNumber;
+            }
+
+            // Validate MotherFullName (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(txtMotherFullName.Text) && txtMotherFullName.Text.Length > 255)
+            {
+                errorProvider.SetError(txtMotherFullName, "Họ tên mẹ không được vượt quá 255 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtMotherFullName;
+            }
+
+            // Validate MotherPhoneNumber (optional but has max length)
+            if (!string.IsNullOrWhiteSpace(txtMotherPhoneNumber.Text) && txtMotherPhoneNumber.Text.Length > 20)
+            {
+                errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
+            }
+
+            // Validate MeritScore (range 0 - 60)
+            if (nudMeritScore.Value < 0 || nudMeritScore.Value > 60)
+            {
+                errorProvider.SetError(nudMeritScore, "Điểm khen thưởng phải nằm trong khoảng 0 đến 60");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? nudMeritScore;
+            }
+
+            // Validate Class
+            if (cmbClass.SelectedItem == null)
+            {
+                errorProvider.SetError(cmbClass, "Lớp là bắt buộc");
+                isValid = false;
+                firstErrorControl = firstErrorControl ?? cmbClass;
+            }
+
+            // Hiển thị tab và focus vào control đầu tiên bị lỗi
+            if (!isValid && firstErrorControl != null)
+            {
+                ShowTabWithError(firstErrorControl);
+            }
 
             return isValid;
         }
 
-        private void TxtName_Validating(object sender, CancelEventArgs e)
+        // Phương thức helper để hiển thị tab chứa control bị lỗi
+        private void ShowTabWithError(Control control)
         {
-            //if (string.IsNullOrWhiteSpace(txtName.Text))
-            //{
-            //    errorProvider.SetError(txtName, "Tên lớp là bắt buộc");
-            //    e.Cancel = true;
-            //}
-            //else
-            //{
-            //    errorProvider.SetError(txtName, "");
-            //}
+            foreach (TabPage tab in tabControl.TabPages)
+            {
+                if (tab.Controls.Contains(control))
+                {
+                    tabControl.SelectedTab = tab;
+                    control.Focus();
+                    break;
+                }
+            }
         }
+
+        //private void TxtName_Validating(object sender, CancelEventArgs e)
+        //{
+        //    //if (string.IsNullOrWhiteSpace(txtName.Text))
+        //    //{
+        //    //    errorProvider.SetError(txtName, "Tên lớp là bắt buộc");
+        //    //    e.Cancel = true;
+        //    //}
+        //    //else
+        //    //{
+        //    //    errorProvider.SetError(txtName, "");
+        //    //}
+        //}
     }
 }

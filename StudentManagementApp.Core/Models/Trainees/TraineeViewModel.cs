@@ -12,7 +12,7 @@ namespace StudentManagementApp.Core.Models.Trainees
         public string? ClassName { get; set; }
         [DisplayName("Ngày sinh")]
         public DateTime DayOfBirth { get; set; }
-        [DisplayName("Giới tính")]
+        [DisplayName("Giới tính Nam")]
         public bool Gender { get; set; }
         [DisplayName("Căn cước")]
         public string? IdentityCard { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace StudentManagementApp.UI.Forms
+﻿namespace StudentManagementApp.UI.Forms
 {
     public partial class BaseCrudForm : Form
     {

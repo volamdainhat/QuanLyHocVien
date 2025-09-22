@@ -787,6 +787,28 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 11,
                             Type = "EducationLevel"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Code = "sang",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Buổi sáng",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "SchedulePeriod"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            Code = "chieu",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Buổi chiều",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "SchedulePeriod"
                         });
                 });
 
@@ -821,6 +843,43 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasIndex("SchoolYearId");
 
                     b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExamType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Grade")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Product", b =>
@@ -861,6 +920,47 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Room")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Schedules");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.SchoolYear", b =>
                 {
                     b.Property<int>("Id")
@@ -890,6 +990,31 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SchoolYears");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
@@ -1011,6 +1136,44 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("SchoolYear");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Schedule", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>

@@ -78,8 +78,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
             var schoolYears = await _schoolYearRepository.GetAllAsync();
             schoolYears = schoolYears.Where(sy => sy.IsActive).ToList();
 
-            txtName.Text = _class.Name;
-
             // Load SchoolYears into ComboBox
             cbSchoolYearId.DataSource = schoolYears;
             cbSchoolYearId.DisplayMember = "Name";
@@ -89,14 +87,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
             {
                 try
                 {
+                    txtName.Text = _class.Name;
+
                     // Set selected value
                     if (schoolYears.Any(s => s.Id == _class.SchoolYearId))
                     {
                         cbSchoolYearId.SelectedValue = _class.SchoolYearId;
-                    }
-                    else
-                    {
-                        cbSchoolYearId.SelectedIndex = 0; // Chọn item đầu tiên
                     }
 
                     nudTotalStudents.Value = _class.TotalStudents;
@@ -117,7 +113,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _class.Name = txtName.Text;
                     _class.SchoolYearId = (int)cbSchoolYearId.SelectedValue;
                     _class.TotalStudents = (int)nudTotalStudents.Value;
-                    _class.ModifiedDate = DateTime.Now;
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_class);

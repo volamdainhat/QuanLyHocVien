@@ -68,6 +68,18 @@ namespace StudentManagementApp.UI.Forms
                     var traineesForm = _serviceProvider.GetRequiredService<TraineeListForm>();
                     OpenChildForm(traineesForm);
                     break;
+                case "Subjects":
+                    var subjectsForm = _serviceProvider.GetRequiredService<SubjectListForm>();
+                    OpenChildForm(subjectsForm);
+                    break;
+                case "Grades":
+                    var gradesForm = _serviceProvider.GetRequiredService<GradesListForm>();
+                    OpenChildForm(gradesForm);
+                    break;
+                case "Schedules":
+                    var schedulesForm = _serviceProvider.GetRequiredService<ScheduleListForm>();
+                    OpenChildForm(schedulesForm);
+                    break;
                 case "Reports":
                     // Mở form Reports
                     break;

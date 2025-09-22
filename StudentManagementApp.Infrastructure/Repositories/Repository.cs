@@ -25,12 +25,24 @@ namespace StudentManagementApp.Infrastructure.Repositories
 
         public async Task AddAsync(T entity)
         {
+            entity.CreatedDate = DateTime.Now;
             await _entities.AddAsync(entity);
+            await _context.SaveChangesAsync(); // Tự động validation
+        }
+
+        public async Task AddRangeAsync(List<T> entity)
+        {
+            foreach (var item in entity)
+            {
+                item.CreatedDate = DateTime.Now;
+            }
+            await _entities.AddRangeAsync(entity);
             await _context.SaveChangesAsync(); // Tự động validation
         }
 
         public async Task UpdateAsync(T entity)
         {
+            entity.ModifiedDate = DateTime.Now;
             _entities.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync(); // Tự động validation

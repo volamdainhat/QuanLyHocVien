@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,6 +29,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CRUD\Schedules\ScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Schedules\ScheduleListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Gradeses\GradesListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Gradeses\GradesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Subjects\SubjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Subjects\SubjectListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\CRUD\Trainees\TraineeForm.cs">
       <SubType>Form</SubType>
     </Compile>

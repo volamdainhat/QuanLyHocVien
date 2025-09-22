@@ -94,7 +94,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _schoolYear.Name = txtName.Text;
                     _schoolYear.StartDate = dtpStartDate.Value;
                     _schoolYear.EndDate = dtpEndDate.Value;
-                    _schoolYear.ModifiedDate = DateTime.Now;
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_schoolYear);

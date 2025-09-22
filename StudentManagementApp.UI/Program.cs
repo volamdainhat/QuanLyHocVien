@@ -5,6 +5,8 @@ using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Classes;
+using StudentManagementApp.Infrastructure.Repositories.Gradeses;
+using StudentManagementApp.Infrastructure.Repositories.Schedules;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using StudentManagementApp.UI.Forms;
 using StudentManagementApp.UI.Forms.CRUD;
@@ -60,6 +62,8 @@ namespace StudentManagementApp.UI
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ITraineeRepository, TraineeRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IGradesRepository, GradesRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
 
             // Register validation services
             services.AddScoped<IValidationService, ValidationService>();
@@ -71,6 +75,9 @@ namespace StudentManagementApp.UI
             services.AddTransient<SchoolYearListForm>();
             services.AddTransient<ClassListForm>();
             services.AddTransient<TraineeListForm>();
+            services.AddTransient<SubjectListForm>();
+            services.AddTransient<GradesListForm>();
+            services.AddTransient<ScheduleListForm>();
         }
     }
 }

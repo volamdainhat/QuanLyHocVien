@@ -10,6 +10,9 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Grades> Grades { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
         public DbSet<Trainee> Trainees { get; set; }
         public DbSet<SchoolYear> SchoolYears { get; set; }
         public DbSet<Class> Classes { get; set; }
@@ -99,7 +102,11 @@ namespace StudentManagementApp.Infrastructure.Data
                 new Category { Id = 64, Type = "EducationLevel", Code = "thac_si", Name = "Thạc sĩ", SortOrder = 8, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 65, Type = "EducationLevel", Code = "tien_si", Name = "Tiến sĩ", SortOrder = 9, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 66, Type = "EducationLevel", Code = "pho_giao_su", Name = "Phó Giáo sư", SortOrder = 10, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 67, Type = "EducationLevel", Code = "giao_su", Name = "Giáo sư", SortOrder = 11, CreatedDate = seedDate, IsActive = true }
+                new Category { Id = 67, Type = "EducationLevel", Code = "giao_su", Name = "Giáo sư", SortOrder = 11, CreatedDate = seedDate, IsActive = true },
+
+                // Schedule Period
+                new Category { Id = 68, Type = "SchedulePeriod", Code = "sang", Name = "Buổi sáng", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 69, Type = "SchedulePeriod", Code = "chieu", Name = "Buổi chiều", SortOrder = 2, CreatedDate = seedDate, IsActive = true }
             );
         }
 
