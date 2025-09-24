@@ -997,7 +997,7 @@ namespace StudentManagementSystem.UI.UserControls
                 { "năm sinh", "DayOfBirth" },
                 { "giới tính", "Gender" },
                 { "nhập ngũ", "EnlistmentDate" },
-                { "số cmnd (căn cước)", "IdentityCardNumber" },
+                { "căn cước công dân", "IdentityCardNumber" },
                 { "cấp bậc", "Ranking" },
                 { "dân tộc", "Ethnicity" },
                 { "sở trường", "StrongPoints" },
