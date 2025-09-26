@@ -363,7 +363,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
                 dtpEnlistmentDate.Value = _trainee.EnlistmentDate;
                 txtHealthStatus.Text = _trainee.HealthStatus;
-                cmbRole.Text = _trainee.Role;
 
                 // Chọn tỉnh nhập ngũ trong ComboBox
                 if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
