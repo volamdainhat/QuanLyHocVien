@@ -2,43 +2,49 @@
 {
     public class Trainee
     {
-        // This one is auto-increment
         public int Id { get; set; }
-        // 'Họ và tên' - Required
+        // Required Information
+        // Personal Information
         public string? FullName { get; set; }
-        // 'Mã lớp '
-        public int? ClassId { get; set; }
-        // 'Tên lớp'
-        public string? ClassName { get; set; }
-        // 'SĐT' - Required
-        public string? PhoneNumber { get; set; }
-        // 'Ngày sinh' - Required
         public DateTime? DayOfBirth { get; set; }
-        // 'Cấp bậc' - Required
+        public string? Gender { get; set; }
+        public string? IdentityCardNumber { get; set; }
         public string? Ranking { get; set; }
-        // 'Nhập ngũ' - Required
-        public DateTime? EnlistmentDate { get; set; }
-        // 'ĐTB'
-        public decimal? AverageScore { get; set; }
-        // 'Chức vụ' - Required
-        public string? Role { get; set; }
-        // 'Họ tên cha' - Required
-        public string? FatherFullName { get; set; }
-        // 'SĐT cha' - Required
-        public string? FatherPhoneNumber { get; set; }
-        // 'Họ tên mẹ' - Required
-        public string? MotherFullName { get; set; }
-        // 'SĐT mẹ' - Required
-        public string? MotherPhoneNumber { get; set; }
-        // Empty for now
-        public string? AvatarUrl { get; set; }
-        // Should be alcumulated from WeeklyCritique
-        public int MeritScore { get; set; }
+        public string? Ethnicity { get; set; }
+        public string? StrongPoints { get; set; }
+        public string? EnlistmentNotificationPlace { get; set; }
+        public string? PlaceofOrigin { get; set; }
 
-        // Relations
+        // Education & Health
+        public string? EducationLevel { get; set; }
+        public string? HealthStatus { get; set; }
+
+        // Family Information
+        public string? FatherFullName { get; set; }
+        public string? FatherPhoneNumber { get; set; }
+        public string? MotherFullName { get; set; }
+        public string? MotherPhoneNumber { get; set; }
+        public string? ContactAddress { get; set; }
+        
+        // Military Service
+        public string? MilitaryCode { get; set; }
+        public DateTime? EnlistmentDate { get; set; }
+        public string? EnlistmentProvince { get; set; }
+
+        // Leave empty
+        public string? Role { get; set; }
+        
+        // Academic & Performance
+        public int MeritScore { get; set; }
+        public string? ClassName { get; set; }
+        public decimal? AverageScore { get; set; }
+        public string? AvatarUrl { get; set; }
+
+        // Navigation Properties
+        public int? ClassId { get; set; }
+        public Class? Class { get; set; }
         public ICollection<Grades> Grades { get; set; } = new List<Grades>();
         public ICollection<Misconduct> Misconducts { get; set; } = new List<Misconduct>();
         public ICollection<WeeklyCritique> WeeklyCritiques { get; set; } = new List<WeeklyCritique>();
-
     }
 }

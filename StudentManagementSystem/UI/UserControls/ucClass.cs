@@ -241,7 +241,6 @@ namespace StudentManagementSystem.UI.UserControls
                 string term = txtSearch.Text.Trim().ToLower();
                 var filtered = traineeList
                     .Where(t => t.FullName.ToLower().Contains(term)
-                             || t.PhoneNumber.Contains(term)
                              || (!string.IsNullOrEmpty(t.Ranking) && t.Ranking.ToLower().Contains(term)))
                     .ToList();
                 grid.DataSource = new BindingList<Trainee>(filtered);
@@ -335,7 +334,6 @@ namespace StudentManagementSystem.UI.UserControls
 
             // TAB 1: New trainee
             TextBox txtName = new TextBox { Left = 150, Top = 20, Width = 300, Text = trainee.FullName ?? "" };
-            TextBox txtPhone = new TextBox { Left = 150, Top = 60, Width = 300, Text = trainee.PhoneNumber ?? "" };
             DateTimePicker dtpBirth = new DateTimePicker
             {
                 Left = 150,
@@ -348,7 +346,6 @@ namespace StudentManagementSystem.UI.UserControls
             tabNew.Controls.AddRange(new Control[]
             {
                 new Label { Left = 20, Top = 20, Text = "Họ tên:" }, txtName,
-                new Label { Left = 20, Top = 60, Text = "SĐT:" }, txtPhone,
                 new Label { Left = 20, Top = 100, Text = "Ngày sinh:" }, dtpBirth,
                 new Label { Left = 20, Top = 140, Text = "Xếp loại:" }, txtRank
             });
@@ -399,14 +396,8 @@ namespace StudentManagementSystem.UI.UserControls
                         MessageBox.Show("Tên học viên không được để trống.");
                         return null;
                     }
-                    if (!Regex.IsMatch(txtPhone.Text, @"^\\d{9,11}$"))
-                    {
-                        MessageBox.Show("Số điện thoại không hợp lệ.");
-                        return null;
-                    }
 
                     trainee.FullName = txtName.Text;
-                    trainee.PhoneNumber = txtPhone.Text;
                     trainee.DayOfBirth = dtpBirth.Value;
                     trainee.Ranking = txtRank.Text;
                     trainee.ClassId = classId;

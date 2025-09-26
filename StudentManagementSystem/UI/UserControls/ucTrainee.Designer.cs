@@ -33,8 +33,38 @@ namespace StudentManagementSystem.UI.UserControls
             components = new Container();
             pnInformation = new Panel();
             gbDetail = new GroupBox();
+            txtIdentityCardNumber = new TextBox();
+            label10 = new Label();
+            cbGender = new ComboBox();
+            label9 = new Label();
+            cbEthnicity = new ComboBox();
+            txtPlaceofOrigin = new TextBox();
+            label8 = new Label();
+            label7 = new Label();
+            cbEducationalLevel = new ComboBox();
+            txtenlistmentNotificationPlace = new TextBox();
+            label6 = new Label();
+            cbHealthStatus = new ComboBox();
+            label5 = new Label();
+            txtContactAddress = new TextBox();
+            label4 = new Label();
+            txtStrongPoints = new TextBox();
+            label2 = new Label();
+            label1 = new Label();
+            groupBox1 = new GroupBox();
+            cbEnlistmentProvince = new ComboBox();
+            label3 = new Label();
+            cbMilitaryCode = new ComboBox();
+            dtpEnlistmentDate = new DateTimePicker();
+            lblEnlistmentDate = new Label();
+            lblRole = new Label();
+            cbRole = new ComboBox();
+            roleBindingSource = new BindingSource(components);
+            lblRanking = new Label();
             gbGrades = new GroupBox();
             btnSaveGrade = new Button();
+            lblAverageScore = new Label();
+            numAverageScore = new NumericUpDown();
             numGrade = new NumericUpDown();
             lblType = new Label();
             lblGrade = new Label();
@@ -43,16 +73,10 @@ namespace StudentManagementSystem.UI.UserControls
             lblSubject = new Label();
             cbSubject = new ComboBox();
             subjectBindingSource = new BindingSource(components);
-            numAverageScore = new NumericUpDown();
-            lblAverageScore = new Label();
-            cbRole = new ComboBox();
-            roleBindingSource = new BindingSource(components);
             cbClassId = new ComboBox();
             classBindingSource = new BindingSource(components);
-            lblRanking = new Label();
             lblClassId = new Label();
             lblId = new Label();
-            dtpEnlistmentDate = new DateTimePicker();
             btnUpload = new Button();
             txtMotherPhoneNumber = new MaskedTextBox();
             lblMotherPhoneNumber = new Label();
@@ -62,13 +86,8 @@ namespace StudentManagementSystem.UI.UserControls
             lblFatherPhoneNumber = new Label();
             txtFatherFullName = new TextBox();
             lblFatherFullName = new Label();
-            lblRole = new Label();
-            lblEnlistmentDate = new Label();
-            txtRanking = new TextBox();
             dtpDayOfBirth = new DateTimePicker();
             lblDayOfBirth = new Label();
-            txtPhoneNumber = new MaskedTextBox();
-            lblPhoneNumber = new Label();
             txtFullName = new TextBox();
             lblFullName = new Label();
             txtId = new TextBox();
@@ -79,18 +98,26 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead = new DataGridView();
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            ClassName = new DataGridViewTextBoxColumn();
-            phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             dayOfBirthDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            Gender = new DataGridViewTextBoxColumn();
             rankingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             enlistmentDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            averageScoreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            IdentityCardNumber = new DataGridViewTextBoxColumn();
+            Ethnicity = new DataGridViewTextBoxColumn();
+            StrongPoints = new DataGridViewTextBoxColumn();
+            PlaceofOrigin = new DataGridViewTextBoxColumn();
+            EducationLevel = new DataGridViewTextBoxColumn();
+            HealthStatus = new DataGridViewTextBoxColumn();
+            EnlistmentNotificationPlace = new DataGridViewTextBoxColumn();
+            ContactAddress = new DataGridViewTextBoxColumn();
             fatherFullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fatherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             motherFullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             motherPhoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            classIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            ClassName = new DataGridViewTextBoxColumn();
+            averageScoreDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             avatarUrlDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             traineeBindingSource = new BindingSource(components);
             tabGrades = new TabPage();
@@ -121,12 +148,13 @@ namespace StudentManagementSystem.UI.UserControls
             errorProvider1 = new ErrorProvider(components);
             pnInformation.SuspendLayout();
             gbDetail.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((ISupportInitialize)roleBindingSource).BeginInit();
             gbGrades.SuspendLayout();
+            ((ISupportInitialize)numAverageScore).BeginInit();
             ((ISupportInitialize)numGrade).BeginInit();
             ((ISupportInitialize)examTypeBindingSource).BeginInit();
             ((ISupportInitialize)subjectBindingSource).BeginInit();
-            ((ISupportInitialize)numAverageScore).BeginInit();
-            ((ISupportInitialize)roleBindingSource).BeginInit();
             ((ISupportInitialize)classBindingSource).BeginInit();
             ((ISupportInitialize)pbAvatar).BeginInit();
             tableLayoutPanel.SuspendLayout();
@@ -151,20 +179,34 @@ namespace StudentManagementSystem.UI.UserControls
             pnInformation.Location = new Point(2, 2);
             pnInformation.Margin = new Padding(2);
             pnInformation.Name = "pnInformation";
-            pnInformation.Size = new Size(914, 216);
+            pnInformation.Size = new Size(1616, 452);
             pnInformation.TabIndex = 0;
             // 
             // gbDetail
             // 
+            gbDetail.Controls.Add(txtIdentityCardNumber);
+            gbDetail.Controls.Add(label10);
+            gbDetail.Controls.Add(cbGender);
+            gbDetail.Controls.Add(label9);
+            gbDetail.Controls.Add(cbEthnicity);
+            gbDetail.Controls.Add(txtPlaceofOrigin);
+            gbDetail.Controls.Add(label8);
+            gbDetail.Controls.Add(label7);
+            gbDetail.Controls.Add(cbEducationalLevel);
+            gbDetail.Controls.Add(txtenlistmentNotificationPlace);
+            gbDetail.Controls.Add(label6);
+            gbDetail.Controls.Add(cbHealthStatus);
+            gbDetail.Controls.Add(label5);
+            gbDetail.Controls.Add(txtContactAddress);
+            gbDetail.Controls.Add(label4);
+            gbDetail.Controls.Add(txtStrongPoints);
+            gbDetail.Controls.Add(label2);
+            gbDetail.Controls.Add(label1);
+            gbDetail.Controls.Add(groupBox1);
             gbDetail.Controls.Add(gbGrades);
-            gbDetail.Controls.Add(numAverageScore);
-            gbDetail.Controls.Add(lblAverageScore);
-            gbDetail.Controls.Add(cbRole);
             gbDetail.Controls.Add(cbClassId);
-            gbDetail.Controls.Add(lblRanking);
             gbDetail.Controls.Add(lblClassId);
             gbDetail.Controls.Add(lblId);
-            gbDetail.Controls.Add(dtpEnlistmentDate);
             gbDetail.Controls.Add(btnUpload);
             gbDetail.Controls.Add(txtMotherPhoneNumber);
             gbDetail.Controls.Add(lblMotherPhoneNumber);
@@ -174,13 +216,8 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.Controls.Add(lblFatherPhoneNumber);
             gbDetail.Controls.Add(txtFatherFullName);
             gbDetail.Controls.Add(lblFatherFullName);
-            gbDetail.Controls.Add(lblRole);
-            gbDetail.Controls.Add(lblEnlistmentDate);
-            gbDetail.Controls.Add(txtRanking);
             gbDetail.Controls.Add(dtpDayOfBirth);
             gbDetail.Controls.Add(lblDayOfBirth);
-            gbDetail.Controls.Add(txtPhoneNumber);
-            gbDetail.Controls.Add(lblPhoneNumber);
             gbDetail.Controls.Add(txtFullName);
             gbDetail.Controls.Add(lblFullName);
             gbDetail.Controls.Add(txtId);
@@ -190,48 +227,337 @@ namespace StudentManagementSystem.UI.UserControls
             gbDetail.Margin = new Padding(2);
             gbDetail.Name = "gbDetail";
             gbDetail.Padding = new Padding(2);
-            gbDetail.Size = new Size(914, 216);
+            gbDetail.Size = new Size(1616, 452);
             gbDetail.TabIndex = 0;
             gbDetail.TabStop = false;
             gbDetail.Text = "Thông tin học viên";
             // 
+            // txtIdentityCardNumber
+            // 
+            txtIdentityCardNumber.Location = new Point(201, 92);
+            txtIdentityCardNumber.Margin = new Padding(2);
+            txtIdentityCardNumber.Multiline = true;
+            txtIdentityCardNumber.Name = "txtIdentityCardNumber";
+            txtIdentityCardNumber.Size = new Size(213, 23);
+            txtIdentityCardNumber.TabIndex = 52;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(114, 95);
+            label10.Margin = new Padding(2, 0, 2, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(39, 15);
+            label10.TabIndex = 51;
+            label10.Text = "CCCD";
+            // 
+            // cbGender
+            // 
+            cbGender.FormattingEnabled = true;
+            cbGender.Location = new Point(201, 117);
+            cbGender.Name = "cbGender";
+            cbGender.Size = new Size(111, 23);
+            cbGender.TabIndex = 49;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(110, 119);
+            label9.Margin = new Padding(2, 0, 2, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(52, 15);
+            label9.TabIndex = 50;
+            label9.Text = "Giới tính";
+            // 
+            // cbEthnicity
+            // 
+            cbEthnicity.FormattingEnabled = true;
+            cbEthnicity.Location = new Point(201, 69);
+            cbEthnicity.Name = "cbEthnicity";
+            cbEthnicity.Size = new Size(111, 23);
+            cbEthnicity.TabIndex = 48;
+            // 
+            // txtPlaceofOrigin
+            // 
+            txtPlaceofOrigin.Location = new Point(200, 276);
+            txtPlaceofOrigin.Margin = new Padding(2);
+            txtPlaceofOrigin.Multiline = true;
+            txtPlaceofOrigin.Name = "txtPlaceofOrigin";
+            txtPlaceofOrigin.Size = new Size(212, 23);
+            txtPlaceofOrigin.TabIndex = 47;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(113, 276);
+            label8.Margin = new Padding(2, 0, 2, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(79, 15);
+            label8.TabIndex = 46;
+            label8.Text = "Nguyên quán";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(114, 71);
+            label7.Margin = new Padding(2, 0, 2, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(48, 15);
+            label7.TabIndex = 44;
+            label7.Text = "Dân tộc";
+            // 
+            // cbEducationalLevel
+            // 
+            cbEducationalLevel.FormattingEnabled = true;
+            cbEducationalLevel.Location = new Point(200, 249);
+            cbEducationalLevel.Name = "cbEducationalLevel";
+            cbEducationalLevel.Size = new Size(112, 23);
+            cbEducationalLevel.TabIndex = 43;
+            // 
+            // txtenlistmentNotificationPlace
+            // 
+            txtenlistmentNotificationPlace.Location = new Point(200, 195);
+            txtenlistmentNotificationPlace.Margin = new Padding(2);
+            txtenlistmentNotificationPlace.Multiline = true;
+            txtenlistmentNotificationPlace.Name = "txtenlistmentNotificationPlace";
+            txtenlistmentNotificationPlace.Size = new Size(213, 23);
+            txtenlistmentNotificationPlace.TabIndex = 42;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(113, 198);
+            label6.Margin = new Padding(2, 0, 2, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(83, 15);
+            label6.TabIndex = 41;
+            label6.Text = "Địa chỉ báo tin";
+            // 
+            // cbHealthStatus
+            // 
+            cbHealthStatus.FormattingEnabled = true;
+            cbHealthStatus.Location = new Point(200, 223);
+            cbHealthStatus.Name = "cbHealthStatus";
+            cbHealthStatus.Size = new Size(112, 23);
+            cbHealthStatus.TabIndex = 35;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(113, 226);
+            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(55, 15);
+            label5.TabIndex = 40;
+            label5.Text = "Sức khỏe";
+            // 
+            // txtContactAddress
+            // 
+            txtContactAddress.Location = new Point(200, 169);
+            txtContactAddress.Margin = new Padding(2);
+            txtContactAddress.Multiline = true;
+            txtContactAddress.Name = "txtContactAddress";
+            txtContactAddress.Size = new Size(213, 23);
+            txtContactAddress.TabIndex = 39;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(113, 172);
+            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(83, 15);
+            label4.TabIndex = 38;
+            label4.Text = "Địa chỉ liên lạc";
+            // 
+            // txtStrongPoints
+            // 
+            txtStrongPoints.Location = new Point(201, 142);
+            txtStrongPoints.Margin = new Padding(2);
+            txtStrongPoints.Multiline = true;
+            txtStrongPoints.Name = "txtStrongPoints";
+            txtStrongPoints.Size = new Size(213, 23);
+            txtStrongPoints.TabIndex = 37;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(113, 145);
+            label2.Margin = new Padding(2, 0, 2, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(59, 15);
+            label2.TabIndex = 36;
+            label2.Text = "Sở trường";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(113, 252);
+            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(49, 15);
+            label1.TabIndex = 34;
+            label1.Text = "Văn hóa";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(cbEnlistmentProvince);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(cbMilitaryCode);
+            groupBox1.Controls.Add(dtpEnlistmentDate);
+            groupBox1.Controls.Add(lblEnlistmentDate);
+            groupBox1.Controls.Add(lblRole);
+            groupBox1.Controls.Add(cbRole);
+            groupBox1.Controls.Add(lblRanking);
+            groupBox1.Location = new Point(720, 14);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(334, 152);
+            groupBox1.TabIndex = 33;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Thông tin quân nhân";
+            // 
+            // cbEnlistmentProvince
+            // 
+            cbEnlistmentProvince.FormattingEnabled = true;
+            cbEnlistmentProvince.Location = new Point(107, 117);
+            cbEnlistmentProvince.Name = "cbEnlistmentProvince";
+            cbEnlistmentProvince.Size = new Size(121, 23);
+            cbEnlistmentProvince.TabIndex = 34;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(13, 123);
+            label3.Margin = new Padding(2, 0, 2, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(85, 15);
+            label3.TabIndex = 33;
+            label3.Text = "Tỉnh nhập ngũ";
+            // 
+            // cbMilitaryCode
+            // 
+            cbMilitaryCode.FormattingEnabled = true;
+            cbMilitaryCode.Location = new Point(107, 88);
+            cbMilitaryCode.Name = "cbMilitaryCode";
+            cbMilitaryCode.Size = new Size(121, 23);
+            cbMilitaryCode.TabIndex = 32;
+            // 
+            // dtpEnlistmentDate
+            // 
+            dtpEnlistmentDate.CustomFormat = "dd/MM/yyyy";
+            dtpEnlistmentDate.Format = DateTimePickerFormat.Custom;
+            dtpEnlistmentDate.Location = new Point(107, 32);
+            dtpEnlistmentDate.Margin = new Padding(2);
+            dtpEnlistmentDate.Name = "dtpEnlistmentDate";
+            dtpEnlistmentDate.Size = new Size(211, 23);
+            dtpEnlistmentDate.TabIndex = 31;
+            // 
+            // lblEnlistmentDate
+            // 
+            lblEnlistmentDate.AutoSize = true;
+            lblEnlistmentDate.Location = new Point(12, 32);
+            lblEnlistmentDate.Margin = new Padding(2, 0, 2, 0);
+            lblEnlistmentDate.Name = "lblEnlistmentDate";
+            lblEnlistmentDate.Size = new Size(60, 15);
+            lblEnlistmentDate.TabIndex = 30;
+            lblEnlistmentDate.Text = "Nhập ngũ";
+            // 
+            // lblRole
+            // 
+            lblRole.AutoSize = true;
+            lblRole.Location = new Point(12, 61);
+            lblRole.Margin = new Padding(2, 0, 2, 0);
+            lblRole.Name = "lblRole";
+            lblRole.Size = new Size(51, 15);
+            lblRole.TabIndex = 12;
+            lblRole.Text = "Chức vụ";
+            // 
+            // cbRole
+            // 
+            cbRole.DataSource = roleBindingSource;
+            cbRole.DisplayMember = "Name";
+            cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbRole.FormattingEnabled = true;
+            cbRole.Location = new Point(107, 59);
+            cbRole.Margin = new Padding(2);
+            cbRole.Name = "cbRole";
+            cbRole.Size = new Size(211, 23);
+            cbRole.TabIndex = 29;
+            cbRole.ValueMember = "Code";
+            // 
+            // roleBindingSource
+            // 
+            roleBindingSource.DataSource = typeof(Domain.Entities.Category);
+            // 
+            // lblRanking
+            // 
+            lblRanking.AutoSize = true;
+            lblRanking.Location = new Point(12, 90);
+            lblRanking.Margin = new Padding(2, 0, 2, 0);
+            lblRanking.Name = "lblRanking";
+            lblRanking.Size = new Size(50, 15);
+            lblRanking.TabIndex = 27;
+            lblRanking.Text = "Cấp bậc";
+            // 
             // gbGrades
             // 
             gbGrades.Controls.Add(btnSaveGrade);
+            gbGrades.Controls.Add(lblAverageScore);
+            gbGrades.Controls.Add(numAverageScore);
             gbGrades.Controls.Add(numGrade);
             gbGrades.Controls.Add(lblType);
             gbGrades.Controls.Add(lblGrade);
             gbGrades.Controls.Add(cbType);
             gbGrades.Controls.Add(lblSubject);
             gbGrades.Controls.Add(cbSubject);
-            gbGrades.Location = new Point(595, 103);
+            gbGrades.Location = new Point(720, 271);
             gbGrades.Margin = new Padding(2);
             gbGrades.Name = "gbGrades";
             gbGrades.Padding = new Padding(2);
-            gbGrades.Size = new Size(277, 112);
+            gbGrades.Size = new Size(354, 160);
             gbGrades.TabIndex = 32;
             gbGrades.TabStop = false;
             gbGrades.Text = "Cập nhật điểm môn học";
             // 
             // btnSaveGrade
             // 
-            btnSaveGrade.Location = new Point(195, 87);
+            btnSaveGrade.Location = new Point(254, 128);
             btnSaveGrade.Margin = new Padding(2);
             btnSaveGrade.Name = "btnSaveGrade";
             btnSaveGrade.Size = new Size(78, 20);
             btnSaveGrade.TabIndex = 35;
             btnSaveGrade.Text = "Lưu điểm";
             btnSaveGrade.UseVisualStyleBackColor = true;
-            btnSaveGrade.Click += btnSaveGrade_Click;
+            // 
+            // lblAverageScore
+            // 
+            lblAverageScore.AutoSize = true;
+            lblAverageScore.Location = new Point(4, 87);
+            lblAverageScore.Margin = new Padding(2, 0, 2, 0);
+            lblAverageScore.Name = "lblAverageScore";
+            lblAverageScore.Size = new Size(94, 15);
+            lblAverageScore.TabIndex = 30;
+            lblAverageScore.Text = "Điểm trung bình";
+            // 
+            // numAverageScore
+            // 
+            numAverageScore.DecimalPlaces = 2;
+            numAverageScore.Location = new Point(128, 89);
+            numAverageScore.Margin = new Padding(2);
+            numAverageScore.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            numAverageScore.Name = "numAverageScore";
+            numAverageScore.ReadOnly = true;
+            numAverageScore.Size = new Size(204, 23);
+            numAverageScore.TabIndex = 31;
             // 
             // numGrade
             // 
             numGrade.DecimalPlaces = 2;
-            numGrade.Location = new Point(71, 65);
+            numGrade.Location = new Point(130, 65);
             numGrade.Margin = new Padding(2);
             numGrade.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             numGrade.Name = "numGrade";
-            numGrade.Size = new Size(202, 21);
+            numGrade.Size = new Size(202, 23);
             numGrade.TabIndex = 34;
             // 
             // lblType
@@ -240,7 +566,7 @@ namespace StudentManagementSystem.UI.UserControls
             lblType.Location = new Point(4, 44);
             lblType.Margin = new Padding(2, 0, 2, 0);
             lblType.Name = "lblType";
-            lblType.Size = new Size(62, 15);
+            lblType.Size = new Size(59, 15);
             lblType.TabIndex = 2;
             lblType.Text = "Loại điểm";
             // 
@@ -250,7 +576,7 @@ namespace StudentManagementSystem.UI.UserControls
             lblGrade.Location = new Point(4, 66);
             lblGrade.Margin = new Padding(2, 0, 2, 0);
             lblGrade.Name = "lblGrade";
-            lblGrade.Size = new Size(37, 15);
+            lblGrade.Size = new Size(35, 15);
             lblGrade.TabIndex = 33;
             lblGrade.Text = "Điểm";
             // 
@@ -260,7 +586,7 @@ namespace StudentManagementSystem.UI.UserControls
             cbType.DisplayMember = "Name";
             cbType.DropDownStyle = ComboBoxStyle.DropDownList;
             cbType.FormattingEnabled = true;
-            cbType.Location = new Point(71, 41);
+            cbType.Location = new Point(128, 41);
             cbType.Margin = new Padding(2);
             cbType.Name = "cbType";
             cbType.Size = new Size(204, 23);
@@ -277,7 +603,7 @@ namespace StudentManagementSystem.UI.UserControls
             lblSubject.Location = new Point(4, 20);
             lblSubject.Margin = new Padding(2, 0, 2, 0);
             lblSubject.Name = "lblSubject";
-            lblSubject.Size = new Size(53, 15);
+            lblSubject.Size = new Size(55, 15);
             lblSubject.TabIndex = 0;
             lblSubject.Text = "Môn học";
             // 
@@ -287,7 +613,7 @@ namespace StudentManagementSystem.UI.UserControls
             cbSubject.DisplayMember = "Name";
             cbSubject.DropDownStyle = ComboBoxStyle.DropDownList;
             cbSubject.FormattingEnabled = true;
-            cbSubject.Location = new Point(71, 18);
+            cbSubject.Location = new Point(128, 20);
             cbSubject.Margin = new Padding(2);
             cbSubject.Name = "cbSubject";
             cbSubject.Size = new Size(204, 23);
@@ -298,51 +624,13 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             subjectBindingSource.DataSource = typeof(Domain.Entities.Subject);
             // 
-            // numAverageScore
-            // 
-            numAverageScore.DecimalPlaces = 2;
-            numAverageScore.Location = new Point(345, 124);
-            numAverageScore.Margin = new Padding(2);
-            numAverageScore.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
-            numAverageScore.Name = "numAverageScore";
-            numAverageScore.ReadOnly = true;
-            numAverageScore.Size = new Size(210, 21);
-            numAverageScore.TabIndex = 31;
-            // 
-            // lblAverageScore
-            // 
-            lblAverageScore.AutoSize = true;
-            lblAverageScore.Location = new Point(244, 126);
-            lblAverageScore.Margin = new Padding(2, 0, 2, 0);
-            lblAverageScore.Name = "lblAverageScore";
-            lblAverageScore.Size = new Size(95, 15);
-            lblAverageScore.TabIndex = 30;
-            lblAverageScore.Text = "Điểm trung bình";
-            // 
-            // cbRole
-            // 
-            cbRole.DataSource = roleBindingSource;
-            cbRole.DisplayMember = "Name";
-            cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbRole.FormattingEnabled = true;
-            cbRole.Location = new Point(345, 101);
-            cbRole.Margin = new Padding(2);
-            cbRole.Name = "cbRole";
-            cbRole.Size = new Size(211, 23);
-            cbRole.TabIndex = 29;
-            cbRole.ValueMember = "Code";
-            // 
-            // roleBindingSource
-            // 
-            roleBindingSource.DataSource = typeof(Domain.Entities.Category);
-            // 
             // cbClassId
             // 
             cbClassId.DataSource = classBindingSource;
             cbClassId.DisplayMember = "Name";
             cbClassId.DropDownStyle = ComboBoxStyle.DropDownList;
             cbClassId.FormattingEnabled = true;
-            cbClassId.Location = new Point(113, 130);
+            cbClassId.Location = new Point(1332, 418);
             cbClassId.Margin = new Padding(2);
             cbClassId.Name = "cbClassId";
             cbClassId.Size = new Size(129, 23);
@@ -354,23 +642,13 @@ namespace StudentManagementSystem.UI.UserControls
             // 
             classBindingSource.DataSource = typeof(Domain.Entities.Class);
             // 
-            // lblRanking
-            // 
-            lblRanking.AutoSize = true;
-            lblRanking.Location = new Point(113, 62);
-            lblRanking.Margin = new Padding(2, 0, 2, 0);
-            lblRanking.Name = "lblRanking";
-            lblRanking.Size = new Size(53, 15);
-            lblRanking.TabIndex = 27;
-            lblRanking.Text = "Cấp bậc";
-            // 
             // lblClassId
             // 
             lblClassId.AutoSize = true;
-            lblClassId.Location = new Point(113, 109);
+            lblClassId.Location = new Point(1332, 397);
             lblClassId.Margin = new Padding(2, 0, 2, 0);
             lblClassId.Name = "lblClassId";
-            lblClassId.Size = new Size(29, 15);
+            lblClassId.Size = new Size(27, 15);
             lblClassId.TabIndex = 26;
             lblClassId.Text = "Lớp";
             lblClassId.Visible = false;
@@ -378,22 +656,13 @@ namespace StudentManagementSystem.UI.UserControls
             // lblId
             // 
             lblId.AutoSize = true;
-            lblId.Location = new Point(113, 14);
+            lblId.Location = new Point(1332, 302);
             lblId.Margin = new Padding(2, 0, 2, 0);
             lblId.Name = "lblId";
-            lblId.Size = new Size(71, 15);
+            lblId.Size = new Size(72, 15);
             lblId.TabIndex = 25;
             lblId.Text = "Mã học viên";
-            // 
-            // dtpEnlistmentDate
-            // 
-            dtpEnlistmentDate.CustomFormat = "dd/MM/yyyy";
-            dtpEnlistmentDate.Format = DateTimePickerFormat.Custom;
-            dtpEnlistmentDate.Location = new Point(345, 79);
-            dtpEnlistmentDate.Margin = new Padding(2);
-            dtpEnlistmentDate.Name = "dtpEnlistmentDate";
-            dtpEnlistmentDate.Size = new Size(211, 21);
-            dtpEnlistmentDate.TabIndex = 24;
+            lblId.Visible = false;
             // 
             // btnUpload
             // 
@@ -404,177 +673,115 @@ namespace StudentManagementSystem.UI.UserControls
             btnUpload.TabIndex = 23;
             btnUpload.Text = "Cập nhật";
             btnUpload.UseVisualStyleBackColor = true;
-            btnUpload.Click += BtnUpload_ClickAsync;
             // 
             // txtMotherPhoneNumber
             // 
-            txtMotherPhoneNumber.Location = new Point(662, 79);
+            txtMotherPhoneNumber.Location = new Point(497, 83);
             txtMotherPhoneNumber.Margin = new Padding(2);
             txtMotherPhoneNumber.Mask = "0000 000 000";
             txtMotherPhoneNumber.Name = "txtMotherPhoneNumber";
             txtMotherPhoneNumber.ResetOnSpace = false;
-            txtMotherPhoneNumber.Size = new Size(211, 21);
+            txtMotherPhoneNumber.Size = new Size(211, 23);
             txtMotherPhoneNumber.TabIndex = 21;
-            txtMotherPhoneNumber.Click += txtMotherPhoneNumber_Click;
-            txtMotherPhoneNumber.Enter += txtMotherPhoneNumber_Enter;
-            txtMotherPhoneNumber.KeyDown += txtMotherPhoneNumber_KeyDown;
-            txtMotherPhoneNumber.Validating += txtMotherPhoneNumber_Validating;
             // 
             // lblMotherPhoneNumber
             // 
             lblMotherPhoneNumber.AutoSize = true;
-            lblMotherPhoneNumber.Location = new Point(595, 80);
+            lblMotherPhoneNumber.Location = new Point(430, 84);
             lblMotherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
             lblMotherPhoneNumber.Name = "lblMotherPhoneNumber";
-            lblMotherPhoneNumber.Size = new Size(52, 15);
+            lblMotherPhoneNumber.Size = new Size(48, 15);
             lblMotherPhoneNumber.TabIndex = 20;
             lblMotherPhoneNumber.Text = "SĐT mẹ";
             // 
             // txtMotherFullName
             // 
-            txtMotherFullName.Location = new Point(662, 56);
+            txtMotherFullName.Location = new Point(497, 60);
             txtMotherFullName.Margin = new Padding(2);
             txtMotherFullName.Name = "txtMotherFullName";
-            txtMotherFullName.Size = new Size(211, 21);
+            txtMotherFullName.Size = new Size(211, 23);
             txtMotherFullName.TabIndex = 19;
             // 
             // lblMotherFullName
             // 
             lblMotherFullName.AutoSize = true;
-            lblMotherFullName.Location = new Point(595, 58);
+            lblMotherFullName.Location = new Point(430, 62);
             lblMotherFullName.Margin = new Padding(2, 0, 2, 0);
             lblMotherFullName.Name = "lblMotherFullName";
-            lblMotherFullName.Size = new Size(49, 15);
+            lblMotherFullName.Size = new Size(46, 15);
             lblMotherFullName.TabIndex = 18;
             lblMotherFullName.Text = "Tên mẹ";
             // 
             // txtFatherPhoneNumber
             // 
-            txtFatherPhoneNumber.Location = new Point(662, 34);
+            txtFatherPhoneNumber.Location = new Point(497, 38);
             txtFatherPhoneNumber.Margin = new Padding(2);
             txtFatherPhoneNumber.Mask = "0000 000 000";
             txtFatherPhoneNumber.Name = "txtFatherPhoneNumber";
             txtFatherPhoneNumber.ResetOnSpace = false;
-            txtFatherPhoneNumber.Size = new Size(211, 21);
+            txtFatherPhoneNumber.Size = new Size(211, 23);
             txtFatherPhoneNumber.TabIndex = 17;
-            txtFatherPhoneNumber.Click += txtFatherPhoneNumber_Click;
-            txtFatherPhoneNumber.Enter += txtFatherPhoneNumber_Enter;
-            txtFatherPhoneNumber.KeyDown += txtFatherPhoneNumber_KeyDown;
-            txtFatherPhoneNumber.Validating += txtFatherPhoneNumber_Validating;
             // 
             // lblFatherPhoneNumber
             // 
             lblFatherPhoneNumber.AutoSize = true;
-            lblFatherPhoneNumber.Location = new Point(595, 36);
+            lblFatherPhoneNumber.Location = new Point(430, 40);
             lblFatherPhoneNumber.Margin = new Padding(2, 0, 2, 0);
             lblFatherPhoneNumber.Name = "lblFatherPhoneNumber";
-            lblFatherPhoneNumber.Size = new Size(54, 15);
+            lblFatherPhoneNumber.Size = new Size(50, 15);
             lblFatherPhoneNumber.TabIndex = 16;
             lblFatherPhoneNumber.Text = "SĐT cha";
             // 
             // txtFatherFullName
             // 
-            txtFatherFullName.Location = new Point(662, 12);
+            txtFatherFullName.Location = new Point(497, 16);
             txtFatherFullName.Margin = new Padding(2);
             txtFatherFullName.Name = "txtFatherFullName";
-            txtFatherFullName.Size = new Size(211, 21);
+            txtFatherFullName.Size = new Size(211, 23);
             txtFatherFullName.TabIndex = 15;
             // 
             // lblFatherFullName
             // 
             lblFatherFullName.AutoSize = true;
-            lblFatherFullName.Location = new Point(595, 14);
+            lblFatherFullName.Location = new Point(430, 18);
             lblFatherFullName.Margin = new Padding(2, 0, 2, 0);
             lblFatherFullName.Name = "lblFatherFullName";
-            lblFatherFullName.Size = new Size(51, 15);
+            lblFatherFullName.Size = new Size(48, 15);
             lblFatherFullName.TabIndex = 14;
             lblFatherFullName.Text = "Tên cha";
-            // 
-            // lblRole
-            // 
-            lblRole.AutoSize = true;
-            lblRole.Location = new Point(289, 103);
-            lblRole.Margin = new Padding(2, 0, 2, 0);
-            lblRole.Name = "lblRole";
-            lblRole.Size = new Size(52, 15);
-            lblRole.TabIndex = 12;
-            lblRole.Text = "Chức vụ";
-            // 
-            // lblEnlistmentDate
-            // 
-            lblEnlistmentDate.AutoSize = true;
-            lblEnlistmentDate.Location = new Point(279, 80);
-            lblEnlistmentDate.Margin = new Padding(2, 0, 2, 0);
-            lblEnlistmentDate.Name = "lblEnlistmentDate";
-            lblEnlistmentDate.Size = new Size(61, 15);
-            lblEnlistmentDate.TabIndex = 10;
-            lblEnlistmentDate.Text = "Nhập ngũ";
-            // 
-            // txtRanking
-            // 
-            txtRanking.Location = new Point(113, 82);
-            txtRanking.Margin = new Padding(2);
-            txtRanking.Name = "txtRanking";
-            txtRanking.Size = new Size(129, 21);
-            txtRanking.TabIndex = 9;
-            txtRanking.TextAlign = HorizontalAlignment.Center;
             // 
             // dtpDayOfBirth
             // 
             dtpDayOfBirth.CustomFormat = "dd/MM/yyyy";
             dtpDayOfBirth.Format = DateTimePickerFormat.Custom;
-            dtpDayOfBirth.Location = new Point(345, 56);
+            dtpDayOfBirth.Location = new Point(201, 44);
             dtpDayOfBirth.Margin = new Padding(2);
             dtpDayOfBirth.Name = "dtpDayOfBirth";
-            dtpDayOfBirth.Size = new Size(211, 21);
+            dtpDayOfBirth.Size = new Size(211, 23);
             dtpDayOfBirth.TabIndex = 8;
             // 
             // lblDayOfBirth
             // 
             lblDayOfBirth.AutoSize = true;
-            lblDayOfBirth.Location = new Point(279, 58);
+            lblDayOfBirth.Location = new Point(114, 46);
             lblDayOfBirth.Margin = new Padding(2, 0, 2, 0);
             lblDayOfBirth.Name = "lblDayOfBirth";
-            lblDayOfBirth.Size = new Size(62, 15);
+            lblDayOfBirth.Size = new Size(60, 15);
             lblDayOfBirth.TabIndex = 7;
             lblDayOfBirth.Text = "Ngày sinh";
             // 
-            // txtPhoneNumber
-            // 
-            txtPhoneNumber.Location = new Point(345, 34);
-            txtPhoneNumber.Margin = new Padding(2);
-            txtPhoneNumber.Mask = "0000 000 000";
-            txtPhoneNumber.Name = "txtPhoneNumber";
-            txtPhoneNumber.ResetOnSpace = false;
-            txtPhoneNumber.Size = new Size(211, 21);
-            txtPhoneNumber.TabIndex = 6;
-            txtPhoneNumber.Click += txtPhoneNumber_Click;
-            txtPhoneNumber.Enter += txtPhoneNumber_Enter;
-            txtPhoneNumber.KeyDown += txtPhoneNumber_KeyDown;
-            txtPhoneNumber.Validating += txtPhoneNumber_Validating;
-            // 
-            // lblPhoneNumber
-            // 
-            lblPhoneNumber.AutoSize = true;
-            lblPhoneNumber.Location = new Point(310, 36);
-            lblPhoneNumber.Margin = new Padding(2, 0, 2, 0);
-            lblPhoneNumber.Name = "lblPhoneNumber";
-            lblPhoneNumber.Size = new Size(31, 15);
-            lblPhoneNumber.TabIndex = 5;
-            lblPhoneNumber.Text = "SĐT";
-            // 
             // txtFullName
             // 
-            txtFullName.Location = new Point(345, 12);
+            txtFullName.Location = new Point(201, 16);
             txtFullName.Margin = new Padding(2);
             txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(211, 21);
+            txtFullName.Size = new Size(211, 23);
             txtFullName.TabIndex = 3;
             // 
             // lblFullName
             // 
             lblFullName.AutoSize = true;
-            lblFullName.Location = new Point(279, 14);
+            lblFullName.Location = new Point(114, 18);
             lblFullName.Margin = new Padding(2, 0, 2, 0);
             lblFullName.Name = "lblFullName";
             lblFullName.Size = new Size(58, 15);
@@ -584,13 +791,14 @@ namespace StudentManagementSystem.UI.UserControls
             // txtId
             // 
             txtId.Enabled = false;
-            txtId.Location = new Point(113, 34);
+            txtId.Location = new Point(1332, 322);
             txtId.Margin = new Padding(2);
             txtId.Name = "txtId";
-            txtId.Size = new Size(128, 21);
+            txtId.Size = new Size(128, 23);
             txtId.TabIndex = 1;
             txtId.Text = "0";
             txtId.TextAlign = HorizontalAlignment.Center;
+            txtId.Visible = false;
             // 
             // pbAvatar
             // 
@@ -604,8 +812,6 @@ namespace StudentManagementSystem.UI.UserControls
             pbAvatar.TabIndex = 0;
             pbAvatar.TabStop = false;
             pbAvatar.WaitOnLoad = true;
-            pbAvatar.DragDrop += pbAvatar_DragDrop;
-            pbAvatar.DragEnter += pbAvatar_DragEnter;
             // 
             // tableLayoutPanel
             // 
@@ -623,7 +829,7 @@ namespace StudentManagementSystem.UI.UserControls
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 12F));
-            tableLayoutPanel.Size = new Size(918, 464);
+            tableLayoutPanel.Size = new Size(1620, 937);
             tableLayoutPanel.TabIndex = 1;
             // 
             // tabControl
@@ -632,11 +838,11 @@ namespace StudentManagementSystem.UI.UserControls
             tabControl.Controls.Add(tabGrades);
             tabControl.Controls.Add(tabSubjectAverageScore);
             tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(2, 222);
+            tabControl.Location = new Point(2, 458);
             tabControl.Margin = new Padding(2);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(914, 216);
+            tabControl.Size = new Size(1616, 452);
             tabControl.TabIndex = 1;
             // 
             // tabTrainees
@@ -646,7 +852,7 @@ namespace StudentManagementSystem.UI.UserControls
             tabTrainees.Margin = new Padding(2);
             tabTrainees.Name = "tabTrainees";
             tabTrainees.Padding = new Padding(2);
-            tabTrainees.Size = new Size(906, 188);
+            tabTrainees.Size = new Size(1608, 424);
             tabTrainees.TabIndex = 0;
             tabTrainees.Text = "Danh sách";
             tabTrainees.UseVisualStyleBackColor = true;
@@ -658,7 +864,7 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.AutoGenerateColumns = false;
             dgvRead.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRead.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, ClassName, phoneNumberDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, averageScoreDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
+            dgvRead.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, dayOfBirthDataGridViewTextBoxColumn, Gender, rankingDataGridViewTextBoxColumn, enlistmentDateDataGridViewTextBoxColumn, IdentityCardNumber, Ethnicity, StrongPoints, PlaceofOrigin, EducationLevel, HealthStatus, EnlistmentNotificationPlace, ContactAddress, fatherFullNameDataGridViewTextBoxColumn, fatherPhoneNumberDataGridViewTextBoxColumn, motherFullNameDataGridViewTextBoxColumn, motherPhoneNumberDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, classIdDataGridViewTextBoxColumn, ClassName, averageScoreDataGridViewTextBoxColumn, avatarUrlDataGridViewTextBoxColumn });
             dgvRead.DataSource = traineeBindingSource;
             dgvRead.Dock = DockStyle.Fill;
             dgvRead.Location = new Point(2, 2);
@@ -666,9 +872,8 @@ namespace StudentManagementSystem.UI.UserControls
             dgvRead.Name = "dgvRead";
             dgvRead.ReadOnly = true;
             dgvRead.RowHeadersWidth = 62;
-            dgvRead.Size = new Size(902, 184);
+            dgvRead.Size = new Size(1604, 420);
             dgvRead.TabIndex = 0;
-            dgvRead.CellDoubleClick += dgvRead_CellDoubleClick;
             dgvRead.SelectionChanged += dgvRead_SelectionChanged;
             // 
             // idDataGridViewTextBoxColumn
@@ -688,32 +893,6 @@ namespace StudentManagementSystem.UI.UserControls
             fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
             fullNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // classIdDataGridViewTextBoxColumn
-            // 
-            classIdDataGridViewTextBoxColumn.DataPropertyName = "ClassId";
-            classIdDataGridViewTextBoxColumn.HeaderText = "Mã lớp";
-            classIdDataGridViewTextBoxColumn.MinimumWidth = 8;
-            classIdDataGridViewTextBoxColumn.Name = "classIdDataGridViewTextBoxColumn";
-            classIdDataGridViewTextBoxColumn.ReadOnly = true;
-            classIdDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // ClassName
-            // 
-            ClassName.DataPropertyName = "ClassName";
-            ClassName.HeaderText = "Lớp";
-            ClassName.MinimumWidth = 8;
-            ClassName.Name = "ClassName";
-            ClassName.ReadOnly = true;
-            ClassName.Visible = false;
-            // 
-            // phoneNumberDataGridViewTextBoxColumn
-            // 
-            phoneNumberDataGridViewTextBoxColumn.DataPropertyName = "PhoneNumber";
-            phoneNumberDataGridViewTextBoxColumn.HeaderText = "SĐT";
-            phoneNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
-            phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
-            phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // dayOfBirthDataGridViewTextBoxColumn
             // 
             dayOfBirthDataGridViewTextBoxColumn.DataPropertyName = "DayOfBirth";
@@ -721,6 +900,13 @@ namespace StudentManagementSystem.UI.UserControls
             dayOfBirthDataGridViewTextBoxColumn.MinimumWidth = 8;
             dayOfBirthDataGridViewTextBoxColumn.Name = "dayOfBirthDataGridViewTextBoxColumn";
             dayOfBirthDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // Gender
+            // 
+            Gender.DataPropertyName = "Gender";
+            Gender.HeaderText = "Giới tính";
+            Gender.Name = "Gender";
+            Gender.ReadOnly = true;
             // 
             // rankingDataGridViewTextBoxColumn
             // 
@@ -738,21 +924,61 @@ namespace StudentManagementSystem.UI.UserControls
             enlistmentDateDataGridViewTextBoxColumn.Name = "enlistmentDateDataGridViewTextBoxColumn";
             enlistmentDateDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // averageScoreDataGridViewTextBoxColumn
+            // IdentityCardNumber
             // 
-            averageScoreDataGridViewTextBoxColumn.DataPropertyName = "AverageScore";
-            averageScoreDataGridViewTextBoxColumn.HeaderText = "Điểm trung bình";
-            averageScoreDataGridViewTextBoxColumn.MinimumWidth = 8;
-            averageScoreDataGridViewTextBoxColumn.Name = "averageScoreDataGridViewTextBoxColumn";
-            averageScoreDataGridViewTextBoxColumn.ReadOnly = true;
+            IdentityCardNumber.DataPropertyName = "IdentityCardNumber";
+            IdentityCardNumber.HeaderText = "Căn cước công dân";
+            IdentityCardNumber.Name = "IdentityCardNumber";
+            IdentityCardNumber.ReadOnly = true;
             // 
-            // roleDataGridViewTextBoxColumn
+            // Ethnicity
             // 
-            roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
-            roleDataGridViewTextBoxColumn.HeaderText = "Chức vụ";
-            roleDataGridViewTextBoxColumn.MinimumWidth = 8;
-            roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
-            roleDataGridViewTextBoxColumn.ReadOnly = true;
+            Ethnicity.DataPropertyName = "Ethnicity";
+            Ethnicity.HeaderText = "Dân tộc ";
+            Ethnicity.Name = "Ethnicity";
+            Ethnicity.ReadOnly = true;
+            // 
+            // StrongPoints
+            // 
+            StrongPoints.DataPropertyName = "StrongPoints";
+            StrongPoints.HeaderText = "Sở trường";
+            StrongPoints.Name = "StrongPoints";
+            StrongPoints.ReadOnly = true;
+            // 
+            // PlaceofOrigin
+            // 
+            PlaceofOrigin.DataPropertyName = "PlaceofOrigin";
+            PlaceofOrigin.HeaderText = "Nguyên quán";
+            PlaceofOrigin.Name = "PlaceofOrigin";
+            PlaceofOrigin.ReadOnly = true;
+            // 
+            // EducationLevel
+            // 
+            EducationLevel.DataPropertyName = "EducationLevel";
+            EducationLevel.HeaderText = "Trình độ học vấn";
+            EducationLevel.Name = "EducationLevel";
+            EducationLevel.ReadOnly = true;
+            // 
+            // HealthStatus
+            // 
+            HealthStatus.DataPropertyName = "HealthStatus";
+            HealthStatus.HeaderText = "Sức khỏe";
+            HealthStatus.Name = "HealthStatus";
+            HealthStatus.ReadOnly = true;
+            // 
+            // EnlistmentNotificationPlace
+            // 
+            EnlistmentNotificationPlace.DataPropertyName = "EnlistmentNotificationPlace";
+            EnlistmentNotificationPlace.HeaderText = "Địa chỉ nhập ngũ";
+            EnlistmentNotificationPlace.Name = "EnlistmentNotificationPlace";
+            EnlistmentNotificationPlace.ReadOnly = true;
+            // 
+            // ContactAddress
+            // 
+            ContactAddress.DataPropertyName = "ContactAddress";
+            ContactAddress.HeaderText = "Địa chỉ thường trú";
+            ContactAddress.Name = "ContactAddress";
+            ContactAddress.ReadOnly = true;
             // 
             // fatherFullNameDataGridViewTextBoxColumn
             // 
@@ -786,6 +1012,41 @@ namespace StudentManagementSystem.UI.UserControls
             motherPhoneNumberDataGridViewTextBoxColumn.Name = "motherPhoneNumberDataGridViewTextBoxColumn";
             motherPhoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // roleDataGridViewTextBoxColumn
+            // 
+            roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
+            roleDataGridViewTextBoxColumn.HeaderText = "Chức vụ";
+            roleDataGridViewTextBoxColumn.MinimumWidth = 8;
+            roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
+            roleDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // classIdDataGridViewTextBoxColumn
+            // 
+            classIdDataGridViewTextBoxColumn.DataPropertyName = "ClassId";
+            classIdDataGridViewTextBoxColumn.HeaderText = "Mã lớp";
+            classIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            classIdDataGridViewTextBoxColumn.Name = "classIdDataGridViewTextBoxColumn";
+            classIdDataGridViewTextBoxColumn.ReadOnly = true;
+            classIdDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // ClassName
+            // 
+            ClassName.DataPropertyName = "ClassName";
+            ClassName.HeaderText = "Lớp";
+            ClassName.MinimumWidth = 8;
+            ClassName.Name = "ClassName";
+            ClassName.ReadOnly = true;
+            ClassName.Visible = false;
+            // 
+            // averageScoreDataGridViewTextBoxColumn
+            // 
+            averageScoreDataGridViewTextBoxColumn.DataPropertyName = "AverageScore";
+            averageScoreDataGridViewTextBoxColumn.HeaderText = "Điểm trung bình";
+            averageScoreDataGridViewTextBoxColumn.MinimumWidth = 8;
+            averageScoreDataGridViewTextBoxColumn.Name = "averageScoreDataGridViewTextBoxColumn";
+            averageScoreDataGridViewTextBoxColumn.ReadOnly = true;
+            averageScoreDataGridViewTextBoxColumn.Visible = false;
+            // 
             // avatarUrlDataGridViewTextBoxColumn
             // 
             avatarUrlDataGridViewTextBoxColumn.DataPropertyName = "AvatarUrl";
@@ -806,7 +1067,7 @@ namespace StudentManagementSystem.UI.UserControls
             tabGrades.Margin = new Padding(2);
             tabGrades.Name = "tabGrades";
             tabGrades.Padding = new Padding(2);
-            tabGrades.Size = new Size(906, 188);
+            tabGrades.Size = new Size(1608, 424);
             tabGrades.TabIndex = 1;
             tabGrades.Text = "Điểm môn học";
             tabGrades.UseVisualStyleBackColor = true;
@@ -825,7 +1086,7 @@ namespace StudentManagementSystem.UI.UserControls
             dgvGrades.Name = "dgvGrades";
             dgvGrades.ReadOnly = true;
             dgvGrades.RowHeadersWidth = 62;
-            dgvGrades.Size = new Size(902, 184);
+            dgvGrades.Size = new Size(1604, 420);
             dgvGrades.TabIndex = 1;
             // 
             // idDataGridViewTextBoxColumn1
@@ -896,7 +1157,7 @@ namespace StudentManagementSystem.UI.UserControls
             tabSubjectAverageScore.Margin = new Padding(2);
             tabSubjectAverageScore.Name = "tabSubjectAverageScore";
             tabSubjectAverageScore.Padding = new Padding(2);
-            tabSubjectAverageScore.Size = new Size(906, 188);
+            tabSubjectAverageScore.Size = new Size(1608, 424);
             tabSubjectAverageScore.TabIndex = 2;
             tabSubjectAverageScore.Text = "Điểm trung bình môn học";
             tabSubjectAverageScore.UseVisualStyleBackColor = true;
@@ -915,7 +1176,7 @@ namespace StudentManagementSystem.UI.UserControls
             dgvSubjectAverageScore.Name = "dgvSubjectAverageScore";
             dgvSubjectAverageScore.ReadOnly = true;
             dgvSubjectAverageScore.RowHeadersWidth = 62;
-            dgvSubjectAverageScore.Size = new Size(902, 184);
+            dgvSubjectAverageScore.Size = new Size(1604, 420);
             dgvSubjectAverageScore.TabIndex = 2;
             // 
             // idDataGridViewTextBoxColumn2
@@ -987,10 +1248,10 @@ namespace StudentManagementSystem.UI.UserControls
             pnAction.Controls.Add(btnAdd);
             pnAction.Controls.Add(btnRefresh);
             pnAction.Dock = DockStyle.Fill;
-            pnAction.Location = new Point(2, 442);
+            pnAction.Location = new Point(2, 914);
             pnAction.Margin = new Padding(2);
             pnAction.Name = "pnAction";
-            pnAction.Size = new Size(914, 20);
+            pnAction.Size = new Size(1616, 21);
             pnAction.TabIndex = 2;
             // 
             // btnImportfromExcel
@@ -999,7 +1260,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnImportfromExcel.Location = new Point(312, 0);
             btnImportfromExcel.Margin = new Padding(2);
             btnImportfromExcel.Name = "btnImportfromExcel";
-            btnImportfromExcel.Size = new Size(134, 20);
+            btnImportfromExcel.Size = new Size(134, 21);
             btnImportfromExcel.TabIndex = 6;
             btnImportfromExcel.Text = "Thêm từ file Excel";
             btnImportfromExcel.UseVisualStyleBackColor = true;
@@ -1011,7 +1272,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnDelete.Location = new Point(234, 0);
             btnDelete.Margin = new Padding(2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(78, 20);
+            btnDelete.Size = new Size(78, 21);
             btnDelete.TabIndex = 5;
             btnDelete.Text = "Xóa";
             btnDelete.UseVisualStyleBackColor = true;
@@ -1023,7 +1284,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnSave.Location = new Point(156, 0);
             btnSave.Margin = new Padding(2);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(78, 20);
+            btnSave.Size = new Size(78, 21);
             btnSave.TabIndex = 4;
             btnSave.Text = "Lưu";
             btnSave.UseVisualStyleBackColor = true;
@@ -1035,7 +1296,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnAdd.Location = new Point(78, 0);
             btnAdd.Margin = new Padding(2);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(78, 20);
+            btnAdd.Size = new Size(78, 21);
             btnAdd.TabIndex = 3;
             btnAdd.Text = "Thêm mới";
             btnAdd.UseVisualStyleBackColor = true;
@@ -1047,7 +1308,7 @@ namespace StudentManagementSystem.UI.UserControls
             btnRefresh.Location = new Point(0, 0);
             btnRefresh.Margin = new Padding(2);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(78, 20);
+            btnRefresh.Size = new Size(78, 21);
             btnRefresh.TabIndex = 2;
             btnRefresh.Text = "Làm mới";
             btnRefresh.UseVisualStyleBackColor = true;
@@ -1070,18 +1331,20 @@ namespace StudentManagementSystem.UI.UserControls
             Controls.Add(tableLayoutPanel);
             Margin = new Padding(2);
             Name = "ucTrainee";
-            Size = new Size(918, 464);
+            Size = new Size(1620, 937);
             Load += ucTrainee_Load;
             pnInformation.ResumeLayout(false);
             gbDetail.ResumeLayout(false);
             gbDetail.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((ISupportInitialize)roleBindingSource).EndInit();
             gbGrades.ResumeLayout(false);
             gbGrades.PerformLayout();
+            ((ISupportInitialize)numAverageScore).EndInit();
             ((ISupportInitialize)numGrade).EndInit();
             ((ISupportInitialize)examTypeBindingSource).EndInit();
             ((ISupportInitialize)subjectBindingSource).EndInit();
-            ((ISupportInitialize)numAverageScore).EndInit();
-            ((ISupportInitialize)roleBindingSource).EndInit();
             ((ISupportInitialize)classBindingSource).EndInit();
             ((ISupportInitialize)pbAvatar).EndInit();
             tableLayoutPanel.ResumeLayout(false);
@@ -1113,13 +1376,8 @@ namespace StudentManagementSystem.UI.UserControls
         private TextBox txtId;
         private TextBox txtFullName;
         private Label lblFullName;
-        private MaskedTextBox txtPhoneNumber;
-        private Label lblPhoneNumber;
         private DateTimePicker dtpDayOfBirth;
         private Label lblDayOfBirth;
-        private TextBox txtRanking;
-        private Label lblEnlistmentDate;
-        private Label lblRole;
         private TextBox txtFatherFullName;
         private Label lblFatherFullName;
         private MaskedTextBox txtFatherPhoneNumber;
@@ -1134,15 +1392,12 @@ namespace StudentManagementSystem.UI.UserControls
         private Button btnSave;
         private Button btnDelete;
         private Button btnUpload;
-        private DateTimePicker dtpEnlistmentDate;
         private Label lblId;
-        private Label lblRanking;
         private Label lblClassId;
         private ContextMenuStrip contextMenuStrip1;
         private ErrorProvider errorProvider1;
         private ComboBox cbClassId;
         private BindingSource classBindingSource;
-        private ComboBox cbRole;
         private Label lblAverageScore;
         private NumericUpDown numAverageScore;
         private Button btnImportfromExcel;
@@ -1175,20 +1430,54 @@ namespace StudentManagementSystem.UI.UserControls
         private DataGridViewTextBoxColumn gradeDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn semesterDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn schoolYearDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
+        private Label label1;
+        private GroupBox groupBox1;
+        private ComboBox cbMilitaryCode;
+        private DateTimePicker dtpEnlistmentDate;
+        private Label lblEnlistmentDate;
+        private Label lblRole;
+        private ComboBox cbRole;
+        private Label lblRanking;
+        private TextBox txtStrongPoints;
+        private Label label2;
+        private ComboBox cbEnlistmentProvince;
+        private Label label3;
+        private TextBox txtContactAddress;
+        private Label label4;
+        private ComboBox cbHealthStatus;
+        private Label label5;
+        private TextBox txtenlistmentNotificationPlace;
+        private Label label6;
+        private ComboBox cbEducationalLevel;
+        private TextBox txtPlaceofOrigin;
+        private Label label8;
+        private Label label7;
+        private ComboBox cbEthnicity;
+        private Label label9;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn ClassName;
-        private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dayOfBirthDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn Gender;
         private DataGridViewTextBoxColumn rankingDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn enlistmentDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn averageScoreDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn IdentityCardNumber;
+        private DataGridViewTextBoxColumn Ethnicity;
+        private DataGridViewTextBoxColumn StrongPoints;
+        private DataGridViewTextBoxColumn PlaceofOrigin;
+        private DataGridViewTextBoxColumn EducationLevel;
+        private DataGridViewTextBoxColumn HealthStatus;
+        private DataGridViewTextBoxColumn EnlistmentNotificationPlace;
+        private DataGridViewTextBoxColumn ContactAddress;
         private DataGridViewTextBoxColumn fatherFullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fatherPhoneNumberDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn motherFullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn motherPhoneNumberDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn classIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn ClassName;
+        private DataGridViewTextBoxColumn averageScoreDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn avatarUrlDataGridViewTextBoxColumn;
+        private Label label10;
     }
 }
