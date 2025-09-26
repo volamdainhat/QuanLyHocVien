@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace StudentManagementApp.Core.Models.Schedules
 {
@@ -14,7 +13,6 @@ namespace StudentManagementApp.Core.Models.Schedules
         [DisplayName("Buổi học")]
         public string? Period { get; set; }
         [DisplayName("Ngày học")]
-        [DataType(DataType.Date)]
-        public required DateTime Date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

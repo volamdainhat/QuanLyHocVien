@@ -40,8 +40,6 @@ namespace StudentManagementApp.Core.Entities
         [Required]
         [MaxLength(50)]
         public string? Role { get; set; }
-        [Range(0.0, 10.0)]
-        public decimal AverageScore { get; set; }
         [MaxLength(255)]
         public string? FatherFullName { get; set; }
         [MaxLength(20)]
@@ -52,10 +50,8 @@ namespace StudentManagementApp.Core.Entities
         public string? MotherPhoneNumber { get; set; }
         [MaxLength(500)]
         public string? AvatarUrl { get; set; }
-        [Range(0, 60)]
-        public int MeritScore { get; set; }
         [ForeignKey("Class")]
-        public int ClassId { get; set; }
+        public int? ClassId { get; set; }
         // Navigation property
         public virtual Class? Class { get; set; }
     }

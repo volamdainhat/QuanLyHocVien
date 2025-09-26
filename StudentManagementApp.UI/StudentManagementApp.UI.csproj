@@ -29,6 +29,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CRUD\Semesters\SemesterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Semesters\SemesterListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\TraineeAverageScores\TraineeAverageScoreListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\SubjectAverages\SubjectAverageListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Misconducts\MisconductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\Misconducts\MisconductListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\CRUD\Schedules\ScheduleForm.cs">
       <SubType>Form</SubType>
     </Compile>

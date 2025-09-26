@@ -153,6 +153,16 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap misconduct_icon {
+            get {
+                object obj = ResourceManager.GetObject("misconduct_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap products_icon {
             get {
                 object obj = ResourceManager.GetObject("products_icon", resourceCulture);
@@ -213,9 +223,29 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap semester_icon {
+            get {
+                object obj = ResourceManager.GetObject("semester_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap settings_icon {
             get {
                 object obj = ResourceManager.GetObject("settings_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap subjectAverage_icon {
+            get {
+                object obj = ResourceManager.GetObject("subjectAverage_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -246,6 +276,16 @@ namespace StudentManagementApp.UI.Properties {
         internal static System.Drawing.Bitmap trainee_icon {
             get {
                 object obj = ResourceManager.GetObject("trainee_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap traineeAverageScore_icon {
+            get {
+                object obj = ResourceManager.GetObject("traineeAverageScore_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

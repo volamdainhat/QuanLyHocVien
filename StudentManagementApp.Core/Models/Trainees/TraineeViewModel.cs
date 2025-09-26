@@ -36,8 +36,6 @@ namespace StudentManagementApp.Core.Models.Trainees
         public string? MilitaryRank { get; set; }
         [DisplayName("Nhập ngũ")]
         public DateTime EnlistmentDate { get; set; }
-        [DisplayName("Điểm TB")]
-        public decimal AverageScore { get; set; }
         [DisplayName("Chức vụ")]
         public string? Role { get; set; }
         [DisplayName("Họ tên cha")]
@@ -50,8 +48,6 @@ namespace StudentManagementApp.Core.Models.Trainees
         public string? MotherPhoneNumber { get; set; }
         [Browsable(false)]
         public string? AvatarUrl { get; set; }
-        [DisplayName("Điểm rèn luyện")]
-        public int MeritScore { get; set; }
         [DisplayName("Ngày tạo")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         [DisplayName("Ngày cập nhật")]

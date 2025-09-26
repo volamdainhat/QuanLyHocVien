@@ -104,6 +104,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var Classs = await _traineeRepository.GetTraineesWithClassAsync();
             dataGridView.DataSource = Classs.ToList();
+
+            if (dataGridView.Columns["DayOfBirth"] != null)
+                dataGridView.Columns["DayOfBirth"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            if (dataGridView.Columns["CreatedDate"] != null)
+                dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            if (dataGridView.Columns["ModifiedDate"] != null)
+                dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
         private void AddTrainee()
@@ -150,6 +159,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     }
                 }
             }
+
+            LoadTrainees();
         }
 
         private void BtnGenerateTemplate_Click(object sender, EventArgs e)
@@ -205,16 +216,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[1, 18].Value = "SĐT bố";
                 worksheet.Cells[1, 19].Value = "Họ tên mẹ";
                 worksheet.Cells[1, 20].Value = "SĐT mẹ";
-                worksheet.Cells[1, 21].Value = "URL ảnh đại diện";
-                worksheet.Cells[1, 22].Value = "Điểm khen thưởng";
-                worksheet.Cells[1, 23].Value = "Mã lớp (ClassId)";
 
                 // Định dạng header
-                using (var range = worksheet.Cells[1, 1, 1, 23])
+                using (var range = worksheet.Cells[1, 1, 1, 20])
                 {
                     range.Style.Font.Bold = true;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+                    range.Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
                 }
 
                 // Thêm dữ liệu mẫu
@@ -238,9 +246,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[2, 18].Value = "0912345679";
                 worksheet.Cells[2, 19].Value = "Nguyễn Thị Mẹ";
                 worksheet.Cells[2, 20].Value = "0912345680";
-                worksheet.Cells[2, 21].Value = "";
-                worksheet.Cells[2, 22].Value = 10;
-                worksheet.Cells[2, 23].Value = 1;
 
                 // Định dạng cột ngày tháng
                 worksheet.Column(2).Style.Numberformat.Format = "dd/MM/yyyy";
@@ -254,7 +259,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void ImportTraineesFromExcel(string filePath)
+        private async Task ImportTraineesFromExcel(string filePath)
         {
             ExcelPackage.License.SetNonCommercialPersonal("Dain");
             using (var package = new ExcelPackage(new FileInfo(filePath)))
@@ -285,14 +290,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
                             MilitaryRank = GetString(worksheet.Cells[row, 13]),
                             HealthStatus = GetString(worksheet.Cells[row, 14]),
                             Role = GetString(worksheet.Cells[row, 15]),
-                            AverageScore = GetDecimal(worksheet.Cells[row, 16]),
                             FatherFullName = GetString(worksheet.Cells[row, 17]),
                             FatherPhoneNumber = GetString(worksheet.Cells[row, 18]),
                             MotherFullName = GetString(worksheet.Cells[row, 19]),
                             MotherPhoneNumber = GetString(worksheet.Cells[row, 20]),
-                            AvatarUrl = GetString(worksheet.Cells[row, 21]),
-                            MeritScore = GetInt(worksheet.Cells[row, 22]),
-                            ClassId = GetInt(worksheet.Cells[row, 23])
                         };
 
                         trainees.Add(trainee);
@@ -303,7 +304,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     }
                 }
 
-                _traineeRepository.AddRangeAsync(trainees);
+                await _traineeRepository.AddRangeAsync(trainees);
             }
         }
 

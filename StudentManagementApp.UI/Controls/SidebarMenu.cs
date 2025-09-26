@@ -11,6 +11,9 @@
         private Color activeTextColor = Color.White;
         private Color normalTextColor = Color.Gainsboro;
 
+        // Common controls settings
+        int width = 250;
+
         public SidebarMenu()
         {
             InitializeComponent();
@@ -20,7 +23,7 @@
         private void InitializeMenu()
         {
             this.BackColor = normalColor;
-            this.Width = 220;
+            this.Width = width;
             this.Dock = DockStyle.Left;
 
             // Tạo panel chứa menu
@@ -33,17 +36,21 @@
 
             // Tạo các nút menu
             var dashboardBtn = CreateMenuButton("Dashboard", "Dashboard", Properties.Resources.dashboard_icon);
+            var misconductsBtn = CreateMenuButton("Kỷ luật", "Misconducts", Properties.Resources.misconduct_icon);
             var schedulesBtn = CreateMenuButton("Lịch học", "Schedules", Properties.Resources.schedule_icon);
             var traineesBtn = CreateMenuButton("Học viên", "Trainees", Properties.Resources.trainee_icon);
             var gradesBtn = CreateMenuButton("Điểm thi", "Grades", Properties.Resources.grades_icon);
+            var subjectAveragesBtn = CreateMenuButton("Điểm TB môn", "SubjectAverages", Properties.Resources.subjectAverage_icon);
+            var traineeAverageScoresBtn = CreateMenuButton("Điểm TB học viên", "TraineeAverageScores", Properties.Resources.traineeAverageScore_icon);
             var classesBtn = CreateMenuButton("Lớp học", "Classes", Properties.Resources.class_icon);
             var subjectsBtn = CreateMenuButton("Môn học", "Subjects", Properties.Resources.subjects_icon);
             var schoolYearsBtn = CreateMenuButton("Niên khóa", "SchoolYears", Properties.Resources.schoolyears_icon);
+            var semestersBtn = CreateMenuButton("Học kỳ", "Semesters", Properties.Resources.semester_icon);
             var productsBtn = CreateMenuButton("Sản phẩm", "Products", Properties.Resources.products_icon);
             var reportsBtn = CreateMenuButton("Báo cáo", "Reports", Properties.Resources.reports_icon);
             var settingsBtn = CreateMenuButton("Cài đặt", "Settings", Properties.Resources.settings_icon);
 
-            menuButtons = [dashboardBtn, schedulesBtn, traineesBtn, gradesBtn, classesBtn, subjectsBtn, schoolYearsBtn, reportsBtn, settingsBtn];
+            menuButtons = [dashboardBtn, misconductsBtn, schedulesBtn, traineesBtn, gradesBtn, subjectAveragesBtn, traineeAverageScoresBtn, classesBtn, subjectsBtn, schoolYearsBtn, semestersBtn, reportsBtn, settingsBtn];
 
             // Đặt vị trí các nút
             int yPos = 20;
@@ -83,7 +90,7 @@
             {
                 Text = "   " + text,
                 Height = 45,
-                Width = 200,
+                Width = width - 20,
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleLeft,
                 ImageAlign = ContentAlignment.MiddleLeft,

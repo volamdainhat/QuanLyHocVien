@@ -94,6 +94,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var schedules = await _scheduleRepository.GetScheduleWithClassSubjectAsync();
             dataGridView.DataSource = schedules.ToList();
+
+            if (dataGridView.Columns["Date"] != null)
+                dataGridView.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            if (dataGridView.Columns["CreatedDate"] != null)
+                dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            if (dataGridView.Columns["ModifiedDate"] != null)
+                dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
         private void AddSchedule()

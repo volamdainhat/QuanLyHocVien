@@ -55,6 +55,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var products = await _productRepository.GetAllAsync();
             dataGridView.DataSource = products.ToList();
+
+            if (dataGridView.Columns["CreatedDate"] != null)
+                dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            if (dataGridView.Columns["ModifiedDate"] != null)
+                dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
         private void AddProduct()

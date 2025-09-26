@@ -809,6 +809,72 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 2,
                             Type = "SchedulePeriod"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Code = "vang",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Vắng",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Code = "vi_pham_ky_luat",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Vi phạm kỷ luật",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Code = "di_tre",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Đi trễ",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Code = "gian_lan_kiem_tra",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Gian lận kiểm tra",
+                            ParentId = 0,
+                            SortOrder = 4,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Code = "mat_trat_tu",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Mất trật tự",
+                            ParentId = 0,
+                            SortOrder = 5,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Code = "khac",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Khác",
+                            ParentId = 0,
+                            SortOrder = 6,
+                            Type = "MisconductType"
                         });
                 });
 
@@ -861,11 +927,18 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<decimal>("Grade")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("INTEGER");
@@ -875,11 +948,48 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SemesterId");
+
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TraineeId");
 
                     b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("Misconducts");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Product", b =>
@@ -992,6 +1102,42 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("SchoolYears");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Semester", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SchoolYearId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolYearId");
+
+                    b.ToTable("Semesters");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -1017,6 +1163,43 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.SubjectAverage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Score")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("SubjectAverages");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
                 {
                     b.Property<int>("Id")
@@ -1031,10 +1214,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("AverageScore")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1081,9 +1261,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MeritScore")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("MilitaryRank")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -1127,6 +1304,43 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Trainees");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.TraineeAverageScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("AverageScore")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SemesterId");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("TraineeAverageScores");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
@@ -1140,6 +1354,12 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>
                 {
+                    b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
@@ -1152,7 +1372,20 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Semester");
+
                     b.Navigation("Subject");
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Trainee");
                 });
@@ -1176,15 +1409,62 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Semester", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
+                        .WithMany()
+                        .HasForeignKey("SchoolYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SchoolYear");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.SubjectAverage", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Trainee");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("ClassId");
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.TraineeAverageScore", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Semester");
+
+                    b.Navigation("Trainee");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.SchoolYear", b =>

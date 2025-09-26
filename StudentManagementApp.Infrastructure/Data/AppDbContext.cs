@@ -10,6 +10,10 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<TraineeAverageScore> TraineeAverageScores { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
+        public DbSet<SubjectAverage> SubjectAverages { get; set; }
+        public DbSet<Misconduct> Misconducts { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Grades> Grades { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -106,7 +110,15 @@ namespace StudentManagementApp.Infrastructure.Data
 
                 // Schedule Period
                 new Category { Id = 68, Type = "SchedulePeriod", Code = "sang", Name = "Buổi sáng", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 69, Type = "SchedulePeriod", Code = "chieu", Name = "Buổi chiều", SortOrder = 2, CreatedDate = seedDate, IsActive = true }
+                new Category { Id = 69, Type = "SchedulePeriod", Code = "chieu", Name = "Buổi chiều", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+
+                // Misconduct Type
+                new Category { Id = 70, Type = "MisconductType", Code = "vang", Name = "Vắng", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 71, Type = "MisconductType", Code = "vi_pham_ky_luat", Name = "Vi phạm kỷ luật", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 72, Type = "MisconductType", Code = "di_tre", Name = "Đi trễ", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 73, Type = "MisconductType", Code = "gian_lan_kiem_tra", Name = "Gian lận kiểm tra", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 74, Type = "MisconductType", Code = "mat_trat_tu", Name = "Mất trật tự", SortOrder = 5, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 75, Type = "MisconductType", Code = "khac", Name = "Khác", SortOrder = 6, CreatedDate = seedDate, IsActive = true }
             );
         }
 

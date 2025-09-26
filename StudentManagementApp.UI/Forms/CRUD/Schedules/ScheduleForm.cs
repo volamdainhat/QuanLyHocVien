@@ -83,7 +83,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Date
             formPanel.Controls.Add(new Label { Text = "Ngày học:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            dtpDate = new DateTimePicker { Location = new Point(170, y), Size = new Size(textBoxWidth, 20), Format = DateTimePickerFormat.Short };
+            dtpDate = new DateTimePicker { Location = new Point(170, y), Size = new Size(textBoxWidth, 20), Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy" };
             formPanel.Controls.Add(dtpDate);
             y += 40;
 
@@ -136,29 +136,22 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             if (_schedule.Id > 0)
             {
-                try
+                if (_schedule.ClassId > 0)
                 {
-                    if (_schedule.ClassId > 0)
-                    {
-                        cmbClasses.SelectedValue = _schedule.ClassId;
-                    }
-
-                    if (_schedule.SubjectId > 0)
-                    {
-                        cmbSubjects.SelectedValue = _schedule.SubjectId;
-                    }
-
-                    txtRoom.Text = _schedule.Room;
-                    dtpDate.Value = _schedule.Date;
-
-                    if (!string.IsNullOrEmpty(_schedule.Period))
-                    {
-                        cmbPeriod.SelectedValue = _schedule.Period;
-                    }
+                    cmbClasses.SelectedValue = _schedule.ClassId;
                 }
-                catch (Exception ex)
+
+                if (_schedule.SubjectId > 0)
                 {
-                    MessageBox.Show($"Lỗi khi tải dữ liệu lịch học: {ex.Message}");
+                    cmbSubjects.SelectedValue = _schedule.SubjectId;
+                }
+
+                txtRoom.Text = _schedule.Room;
+                dtpDate.Value = _schedule.Date;
+
+                if (!string.IsNullOrEmpty(_schedule.Period))
+                {
+                    cmbPeriod.SelectedValue = _schedule.Period;
                 }
             }
         }
@@ -199,10 +192,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_schedule.Id == 0)
                     {
+                        _schedule.CreatedDate = DateTime.Now;
                         await _scheduleRepository.AddAsync(_schedule);
                     }
                     else
                     {
+                        _schedule.ModifiedDate = DateTime.Now;
                         await _scheduleRepository.UpdateAsync(_schedule);
                     }
 

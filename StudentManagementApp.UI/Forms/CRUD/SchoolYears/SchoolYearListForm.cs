@@ -95,8 +95,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     col.HeaderText = "Ngày tổng kết";
                     col.DefaultCellStyle.Format = "dd/MM/yyyy";
                 }},
-                { "CreatedDate", col => col.HeaderText = "Ngày tạo" },
-                { "ModifiedDate", col => col.HeaderText = "Ngày cập nhật" },
+                { "CreatedDate", col => {
+                    col.HeaderText = "Ngày tạo";
+                    col.DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+                } },
+                { "ModifiedDate", col => {
+                    col.HeaderText = "Ngày cập nhật";
+                    col.DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+                } },
                 { "IsActive", col => col.HeaderText = "Đang hoạt động" }
             };
 

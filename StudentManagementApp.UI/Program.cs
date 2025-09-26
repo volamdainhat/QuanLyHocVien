@@ -6,7 +6,11 @@ using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Classes;
 using StudentManagementApp.Infrastructure.Repositories.Gradeses;
+using StudentManagementApp.Infrastructure.Repositories.Misconducts;
 using StudentManagementApp.Infrastructure.Repositories.Schedules;
+using StudentManagementApp.Infrastructure.Repositories.Semesters;
+using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
+using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using StudentManagementApp.UI.Forms;
 using StudentManagementApp.UI.Forms.CRUD;
@@ -64,6 +68,10 @@ namespace StudentManagementApp.UI
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IGradesRepository, GradesRepository>();
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IMisconductRepository, MisconductRepository>();
+            services.AddScoped<ISubjectAverageRepository, SubjectAverageRepository>();
+            services.AddScoped<ISemesterRepository, SemesterRepository>();
+            services.AddScoped<ITraineeAverageScoreRepository, TraineeAverageScoreRepository>();
 
             // Register validation services
             services.AddScoped<IValidationService, ValidationService>();
@@ -78,6 +86,10 @@ namespace StudentManagementApp.UI
             services.AddTransient<SubjectListForm>();
             services.AddTransient<GradesListForm>();
             services.AddTransient<ScheduleListForm>();
+            services.AddTransient<MisconductListForm>();
+            services.AddTransient<SubjectAverageListForm>();
+            services.AddTransient<SemesterListForm>();
+            services.AddTransient<TraineeAverageScoreListForm>();
         }
     }
 }

@@ -18,6 +18,8 @@ namespace StudentManagementApp.Infrastructure.Repositories.Gradeses
                           from traineeObj in traineeJoin.DefaultIfEmpty()
                           join subjectEntity in _context.Subjects on grades.SubjectId equals subjectEntity.Id into subjectJoin
                           from subjectObj in subjectJoin.DefaultIfEmpty()
+                          join semesterEntity in _context.Semesters on grades.SemesterId equals semesterEntity.Id into semesterJoin
+                          from semesterObj in semesterJoin.DefaultIfEmpty()
                           join examType in _context.Categories on
                               new { Code = grades.ExamType, Type = "ExamType" }
                               equals new { examType.Code, examType.Type } into examTypeJoin
@@ -27,8 +29,10 @@ namespace StudentManagementApp.Infrastructure.Repositories.Gradeses
                               Id = grades.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : "",
                               SubjectName = subjectObj != null ? subjectObj.Name : "",
+                              SemesterName = semesterObj != null ? semesterObj.Name : "",
                               ExamType = examTypeObj != null ? examTypeObj.Name : "",
                               Grade = grades.Grade,
+                              GradeType = grades.GradeType,
                               CreatedDate = grades.CreatedDate,
                               ModifiedDate = grades.ModifiedDate,
                               IsActive = grades.IsActive

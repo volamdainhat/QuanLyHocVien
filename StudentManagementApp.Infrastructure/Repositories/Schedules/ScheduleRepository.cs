@@ -29,7 +29,10 @@ namespace StudentManagementApp.Infrastructure.Repositories.Schedules
                               SubjectId = subjectObj != null ? subjectObj.Name : "",
                               Room = schedule.Room,
                               Period = periodObj != null ? periodObj.Name : "",
-                              Date = schedule.Date
+                              Date = schedule.Date,
+                              CreatedDate = schedule.CreatedDate,
+                              ModifiedDate = schedule.ModifiedDate,
+                              IsActive = schedule.IsActive
                           }).ToListAsync();
         }
 

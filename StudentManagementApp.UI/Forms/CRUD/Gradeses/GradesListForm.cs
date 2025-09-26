@@ -4,6 +4,9 @@ using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Gradeses;
+using StudentManagementApp.Infrastructure.Repositories.Semesters;
+using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
+using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -11,6 +14,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
     {
         private readonly IGradesRepository _gradesRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ISemesterRepository _semesterRepository;
+        private readonly ISubjectAverageRepository _subjectAverageRepository;
+        private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
         private readonly IRepository<Trainee> _traineeRepository;
         private readonly IRepository<Subject> _subjectRepository;
         private readonly IValidationService _validationService;
@@ -19,12 +25,18 @@ namespace StudentManagementApp.UI.Forms.CRUD
         public GradesListForm(
             IGradesRepository gradesRepository,
             ICategoryRepository categoryRepository,
+            ISemesterRepository semesterRepository,
+            ISubjectAverageRepository subjectAverageRepository,
+            ITraineeAverageScoreRepository traineeAverageScoreRepository,
             IRepository<Trainee> traineeRepository,
             IRepository<Subject> subjectRepository,
             IValidationService validationService)
         {
             _gradesRepository = gradesRepository;
             _categoryRepository = categoryRepository;
+            _semesterRepository = semesterRepository;
+            _subjectAverageRepository = subjectAverageRepository;
+            _traineeAverageScoreRepository = traineeAverageScoreRepository;
             _traineeRepository = traineeRepository;
             _subjectRepository = subjectRepository;
             _validationService = validationService;
@@ -94,11 +106,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var grades = await _gradesRepository.GetGradesWithTraineeSubjectAsync();
             dataGridView.DataSource = grades.ToList();
+
+            if (dataGridView.Columns["CreatedDate"] != null)
+                dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            if (dataGridView.Columns["ModifiedDate"] != null)
+                dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
         private void AddClass()
         {
-            var form = new GradesForm(_gradesRepository, _categoryRepository, _traineeRepository, _subjectRepository, _validationService);
+            var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadGrades();
@@ -110,7 +128,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             if (dataGridView.CurrentRow?.DataBoundItem is GradesViewModel selectedGrades)
             {
                 var grades = _gradesRepository.GetByIdAsync(selectedGrades.Id).Result;
-                var form = new GradesForm(_gradesRepository, _categoryRepository, _traineeRepository, _subjectRepository, _validationService, grades);
+                var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService, grades);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadGrades();

@@ -34,13 +34,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private ComboBox cmbMilitaryRank;
         private TextBox txtHealthStatus;
         private ComboBox cmbRole;
-        private NumericUpDown nudAverageScore;
         private TextBox txtFatherFullName;
         private TextBox txtFatherPhoneNumber;
         private TextBox txtMotherFullName;
         private TextBox txtMotherPhoneNumber;
         private PictureBox picAvatar;
-        private NumericUpDown nudMeritScore;
         private ComboBox cmbClass;
         private Button btnBrowseAvatar;
         private string avatarFilePath; // Đường dẫn tạm thời của ảnh
@@ -160,32 +158,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
             tabPage.Controls.Add(btnBrowseAvatar);
             y += 130;
 
-            // Điểm trung bình
-            AddLabel(tabPage, "Điểm trung bình:", 20, y);
-            nudAverageScore = new NumericUpDown
-            {
-                Location = new Point(190, y),
-                Size = new Size(80, 20),
-                DecimalPlaces = 2,
-                Minimum = 0,
-                Maximum = 10,
-                Increment = 0.1M
-            };
-            tabPage.Controls.Add(nudAverageScore);
-            y += spacing;
-
-            // Điểm khen thưởng
-            AddLabel(tabPage, "Điểm khen thưởng:", 20, y);
-            nudMeritScore = new NumericUpDown
-            {
-                Location = new Point(190, y),
-                Size = new Size(80, 20),
-                Minimum = 0,
-                Maximum = 60
-            };
-            tabPage.Controls.Add(nudMeritScore);
-            y += spacing;
-
             // Lớp
             AddLabel(tabPage, "Lớp*:", 20, y);
             cmbClass = new ComboBox
@@ -194,7 +166,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 Size = new Size(controlWidth, 20),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            LoadClasses();
             tabPage.Controls.Add(cmbClass);
         }
 
@@ -242,7 +213,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 Size = new Size(controlWidth, 20),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            LoadProvinces();
             tabPage.Controls.Add(cmbProvinceOfEnlistment);
             y += spacing;
 
@@ -254,12 +224,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 Size = new Size(controlWidth, 20),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            LoadEducationLevels();
             tabPage.Controls.Add(cmbEducationalLevel);
             y += spacing;
 
             // Địa chỉ liên lạc
-            AddLabel(tabPage, "Địa chỉ liên lạc*:", 20, y);
+            AddLabel(tabPage, "Địa chỉ báo tin*:", 20, y);
             txtAddressForCorrespondence = AddTextBox(tabPage, 200, y, controlWidth);
             y += spacing;
 
@@ -269,7 +238,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
             {
                 Location = new Point(200, y),
                 Size = new Size(controlWidth, 20),
-                Format = DateTimePickerFormat.Short
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd/MM/yyyy"
             };
             tabPage.Controls.Add(dtpEnlistmentDate);
             y += spacing;
@@ -282,7 +252,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 Size = new Size(controlWidth, 20),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            LoadMilitaryRanks();
             tabPage.Controls.Add(cmbMilitaryRank);
             y += spacing;
 
@@ -292,14 +261,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
             y += spacing;
 
             // Vai trò
-            AddLabel(tabPage, "Vai trò:", 20, y);
+            AddLabel(tabPage, "Chức vụ:", 20, y);
             cmbRole = new ComboBox
             {
                 Location = new Point(200, y),
                 Size = new Size(controlWidth, 20),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            LoadRoles();
             tabPage.Controls.Add(cmbRole);
         }
 
@@ -312,13 +280,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
             int spacing = 40;
 
             // Họ tên
-            AddLabel(tabPage, "Họ tên*:", 20, y);
+            AddLabel(tabPage, "Họ và tên*:", 20, y);
             txtFullName = AddTextBox(tabPage, 170, y, controlWidth);
             y += spacing;
 
             // Ngày sinh
             AddLabel(tabPage, "Ngày sinh*:", 20, y);
-            dtpDayOfBirth = new DateTimePicker { Location = new Point(170, y), Size = new Size(controlWidth, 20), Format = DateTimePickerFormat.Short };
+            dtpDayOfBirth = new DateTimePicker { Location = new Point(170, y), Size = new Size(controlWidth, 20), Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy" };
             tabPage.Controls.Add(dtpDayOfBirth);
             y += spacing;
 
@@ -371,62 +339,92 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadTraineeData()
         {
+            LoadClasses();
+            var provinces = LoadProvinces();
+            var educationalLevels = LoadEducationLevels();
+            var militaryRanks = LoadMilitaryRanks();
+            var roles = LoadRoles();
+            await Task.WhenAll(provinces, educationalLevels, militaryRanks, roles);
+
             if (_trainee.Id > 0)
             {
-                try
+                // Điền các thông tin cơ bản
+                txtFullName.Text = _trainee.FullName;
+                dtpDayOfBirth.Value = _trainee.DayOfBirth;
+                rbMale.Checked = _trainee.Gender;
+                rbFemale.Checked = !_trainee.Gender;
+                txtIdentityCard.Text = _trainee.IdentityCard;
+                txtEthnicity.Text = _trainee.Ethnicity;
+                txtPlaceOfOrigin.Text = _trainee.PlaceOfOrigin;
+                txtPlaceOfPermanentResidence.Text = _trainee.PlaceOfPermanentResidence;
+                txtPhoneNumber.Text = _trainee.PhoneNumber;
+
+                // Thông tin quân ngũ
+                txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
+                dtpEnlistmentDate.Value = _trainee.EnlistmentDate;
+                txtHealthStatus.Text = _trainee.HealthStatus;
+                cmbRole.Text = _trainee.Role;
+
+                // Chọn tỉnh nhập ngũ trong ComboBox
+                if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
                 {
-                    // Điền các thông tin cơ bản
-                    txtFullName.Text = _trainee.FullName;
-                    dtpDayOfBirth.Value = _trainee.DayOfBirth;
-                    rbMale.Checked = _trainee.Gender;
-                    rbFemale.Checked = !_trainee.Gender;
-                    txtIdentityCard.Text = _trainee.IdentityCard;
-                    txtEthnicity.Text = _trainee.Ethnicity;
-                    txtPlaceOfOrigin.Text = _trainee.PlaceOfOrigin;
-                    txtPlaceOfPermanentResidence.Text = _trainee.PlaceOfPermanentResidence;
-                    txtPhoneNumber.Text = _trainee.PhoneNumber;
-
-                    // Thông tin quân ngũ
-                    txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
-                    txtHealthStatus.Text = _trainee.HealthStatus;
-                    cmbRole.Text = _trainee.Role;
-
-                    // Chọn tỉnh nhập ngũ trong ComboBox
-                    if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
+                    var selectedItem = provinces.Result.FirstOrDefault(x => x.Name == _trainee.ProvinceOfEnlistment);
+                    if (selectedItem != null)
                     {
-                        cmbProvinceOfEnlistment.SelectedValue = _trainee.ProvinceOfEnlistment;
-                    }
-
-                    // Thông tin gia đình
-                    txtFatherFullName.Text = _trainee.FatherFullName;
-                    txtFatherPhoneNumber.Text = _trainee.FatherPhoneNumber;
-                    txtMotherFullName.Text = _trainee.MotherFullName;
-                    txtMotherPhoneNumber.Text = _trainee.MotherPhoneNumber;
-
-                    // Các thông tin khác...
-                    nudAverageScore.Value = _trainee.AverageScore;
-                    nudMeritScore.Value = _trainee.MeritScore;
-
-                    // Chọn lớp trong ComboBox
-                    if (_trainee.ClassId > 0)
-                    {
-                        cmbClass.SelectedValue = _trainee.ClassId;
-                    }
-
-                    // Tải ảnh đại diện nếu có
-                    if (!string.IsNullOrEmpty(_trainee.AvatarUrl))
-                    {
-                        LoadAvatarImage(_trainee.AvatarUrl);
+                        cmbProvinceOfEnlistment.SelectedItem = selectedItem;
                     }
                 }
-                catch (Exception ex)
+
+                if (!string.IsNullOrEmpty(_trainee.EducationalLevel))
                 {
-                    MessageBox.Show($"Lỗi khi tải dữ liệu năm học: {ex.Message}");
+                    var selectedItem = educationalLevels.Result.FirstOrDefault (x => x.Name == _trainee.EducationalLevel);
+                    if (selectedItem != null)
+                    {
+                        cmbEducationalLevel.SelectedItem = selectedItem;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(_trainee.MilitaryRank))
+                {
+                    var selectedItem = militaryRanks.Result.FirstOrDefault (x => x.Name == _trainee.MilitaryRank);
+                    if (selectedItem != null)
+                    {
+                        cmbMilitaryRank.SelectedItem = selectedItem;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(_trainee.Role))
+                {
+                    var selectedItem = roles.Result.FirstOrDefault(x => x.Name == _trainee.Role);
+                    if (selectedItem != null)
+                    {
+                        cmbRole.SelectedItem = selectedItem;
+                    }
+                }
+
+                // Thông tin gia đình
+                txtFatherFullName.Text = _trainee.FatherFullName;
+                txtFatherPhoneNumber.Text = _trainee.FatherPhoneNumber;
+                txtMotherFullName.Text = _trainee.MotherFullName;
+                txtMotherPhoneNumber.Text = _trainee.MotherPhoneNumber;
+
+                // Các thông tin khác...
+
+                // Chọn lớp trong ComboBox
+                if (_trainee.ClassId > 0)
+                {
+                    cmbClass.SelectedValue = _trainee.ClassId;
+                }
+
+                // Tải ảnh đại diện nếu có
+                if (!string.IsNullOrEmpty(_trainee.AvatarUrl))
+                {
+                    LoadAvatarImage(_trainee.AvatarUrl);
                 }
             }
         }
 
-        private async void LoadProvinces()
+        private async Task<List<CategoryViewModel>> LoadProvinces()
         {
             var provinces = await _categoryRepository.GetCategoriesWithTypeAsync("Provinces");
             provinces = provinces.Where(sy => sy.IsActive).ToList();
@@ -434,9 +432,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbProvinceOfEnlistment.DataSource = provinces;
             cmbProvinceOfEnlistment.DisplayMember = "Name";
             cmbProvinceOfEnlistment.ValueMember = "Code";
+            return provinces.ToList();
         }
 
-        private async void LoadEducationLevels()
+        private async Task<List<CategoryViewModel>> LoadEducationLevels()
         {
             var educationalLevels = await _categoryRepository.GetCategoriesWithTypeAsync("EducationLevel");
             educationalLevels = educationalLevels.Where(sy => sy.IsActive).ToList();
@@ -444,9 +443,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbEducationalLevel.DataSource = educationalLevels;
             cmbEducationalLevel.DisplayMember = "Name";
             cmbEducationalLevel.ValueMember = "Code";
+            return educationalLevels.ToList();
         }
 
-        private async void LoadMilitaryRanks()
+        private async Task<List<CategoryViewModel>> LoadMilitaryRanks()
         {
             var militaryRanks = await _categoryRepository.GetCategoriesWithTypeAsync("MilitaryRank");
             militaryRanks = militaryRanks.Where(sy => sy.IsActive).ToList();
@@ -454,6 +454,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbMilitaryRank.DataSource = militaryRanks;
             cmbMilitaryRank.DisplayMember = "Name";
             cmbMilitaryRank.ValueMember = "Code";
+            return militaryRanks.ToList();
         }
 
         private async void LoadClasses()
@@ -466,7 +467,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbClass.ValueMember = "Id";
         }
 
-        private async void LoadRoles()
+        private async Task<List<CategoryViewModel>> LoadRoles()
         {
             var roles = await _categoryRepository.GetCategoriesWithTypeAsync("Role");
             roles = roles.Where(sy => sy.IsActive).ToList();
@@ -474,6 +475,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbRole.DataSource = roles;
             cmbRole.DisplayMember = "Name";
             cmbRole.ValueMember = "Code";
+            return roles.ToList();
         }
 
         private void LoadAvatarImage(string avatarUrl)
@@ -573,32 +575,30 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _trainee.AddressForCorrespondence = txtAddressForCorrespondence.Text;
                     _trainee.EnlistmentDate = dtpEnlistmentDate.Value;
                     _trainee.HealthStatus = txtHealthStatus.Text;
-                    _trainee.AverageScore = nudAverageScore.Value;
                     _trainee.FatherFullName = txtFatherFullName.Text;
                     _trainee.FatherPhoneNumber = txtFatherPhoneNumber.Text;
                     _trainee.MotherFullName = txtMotherFullName.Text;
                     _trainee.MotherPhoneNumber = txtMotherPhoneNumber.Text;
-                    _trainee.MeritScore = (int)nudMeritScore.Value;
-                    _trainee.ClassId = cmbClass.SelectedIndex + 1; // Giả sử ID bắt đầu từ 1
+                    _trainee.ClassId = (int)cmbClass.SelectedValue;
 
                     if (cmbProvinceOfEnlistment.SelectedItem is CategoryViewModel selectProvinceOfEnlistment)
                     {
-                        _trainee.ProvinceOfEnlistment = selectProvinceOfEnlistment.Code;
+                        _trainee.ProvinceOfEnlistment = selectProvinceOfEnlistment.Name;
                     }
 
                     if (cmbEducationalLevel.SelectedItem is CategoryViewModel selectEducationalLevel)
                     {
-                        _trainee.EducationalLevel = selectEducationalLevel.Code;
+                        _trainee.EducationalLevel = selectEducationalLevel.Name;
                     }
 
                     if (cmbMilitaryRank.SelectedItem is CategoryViewModel selectMilitaryRank)
                     {
-                        _trainee.MilitaryRank = selectMilitaryRank.Code;
+                        _trainee.MilitaryRank = selectMilitaryRank.Name;
                     }
 
                     if (cmbRole.SelectedItem is CategoryViewModel selectRole)
                     {
-                        _trainee.Role = selectRole.Code;
+                        _trainee.Role = selectRole.Name;
                     }
 
                     // Lưu ảnh và lấy đường dẫn
@@ -620,10 +620,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_trainee.Id == 0)
                     {
+                        _trainee.CreatedDate = DateTime.Now;
                         await _traineeRepository.AddAsync(_trainee);
                     }
                     else
                     {
+                        _trainee.ModifiedDate = DateTime.Now;
                         await _traineeRepository.UpdateAsync(_trainee);
                     }
 
@@ -652,7 +654,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         protected override async void Delete()
         {
             if (_trainee.Id > 0 &&
-                MessageBox.Show("Bạn có chắc chắn muốn xóa lớp này không?", "Xác nhận xóa",
+                MessageBox.Show("Bạn có chắc chắn muốn xóa học viên này không?", "Xác nhận xóa",
                 MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 await _traineeRepository.DeleteAsync(_trainee);
@@ -785,14 +787,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 firstErrorControl = firstErrorControl ?? cmbRole;
             }
 
-            // Validate AverageScore (range 0.0 - 10.0)
-            if (nudAverageScore.Value < 0.0m || nudAverageScore.Value > 10.0m)
-            {
-                errorProvider.SetError(nudAverageScore, "Điểm trung bình phải nằm trong khoảng 0.0 đến 10.0");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? nudAverageScore;
-            }
-
             // Validate FatherFullName (optional but has max length)
             if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
             {
@@ -823,14 +817,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
                 isValid = false;
                 firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
-            }
-
-            // Validate MeritScore (range 0 - 60)
-            if (nudMeritScore.Value < 0 || nudMeritScore.Value > 60)
-            {
-                errorProvider.SetError(nudMeritScore, "Điểm khen thưởng phải nằm trong khoảng 0 đến 60");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? nudMeritScore;
             }
 
             // Validate Class

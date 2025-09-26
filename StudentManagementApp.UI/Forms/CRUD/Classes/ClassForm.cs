@@ -29,7 +29,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _class = Class ?? new Class() { Name = string.Empty, SchoolYearId = 0 };
             InitializeComponent();
             InitializeClassForm();
-            LoadSchoolYearData();
+            LoadClassData();
         }
 
         private void InitializeClassForm()
@@ -73,7 +73,25 @@ namespace StudentManagementApp.UI.Forms.CRUD
             txtName.Validating += TxtName_Validating;
         }
 
-        private async void LoadSchoolYearData()
+        private async void LoadClassData()
+        {
+            IEnumerable<SchoolYear> schoolYears = await LoadSchoolYear();
+
+            if (_class.Id > 0)
+            {
+                txtName.Text = _class.Name;
+
+                // Set selected value
+                if (schoolYears.Any(s => s.Id == _class.SchoolYearId))
+                {
+                    cbSchoolYearId.SelectedValue = _class.SchoolYearId;
+                }
+
+                nudTotalStudents.Value = _class.TotalStudents;
+            }
+        }
+
+        private async Task<IEnumerable<SchoolYear>> LoadSchoolYear()
         {
             var schoolYears = await _schoolYearRepository.GetAllAsync();
             schoolYears = schoolYears.Where(sy => sy.IsActive).ToList();
@@ -82,26 +100,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cbSchoolYearId.DataSource = schoolYears;
             cbSchoolYearId.DisplayMember = "Name";
             cbSchoolYearId.ValueMember = "Id";
-
-            if (_class.Id > 0)
-            {
-                try
-                {
-                    txtName.Text = _class.Name;
-
-                    // Set selected value
-                    if (schoolYears.Any(s => s.Id == _class.SchoolYearId))
-                    {
-                        cbSchoolYearId.SelectedValue = _class.SchoolYearId;
-                    }
-
-                    nudTotalStudents.Value = _class.TotalStudents;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi khi tải dữ liệu năm học: {ex.Message}");
-                }
-            }
+            return schoolYears;
         }
 
         protected override async void Save()
@@ -126,10 +125,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_class.Id == 0)
                     {
+                        _class.CreatedDate = DateTime.Now;
                         await _classRepository.AddAsync(_class);
                     }
                     else
                     {
+                        _class.ModifiedDate = DateTime.Now;
                         await _classRepository.UpdateAsync(_class);
                     }
 

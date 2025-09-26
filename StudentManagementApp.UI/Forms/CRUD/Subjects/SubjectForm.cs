@@ -12,8 +12,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly IValidationService _validationService;
         private Subject _subject;
         private TextBox txtName;
-        private ComboBox cbSchoolYearId;
-        private NumericUpDown nudTotalStudents;
 
         public SubjectForm(
             IRepository<Subject> subjectRepository,
@@ -85,10 +83,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_subject.Id == 0)
                     {
+                        _subject.CreatedDate = DateTime.Now;
                         await _subjectRepository.AddAsync(_subject);
                     }
                     else
                     {
+                        _subject.ModifiedDate = DateTime.Now;
                         await _subjectRepository.UpdateAsync(_subject);
                     }
 

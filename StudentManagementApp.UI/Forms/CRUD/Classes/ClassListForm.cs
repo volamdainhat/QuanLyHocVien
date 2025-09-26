@@ -84,6 +84,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             var Classs = await _classRepository.GetClassesWithSchoolYearAsync();
             dataGridView.DataSource = Classs.ToList();
+
+            if (dataGridView.Columns["CreatedDate"] != null)
+                dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            if (dataGridView.Columns["ModifiedDate"] != null)
+                dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
         private void AddClass()

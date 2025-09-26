@@ -145,6 +145,9 @@
   <data name="import_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\import_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="misconduct_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\misconduct_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="products_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\products_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -163,14 +166,23 @@
   <data name="schoolyears_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\schoolyears_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="semester_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\semester_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="settings_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\settings_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="subjectAverage_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\subjectAverage_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="subjects_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\subjects_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="template_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\template_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="traineeAverageScore_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\traineeAverageScore_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="trainee_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\trainee_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

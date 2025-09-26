@@ -80,6 +80,22 @@ namespace StudentManagementApp.UI.Forms
                     var schedulesForm = _serviceProvider.GetRequiredService<ScheduleListForm>();
                     OpenChildForm(schedulesForm);
                     break;
+                case "Misconducts":
+                    var misconductsForm = _serviceProvider.GetRequiredService<MisconductListForm>();
+                    OpenChildForm(misconductsForm);
+                    break;
+                case "SubjectAverages":
+                    var subjectAveragesForm = _serviceProvider.GetRequiredService<SubjectAverageListForm>();
+                    OpenChildForm(subjectAveragesForm);
+                    break;
+                case "Semesters":
+                    var semestersForm = _serviceProvider.GetRequiredService<SemesterListForm>();
+                    OpenChildForm(semestersForm);
+                    break;
+                case "TraineeAverageScores":
+                    var traineeAverageScoresForm = _serviceProvider.GetRequiredService<TraineeAverageScoreListForm>();
+                    OpenChildForm(traineeAverageScoresForm);
+                    break;
                 case "Reports":
                     // Mở form Reports
                     break;

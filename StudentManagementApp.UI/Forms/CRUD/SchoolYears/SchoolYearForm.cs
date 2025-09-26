@@ -107,10 +107,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_schoolYear.Id == 0)
                     {
+                        _schoolYear.CreatedDate = DateTime.Now;
                         await _schoolYearRepository.AddAsync(_schoolYear);
                     }
                     else
                     {
+                        _schoolYear.ModifiedDate = DateTime.Now;
                         await _schoolYearRepository.UpdateAsync(_schoolYear);
                     }
 
