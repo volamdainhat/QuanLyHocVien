@@ -1,4 +1,0 @@
-public class {{Entity}}Repository : Repository<{{Entity}}>, I{{Entity}}Repository
-{
-    public {{Entity}}Repository(AppDbContext context) : base(context) { }
-}

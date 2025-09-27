@@ -1,7 +1,0 @@
-private void InitializeComponent()
-{
-    this.dgv{{Entity}} = new System.Windows.Forms.DataGridView();
-    this.btnLuu = new System.Windows.Forms.Button();
-    {{FieldDeclarations}}
-    // ... layout code omitted for brevity
-}

@@ -1,5 +1,0 @@
-public class {{Entity}}Dto
-{
-    public Guid Id { get; set; }
-    // Add fields here
-}
