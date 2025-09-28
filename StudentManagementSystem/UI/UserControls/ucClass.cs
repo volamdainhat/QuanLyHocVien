@@ -323,7 +323,7 @@ namespace StudentManagementSystem.UI.UserControls
             using var form = new Form
             {
                 Text = trainee.Id == 0 ? "Thêm học viên" : "Cập nhật học viên",
-                Size = new Size(600, 400),
+                Size = new Size(1366, 768),
                 StartPosition = FormStartPosition.CenterParent
             };
 
@@ -440,52 +440,89 @@ namespace StudentManagementSystem.UI.UserControls
         {
             grid.DataSource = new BindingList<Trainee>(traineeList);
 
+            // Personal Information
             if (grid.Columns.Contains("FullName"))
                 grid.Columns["FullName"].HeaderText = "Họ và tên";
-                grid.Columns["PhoneNumber"].HeaderText = "SĐT";
+
             if (grid.Columns.Contains("DayOfBirth"))
             {
                 grid.Columns["DayOfBirth"].HeaderText = "Ngày sinh";
                 grid.Columns["DayOfBirth"].DefaultCellStyle.Format = "dd/MM/yyyy";
             }
+
+            if (grid.Columns.Contains("Gender"))
+                grid.Columns["Gender"].HeaderText = "Giới tính";
+
+            if (grid.Columns.Contains("IdentityCardNumber"))
+                grid.Columns["IdentityCardNumber"].HeaderText = "Số CMND/CCCD";
+
             if (grid.Columns.Contains("Ranking"))
                 grid.Columns["Ranking"].HeaderText = "Cấp bậc";
-            if (grid.Columns.Contains("EnlistmentDate"))
-            {
-                grid.Columns["EnlistmentDate"].HeaderText = "Nhập ngũ";
-                grid.Columns["EnlistmentDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            }
-            if (grid.Columns.Contains("AverageScore"))
-                grid.Columns["AverageScore"].HeaderText = "ĐTB";
-            if (grid.Columns.Contains("Role"))
-                grid.Columns["Role"].HeaderText = "Chức vụ";
+
+            if (grid.Columns.Contains("Ethnicity"))
+                grid.Columns["Ethnicity"].HeaderText = "Dân tộc";
+
+            if (grid.Columns.Contains("StrongPoints"))
+                grid.Columns["StrongPoints"].HeaderText = "Điểm mạnh";
+
+            if (grid.Columns.Contains("EnlistmentNotificationPlace"))
+                grid.Columns["EnlistmentNotificationPlace"].HeaderText = "Nơi nhận thông báo nhập ngũ";
+
+            if (grid.Columns.Contains("PlaceofOrigin"))
+                grid.Columns["PlaceofOrigin"].HeaderText = "Quê quán";
+
+            // Education & Health
+            if (grid.Columns.Contains("EducationLevel"))
+                grid.Columns["EducationLevel"].HeaderText = "Trình độ học vấn";
+
+            if (grid.Columns.Contains("HealthStatus"))
+                grid.Columns["HealthStatus"].HeaderText = "Tình trạng sức khỏe";
+
+            // Family Information
             if (grid.Columns.Contains("FatherFullName"))
                 grid.Columns["FatherFullName"].HeaderText = "Họ tên cha";
+
             if (grid.Columns.Contains("FatherPhoneNumber"))
                 grid.Columns["FatherPhoneNumber"].HeaderText = "SĐT cha";
+
             if (grid.Columns.Contains("MotherFullName"))
                 grid.Columns["MotherFullName"].HeaderText = "Họ tên mẹ";
+
             if (grid.Columns.Contains("MotherPhoneNumber"))
                 grid.Columns["MotherPhoneNumber"].HeaderText = "SĐT mẹ";
-            if (grid.Columns.Contains("MeritScore"))
-                grid.Columns["MeritScore"].HeaderText = "Điểm bình rèn";
 
-            // Hide irrelevant columns
-            if (grid.Columns.Contains("AvatarUrl"))
-                grid.Columns["AvatarUrl"].Visible = false;
-            if (grid.Columns.Contains("Misconducts"))
-                grid.Columns["Misconducts"].Visible = false;
-            if (grid.Columns.Contains("Grades"))
-                grid.Columns["Grades"].Visible = false;
-            if (grid.Columns.Contains("Id"))
-                grid.Columns["Id"].Visible = false;
-            if (grid.Columns.Contains("ClassId"))
-                grid.Columns["ClassId"].Visible = false;
-            if (grid.Columns.Contains("ClassName"))
-                grid.Columns["ClassName"].Visible = false;
-            if (grid.Columns.Contains("WeeklyCritiques"))
-                grid.Columns["WeeklyCritiques"].Visible = false;
+            if (grid.Columns.Contains("ContactAddress"))
+                grid.Columns["ContactAddress"].HeaderText = "Địa chỉ liên hệ";
 
+            // Military Service
+            if (grid.Columns.Contains("MilitaryCode"))
+                grid.Columns["MilitaryCode"].HeaderText = "Cấp bậc";
+
+            if (grid.Columns.Contains("EnlistmentDate"))
+            {
+                grid.Columns["EnlistmentDate"].HeaderText = "Ngày nhập ngũ";
+                grid.Columns["EnlistmentDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            }
+
+            if (grid.Columns.Contains("EnlistmentProvince"))
+                grid.Columns["EnlistmentProvince"].HeaderText = "Tỉnh nhập ngũ";
+
+            if (grid.Columns.Contains("Role"))
+                grid.Columns["Role"].HeaderText = "Chức vụ";
+
+            // Academic & Performance
+            if (grid.Columns.Contains("AverageScore"))
+                grid.Columns["AverageScore"].HeaderText = "ĐTB";
+
+            // Hide irrelevant/internal fields
+            string[] hiddenColumns = { "Id", "ClassId", "Class", "ClassName", "AvatarUrl", "Grades", "Misconducts", "WeeklyCritiques", "MeritScore"};
+            foreach (var col in hiddenColumns)
+            {
+                if (grid.Columns.Contains(col))
+                    grid.Columns[col].Visible = false;
+            }
+
+            // Grid behavior settings
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.MultiSelect = false;
@@ -494,35 +531,6 @@ namespace StudentManagementSystem.UI.UserControls
             grid.AllowUserToDeleteRows = false;
         }
 
-        // Optional
-        private void ExportGridToCsv(DataGridView grid, string filePath)
-        {
-            using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
-            {
-                var visibleColumns = grid.Columns
-                    .Cast<DataGridViewColumn>()
-                    .Where(c => c.Visible)
-                    .OrderBy(c => c.DisplayIndex)
-                    .ToList();
-
-                writer.WriteLine(string.Join(",", visibleColumns.Select(c => $"\"{c.HeaderText}\"")));
-
-                foreach (DataGridViewRow row in grid.Rows)
-                {
-                    if (row.IsNewRow) continue;
-
-                    var cells = visibleColumns.Select(c =>
-                        row.Cells[c.Index].Value != null
-                            ? $"\"{row.Cells[c.Index].Value.ToString().Replace("\"", "\"\"")}\""
-                            : "\"\""
-                    );
-
-                    writer.WriteLine(string.Join(",", cells));
-                }
-            }
-
-            MessageBox.Show("Xuất file CSV thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
     }
 }
 
