@@ -241,8 +241,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[2, 12].Value = "01/03/2023";
                 worksheet.Cells[2, 13].Value = "Binh nhất";
                 worksheet.Cells[2, 14].Value = "Tốt";
-                worksheet.Cells[2, 15].Value = "Học viên";
-                worksheet.Cells[2, 16].Value = 8.5;
+                worksheet.Cells[2, 15].Value = "";
+                worksheet.Cells[2, 16].Value = 0.0;
                 worksheet.Cells[2, 17].Value = "Nguyễn Văn Bố";
                 worksheet.Cells[2, 18].Value = "0912345679";
                 worksheet.Cells[2, 19].Value = "Nguyễn Thị Mẹ";
