@@ -29,6 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\CRUD\Semesters\SemesterForm.cs">
       <SubType>Form</SubType>
     </Compile>

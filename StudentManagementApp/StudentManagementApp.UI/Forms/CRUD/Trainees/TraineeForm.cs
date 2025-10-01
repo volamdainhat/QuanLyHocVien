@@ -340,11 +340,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private async void LoadTraineeData()
         {
             LoadClasses();
-            var provinces = LoadProvinces();
-            var educationalLevels = LoadEducationLevels();
-            var militaryRanks = LoadMilitaryRanks();
-            var roles = LoadRoles();
-            await Task.WhenAll(provinces, educationalLevels, militaryRanks, roles);
+            var provinces = await LoadProvinces();
+            var educationalLevels = await LoadEducationLevels();
+            var militaryRanks = await LoadMilitaryRanks();
+            var roles = await LoadRoles();
 
             if (_trainee.Id > 0)
             {
@@ -367,7 +366,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 // Chọn tỉnh nhập ngũ trong ComboBox
                 if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
                 {
-                    var selectedItem = provinces.Result.FirstOrDefault(x => x.Name == _trainee.ProvinceOfEnlistment);
+                    var selectedItem = provinces.FirstOrDefault(x => x.Name == _trainee.ProvinceOfEnlistment);
                     if (selectedItem != null)
                     {
                         cmbProvinceOfEnlistment.SelectedItem = selectedItem;
@@ -376,7 +375,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (!string.IsNullOrEmpty(_trainee.EducationalLevel))
                 {
-                    var selectedItem = educationalLevels.Result.FirstOrDefault (x => x.Name == _trainee.EducationalLevel);
+                    var selectedItem = educationalLevels.FirstOrDefault (x => x.Name == _trainee.EducationalLevel);
                     if (selectedItem != null)
                     {
                         cmbEducationalLevel.SelectedItem = selectedItem;
@@ -385,7 +384,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (!string.IsNullOrEmpty(_trainee.MilitaryRank))
                 {
-                    var selectedItem = militaryRanks.Result.FirstOrDefault (x => x.Name == _trainee.MilitaryRank);
+                    var selectedItem = militaryRanks.FirstOrDefault (x => x.Name == _trainee.MilitaryRank);
                     if (selectedItem != null)
                     {
                         cmbMilitaryRank.SelectedItem = selectedItem;
@@ -394,7 +393,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (!string.IsNullOrEmpty(_trainee.Role))
                 {
-                    var selectedItem = roles.Result.FirstOrDefault(x => x.Name == _trainee.Role);
+                    var selectedItem = roles.FirstOrDefault(x => x.Name == _trainee.Role);
                     if (selectedItem != null)
                     {
                         cmbRole.SelectedItem = selectedItem;

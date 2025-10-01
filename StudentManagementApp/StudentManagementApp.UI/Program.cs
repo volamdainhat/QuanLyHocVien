@@ -12,6 +12,7 @@ using StudentManagementApp.Infrastructure.Repositories.Semesters;
 using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
 using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
+using StudentManagementApp.Infrastructure.Repositories.WeeklyCritiques;
 using StudentManagementApp.UI.Forms;
 using StudentManagementApp.UI.Forms.CRUD;
 using System.Configuration;
@@ -72,6 +73,7 @@ namespace StudentManagementApp.UI
             services.AddScoped<ISubjectAverageRepository, SubjectAverageRepository>();
             services.AddScoped<ISemesterRepository, SemesterRepository>();
             services.AddScoped<ITraineeAverageScoreRepository, TraineeAverageScoreRepository>();
+            services.AddScoped<IWeeklyCritiqueRepository, WeeklyCritiqueRepository>();
 
             // Register validation services
             services.AddScoped<IValidationService, ValidationService>();
@@ -90,6 +92,7 @@ namespace StudentManagementApp.UI
             services.AddTransient<SubjectAverageListForm>();
             services.AddTransient<SemesterListForm>();
             services.AddTransient<TraineeAverageScoreListForm>();
+            services.AddTransient<WeeklyCritiqueListForm>();
         }
     }
 }

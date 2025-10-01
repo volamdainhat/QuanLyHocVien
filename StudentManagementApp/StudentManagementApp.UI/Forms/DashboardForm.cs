@@ -1,11 +1,15 @@
-﻿using StudentManagementApp.UI.Controls;
+﻿using StudentManagementApp.Infrastructure.Repositories.Trainees;
+using StudentManagementApp.UI.Controls;
 
 namespace StudentManagementApp.UI.Forms
 {
     public partial class DashboardForm : Form
     {
-        public DashboardForm()
+        private readonly ITraineeRepository _traineeRepository;
+
+        public DashboardForm(ITraineeRepository traineeRepository)
         {
+            _traineeRepository = traineeRepository;
             InitializeComponent();
             SetupDashboard();
         }
@@ -17,7 +21,7 @@ namespace StudentManagementApp.UI.Forms
             this.Dock = DockStyle.Fill;
 
             // Tạo và thêm DashboardControl vào form
-            var dashboardControl = new DashboardControl();
+            var dashboardControl = new DashboardControl(_traineeRepository);
             dashboardControl.Dock = DockStyle.Fill;
             this.Controls.Add(dashboardControl);
 

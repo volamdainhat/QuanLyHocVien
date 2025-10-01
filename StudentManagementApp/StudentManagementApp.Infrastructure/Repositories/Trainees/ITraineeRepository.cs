@@ -7,5 +7,7 @@ namespace StudentManagementApp.Infrastructure.Repositories.Trainees
     {
         Task<IEnumerable<TraineeViewModel>> GetTraineesWithClassAsync();
         Task<Trainee> GetTraineeWithDetailsAsync(int id);
+        Task<int> GetTotalTraineeAsync();
+        Task<List<TraineeByClassModel>> GetTotalTraineeByClassAsync();
     }
 }

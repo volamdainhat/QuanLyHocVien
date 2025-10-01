@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementApp.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250930131407_AddWeeklyCritique")]
+    partial class AddWeeklyCritique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -881,7 +884,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 76,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "9-10",
                             IsActive = true,
                             Name = "Vững vàng, kiên định",
                             ParentId = 0,
@@ -893,7 +895,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 77,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "8-8",
                             IsActive = true,
                             Name = "Tốt",
                             ParentId = 0,
@@ -905,7 +906,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 78,
                             Code = "level3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "5-7",
                             IsActive = true,
                             Name = "Có khi còn hạn chế",
                             ParentId = 0,
@@ -917,7 +917,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 79,
                             Code = "level4",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-4",
                             IsActive = true,
                             Name = "Một số còn hạn chế, bị nhắc nhở trước tập thể",
                             ParentId = 0,
@@ -929,7 +928,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 80,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "8-10",
                             IsActive = true,
                             Name = "Học tập tốt, nghiêm túc",
                             ParentId = 0,
@@ -941,7 +939,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 81,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "5-7",
                             IsActive = true,
                             Name = "Chưa cao, còn dao động",
                             ParentId = 0,
@@ -953,7 +950,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 82,
                             Code = "level3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-4",
                             IsActive = true,
                             Name = "Hạn chế, chưa nghiêm túc, thiếu cố gắng",
                             ParentId = 0,
@@ -965,7 +961,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 83,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "8-10",
                             IsActive = true,
                             Name = "Tích cực, gương mẫu, đoàn kết tốt",
                             ParentId = 0,
@@ -977,7 +972,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 84,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "7-7",
                             IsActive = true,
                             Name = "Ý thức kém, đoàn kết còn hạn chế",
                             ParentId = 0,
@@ -989,7 +983,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 85,
                             Code = "level3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "5-6",
                             IsActive = true,
                             Name = "Phẩm chất đạo đức kém, đoàn kết hạn chế, tác phong chậm",
                             ParentId = 0,
@@ -1001,7 +994,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 86,
                             Code = "level4",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-4",
                             IsActive = true,
                             Name = "Thiếu chủ động, thiếu tinh thần xây dựng đơn vị",
                             ParentId = 0,
@@ -1013,7 +1005,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 87,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "8-10",
                             IsActive = true,
                             Name = "Chấp hành nghiêm PL, điều lệnh, điều lệ quân đội",
                             ParentId = 0,
@@ -1025,7 +1016,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 88,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "5-7",
                             IsActive = true,
                             Name = "Chưa có ý thức trong các nhiệm vụ tập thể, trốn tránh nhiệm vụ, có tiến bộ sau khi nhắc nhở",
                             ParentId = 0,
@@ -1037,7 +1027,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 89,
                             Code = "level3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-4",
                             IsActive = true,
                             Name = "Vi phạm kỷ luật, chuyển biến chậm",
                             ParentId = 0,
@@ -1049,7 +1038,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 90,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "8-10",
                             IsActive = true,
                             Name = "Tốt",
                             ParentId = 0,
@@ -1061,7 +1049,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 91,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "5-7",
                             IsActive = true,
                             Name = "Chưa tốt",
                             ParentId = 0,
@@ -1073,7 +1060,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 92,
                             Code = "level3",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-4",
                             IsActive = true,
                             Name = "Yếu",
                             ParentId = 0,
@@ -1085,7 +1071,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 93,
                             Code = "level1",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "9-10",
                             IsActive = true,
                             Name = "Có",
                             ParentId = 0,
@@ -1097,7 +1082,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             Id = 94,
                             Code = "level2",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "0-8",
                             IsActive = true,
                             Name = "Không",
                             ParentId = 0,

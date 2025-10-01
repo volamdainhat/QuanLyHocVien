@@ -10,6 +10,7 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<WeeklyCritique> WeeklyCritiques { get; set; }
         public DbSet<TraineeAverageScore> TraineeAverageScores { get; set; }
         public DbSet<Semester> Semesters { get; set; }
         public DbSet<SubjectAverage> SubjectAverages { get; set; }
@@ -118,7 +119,38 @@ namespace StudentManagementApp.Infrastructure.Data
                 new Category { Id = 72, Type = "MisconductType", Code = "di_tre", Name = "Đi trễ", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 73, Type = "MisconductType", Code = "gian_lan_kiem_tra", Name = "Gian lận kiểm tra", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 74, Type = "MisconductType", Code = "mat_trat_tu", Name = "Mất trật tự", SortOrder = 5, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 75, Type = "MisconductType", Code = "khac", Name = "Khác", SortOrder = 6, CreatedDate = seedDate, IsActive = true }
+                new Category { Id = 75, Type = "MisconductType", Code = "khac", Name = "Khác", SortOrder = 6, CreatedDate = seedDate, IsActive = true },
+
+                // PoliticalAttitude
+                new Category { Id = 76, Type = "PoliticalAttitude", Code = "level1", Name = "Vững vàng, kiên định", Description = "9-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 77, Type = "PoliticalAttitude", Code = "level2", Name = "Tốt", Description = "8-8", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 78, Type = "PoliticalAttitude", Code = "level3", Name = "Có khi còn hạn chế", Description = "5-7", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 79, Type = "PoliticalAttitude", Code = "level4", Name = "Một số còn hạn chế, bị nhắc nhở trước tập thể", Description = "0-4", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
+
+                // StudyMotivation
+                new Category { Id = 80, Type = "StudyMotivation", Code = "level1", Name = "Học tập tốt, nghiêm túc", Description = "8-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 81, Type = "StudyMotivation", Code = "level2", Name = "Chưa cao, còn dao động", Description = "5-7", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 82, Type = "StudyMotivation", Code = "level3", Name = "Hạn chế, chưa nghiêm túc, thiếu cố gắng", Description = "0-4", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+
+                // EthicsLifestyle
+                new Category { Id = 83, Type = "EthicsLifestyle", Code = "level1", Name = "Tích cực, gương mẫu, đoàn kết tốt", Description = "8-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 84, Type = "EthicsLifestyle", Code = "level2", Name = "Ý thức kém, đoàn kết còn hạn chế", Description = "7-7", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 85, Type = "EthicsLifestyle", Code = "level3", Name = "Phẩm chất đạo đức kém, đoàn kết hạn chế, tác phong chậm", Description = "5-6", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 86, Type = "EthicsLifestyle", Code = "level4", Name = "Thiếu chủ động, thiếu tinh thần xây dựng đơn vị", Description = "0-4", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
+
+                // DisciplineAwareness
+                new Category { Id = 87, Type = "DisciplineAwareness", Code = "level1", Name = "Chấp hành nghiêm PL, điều lệnh, điều lệ quân đội", Description = "8-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 88, Type = "DisciplineAwareness", Code = "level2", Name = "Chưa có ý thức trong các nhiệm vụ tập thể, trốn tránh nhiệm vụ, có tiến bộ sau khi nhắc nhở", Description = "5-7", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 89, Type = "DisciplineAwareness", Code = "level3", Name = "Vi phạm kỷ luật, chuyển biến chậm", Description = "0-4", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+
+                // AcademicResult
+                new Category { Id = 90, Type = "AcademicResult", Code = "level1", Name = "Tốt", Description = "8-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 91, Type = "AcademicResult", Code = "level2", Name = "Chưa tốt", Description = "5-7", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 92, Type = "AcademicResult", Code = "level3", Name = "Yếu", Description = "0-4", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+
+                // ResearchActivity
+                new Category { Id = 93, Type = "ResearchActivity", Code = "level1", Name = "Có", Description = "9-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 94, Type = "ResearchActivity", Code = "level2", Name = "Không", Description = "0-8", SortOrder = 2, CreatedDate = seedDate, IsActive = true }
             );
         }
 

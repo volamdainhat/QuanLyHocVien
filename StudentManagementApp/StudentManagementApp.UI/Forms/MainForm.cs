@@ -50,7 +50,8 @@ namespace StudentManagementApp.UI.Forms
             switch (menuItem)
             {
                 case "Dashboard":
-                    OpenChildForm(new DashboardForm());
+                    var dashboardForm = _serviceProvider.GetRequiredService<DashboardForm>();
+                    OpenChildForm(dashboardForm);
                     break;
                 case "Products":
                     var productsForm = _serviceProvider.GetRequiredService<ProductListForm>();
@@ -95,6 +96,10 @@ namespace StudentManagementApp.UI.Forms
                 case "TraineeAverageScores":
                     var traineeAverageScoresForm = _serviceProvider.GetRequiredService<TraineeAverageScoreListForm>();
                     OpenChildForm(traineeAverageScoresForm);
+                    break;
+                case "WeeklyCritiques":
+                    var weeklyCritiquesForm = _serviceProvider.GetRequiredService<WeeklyCritiqueListForm>();
+                    OpenChildForm(weeklyCritiquesForm);
                     break;
                 case "Reports":
                     // Mở form Reports

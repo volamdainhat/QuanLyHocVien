@@ -89,6 +89,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 AllowUserToDeleteRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect
             };
+            dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.Fill);
 
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
