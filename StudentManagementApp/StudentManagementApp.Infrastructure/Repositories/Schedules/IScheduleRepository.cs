@@ -7,5 +7,6 @@ namespace StudentManagementApp.Infrastructure.Repositories.Schedules
     {
         Task<IEnumerable<ScheduleViewModel>> GetScheduleWithClassSubjectAsync();
         Task<Schedule> GetScheduleWithDetailsAsync(int id);
+        Task<List<ScheduleForTodayModel>> GetScheduleForTodayAsync();
     }
 }

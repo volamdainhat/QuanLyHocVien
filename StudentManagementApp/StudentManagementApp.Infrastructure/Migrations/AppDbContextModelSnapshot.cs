@@ -1292,9 +1292,10 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("ClassId", "SubjectId", "Room", "Period", "Date")
+                        .IsUnique();
 
                     b.ToTable("Schedules");
                 });

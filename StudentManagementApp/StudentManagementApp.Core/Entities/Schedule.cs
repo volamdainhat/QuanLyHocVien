@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentManagementApp.Core.Entities
 {
+    [Index(nameof(ClassId), nameof(SubjectId), nameof(Room), nameof(Period), nameof(Date), IsUnique = true)]
     [Table("Schedules")]
     public class Schedule : BaseEntity
     {

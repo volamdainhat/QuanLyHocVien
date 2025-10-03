@@ -1,4 +1,5 @@
-﻿using StudentManagementApp.Infrastructure.Repositories.Trainees;
+﻿using StudentManagementApp.Infrastructure.Repositories.Schedules;
+using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using StudentManagementApp.UI.Controls;
 
 namespace StudentManagementApp.UI.Forms
@@ -6,10 +7,12 @@ namespace StudentManagementApp.UI.Forms
     public partial class DashboardForm : Form
     {
         private readonly ITraineeRepository _traineeRepository;
+        private readonly IScheduleRepository _scheduleRepository;
 
-        public DashboardForm(ITraineeRepository traineeRepository)
+        public DashboardForm(ITraineeRepository traineeRepository, IScheduleRepository scheduleRepository)
         {
             _traineeRepository = traineeRepository;
+            _scheduleRepository = scheduleRepository;
             InitializeComponent();
             SetupDashboard();
         }
@@ -21,7 +24,7 @@ namespace StudentManagementApp.UI.Forms
             this.Dock = DockStyle.Fill;
 
             // Tạo và thêm DashboardControl vào form
-            var dashboardControl = new DashboardControl(_traineeRepository);
+            var dashboardControl = new DashboardControl(_traineeRepository, _scheduleRepository);
             dashboardControl.Dock = DockStyle.Fill;
             this.Controls.Add(dashboardControl);
 

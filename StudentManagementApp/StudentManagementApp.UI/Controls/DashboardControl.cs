@@ -1,17 +1,25 @@
-﻿using StudentManagementApp.Core.Models.Trainees;
+﻿using StudentManagementApp.Core.Models.Schedules;
+using StudentManagementApp.Core.Models.Trainees;
+using StudentManagementApp.Infrastructure.Repositories.Schedules;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
+using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Controls
 {
     public partial class DashboardControl : UserControl
     {
         private readonly ITraineeRepository _traineeRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private int _totalTrainees;
         private List<TraineeByClassModel> _traineesByClass;
+        private List<ScheduleForTodayModel> _scheduleViews;
 
-        public DashboardControl(ITraineeRepository traineeRepository)
+        public DashboardControl(
+            ITraineeRepository traineeRepository,
+            IScheduleRepository scheduleRepository)
         {
             _traineeRepository = traineeRepository;
+            _scheduleRepository = scheduleRepository;
             InitializeComponent();
             LoadDataAsync();
             InitializeDashboard();
@@ -22,6 +30,9 @@ namespace StudentManagementApp.UI.Controls
             this.BackColor = Color.White;
             this.Dock = DockStyle.Fill;
 
+            int x = 40;
+            int y = 100;
+
             var titleLabel = new Label
             {
                 Text = "DASHBOARD",
@@ -31,33 +42,51 @@ namespace StudentManagementApp.UI.Controls
                 Location = new Point(20, 20)
             };
 
-            //var summaryPanel = new Panel
-            //{
-            //    Size = new Size(800, 200),
-            //    Location = new Point(20, 80),
-            //    BorderStyle = BorderStyle.FixedSingle,
-            //    BackColor = Color.LightGray
-            //};
-
-            // Thêm các control thống kê vào summaryPanel
-            int xOffset = 40;
-            int yOffset = 100;
-
-            var totalTraineeCard = LoadCard(xOffset, yOffset, "Tổng học viên Đại đội", _totalTrainees);
+            var totalTraineeCard = LoadCard(40, 100, "Tổng học viên Đại đội", _totalTrainees);
             this.Controls.Add(totalTraineeCard);
-            //yOffset += 180;
-            xOffset += 420;
+            x += 420;
 
-            foreach (var traineeClass in _traineesByClass)
+            var dgvTraineeByClass = new DataGridView
             {
-                // 40, 280
-                var classCard = LoadCard(xOffset, yOffset, $"Học viên lớp {traineeClass.ClassName}", traineeClass.CountTrainee);
-                this.Controls.Add(classCard);
-                xOffset += 420;
-            }
+                Size = new Size(400, 300),
+                Location = new Point(40, 280),
+                AutoGenerateColumns = true,
+                ReadOnly = true,
+                DataSource = _traineesByClass,
+                BackgroundColor = Color.White,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false
+            };
+            dgvTraineeByClass.ReadOnly = true;
+
+            var subtitleScheduleLabel = new Label
+            {
+                Text = "Lịch học trong ngày",
+                Font = new Font("Arial", 20, FontStyle.Bold),
+                ForeColor = Color.DarkBlue,
+                AutoSize = true,
+                Location = new Point(460, 220)
+            };
+
+            var dgvScheduleForToday = new DataGridView
+            {
+                Size = new Size(1000, 300),
+                Location = new Point(460, 280),
+                AutoGenerateColumns = true,
+                ReadOnly = true,
+                DataSource = _scheduleViews,
+                BackgroundColor = Color.White,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false
+            };
+            dgvScheduleForToday.ReadOnly = true;
 
             this.Controls.Add(titleLabel);
-            //this.Controls.Add(summaryPanel);
+            this.Controls.Add(dgvTraineeByClass);
+            this.Controls.Add(subtitleScheduleLabel);
+            this.Controls.Add(dgvScheduleForToday);
         }
 
         private Panel LoadCard(int x, int y, string title, int count)
@@ -97,6 +126,7 @@ namespace StudentManagementApp.UI.Controls
         {
             _totalTrainees = await _traineeRepository.GetTotalTraineeAsync();
             _traineesByClass = await _traineeRepository.GetTotalTraineeByClassAsync();
+            _scheduleViews = await _scheduleRepository.GetScheduleForTodayAsync();
         }
     }
 }

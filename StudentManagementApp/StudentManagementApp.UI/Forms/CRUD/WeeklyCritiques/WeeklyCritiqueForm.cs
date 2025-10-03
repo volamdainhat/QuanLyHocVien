@@ -3,14 +3,8 @@ using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Gradeses;
-using StudentManagementApp.Infrastructure.Repositories.Semesters;
-using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
-using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 using StudentManagementApp.Infrastructure.Repositories.WeeklyCritiques;
 using System.ComponentModel.DataAnnotations;
-using System.Net.WebSockets;
-using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -82,7 +76,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             var textBoxWidth = 300;
 
             // Trainee
-            formPanel.Controls.Add(new Label { Text = "Học viên:", Location = new Point(x1, y), Width = labelWidth, Height = 30,  });
+            formPanel.Controls.Add(new Label { Text = "Học viên:", Location = new Point(x1, y), Width = labelWidth, Height = 30, });
             cmbTraineeId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
             formPanel.Controls.Add(cmbTraineeId);
             y += 40;

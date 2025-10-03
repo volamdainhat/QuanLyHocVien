@@ -11,8 +11,8 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250921083609_AddSchedule")]
-    partial class AddSchedule
+    [Migration("20251003140254_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -812,6 +812,300 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 2,
                             Type = "SchedulePeriod"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Code = "vang",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Vắng",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Code = "vi_pham_ky_luat",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Vi phạm kỷ luật",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Code = "di_tre",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Đi trễ",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Code = "gian_lan_kiem_tra",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Gian lận kiểm tra",
+                            ParentId = 0,
+                            SortOrder = 4,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Code = "mat_trat_tu",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Mất trật tự",
+                            ParentId = 0,
+                            SortOrder = 5,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Code = "khac",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Khác",
+                            ParentId = 0,
+                            SortOrder = 6,
+                            Type = "MisconductType"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "9-10",
+                            IsActive = true,
+                            Name = "Vững vàng, kiên định",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "PoliticalAttitude"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8-8",
+                            IsActive = true,
+                            Name = "Tốt",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "PoliticalAttitude"
+                        },
+                        new
+                        {
+                            Id = 78,
+                            Code = "level3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "5-7",
+                            IsActive = true,
+                            Name = "Có khi còn hạn chế",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "PoliticalAttitude"
+                        },
+                        new
+                        {
+                            Id = 79,
+                            Code = "level4",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-4",
+                            IsActive = true,
+                            Name = "Một số còn hạn chế, bị nhắc nhở trước tập thể",
+                            ParentId = 0,
+                            SortOrder = 4,
+                            Type = "PoliticalAttitude"
+                        },
+                        new
+                        {
+                            Id = 80,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8-10",
+                            IsActive = true,
+                            Name = "Học tập tốt, nghiêm túc",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "StudyMotivation"
+                        },
+                        new
+                        {
+                            Id = 81,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "5-7",
+                            IsActive = true,
+                            Name = "Chưa cao, còn dao động",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "StudyMotivation"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Code = "level3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-4",
+                            IsActive = true,
+                            Name = "Hạn chế, chưa nghiêm túc, thiếu cố gắng",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "StudyMotivation"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8-10",
+                            IsActive = true,
+                            Name = "Tích cực, gương mẫu, đoàn kết tốt",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "EthicsLifestyle"
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "7-7",
+                            IsActive = true,
+                            Name = "Ý thức kém, đoàn kết còn hạn chế",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "EthicsLifestyle"
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Code = "level3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "5-6",
+                            IsActive = true,
+                            Name = "Phẩm chất đạo đức kém, đoàn kết hạn chế, tác phong chậm",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "EthicsLifestyle"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Code = "level4",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-4",
+                            IsActive = true,
+                            Name = "Thiếu chủ động, thiếu tinh thần xây dựng đơn vị",
+                            ParentId = 0,
+                            SortOrder = 4,
+                            Type = "EthicsLifestyle"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8-10",
+                            IsActive = true,
+                            Name = "Chấp hành nghiêm PL, điều lệnh, điều lệ quân đội",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "DisciplineAwareness"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "5-7",
+                            IsActive = true,
+                            Name = "Chưa có ý thức trong các nhiệm vụ tập thể, trốn tránh nhiệm vụ, có tiến bộ sau khi nhắc nhở",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "DisciplineAwareness"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            Code = "level3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-4",
+                            IsActive = true,
+                            Name = "Vi phạm kỷ luật, chuyển biến chậm",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "DisciplineAwareness"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8-10",
+                            IsActive = true,
+                            Name = "Tốt",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "AcademicResult"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "5-7",
+                            IsActive = true,
+                            Name = "Chưa tốt",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "AcademicResult"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            Code = "level3",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-4",
+                            IsActive = true,
+                            Name = "Yếu",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "AcademicResult"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            Code = "level1",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "9-10",
+                            IsActive = true,
+                            Name = "Có",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "ResearchActivity"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            Code = "level2",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0-8",
+                            IsActive = true,
+                            Name = "Không",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "ResearchActivity"
                         });
                 });
 
@@ -864,11 +1158,18 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<decimal>("Grade")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("INTEGER");
@@ -878,11 +1179,48 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SemesterId");
+
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TraineeId");
 
                     b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("Misconducts");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Product", b =>
@@ -957,9 +1295,10 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("ClassId", "SubjectId", "Room", "Period", "Date")
+                        .IsUnique();
 
                     b.ToTable("Schedules");
                 });
@@ -995,6 +1334,42 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("SchoolYears");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Semester", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SchoolYearId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolYearId");
+
+                    b.ToTable("Semesters");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -1020,6 +1395,43 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Subjects");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.SubjectAverage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Score")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("SubjectAverages");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
                 {
                     b.Property<int>("Id")
@@ -1034,10 +1446,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("AverageScore")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ClassId")
+                    b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1084,9 +1493,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MeritScore")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("MilitaryRank")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -1130,6 +1536,110 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Trainees");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.TraineeAverageScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("AverageScore")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SemesterId");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("TraineeAverageScores");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.WeeklyCritique", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ARScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AcademicResult")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("DAScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DisciplineAwareness")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ELScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EthicsLifestyle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FinalScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PAScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PoliticalAttitude")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RAScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ResearchActivity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SMScore")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StudyMotivation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("WeekDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("WeeklyCritiques");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
@@ -1143,6 +1653,12 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>
                 {
+                    b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
@@ -1155,7 +1671,20 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Semester");
+
                     b.Navigation("Subject");
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Trainee");
                 });
@@ -1179,15 +1708,73 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.Semester", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
+                        .WithMany()
+                        .HasForeignKey("SchoolYearId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SchoolYear");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.SubjectAverage", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Trainee");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Trainee", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("ClassId")
+                        .HasForeignKey("ClassId");
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.TraineeAverageScore", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Semester");
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.WeeklyCritique", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.SchoolYear", b =>

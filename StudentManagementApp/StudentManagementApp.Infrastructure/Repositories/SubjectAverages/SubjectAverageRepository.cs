@@ -93,11 +93,12 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
         public static decimal CalculateAverageScore(List<Grades> grades)
         {
             // Trọng số cho từng loại điểm
+            // (Kt_15p: x 1 + kt_1t x 2) / 3 * 0.4 + (Thi x 1) * 0.6
             var weights = new Dictionary<string, decimal>
             {
-                { "kt_15p", 0.2m }, // Kiểm tra 15 phút: 20%
-                { "kt_1t", 0.3m },  // Kiểm tra 1 tiết: 30%
-                { "thi", 0.5m }     // Thi cuối kỳ: 50%
+                { "kt_15p", 0.2m }, // Kiểm tra 15 phút: 20% - Hệ số 1
+                { "kt_1t", 0.3m },  // Kiểm tra 1 tiết: 30% - Hệ số 2
+                { "thi", 0.5m }     // Thi cuối kỳ: 50% - 
             };
 
             // Kiểm tra nếu không có điểm

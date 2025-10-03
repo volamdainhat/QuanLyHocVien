@@ -63,7 +63,7 @@ namespace StudentManagementApp.Infrastructure.Repositories.Trainees
         {
             return await _context.Trainees
                 .Include(c => c.Class)
-                .GroupBy(t => new { t.ClassId, ClassName = t.Class != null ? t.Class.Name : "" })
+                .GroupBy(t => new { t.ClassId, ClassName = t.Class != null ? t.Class.Name : "Chưa cập nhật" })
                 .Select(g => new TraineeByClassModel
                 {
                     ClassName = g.Key.ClassName,

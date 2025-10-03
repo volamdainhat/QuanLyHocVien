@@ -31,8 +31,15 @@ namespace StudentManagementApp.Infrastructure.Repositories
 
         public async Task AddRangeAsync(List<T> entity)
         {
-            await _entities.AddRangeAsync(entity);
-            await _context.SaveChangesAsync(); // Tự động validation
+            try
+            {
+                await _entities.AddRangeAsync(entity);
+                await _context.SaveChangesAsync(); // Tự động validation
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task UpdateAsync(T entity)

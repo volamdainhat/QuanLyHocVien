@@ -3,23 +3,27 @@ using OfficeOpenXml.Style;
 using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Models.Trainees;
 using StudentManagementApp.Core.Services;
+using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
+using System;
 using System.Globalization;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class TraineeListForm : Form
     {
+        private readonly AppDbContext _appDbContext;
         private readonly ITraineeRepository _traineeRepository;
         private readonly IRepository<Class> _classRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public TraineeListForm(ITraineeRepository traineeRepository, IRepository<Class> classRepository, ICategoryRepository categoryRepository, IValidationService validationService)
+        public TraineeListForm(AppDbContext appDbContext, ITraineeRepository traineeRepository, IRepository<Class> classRepository, ICategoryRepository categoryRepository, IValidationService validationService)
         {
+            _appDbContext = appDbContext;
             _traineeRepository = traineeRepository;
             _classRepository = classRepository;
             _categoryRepository = categoryRepository;
@@ -211,7 +215,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[1, 12].Value = "Ngày nhập ngũ (dd/MM/yyyy)";
                 worksheet.Cells[1, 13].Value = "Quân hàm";
                 worksheet.Cells[1, 14].Value = "Tình trạng sức khỏe";
-                worksheet.Cells[1, 15].Value = "Vai trò";
+                //worksheet.Cells[1, 15].Value = "Vai trò";
                 worksheet.Cells[1, 16].Value = "Điểm trung bình";
                 worksheet.Cells[1, 17].Value = "Họ tên bố";
                 worksheet.Cells[1, 18].Value = "SĐT bố";
@@ -241,7 +245,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[2, 12].Value = "01/03/2023";
                 worksheet.Cells[2, 13].Value = "Binh nhất";
                 worksheet.Cells[2, 14].Value = "Tốt";
-                worksheet.Cells[2, 15].Value = "";
+                //worksheet.Cells[2, 15].Value = "";
                 worksheet.Cells[2, 16].Value = 0.0;
                 worksheet.Cells[2, 17].Value = "Nguyễn Văn Bố";
                 worksheet.Cells[2, 18].Value = "0912345679";
@@ -290,7 +294,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                             EnlistmentDate = ParseDate(worksheet.Cells[row, 12]),
                             MilitaryRank = GetString(worksheet.Cells[row, 13]),
                             HealthStatus = GetString(worksheet.Cells[row, 14]),
-                            Role = GetString(worksheet.Cells[row, 15]),
+                            Role = "Học viên", //GetString(worksheet.Cells[row, 15]),
                             FatherFullName = GetString(worksheet.Cells[row, 17]),
                             FatherPhoneNumber = GetString(worksheet.Cells[row, 18]),
                             MotherFullName = GetString(worksheet.Cells[row, 19]),

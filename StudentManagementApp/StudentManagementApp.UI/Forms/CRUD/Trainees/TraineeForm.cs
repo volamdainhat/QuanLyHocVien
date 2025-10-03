@@ -375,7 +375,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (!string.IsNullOrEmpty(_trainee.EducationalLevel))
                 {
-                    var selectedItem = educationalLevels.FirstOrDefault (x => x.Name == _trainee.EducationalLevel);
+                    var selectedItem = educationalLevels.FirstOrDefault(x => x.Name == _trainee.EducationalLevel);
                     if (selectedItem != null)
                     {
                         cmbEducationalLevel.SelectedItem = selectedItem;
@@ -384,7 +384,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (!string.IsNullOrEmpty(_trainee.MilitaryRank))
                 {
-                    var selectedItem = militaryRanks.FirstOrDefault (x => x.Name == _trainee.MilitaryRank);
+                    var selectedItem = militaryRanks.FirstOrDefault(x => x.Name == _trainee.MilitaryRank);
                     if (selectedItem != null)
                     {
                         cmbMilitaryRank.SelectedItem = selectedItem;
