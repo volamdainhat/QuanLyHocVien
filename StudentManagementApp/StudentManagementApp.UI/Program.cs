@@ -10,6 +10,7 @@ using StudentManagementApp.Infrastructure.Repositories.Misconducts;
 using StudentManagementApp.Infrastructure.Repositories.Schedules;
 using StudentManagementApp.Infrastructure.Repositories.Semesters;
 using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
+using StudentManagementApp.Infrastructure.Repositories.Subjects;
 using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using StudentManagementApp.Infrastructure.Repositories.WeeklyCritiques;
@@ -74,6 +75,7 @@ namespace StudentManagementApp.UI
             services.AddScoped<ISemesterRepository, SemesterRepository>();
             services.AddScoped<ITraineeAverageScoreRepository, TraineeAverageScoreRepository>();
             services.AddScoped<IWeeklyCritiqueRepository, WeeklyCritiqueRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
 
             // Register validation services
             services.AddScoped<IValidationService, ValidationService>();

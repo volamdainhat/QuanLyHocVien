@@ -1,16 +1,16 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
+using StudentManagementApp.Infrastructure.Repositories.Subjects;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class SubjectListForm : Form
     {
-        private readonly IRepository<Subject> _subjectRepository;
+        private readonly ISubjectRepository _subjectRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public SubjectListForm(IRepository<Subject> subjectRepository, IValidationService validationService)
+        public SubjectListForm(ISubjectRepository subjectRepository, IValidationService validationService)
         {
             _subjectRepository = subjectRepository;
             _validationService = validationService;
@@ -85,7 +85,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
             var columnConfigurations = new Dictionary<string, Action<DataGridViewColumn>>
             {
                 { "Id", col => col.Visible = false },
+                { "Code", col => col.HeaderText = "Mã môn học" },
                 { "Name", col => col.HeaderText = "Môn học" },
+                { "Coefficient", col => col.HeaderText = "Hệ số" },
                 { "CreatedDate", col => {
                     col.HeaderText = "Ngày tạo";
                     col.DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";

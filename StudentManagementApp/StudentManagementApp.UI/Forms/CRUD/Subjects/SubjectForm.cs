@@ -1,6 +1,6 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
+using StudentManagementApp.Infrastructure.Repositories.Subjects;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,19 +8,21 @@ namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class SubjectForm : BaseCrudForm
     {
-        private readonly IRepository<Subject> _subjectRepository;
+        private readonly ISubjectRepository _subjectRepository;
         private readonly IValidationService _validationService;
         private Subject _subject;
         private TextBox txtName;
+        private TextBox txtCode;
+        private NumericUpDown nudCoefficient;
 
         public SubjectForm(
-            IRepository<Subject> subjectRepository,
+            ISubjectRepository subjectRepository,
             IValidationService validationService,
             Subject? subject = null)
         {
             _subjectRepository = subjectRepository;
             _validationService = validationService;
-            _subject = subject ?? new Subject() { Name = string.Empty };
+            _subject = subject ?? new Subject() { Code = string.Empty, Name = string.Empty, Coefficient = 0 };
             InitializeComponent();
             InitializeSubjectForm();
             LoadSubjectData();
@@ -51,8 +53,22 @@ namespace StudentManagementApp.UI.Forms.CRUD
             formPanel.Controls.Add(txtName);
             y += 40;
 
+            // Code
+            formPanel.Controls.Add(new Label { Text = "Mã môn:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            txtCode = new TextBox { Location = new Point(x2, y), Width = textBoxWidth };
+            txtCode.ReadOnly = _subject.Id != 0;
+            formPanel.Controls.Add(txtCode);
+            y += 40;
+
+            // Coefficient
+            formPanel.Controls.Add(new Label { Text = "Hệ số:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            nudCoefficient = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth };
+            formPanel.Controls.Add(nudCoefficient);
+            y += 40;
+
             // Thêm sự kiện validating
             txtName.Validating += TxtName_Validating;
+            txtCode.Validating += TxtCode_Validating;
         }
 
         private async void LoadSubjectData()
@@ -60,6 +76,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
             if (_subject.Id > 0)
             {
                 txtName.Text = _subject.Name;
+                txtCode.Text = _subject.Code;
+                nudCoefficient.Value = _subject.Coefficient;
             }
         }
 
@@ -70,6 +88,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 try
                 {
                     _subject.Name = txtName.Text;
+                    _subject.Code = txtCode.Text;
+                    _subject.Coefficient = (int)nudCoefficient.Value;
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_subject);
@@ -83,6 +103,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                     if (_subject.Id == 0)
                     {
+                        if (await _subjectRepository.CheckCodeExistsAsync(_subject.Code))
+                        {
+                            MessageBox.Show("Mã môn học đã tồn tại. Vui lòng kiểm tra lại thông tin mã môn học.",
+                                "Lỗi nhập liệu",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                            return;
+                        }
+
                         _subject.CreatedDate = DateTime.Now;
                         await _subjectRepository.AddAsync(_subject);
                     }
@@ -144,6 +173,18 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 isValid = false;
             }
 
+            // Validate Name
+            if (string.IsNullOrWhiteSpace(txtCode.Text))
+            {
+                errorProvider.SetError(txtName, "Mã môn học là bắt buộc");
+                isValid = false;
+            }
+            else if (txtName.Text.Length > 20)
+            {
+                errorProvider.SetError(txtCode, "Mã không được vượt quá 20 ký tự");
+                isValid = false;
+            }
+
             return isValid;
         }
 
@@ -157,6 +198,19 @@ namespace StudentManagementApp.UI.Forms.CRUD
             else
             {
                 errorProvider.SetError(txtName, "");
+            }
+        }
+
+        private void TxtCode_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCode.Text))
+            {
+                errorProvider.SetError(txtCode, "Mã môn học là bắt buộc");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(txtCode, "");
             }
         }
     }

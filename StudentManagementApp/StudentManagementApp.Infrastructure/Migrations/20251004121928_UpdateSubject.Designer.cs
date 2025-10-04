@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementApp.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004121928_UpdateSubject")]
+    partial class UpdateSubject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
@@ -1103,17 +1106,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 2,
                             Type = "ResearchActivity"
-                        },
-                        new
-                        {
-                            Id = 95,
-                            Code = "thuc_hanh",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Thi thực hành",
-                            ParentId = 0,
-                            SortOrder = 4,
-                            Type = "ExamType"
                         });
                 });
 
@@ -1384,11 +1376,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Coefficient")
                         .HasColumnType("INTEGER");
 
@@ -1407,9 +1394,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
 
                     b.ToTable("Subjects");
                 });

@@ -101,11 +101,11 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
         private static string CalculateGradeType(decimal score)
         {
             // Logic xếp loại dựa trên điểm số decimal
-            if (score >= 8.5m) return "Giỏi";
+            if (score >= 9.0m) return "Xuất xắc";
+            else if (score >= 8.0m) return "Giỏi";
             else if (score >= 7.0m) return "Khá";
-            else if (score >= 5.5m) return "Trung bình";
-            else if (score >= 4.0m) return "Yếu";
-            else return "Kém";
+            else if (score >= 5.0m) return "Trung bình";
+            else return "Yếu";
         }
     }
 }

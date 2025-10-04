@@ -150,7 +150,10 @@ namespace StudentManagementApp.Infrastructure.Data
 
                 // ResearchActivity
                 new Category { Id = 93, Type = "ResearchActivity", Code = "level1", Name = "Có", Description = "9-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 94, Type = "ResearchActivity", Code = "level2", Name = "Không", Description = "0-8", SortOrder = 2, CreatedDate = seedDate, IsActive = true }
+                new Category { Id = 94, Type = "ResearchActivity", Code = "level2", Name = "Không", Description = "0-8", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+
+                // Exam Types
+                new Category { Id = 95, Type = "ExamType", Code = "thuc_hanh", Name = "Thi thực hành", SortOrder = 4, CreatedDate = seedDate, IsActive = true }
             );
         }
 

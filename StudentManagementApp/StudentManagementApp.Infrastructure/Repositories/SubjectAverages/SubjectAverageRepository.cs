@@ -40,7 +40,7 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
 
         public async Task UpdateTraineeSubjectAverageAsync(int subjectId, int traineeId)
         {
-            // Lấy điểm của 1 học viên cho 1 môn học cụ thể
+            // Lấy danh sách điểm thi của 1 học viên cho 1 môn học cụ thể
             var grades = await _context.Grades
                 .Where(g => g.SubjectId == subjectId && g.TraineeId == traineeId)
                 .ToListAsync();
@@ -58,10 +58,10 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
                 return; // Không có điểm, không cần cập nhật
             }
 
-            // Lấy điểm của 1 học viên cho 1 môn học cụ thể
+            // Tính điểm trung bình theo trọng số của 1 học viên cho 1 môn học cụ thể
             decimal averageScore = CalculateAverageScore(grades);
 
-            // Tính xếp loại
+            // Tính xếp loại học lực dựa trên điểm trung bình
             string gradeType = CalculateGradeType(averageScore);
 
             var subjectAverage = await _context.SubjectAverages.FirstOrDefaultAsync(sa => sa.SubjectId == subjectId && sa.TraineeId == traineeId);
@@ -90,51 +90,41 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
             }
         }
 
+        // ((Kt_15p x 1 + kt_1t x 2) / 3 * 0.4) + ((Thi x 1) * 0.6)
         public static decimal CalculateAverageScore(List<Grades> grades)
         {
-            // Trọng số cho từng loại điểm
-            // (Kt_15p: x 1 + kt_1t x 2) / 3 * 0.4 + (Thi x 1) * 0.6
-            var weights = new Dictionary<string, decimal>
-            {
-                { "kt_15p", 0.2m }, // Kiểm tra 15 phút: 20% - Hệ số 1
-                { "kt_1t", 0.3m },  // Kiểm tra 1 tiết: 30% - Hệ số 2
-                { "thi", 0.5m }     // Thi cuối kỳ: 50% - 
-            };
-
-            // Kiểm tra nếu không có điểm
             if (grades == null || !grades.Any())
                 return 0;
 
-            decimal total = 0;
-            decimal totalWeight = 0;
+            // Tính điểm trung bình cho từng loại
+            decimal avg15p = grades.Where(g => g.ExamType == "kt_15p")
+                                  .Select(g => g.Grade)
+                                  .DefaultIfEmpty(0)
+                                  .Average();
 
-            // Gom nhóm theo loại điểm
-            var byType = grades.GroupBy(g => g.ExamType);
-            foreach (var typeGroup in byType)
-            {
-                var type = typeGroup.Key;
-                // Tính điểm trung bình cho loại điểm này
-                var avg = typeGroup.Average(g => (decimal)g.Grade);
+            decimal avg1t = grades.Where(g => g.ExamType == "kt_1t")
+                                 .Select(g => g.Grade)
+                                 .DefaultIfEmpty(0)
+                                 .Average();
 
-                if (weights.ContainsKey(type))
-                {
-                    total += avg * weights[type];
-                    totalWeight += weights[type];
-                }
-            }
+            decimal avgThi = grades.Where(g => g.ExamType == "thi")
+                                  .Select(g => g.Grade)
+                                  .DefaultIfEmpty(0)
+                                  .Average();
 
-            // Nếu thiếu loại điểm thì scale theo trọng số thực có
-            return totalWeight > 0 ? total / totalWeight : 0;
+            decimal diemTB = ((avg15p * 1 + avg1t * 2) / 3 * 0.4m) + (avgThi * 0.6m);
+
+            return diemTB;
         }
 
         private static string CalculateGradeType(decimal score)
         {
             // Logic xếp loại dựa trên điểm số decimal
-            if (score >= 8.5m) return "Giỏi";
+            if (score >= 9.0m) return "Xuất xắc";
+            else if (score >= 8.0m) return "Giỏi";
             else if (score >= 7.0m) return "Khá";
-            else if (score >= 5.5m) return "Trung bình";
-            else if (score >= 4.0m) return "Yếu";
-            else return "Kém";
+            else if (score >= 5.0m) return "Trung bình";
+            else return "Yếu";
         }
     }
 }

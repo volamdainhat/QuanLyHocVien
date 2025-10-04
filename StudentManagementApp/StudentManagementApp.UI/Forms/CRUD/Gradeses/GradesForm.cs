@@ -1,4 +1,5 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
@@ -7,6 +8,7 @@ using StudentManagementApp.Infrastructure.Repositories.Semesters;
 using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
 using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -95,19 +97,20 @@ namespace StudentManagementApp.UI.Forms.CRUD
             // ExamType
             formPanel.Controls.Add(new Label { Text = "Loại thi:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
             cmbExamType = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
-            LoadExamTypes();
             formPanel.Controls.Add(cmbExamType);
             y += 40;
 
-            // ExamType
+            // Grade
             formPanel.Controls.Add(new Label { Text = "Điểm số:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            nudGrade = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth };
+            nudGrade = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth, DecimalPlaces = 2 };
             formPanel.Controls.Add(nudGrade);
             y += 40;
         }
 
         private async void LoadGradesData()
         {
+            var examTypes = await LoadExamTypes();
+
             if (_grades.Id > 0)
             {
                 if (_grades.TraineeId > 0)
@@ -122,15 +125,19 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
                 if (_grades.SemesterId > 0)
                 {
-                    cmbSubjectId.SelectedValue = _grades.SemesterId;
+                    cmbSemesterId.SelectedValue = _grades.SemesterId;
                 }
 
                 if (!string.IsNullOrEmpty(_grades.ExamType))
                 {
-                    cmbExamType.SelectedValue = _grades.ExamType;
+                    var selectedItem = examTypes.FirstOrDefault(x => x.Code == _grades.ExamType);
+                    if (selectedItem != null)
+                    {
+                        cmbExamType.SelectedItem = selectedItem;
+                    }
                 }
 
-                nudGrade.Value = (decimal)_grades.Grade;
+                nudGrade.Value = _grades.Grade;
             }
         }
 
@@ -166,7 +173,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbSemesterId.ValueMember = "Id";
         }
 
-        private async void LoadExamTypes()
+        private async Task<List<CategoryViewModel>> LoadExamTypes()
         {
             var examTypes = await _categoryRepository.GetCategoriesWithTypeAsync("ExamType");
             examTypes = examTypes.Where(sy => sy.IsActive).ToList();
@@ -174,6 +181,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbExamType.DataSource = examTypes;
             cmbExamType.DisplayMember = "Name";
             cmbExamType.ValueMember = "Code";
+            return examTypes.ToList();
         }
 
         protected override async void Save()
@@ -186,7 +194,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _grades.SubjectId = (int)cmbSubjectId.SelectedValue;
                     _grades.SemesterId = (int)cmbSemesterId.SelectedValue;
                     _grades.ExamType = (string)cmbExamType.SelectedValue;
-                    _grades.Grade = (int)nudGrade.Value;
+                    _grades.Grade = nudGrade.Value;
                     _grades.GradeType = CalculateGradeType(_grades.Grade);
 
                     // Validate entity
