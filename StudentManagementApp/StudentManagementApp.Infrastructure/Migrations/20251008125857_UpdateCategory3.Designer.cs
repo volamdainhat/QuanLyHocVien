@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagementApp.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251008125857_UpdateCategory3")]
+    partial class UpdateCategory3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
@@ -1107,46 +1110,13 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         new
                         {
                             Id = 95,
-                            Code = "thuc_hanh",
+                            Code = "tot_nghiep",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
-                            Name = "Thi Thực hành",
-                            ParentId = 0,
-                            SortOrder = 1,
-                            Type = "GraduationExamType"
-                        },
-                        new
-                        {
-                            Id = 96,
-                            Code = "ly_thuyet",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Thi Lý thuyết chuyên môn",
-                            ParentId = 0,
-                            SortOrder = 2,
-                            Type = "GraduationExamType"
-                        },
-                        new
-                        {
-                            Id = 97,
-                            Code = "chinh_tri",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Thi Chính trị",
-                            ParentId = 0,
-                            SortOrder = 3,
-                            Type = "GraduationExamType"
-                        },
-                        new
-                        {
-                            Id = 98,
-                            Code = "quan_su",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Thi Quân sự chung",
+                            Name = "Thi xét tốt nghiệp",
                             ParentId = 0,
                             SortOrder = 4,
-                            Type = "GraduationExamType"
+                            Type = "ExamType"
                         });
                 });
 
@@ -1227,75 +1197,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasIndex("TraineeId");
 
                     b.ToTable("Grades");
-                });
-
-            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationExamScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GradeType")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GraduationExamType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Score")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TraineeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TraineeId");
-
-                    b.ToTable("GraduationExamScores");
-                });
-
-            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationScore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GraduationType")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Score")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TraineeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TraineeId");
-
-                    b.ToTable("GraduationScores");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
@@ -1670,7 +1571,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GradeType")
-                        .HasMaxLength(20)
+                        .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -1795,28 +1696,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Navigation("Semester");
 
                     b.Navigation("Subject");
-
-                    b.Navigation("Trainee");
-                });
-
-            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationExamScore", b =>
-                {
-                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
-                        .WithMany()
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Trainee");
-                });
-
-            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationScore", b =>
-                {
-                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
-                        .WithMany()
-                        .HasForeignKey("TraineeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Trainee");
                 });

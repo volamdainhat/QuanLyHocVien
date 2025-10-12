@@ -1,36 +1,37 @@
-﻿using StudentManagementApp.Core.Entities;
+﻿using StudentManagementApp.Core.Models.GraduationExamScores;
 using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
+using StudentManagementApp.Infrastructure.Repositories.Categories;
+using StudentManagementApp.Infrastructure.Repositories.GraduationExamScores;
+using StudentManagementApp.Infrastructure.Repositories.Trainees;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
-    public partial class TraineeAverageScoreListForm : Form
+    public partial class GraduationExamScoreListForm : Form
     {
-        private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
-        private readonly IRepository<Trainee> _traineeRepository;
-        private readonly IRepository<Semester> _semesterRepository;
+        private readonly IGraduationExamScoreRepository _graduationExamScoreRepository;
+        private readonly ITraineeRepository _traineeRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public TraineeAverageScoreListForm(
-            ITraineeAverageScoreRepository traineeAverageScoreRepository,
-            IRepository<Trainee> traineeRepository,
-            IRepository<Semester> semesterRepository,
+        public GraduationExamScoreListForm(
+            IGraduationExamScoreRepository graduationExamScoreRepository,
+            ITraineeRepository traineeRepository,
+            ICategoryRepository categoryRepository,
             IValidationService validationService)
         {
-            _traineeAverageScoreRepository = traineeAverageScoreRepository;
+            _graduationExamScoreRepository = graduationExamScoreRepository;
             _traineeRepository = traineeRepository;
-            _semesterRepository = semesterRepository;
+            _categoryRepository = categoryRepository;
             _validationService = validationService;
             InitializeComponent();
-            InitializeTraineeAverageScoreList();
-            LoadTraineeAverageScores();
+            InitializeGraduationExamScoresList();
+            LoadGraduationExamScores();
         }
 
-        private void InitializeTraineeAverageScoreList()
+        private void InitializeGraduationExamScoresList()
         {
-            this.Text = "Quản lý Điểm trung bình khóa";
+            this.Text = "Quản lý Điểm thi tốt nghiệp";
             this.Size = new Size(800, 600);
 
             // Toolbar
@@ -64,7 +65,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnRefresh.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnRefresh.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnRefresh]);
+            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -80,15 +81,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
 
-            //btnAdd.Click += (s, e) => Add();
-            //btnEdit.Click += (s, e) => Edit();
-            btnRefresh.Click += (s, e) => LoadTraineeAverageScores();
+            btnAdd.Click += (s, e) => Add();
+            btnEdit.Click += (s, e) => Edit();
+            btnRefresh.Click += (s, e) => LoadGraduationExamScores();
         }
 
-        private async void LoadTraineeAverageScores()
+        private async void LoadGraduationExamScores()
         {
-            var data = await _traineeAverageScoreRepository.GetTraineeAverageScoreWithTraineeSemesterAsync();
-            dataGridView.DataSource = data.ToList();
+            var datas = await _graduationExamScoreRepository.GetGraduationExamScoreWithTraineeAsync();
+            dataGridView.DataSource = datas.ToList();
 
             if (dataGridView.Columns["CreatedDate"] != null)
                 dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
@@ -97,26 +98,26 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
-        //private void Add()
-        //{
-        //    var form = new SemesterAverageForm(_SemesterAverageRepository, _SemesterRepository, _traineeRepository, _validationService);
-        //    if (form.ShowDialog() == DialogResult.OK)
-        //    {
-        //        LoadSemesterAverages();
-        //    }
-        //}
+        private void Add()
+        {
+            var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _traineeRepository, _categoryRepository, _validationService);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadGraduationExamScores();
+            }
+        }
 
-        //private void Edit()
-        //{
-        //    if (dataGridView.CurrentRow?.DataBoundItem is SemesterAverageViewModel selectedSemesterAverage)
-        //    {
-        //        var SemesterAverage = _SemesterAverageRepository.GetByIdAsync(selectedSemesterAverage.Id).Result;
-        //        var form = new SemesterAverageForm(_SemesterAverageRepository, _SemesterRepository, _traineeRepository, _validationService, SemesterAverage);
-        //        if (form.ShowDialog() == DialogResult.OK)
-        //        {
-        //            LoadSemesterAverages();
-        //        }
-        //    }
-        //}
+        private void Edit()
+        {
+            if (dataGridView.CurrentRow?.DataBoundItem is GraduationExamScoreViewModel selected)
+            {
+                var entity = _graduationExamScoreRepository.GetByIdAsync(selected.Id).Result;
+                var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _traineeRepository, _categoryRepository, _validationService, entity);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadGraduationExamScores();
+                }
+            }
+        }
     }
 }

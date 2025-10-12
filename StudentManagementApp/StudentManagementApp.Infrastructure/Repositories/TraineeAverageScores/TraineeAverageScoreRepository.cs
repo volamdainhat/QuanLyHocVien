@@ -43,9 +43,13 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
         {
             // Lấy danh sách SubjectId từ grades của học kỳ cụ thể
             var gradeSubjectIds = await _context.Grades
-                .Where(g => g.SemesterId == semesterId && g.TraineeId == traineeId)
+                .Where(g => g.SemesterId == semesterId && g.TraineeId == traineeId && g.ExamType != "tot_nghiep")
                 .Select(g => g.SubjectId)
                 .Distinct()
+                .ToListAsync();
+
+            var subjects = await _context.Subjects
+                .Where(s => gradeSubjectIds.Contains(s.Id))
                 .ToListAsync();
 
             // Lấy SubjectAverages chỉ cho những môn có trong grades
@@ -67,7 +71,11 @@ namespace StudentManagementApp.Infrastructure.Repositories.SubjectAverages
             }
 
             // Tính điểm trung bình từ SubjectAverages
-            decimal averageScore = subjectAverages.Average(sa => sa.Score);
+            decimal averageScore = subjectAverages.Sum(sa =>
+            {
+                var subject = subjects.FirstOrDefault(s => s.Id == sa.SubjectId);
+                return subject != null ? sa.Score * subject.Coefficient : 0;
+            }) / subjects.Where(s => gradeSubjectIds.Contains(s.Id)).Sum(s => s.Coefficient);
 
             // Tính xếp loại
             string gradeType = CalculateGradeType(averageScore);

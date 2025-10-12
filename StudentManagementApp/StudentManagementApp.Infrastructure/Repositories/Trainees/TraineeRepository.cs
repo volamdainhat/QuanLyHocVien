@@ -22,6 +22,7 @@ namespace StudentManagementApp.Infrastructure.Repositories.Trainees
                               PlaceOfOrigin = trainee.PlaceOfOrigin,
                               PlaceOfPermanentResidence = trainee.PlaceOfPermanentResidence,
                               AddressForCorrespondence = trainee.AddressForCorrespondence,
+                              ClassId = trainee.ClassId,
                               ClassName = classObj != null ? classObj.Name : "",
                               DayOfBirth = trainee.DayOfBirth,
                               EducationalLevel = trainee.EducationalLevel,

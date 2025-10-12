@@ -10,6 +10,8 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<GraduationScore> GraduationScores { get; set; }
+        public DbSet<GraduationExamScore> GraduationExamScores { get; set; }
         public DbSet<WeeklyCritique> WeeklyCritiques { get; set; }
         public DbSet<TraineeAverageScore> TraineeAverageScores { get; set; }
         public DbSet<Semester> Semesters { get; set; }
@@ -152,8 +154,11 @@ namespace StudentManagementApp.Infrastructure.Data
                 new Category { Id = 93, Type = "ResearchActivity", Code = "level1", Name = "Có", Description = "9-10", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 94, Type = "ResearchActivity", Code = "level2", Name = "Không", Description = "0-8", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
 
-                // Exam Types
-                new Category { Id = 95, Type = "ExamType", Code = "thuc_hanh", Name = "Thi thực hành", SortOrder = 4, CreatedDate = seedDate, IsActive = true }
+                // Graduation Exam Types
+                new Category { Id = 95, Type = "GraduationExamType", Code = "thuc_hanh", Name = "Thi Thực hành", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 96, Type = "GraduationExamType", Code = "ly_thuyet", Name = "Thi Lý thuyết chuyên môn", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 97, Type = "GraduationExamType", Code = "chinh_tri", Name = "Thi Chính trị", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
+                new Category { Id = 98, Type = "GraduationExamType", Code = "quan_su", Name = "Thi Quân sự chung", SortOrder = 4, CreatedDate = seedDate, IsActive = true }
             );
         }
 

@@ -8,6 +8,8 @@ namespace StudentManagementApp.Core.Models.Trainees
         public int Id { get; set; }
         [DisplayName("Họ và tên")]
         public string? FullName { get; set; }
+        [Browsable(false)] // Ẩn ClassId nhưng vẫn giữ để lọc
+        public int? ClassId { get; set; }
         [DisplayName("Lớp")]
         public string? ClassName { get; set; }
         [DisplayName("Ngày sinh")]

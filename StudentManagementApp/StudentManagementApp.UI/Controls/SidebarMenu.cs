@@ -12,7 +12,7 @@
         private Color normalTextColor = Color.Gainsboro;
 
         // Common controls settings
-        int width = 250;
+        int width = 300;
 
         public SidebarMenu()
         {
@@ -45,8 +45,8 @@
             var weeklyCritiquesBtn = CreateMenuButton("Bình rèn", "WeeklyCritiques", Properties.Resources.weeklyCritique_icon);
 
             var gradesBtn = CreateMenuButton("Điểm thi", "Grades", Properties.Resources.grades_icon);
-            var subjectAveragesBtn = CreateMenuButton("Điểm TB môn", "SubjectAverages", Properties.Resources.subjectAverage_icon);
-            var traineeAverageScoresBtn = CreateMenuButton("Điểm TB học viên", "TraineeAverageScores", Properties.Resources.traineeAverageScore_icon);
+            var subjectAveragesBtn = CreateMenuButton("Điểm trung bình môn", "SubjectAverages", Properties.Resources.subjectAverage_icon);
+            var traineeAverageScoresBtn = CreateMenuButton("Điểm trung bình khóa", "TraineeAverageScores", Properties.Resources.traineeAverageScore_icon);
 
             var schoolYearsBtn = CreateMenuButton("Niên khóa", "SchoolYears", Properties.Resources.schoolyears_icon);
             var semestersBtn = CreateMenuButton("Học kỳ", "Semesters", Properties.Resources.semester_icon);

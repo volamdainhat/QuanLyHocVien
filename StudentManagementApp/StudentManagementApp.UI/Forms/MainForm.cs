@@ -8,7 +8,7 @@ namespace StudentManagementApp.UI.Forms
     {
         private readonly IServiceProvider _serviceProvider;
         private Form currentChildForm;
-        private SidebarMenu sidebarMenu;
+        private SidebarMenuV2 sidebarMenu;
         private Panel contentPanel;
 
         public MainForm(IServiceProvider serviceProvider)
@@ -25,7 +25,7 @@ namespace StudentManagementApp.UI.Forms
             this.IsMdiContainer = true;
 
             // Tạo sidebar menu
-            sidebarMenu = new SidebarMenu();
+            sidebarMenu = new SidebarMenuV2();
             sidebarMenu.MenuItemClicked += SidebarMenu_MenuItemClicked;
             this.Controls.Add(sidebarMenu);
 
@@ -100,6 +100,10 @@ namespace StudentManagementApp.UI.Forms
                 case "WeeklyCritiques":
                     var weeklyCritiquesForm = _serviceProvider.GetRequiredService<WeeklyCritiqueListForm>();
                     OpenChildForm(weeklyCritiquesForm);
+                    break;
+                case "GraduationExamScores":
+                    var graduationExamScoreListForm = _serviceProvider.GetRequiredService<GraduationExamScoreListForm>();
+                    OpenChildForm(graduationExamScoreListForm);
                     break;
                 case "Reports":
                     // Mở form Reports

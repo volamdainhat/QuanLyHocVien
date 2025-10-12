@@ -62,7 +62,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Coefficient
             formPanel.Controls.Add(new Label { Text = "Hệ số:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            nudCoefficient = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth };
+            nudCoefficient = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth, Minimum = 1, Maximum = 5 };
             formPanel.Controls.Add(nudCoefficient);
             y += 40;
 

@@ -1,13 +1,14 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Models.Trainees;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.Infrastructure.Repositories.Categories;
 using StudentManagementApp.Infrastructure.Repositories.Trainees;
-using System;
+using StudentManagementApp.UI.Forms.CRUD.Trainees;
 using System.Globalization;
 
 namespace StudentManagementApp.UI.Forms.CRUD
@@ -21,6 +22,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
+        private List<TraineeViewModel> _trainees;
+        private List<CategoryViewModel> _educationLevels;
+        private List<Class> _classes;
+        private ToolStripButton btnFilter;
+        private ToolStripLabel lblFilterStatus;
+        private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
+
         public TraineeListForm(AppDbContext appDbContext, ITraineeRepository traineeRepository, IRepository<Class> classRepository, ICategoryRepository categoryRepository, IValidationService validationService)
         {
             _appDbContext = appDbContext;
@@ -30,6 +38,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _validationService = validationService;
             InitializeComponent();
             InitializeTraineeList();
+
             LoadTrainees();
         }
 
@@ -52,6 +61,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             imageList.Images.Add(Properties.Resources.refresh_icon);
             imageList.Images.Add(Properties.Resources.import_icon);
             imageList.Images.Add(Properties.Resources.template_icon);
+            imageList.Images.Add(Properties.Resources.filter_icon);
 
             // Gán ImageList cho ToolStrip
             toolStrip.ImageList = imageList;
@@ -81,7 +91,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnTemplate.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnTemplate.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate]);
+            btnFilter = new ToolStripButton("Lọc");
+            btnFilter.ImageIndex = 5;
+            btnFilter.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnFilter.ImageTransparentColor = Color.Magenta;
+
+            lblFilterStatus = new ToolStripLabel("Đang hiển thị tất cả học viên");
+            lblFilterStatus.ImageIndex = 6;
+            lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            lblFilterStatus.ImageTransparentColor = Color.Magenta;
+
+            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate, btnFilter, lblFilterStatus]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -101,14 +121,121 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnAdd.Click += (s, e) => AddTrainee();
             btnEdit.Click += (s, e) => EditTrainee();
             btnRefresh.Click += (s, e) => LoadTrainees();
+            btnFilter.Click += (s, e) => BtnFilter_Click(s, e);
             btnImport.Click += (s, e) => BtnImport_Click(s, e);
             btnTemplate.Click += (s, e) => BtnGenerateTemplate_Click(s, e);
         }
 
+        private async Task BtnFilter_Click(object sender, EventArgs e)
+        {
+            var educationLevels = await LoadEducationLevels();
+
+            using (var filterForm = new TraineeFilterForm(_classes, educationLevels))
+            {
+                filterForm.FilterApplied += (s, args) =>
+                {
+                    _currentFilters = args.FilterValues;
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.FilterCleared += (s, args) =>
+                {
+                    _currentFilters.Clear();
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.ShowDialog();
+            }
+        }
+
+        private void ApplyFilter()
+        {
+            var filtered = _trainees.AsEnumerable();
+
+            // Lọc theo lớp
+            if (_currentFilters.ContainsKey("ClassId"))
+            {
+                var classId = (int)_currentFilters["ClassId"];
+                filtered = filtered.Where(t => t.ClassId == classId);
+            }
+
+            // Lọc theo tên
+            if (_currentFilters.ContainsKey("SearchText"))
+            {
+                var searchText = (string)_currentFilters["SearchText"];
+                filtered = filtered.Where(t =>
+                    t.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // Lọc theo giới tính
+            if (_currentFilters.ContainsKey("Gender"))
+            {
+                var gender = (bool)_currentFilters["Gender"];
+                filtered = filtered.Where(t => t.Gender == gender);
+            }
+
+            // Lọc theo trình độ
+            if (_currentFilters.ContainsKey("EducationLevel"))
+            {
+                var educationLevel = (string)_currentFilters["EducationLevel"];
+                filtered = filtered.Where(t => t.EducationalLevel == educationLevel);
+            }
+
+            // Lọc học viên có lớp
+            if (_currentFilters.ContainsKey("HasClass"))
+            {
+                filtered = filtered.Where(t => t.ClassId.HasValue);
+            }
+
+            dataGridView.DataSource = filtered.ToList();
+        }
+
+        private void UpdateFilterStatus()
+        {
+            if (!_currentFilters.Any())
+            {
+                lblFilterStatus.Text = "Đang hiển thị tất cả học viên";
+                lblFilterStatus.ForeColor = Color.Blue;
+            }
+            else
+            {
+                var filterDetails = new List<string>();
+
+                if (_currentFilters.ContainsKey("ClassId"))
+                {
+                    var classId = (int)_currentFilters["ClassId"];
+                    var className = _classes.First(c => c.Id == classId).Name;
+                    filterDetails.Add($"Lớp: {className}");
+                }
+
+                if (_currentFilters.ContainsKey("SearchText"))
+                    filterDetails.Add($"Tên: {_currentFilters["SearchText"]}");
+
+                if (_currentFilters.ContainsKey("Gender"))
+                    filterDetails.Add($"Giới tính: {((bool)_currentFilters["Gender"] ? "Nam" : "Nữ")}");
+
+                if (_currentFilters.ContainsKey("EducationLevel"))
+                    filterDetails.Add($"Trình độ: {_currentFilters["EducationLevel"]}");
+
+                if (_currentFilters.ContainsKey("HasClass"))
+                    filterDetails.Add("Đã có lớp");
+
+                lblFilterStatus.Text = $"Đang lọc: {string.Join(", ", filterDetails)}";
+                lblFilterStatus.ForeColor = Color.Green;
+            }
+        }
+
         private async void LoadTrainees()
         {
-            var Classs = await _traineeRepository.GetTraineesWithClassAsync();
-            dataGridView.DataSource = Classs.ToList();
+            var classes = await _classRepository.GetAllAsync();
+            var trainees = await _traineeRepository.GetTraineesWithClassAsync();
+
+            _classes = classes.ToList();
+            _trainees = trainees.ToList();
+
+            dataGridView.DataSource = _trainees;
 
             if (dataGridView.Columns["DayOfBirth"] != null)
                 dataGridView.Columns["DayOfBirth"].DefaultCellStyle.Format = "dd/MM/yyyy";
@@ -118,8 +245,16 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             if (dataGridView.Columns["ModifiedDate"] != null)
                 dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
+            ApplyFilter();
         }
 
+        private async Task<List<CategoryViewModel>> LoadEducationLevels()
+        {
+            var educationalLevels = await _categoryRepository.GetCategoriesWithTypeAsync("EducationLevel");
+            educationalLevels = educationalLevels.Where(sy => sy.IsActive).ToList();
+            return educationalLevels.ToList();
+        }
         private void AddTrainee()
         {
             var form = new TraineeForm(_traineeRepository, _classRepository, _categoryRepository, _validationService);
@@ -195,7 +330,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void CreateExcelTemplate(string filePath)
         {
-            ExcelPackage.License.SetNonCommercialPersonal("Dain");
+            ExcelPackage.License.SetNonCommercialPersonal("Võ Lâm Đại Nhất");
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Trainees");
@@ -266,7 +401,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async Task ImportTraineesFromExcel(string filePath)
         {
-            ExcelPackage.License.SetNonCommercialPersonal("Dain");
+            ExcelPackage.License.SetNonCommercialPersonal("Võ Lâm Đại Nhất");
             using (var package = new ExcelPackage(new FileInfo(filePath)))
             {
                 var worksheet = package.Workbook.Worksheets[0];

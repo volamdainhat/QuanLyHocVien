@@ -102,7 +102,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Grade
             formPanel.Controls.Add(new Label { Text = "Điểm số:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            nudGrade = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth, DecimalPlaces = 2 };
+            nudGrade = new NumericUpDown { Location = new Point(x2, y), Width = textBoxWidth, DecimalPlaces = 2, Minimum = 0, Maximum = 10 };
             formPanel.Controls.Add(nudGrade);
             y += 40;
         }
