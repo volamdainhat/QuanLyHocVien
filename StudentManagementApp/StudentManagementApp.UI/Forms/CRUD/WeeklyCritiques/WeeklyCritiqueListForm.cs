@@ -1,9 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.WeeklyCritiques;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.WeeklyCritiques;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -84,7 +83,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddClass();
-            btnEdit.Click += (s, e) => EditClass();
+            btnEdit.Click += async (s, e) => await EditClass();
             btnRefresh.Click += (s, e) => LoadWeeklyCritiques();
         }
 
@@ -109,11 +108,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditClass()
+        private async Task EditClass()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is WeeklyCritiqueViewModel selected)
             {
-                var weeklyCritique = _weeklyCritiqueRepository.GetByIdAsync(selected.Id).Result;
+                var weeklyCritique = await _weeklyCritiqueRepository.GetByIdAsync(selected.Id);
                 var form = new WeeklyCritiqueForm(_weeklyCritiqueRepository, _categoryRepository, _traineeRepository, _validationService, weeklyCritique);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

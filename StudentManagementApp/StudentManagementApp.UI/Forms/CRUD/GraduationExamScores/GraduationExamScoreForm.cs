@@ -1,9 +1,7 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.GraduationExamScores;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 
@@ -11,7 +9,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class GraduationExamScoreForm : BaseCrudForm
     {
-        private readonly IGraduationExamScoreRepository _graduationExamScoreRepository; 
+        private readonly IGraduationExamScoreRepository _graduationExamScoreRepository;
+        private readonly IGraduationScoreRepository _graduationScoreRepository;
         private readonly ITraineeRepository _traineeRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
@@ -22,12 +21,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         public GraduationExamScoreForm(
             IGraduationExamScoreRepository graduationExamScoreRepository,
+            IGraduationScoreRepository graduationScoreRepository,
             ITraineeRepository traineeRepository,
             ICategoryRepository categoryRepository,
             IValidationService validationService,
             GraduationExamScore? graduationExamScore = null)
         {
             _graduationExamScoreRepository = graduationExamScoreRepository;
+            _graduationScoreRepository = graduationScoreRepository;
             _traineeRepository = traineeRepository;
             _categoryRepository = categoryRepository;
             _validationService = validationService;
@@ -158,7 +159,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                         await _graduationExamScoreRepository.UpdateAsync(_graduationExamScore);
                     }
 
-                    // await UpdateSubjectAverageAndTraineeAverageScore();
+                    await UpdateTraineeGraduationScoreAsync();
 
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -182,13 +183,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private async Task UpdateSubjectAverageAndTraineeAverageScore()
+        private async Task UpdateTraineeGraduationScoreAsync()
         {
             // Cập nhật điểm trung bình môn cho học viên
-            //await _subjectAverageRepository.UpdateTraineeSubjectAverageAsync(_graduationExamScore.SubjectId, _graduationExamScore.TraineeId);
-
-            //// Cập nhật điểm trung bình học kỳ cho học viên
-            //await _traineeRepository.UpdateTraineeAverageScoreAsync(_graduationExamScore.TraineeId, _graduationExamScore.SemesterId);
+            await _graduationScoreRepository.UpdateTraineeGraduationScoreAsync(_graduationExamScore.TraineeId);
         }
 
         protected override async void Delete()
@@ -199,7 +197,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             {
                 await _graduationExamScoreRepository.DeleteAsync(_graduationExamScore);
 
-                // await UpdateSubjectAverageAndTraineeAverageScore();
+                await UpdateTraineeGraduationScoreAsync();
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

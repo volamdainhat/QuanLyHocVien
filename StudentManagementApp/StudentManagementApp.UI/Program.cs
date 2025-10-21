@@ -1,21 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Classes;
-using StudentManagementApp.Infrastructure.Repositories.Gradeses;
-using StudentManagementApp.Infrastructure.Repositories.GraduationExamScores;
-using StudentManagementApp.Infrastructure.Repositories.Misconducts;
-using StudentManagementApp.Infrastructure.Repositories.Schedules;
-using StudentManagementApp.Infrastructure.Repositories.Semesters;
-using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
-using StudentManagementApp.Infrastructure.Repositories.Subjects;
-using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
-using StudentManagementApp.Infrastructure.Repositories.WeeklyCritiques;
 using StudentManagementApp.UI.Forms;
+using StudentManagementApp.UI.Forms.Auth;
 using StudentManagementApp.UI.Forms.CRUD;
 using System.Configuration;
 
@@ -24,6 +16,7 @@ namespace StudentManagementApp.UI
     internal static class Program
     {
         public static IServiceProvider ServiceProvider { get; private set; }
+        public static User CurrentUser { get; set; }
 
         /// <summary>
         ///  The main entry point for the application.
@@ -47,7 +40,53 @@ namespace StudentManagementApp.UI
                 context.Database.EnsureCreated();
             }
 
-            Application.Run(ServiceProvider.GetRequiredService<MainForm>());
+            RunApplication();
+        }
+
+        private static void RunApplication()
+        {
+            var sessionService = ServiceProvider.GetService<ISessionService>();
+
+            while (true)
+            {
+                using (var loginForm = new LoginForm(ServiceProvider.GetService<IAuthService>(), sessionService))
+                {
+                    if (loginForm.ShowDialog() == DialogResult.OK && sessionService.IsLoggedIn)
+                    {
+                        using (var mainForm = new MainForm(ServiceProvider, sessionService))
+                        {
+                            // ??ng ký s? ki?n logout
+                            sessionService.OnUserLoggedOut += (user) =>
+                            {
+                                // S? d?ng Invoke n?u c?n thi?t ?? ch?y trên UI thread
+                                if (mainForm.InvokeRequired)
+                                {
+                                    mainForm.Invoke(new Action(() =>
+                                    {
+                                        mainForm.DialogResult = DialogResult.Abort;
+                                        mainForm.Close();
+                                    }));
+                                }
+                                else
+                                {
+                                    mainForm.DialogResult = DialogResult.Abort;
+                                    mainForm.Close();
+                                }
+                            };
+
+                            var result = mainForm.ShowDialog();
+
+                            if (result == DialogResult.Abort)
+                            {
+                                // Ti?p t?c vòng l?p ?? hi?n th? login form
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
         static void ConfigureServices(ServiceCollection services)
@@ -66,6 +105,7 @@ namespace StudentManagementApp.UI
 
             // Register repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ITraineeRepository, TraineeRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -78,9 +118,12 @@ namespace StudentManagementApp.UI
             services.AddScoped<IWeeklyCritiqueRepository, WeeklyCritiqueRepository>();
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IGraduationExamScoreRepository, GraduationExamScoreRepository>();
+            services.AddScoped<IGraduationScoreRepository, GraduationScoreRepository>();
 
             // Register validation services
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IValidationService, ValidationService>();
+            services.AddSingleton<ISessionService, SessionService>();
 
             // Register forms
             services.AddTransient<MainForm>();
@@ -98,6 +141,8 @@ namespace StudentManagementApp.UI
             services.AddTransient<TraineeAverageScoreListForm>();
             services.AddTransient<WeeklyCritiqueListForm>();
             services.AddTransient<GraduationExamScoreListForm>();
+            services.AddTransient<GraduationScoreListForm>();
+            services.AddTransient<RollCallListForm>();
         }
     }
 }

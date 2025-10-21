@@ -32,6 +32,18 @@
     <Compile Update="Controls\SidebarMenuV2.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Forms\CRUD\RollCalls\RollCallForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\RollCalls\RollCallListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\GraduationScores\GraduationScoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CRUD\GraduationScores\GraduationScoreListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\CRUD\GraduationExamScores\GraduationExamScoreForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,7 +119,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

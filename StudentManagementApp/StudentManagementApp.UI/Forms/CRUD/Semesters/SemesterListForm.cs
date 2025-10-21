@@ -1,8 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Semesters;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Semesters;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -76,7 +76,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => Add();
-            btnEdit.Click += (s, e) => Edit();
+            btnEdit.Click += async (s, e) => await Edit();
             btnRefresh.Click += (s, e) => LoadSemesters();
         }
 
@@ -107,11 +107,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void Edit()
+        private async Task Edit()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is SemesterViewModel selected)
             {
-                var entity = _semesterRepository.GetByIdAsync(selected.Id).Result;
+                var entity = await _semesterRepository.GetByIdAsync(selected.Id);
                 var form = new SemesterForm(_semesterRepository, _schoolYearRepository, _validationService, entity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

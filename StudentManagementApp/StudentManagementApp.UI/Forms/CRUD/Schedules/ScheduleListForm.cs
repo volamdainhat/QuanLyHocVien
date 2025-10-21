@@ -1,9 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Schedules;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Schedules;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -86,7 +85,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddSchedule();
-            btnEdit.Click += (s, e) => EditSchedule();
+            btnEdit.Click += async (s, e) => await EditSchedule();
             btnRefresh.Click += (s, e) => LoadSchedules();
         }
 
@@ -114,11 +113,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditSchedule()
+        private async Task EditSchedule()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is ScheduleViewModel selectedSchedule)
             {
-                var scheduleEntity = _scheduleRepository.GetByIdAsync(selectedSchedule.Id).Result;
+                var scheduleEntity = await _scheduleRepository.GetByIdAsync(selectedSchedule.Id);
                 var form = new ScheduleForm(_scheduleRepository, _classRepository, _subjectRepository, _categoryRepository, _validationService, scheduleEntity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

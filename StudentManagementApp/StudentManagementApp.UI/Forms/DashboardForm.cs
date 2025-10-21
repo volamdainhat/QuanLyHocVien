@@ -1,5 +1,4 @@
-﻿using StudentManagementApp.Infrastructure.Repositories.Schedules;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
+﻿using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.UI.Controls;
 
 namespace StudentManagementApp.UI.Forms

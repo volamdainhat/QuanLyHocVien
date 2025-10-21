@@ -1,9 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Misconducts;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Misconducts;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -83,7 +82,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddMisconduct();
-            btnEdit.Click += (s, e) => EditMisconduct();
+            btnEdit.Click += async (s, e) => await EditMisconduct();
             btnRefresh.Click += (s, e) => LoadMisconducts();
         }
 
@@ -111,11 +110,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditMisconduct()
+        private async Task EditMisconduct()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is MisconductViewModel selectedMisconduct)
             {
-                var misconduct = _misconductRepository.GetByIdAsync(selectedMisconduct.Id).Result;
+                var misconduct = await _misconductRepository.GetByIdAsync(selectedMisconduct.Id);
                 var form = new MisconductForm(_misconductRepository, _traineeRepository, _categoryRepository, _validationService, misconduct);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

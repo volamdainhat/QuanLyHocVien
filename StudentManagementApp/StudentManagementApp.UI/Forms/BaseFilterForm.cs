@@ -100,8 +100,8 @@
         }
 
         // Phương thức helper để tạo controls
-        protected ComboBox CreateComboBox(string label, int yPosition, object dataSource = null,
-            string displayMember = null, string valueMember = null)
+        protected ComboBox CreateComboBox(string label, int yPosition, object? dataSource = null,
+            string? displayMember = null, string? valueMember = null)
         {
             var lbl = new Label
             {
@@ -116,8 +116,8 @@
                 Width = 200,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 DataSource = dataSource,
-                DisplayMember = displayMember,
-                ValueMember = valueMember
+                DisplayMember = displayMember ?? "",
+                ValueMember = valueMember ?? ""
             };
 
             pnlMain.Controls.Add(lbl);

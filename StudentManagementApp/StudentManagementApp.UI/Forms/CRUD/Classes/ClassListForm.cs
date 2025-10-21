@@ -1,8 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Classes;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Classes;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -75,8 +75,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
 
-            btnAdd.Click += (s, e) => AddClass();
-            btnEdit.Click += (s, e) => EditClass();
+            btnAdd.Click += (s, e) => Add();
+            btnEdit.Click += async (s, e) => await Edit();
             btnRefresh.Click += (s, e) => LoadClasses();
         }
 
@@ -92,7 +92,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
-        private void AddClass()
+        private void Add()
         {
             var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
@@ -101,11 +101,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditClass()
+        private async Task Edit()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is ClassViewModel selectedClass)
             {
-                var classEntity = _classRepository.GetByIdAsync(selectedClass.Id).Result;
+                var classEntity = await _classRepository.GetByIdAsync(selectedClass.Id);
                 var form = new ClassForm(_classRepository, _schoolYearRepository, _validationService, classEntity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StudentManagementApp.Core.Interfaces.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentManagementApp.Core.Services
 {

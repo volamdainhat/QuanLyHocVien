@@ -1,12 +1,8 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Grades;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Gradeses;
-using StudentManagementApp.Infrastructure.Repositories.Semesters;
-using StudentManagementApp.Infrastructure.Repositories.SubjectAverages;
-using StudentManagementApp.Infrastructure.Repositories.TraineeAverageScores;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -98,7 +94,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddClass();
-            btnEdit.Click += (s, e) => EditClass();
+            btnEdit.Click += async (s, e) => await EditClass();
             btnRefresh.Click += (s, e) => LoadGrades();
         }
 
@@ -123,11 +119,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditClass()
+        private async Task EditClass()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is GradesViewModel selectedGrades)
             {
-                var grades = _gradesRepository.GetByIdAsync(selectedGrades.Id).Result;
+                var grades = await _gradesRepository.GetByIdAsync(selectedGrades.Id);
                 var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService, grades);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

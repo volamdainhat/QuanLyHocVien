@@ -10,6 +10,8 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<RollCall> RollCalls { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<GraduationScore> GraduationScores { get; set; }
         public DbSet<GraduationExamScore> GraduationExamScores { get; set; }
         public DbSet<WeeklyCritique> WeeklyCritiques { get; set; }
@@ -32,6 +34,25 @@ namespace StudentManagementApp.Infrastructure.Data
 
             // Create a fixed date for all seed data
             var seedDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var userHashingSalt = "$2a$11$eImiTXuWVxfM37uY4JANjQ=="; // Example salt, replace with your own
+            var userPasswordHash = HashPassword("admin123", userHashingSalt);
+
+            // Seed default admin user
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Username = "admin",
+                    PasswordHash = userPasswordHash, // You'll need to implement HashPassword
+                    Email = "admin@school.edu.vn",
+                    FullName = "Quản Trị Viên",
+                    Role = "Admin",
+                    IsActive = true,
+                    CreatedDate = seedDate,
+                    LastLoginDate = null,
+                    ModifiedDate = null
+                }
+            );
 
             // Data seed
             modelBuilder.Entity<Category>().HasData(
@@ -196,6 +217,11 @@ namespace StudentManagementApp.Infrastructure.Data
             }
 
             //optionsBuilder.UseSqlite("Data Source=StudentManagementDB.db");
+        }
+
+        private string HashPassword(string password, string salt)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password, salt);
         }
     }
 }

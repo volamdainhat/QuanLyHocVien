@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Infrastructure.Data;
 using System.Linq.Expressions;
 

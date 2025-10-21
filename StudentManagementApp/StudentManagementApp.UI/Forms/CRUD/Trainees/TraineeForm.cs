@@ -1,9 +1,7 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing.Imaging;
@@ -132,11 +130,16 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void SetupOtherTab(TabPage? tabPage)
         {
+            if (tabPage == null)
+            {
+                return;
+            }
+
             tabPage.Padding = new Padding(10);
             int y = 20;
-            int labelWidth = 200;
+            // int labelWidth = 200;
             int controlWidth = 250;
-            int spacing = 40;
+            // int spacing = 40;
 
             // Ảnh đại diện
             AddLabel(tabPage, "Ảnh đại diện:", 20, y);
@@ -171,9 +174,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void SetupFamilyTab(TabPage? tabPage)
         {
+            if (tabPage == null)
+            {
+                return;
+            }
+
             tabPage.Padding = new Padding(10);
             int y = 20;
-            int labelWidth = 200;
+            // int labelWidth = 200;
             int controlWidth = 250;
             int spacing = 40;
 
@@ -199,6 +207,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void SetupMilitaryTab(TabPage? tabPage)
         {
+            if (tabPage == null)
+            {
+                return;
+            }
+
             tabPage.Padding = new Padding(10);
             int y = 20;
             int labelWidth = 200;
@@ -273,6 +286,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void SetupPersonalTab(TabPage? tabPage)
         {
+            if (tabPage == null)
+            {
+                return;
+            }
+
             tabPage.Padding = new Padding(10);
             int y = 20;
             int labelWidth = 200;

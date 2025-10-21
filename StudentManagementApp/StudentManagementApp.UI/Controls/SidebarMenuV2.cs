@@ -75,16 +75,20 @@
             var subjectAveragesBtn = CreateMenuButton("Điểm trung bình môn", "SubjectAverages", Properties.Resources.subjectAverage_icon, ref yPos);
             var traineeAverageScoresBtn = CreateMenuButton("Điểm trung bình khóa", "TraineeAverageScores", Properties.Resources.traineeAverageScore_icon, ref yPos);
             var graduationExamScoresBtn = CreateMenuButton("Điểm thi tốt nghiệp", "GraduationExamScores", Properties.Resources.graduationExamScore_icon, ref yPos);
+            var graduationScoresBtn = CreateMenuButton("Điểm xét tốt nghiệp", "GraduationScores", Properties.Resources.graduationScore_icon, ref yPos);
             menuPanel.Controls.Add(gradesBtn);
             menuPanel.Controls.Add(subjectAveragesBtn);
             menuPanel.Controls.Add(traineeAverageScoresBtn);
             menuPanel.Controls.Add(graduationExamScoresBtn);
+            menuPanel.Controls.Add(graduationScoresBtn);
 
             // === NHÓM 6: QUẢN LÝ RÈN LUYỆN ===
             yPos += 10;
             yPos = CreateMenuHeader("QUẢN LÝ RÈN LUYỆN", menuPanel, yPos);
+            var rollCallsBtn = CreateMenuButton("Điểm danh", "RollCalls", Properties.Resources.rollCall_icon, ref yPos);
             var misconductsBtn = CreateMenuButton("Kỷ luật", "Misconducts", Properties.Resources.misconduct_icon, ref yPos);
             var weeklyCritiquesBtn = CreateMenuButton("Bình rèn", "WeeklyCritiques", Properties.Resources.weeklyCritique_icon, ref yPos);
+            menuPanel.Controls.Add(rollCallsBtn);
             menuPanel.Controls.Add(misconductsBtn);
             menuPanel.Controls.Add(weeklyCritiquesBtn);
 
@@ -204,12 +208,14 @@
             };
 
             btn.Click += MenuButton_Click;
-            btn.MouseEnter += (s, e) => {
+            btn.MouseEnter += (s, e) =>
+            {
                 if (((Button)s).BackColor != activeColor)
                     ((Button)s).BackColor = hoverColor;
                 ((Button)s).Refresh();
             };
-            btn.MouseLeave += (s, e) => {
+            btn.MouseLeave += (s, e) =>
+            {
                 if (((Button)s).BackColor != activeColor)
                     ((Button)s).BackColor = normalColor;
                 ((Button)s).Refresh();

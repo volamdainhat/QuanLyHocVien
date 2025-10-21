@@ -1,15 +1,14 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Models.Trainees;
-using StudentManagementApp.Core.Services;
 using StudentManagementApp.Infrastructure.Data;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
 using StudentManagementApp.UI.Forms.CRUD.Trainees;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -119,10 +118,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddTrainee();
-            btnEdit.Click += (s, e) => EditTrainee();
+            btnEdit.Click += async (s, e) => await EditTrainee();
             btnRefresh.Click += (s, e) => LoadTrainees();
-            btnFilter.Click += (s, e) => BtnFilter_Click(s, e);
-            btnImport.Click += (s, e) => BtnImport_Click(s, e);
+            btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
+            btnImport.Click += async (s, e) => await BtnImport_Click(s, e);
             btnTemplate.Click += (s, e) => BtnGenerateTemplate_Click(s, e);
         }
 
@@ -264,11 +263,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void EditTrainee()
+        private async Task EditTrainee()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is TraineeViewModel selectedTrainee)
             {
-                var traineeEntity = _traineeRepository.GetByIdAsync(selectedTrainee.Id).Result;
+                var traineeEntity = await _traineeRepository.GetByIdAsync(selectedTrainee.Id);
                 var form = new TraineeForm(_traineeRepository, _classRepository, _categoryRepository, _validationService, traineeEntity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -277,7 +276,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
-        private void BtnImport_Click(object sender, EventArgs e)
+        private async Task BtnImport_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -288,7 +287,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 {
                     try
                     {
-                        ImportTraineesFromExcel(openFileDialog.FileName);
+                        await ImportTraineesFromExcel(openFileDialog.FileName);
                         MessageBox.Show("Import dữ liệu thành công!", "Thông báo",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }

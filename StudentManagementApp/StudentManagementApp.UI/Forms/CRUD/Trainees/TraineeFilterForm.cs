@@ -55,7 +55,7 @@ namespace StudentManagementApp.UI.Forms.CRUD.Trainees
             // ComboBox trình độ
             cmbEducation = CreateComboBox("Trình độ:", yPos);
             cmbEducation.Items.Add("Tất cả trình độ");
-            var educationLevels = _educationLevels.Select(r => r.Name).ToArray();
+            var educationLevels = _educationLevels.Select(r => r.Name ?? "").ToArray();
             cmbEducation.Items.AddRange(educationLevels);
             cmbEducation.SelectedIndex = 0;
 

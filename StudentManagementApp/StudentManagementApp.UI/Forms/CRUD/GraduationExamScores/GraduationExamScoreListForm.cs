@@ -1,14 +1,14 @@
-﻿using StudentManagementApp.Core.Models.GraduationExamScores;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.GraduationExamScores;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
+﻿using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Models.GraduationExamScores;
+using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class GraduationExamScoreListForm : Form
     {
         private readonly IGraduationExamScoreRepository _graduationExamScoreRepository;
+        private readonly IGraduationScoreRepository _graduationScoreRepository;
         private readonly ITraineeRepository _traineeRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
@@ -16,11 +16,13 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         public GraduationExamScoreListForm(
             IGraduationExamScoreRepository graduationExamScoreRepository,
-            ITraineeRepository traineeRepository,
+            IGraduationScoreRepository graduationScoreRepository,
+        ITraineeRepository traineeRepository,
             ICategoryRepository categoryRepository,
             IValidationService validationService)
         {
             _graduationExamScoreRepository = graduationExamScoreRepository;
+            _graduationScoreRepository = graduationScoreRepository;
             _traineeRepository = traineeRepository;
             _categoryRepository = categoryRepository;
             _validationService = validationService;
@@ -82,7 +84,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => Add();
-            btnEdit.Click += (s, e) => Edit();
+            btnEdit.Click += async (s, e) => await Edit();
             btnRefresh.Click += (s, e) => LoadGraduationExamScores();
         }
 
@@ -100,19 +102,19 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void Add()
         {
-            var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _traineeRepository, _categoryRepository, _validationService);
+            var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _graduationScoreRepository, _traineeRepository, _categoryRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadGraduationExamScores();
             }
         }
 
-        private void Edit()
+        private async Task Edit()
         {
             if (dataGridView.CurrentRow?.DataBoundItem is GraduationExamScoreViewModel selected)
             {
-                var entity = _graduationExamScoreRepository.GetByIdAsync(selected.Id).Result;
-                var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _traineeRepository, _categoryRepository, _validationService, entity);
+                var entity = await _graduationExamScoreRepository.GetByIdAsync(selected.Id);
+                var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _graduationScoreRepository, _traineeRepository, _categoryRepository, _validationService, entity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadGraduationExamScores();

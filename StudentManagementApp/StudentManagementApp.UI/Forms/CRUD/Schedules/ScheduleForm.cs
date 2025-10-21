@@ -1,9 +1,7 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Categories;
-using StudentManagementApp.Infrastructure.Repositories.Schedules;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -128,7 +126,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbPeriod.ValueMember = "Code";
         }
 
-        private async void LoadScheduleData()
+        private void LoadScheduleData()
         {
             LoadClasses();
             LoadSubjects();

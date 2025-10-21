@@ -22,7 +22,7 @@ namespace StudentManagementApp.UI.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace StudentManagementApp.UI.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StudentManagementApp.UI.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace StudentManagementApp.UI.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_icon {
+        public static System.Drawing.Bitmap add_icon {
             get {
                 object obj = ResourceManager.GetObject("add_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap cancel_icon {
+        public static System.Drawing.Bitmap cancel_icon {
             get {
                 object obj = ResourceManager.GetObject("cancel_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap categories_icon {
+        public static System.Drawing.Bitmap categories_icon {
             get {
                 object obj = ResourceManager.GetObject("categories_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap class_icon {
+        public static System.Drawing.Bitmap class_icon {
             get {
                 object obj = ResourceManager.GetObject("class_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap dashboard_icon {
+        public static System.Drawing.Bitmap dashboard_icon {
             get {
                 object obj = ResourceManager.GetObject("dashboard_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap delete_icon {
+        public static System.Drawing.Bitmap delete_icon {
             get {
                 object obj = ResourceManager.GetObject("delete_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap edit_icon {
+        public static System.Drawing.Bitmap edit_icon {
             get {
                 object obj = ResourceManager.GetObject("edit_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +133,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap filter_icon {
+        public static System.Drawing.Bitmap filter_icon {
             get {
                 object obj = ResourceManager.GetObject("filter_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +143,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap grades_icon {
+        public static System.Drawing.Bitmap grades_icon {
             get {
                 object obj = ResourceManager.GetObject("grades_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +153,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap graduationExamScore_icon {
+        public static System.Drawing.Bitmap graduationExamScore_icon {
             get {
                 object obj = ResourceManager.GetObject("graduationExamScore_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +163,17 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap import_icon {
+        public static System.Drawing.Bitmap graduationScore_icon {
+            get {
+                object obj = ResourceManager.GetObject("graduationScore_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap import_icon {
             get {
                 object obj = ResourceManager.GetObject("import_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +183,17 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap misconduct_icon {
+        public static System.Drawing.Bitmap logout_icon {
+            get {
+                object obj = ResourceManager.GetObject("logout_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap misconduct_icon {
             get {
                 object obj = ResourceManager.GetObject("misconduct_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +203,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap products_icon {
+        public static System.Drawing.Bitmap products_icon {
             get {
                 object obj = ResourceManager.GetObject("products_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +213,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap refresh_icon {
+        public static System.Drawing.Bitmap refresh_icon {
             get {
                 object obj = ResourceManager.GetObject("refresh_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +223,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap reports_icon {
+        public static System.Drawing.Bitmap reports_icon {
             get {
                 object obj = ResourceManager.GetObject("reports_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +233,17 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap save_icon {
+        public static System.Drawing.Bitmap rollCall_icon {
+            get {
+                object obj = ResourceManager.GetObject("rollCall_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap save_icon {
             get {
                 object obj = ResourceManager.GetObject("save_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +253,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap schedule_icon {
+        public static System.Drawing.Bitmap schedule_icon {
             get {
                 object obj = ResourceManager.GetObject("schedule_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +263,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap schoolyears_icon {
+        public static System.Drawing.Bitmap schoolyears_icon {
             get {
                 object obj = ResourceManager.GetObject("schoolyears_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +273,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap semester_icon {
+        public static System.Drawing.Bitmap semester_icon {
             get {
                 object obj = ResourceManager.GetObject("semester_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +283,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings_icon {
+        public static System.Drawing.Bitmap settings_icon {
             get {
                 object obj = ResourceManager.GetObject("settings_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +293,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap subjectAverage_icon {
+        public static System.Drawing.Bitmap subjectAverage_icon {
             get {
                 object obj = ResourceManager.GetObject("subjectAverage_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +303,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap subjects_icon {
+        public static System.Drawing.Bitmap subjects_icon {
             get {
                 object obj = ResourceManager.GetObject("subjects_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +313,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap template_icon {
+        public static System.Drawing.Bitmap template_icon {
             get {
                 object obj = ResourceManager.GetObject("template_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +323,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap trainee_icon {
+        public static System.Drawing.Bitmap trainee_icon {
             get {
                 object obj = ResourceManager.GetObject("trainee_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +333,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap traineeAverageScore_icon {
+        public static System.Drawing.Bitmap traineeAverageScore_icon {
             get {
                 object obj = ResourceManager.GetObject("traineeAverageScore_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +343,7 @@ namespace StudentManagementApp.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap weeklyCritique_icon {
+        public static System.Drawing.Bitmap weeklyCritique_icon {
             get {
                 object obj = ResourceManager.GetObject("weeklyCritique_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

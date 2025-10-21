@@ -1,6 +1,6 @@
 ﻿using StudentManagementApp.Core.Entities;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {

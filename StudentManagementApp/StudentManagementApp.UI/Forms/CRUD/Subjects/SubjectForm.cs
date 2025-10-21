@@ -1,6 +1,6 @@
 ﻿using StudentManagementApp.Core.Entities;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories.Subjects;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -71,7 +71,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             txtCode.Validating += TxtCode_Validating;
         }
 
-        private async void LoadSubjectData()
+        private void LoadSubjectData()
         {
             if (_subject.Id > 0)
             {

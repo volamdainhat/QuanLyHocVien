@@ -1,8 +1,6 @@
-﻿using StudentManagementApp.Core.Models.Schedules;
+﻿using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Models.Schedules;
 using StudentManagementApp.Core.Models.Trainees;
-using StudentManagementApp.Infrastructure.Repositories.Schedules;
-using StudentManagementApp.Infrastructure.Repositories.Trainees;
-using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Controls
 {
@@ -31,7 +29,7 @@ namespace StudentManagementApp.UI.Controls
             this.Dock = DockStyle.Fill;
 
             int x = 40;
-            int y = 100;
+            // int y = 100;
 
             var titleLabel = new Label
             {

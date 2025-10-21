@@ -1,7 +1,6 @@
 ﻿using StudentManagementApp.Core.Entities;
-using StudentManagementApp.Core.Services;
-using StudentManagementApp.Infrastructure.Repositories;
-using StudentManagementApp.Infrastructure.Repositories.Semesters;
+using StudentManagementApp.Core.Interfaces.Repositories;
+using StudentManagementApp.Core.Interfaces.Services;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -82,7 +81,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             txtName.Validating += TxtName_Validating;
         }
 
-        private async void LoadSemesterData()
+        private void LoadSemesterData()
         {
             if (_semester.Id > 0)
             {
