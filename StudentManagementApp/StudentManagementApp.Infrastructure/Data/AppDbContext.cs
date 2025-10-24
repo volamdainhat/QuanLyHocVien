@@ -120,8 +120,6 @@ namespace StudentManagementApp.Infrastructure.Data
                 new Category { Id = 56, Type = "Provinces", Code = "ca_mau_96", Name = "Tỉnh Cà Mau", SortOrder = 34, CreatedDate = seedDate, IsActive = true },
 
                 // Education Level
-                new Category { Id = 57, Type = "EducationLevel", Code = "mam_non", Name = "Mầm non", SortOrder = 1, CreatedDate = seedDate, IsActive = true },
-                new Category { Id = 58, Type = "EducationLevel", Code = "tieu_hoc", Name = "Tiểu học", SortOrder = 2, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 59, Type = "EducationLevel", Code = "thcs", Name = "Trung học cơ sở", SortOrder = 3, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 60, Type = "EducationLevel", Code = "thpt", Name = "Trung học phổ thông", SortOrder = 4, CreatedDate = seedDate, IsActive = true },
                 new Category { Id = 61, Type = "EducationLevel", Code = "trung_cap", Name = "Trung cấp", SortOrder = 5, CreatedDate = seedDate, IsActive = true },
