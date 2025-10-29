@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
@@ -24,23 +24,66 @@ namespace StudentManagementApp.UI
         [STAThread]
         static void Main()
         {
+            // Ghi log khi ứng dụng bắt đầu
+            File.WriteAllText("startup_log.txt", $"{DateTime.Now}: Application starting...");
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-
-            ServiceProvider = services.BuildServiceProvider();
-
-            // Create database
-            using (var scope = ServiceProvider.CreateScope())
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.Database.EnsureCreated();
+                var ex = (Exception)e.ExceptionObject;
+                File.WriteAllText($"crash_log_{DateTime.Now:yyyyMMdd_HHmmss}.txt",
+                    $"UNHANDLED EXCEPTION:\n{ex}");
+                MessageBox.Show($"Critical error: {ex.Message}");
+            };
+
+            try
+            {
+                TestDatabaseConnection();
+
+                var services = new ServiceCollection();
+                ConfigureServices(services);
+
+                ServiceProvider = services.BuildServiceProvider();
+
+                // Create database
+                using (var scope = ServiceProvider.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    context.Database.EnsureCreated();
+                }
+
+                RunApplication();
+            }
+            catch (Exception ex)
+            {
+                File.WriteAllText($"startup_error_{DateTime.Now:yyyyMMdd_HHmmss}.txt",
+                    $"STARTUP ERROR:\n{ex}");
+                MessageBox.Show($"Startup failed: {ex.Message}\n\nCheck error log file.",
+                    "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        static void TestDatabaseConnection()
+        {
+            // Kiểm tra file database tồn tại
+            if (!File.Exists("StudentManagementDB.db"))
+            {
+                throw new FileNotFoundException("Database file 'StudentManagementDB.db' not found!");
             }
 
-            RunApplication();
+            // Test connection string
+            var config = System.Configuration.ConfigurationManager
+                .ConnectionStrings["DefaultConnection"];
+            if (config == null)
+            {
+                throw new Exception("Connection string 'DefaultConnection' not found in App.config!");
+            }
+
+            File.WriteAllText("startup_log.txt",
+                $"{DateTime.Now}: Database check passed - File exists: {File.Exists("StudentManagementDB.db")}");
         }
 
         private static void RunApplication()
@@ -55,10 +98,10 @@ namespace StudentManagementApp.UI
                     {
                         using (var mainForm = new MainForm(ServiceProvider, sessionService))
                         {
-                            // ??ng k� s? ki?n logout
+                            // ??ng ký s? ki?n logout
                             sessionService.OnUserLoggedOut += (user) =>
                             {
-                                // S? d?ng Invoke n?u c?n thi?t ?? ch?y tr�n UI thread
+                                // S? d?ng Invoke n?u c?n thi?t ?? ch?y trên UI thread
                                 if (mainForm.InvokeRequired)
                                 {
                                     mainForm.Invoke(new Action(() =>
@@ -78,7 +121,7 @@ namespace StudentManagementApp.UI
 
                             if (result == DialogResult.Abort)
                             {
-                                // Ti?p t?c v�ng l?p ?? hi?n th? login form
+                                // Ti?p t?c vòng l?p ?? hi?n th? login form
                                 continue;
                             }
                         }
@@ -95,6 +138,7 @@ namespace StudentManagementApp.UI
             // Read connection string from App.config
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
             var databasePath = Path.Combine(basePath, connectionString);
+
             if (string.IsNullOrEmpty(connectionString))
             {
                 // Fallback

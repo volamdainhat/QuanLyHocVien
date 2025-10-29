@@ -2,7 +2,6 @@
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Misconducts;
-using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {

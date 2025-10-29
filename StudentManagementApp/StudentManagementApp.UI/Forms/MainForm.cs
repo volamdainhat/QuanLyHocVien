@@ -2,8 +2,6 @@
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.UI.Controls;
 using StudentManagementApp.UI.Forms.CRUD;
-using System.Drawing.Printing;
-using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms
 {

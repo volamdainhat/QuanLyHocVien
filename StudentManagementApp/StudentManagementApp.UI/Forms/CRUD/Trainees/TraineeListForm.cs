@@ -8,7 +8,6 @@ using StudentManagementApp.Core.Models.Trainees;
 using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.UI.Forms.CRUD.Trainees;
 using System.Globalization;
-using System.Threading.Tasks;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {

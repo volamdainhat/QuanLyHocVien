@@ -1,5 +1,4 @@
-﻿using StudentManagementApp.Core.Entities;
-using StudentManagementApp.Core.Interfaces.Services;
+﻿using StudentManagementApp.Core.Interfaces.Services;
 
 namespace StudentManagementApp.UI.Forms.Auth
 {

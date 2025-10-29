@@ -1,127 +1,140 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="EPPlus" Version="8.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-    <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Helpers\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StudentManagementApp.Core\StudentManagementApp.Core.csproj" />
-    <ProjectReference Include="..\StudentManagementApp.Infrastructure\StudentManagementApp.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EPPlus" Version="8.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+		<PackageReference Include="System.Data.SQLite" Version="2.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Controls\SidebarMenuV2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\RollCalls\RollCallForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\RollCalls\RollCallListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\GraduationScores\GraduationScoreForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\GraduationScores\GraduationScoreListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\GraduationExamScores\GraduationExamScoreForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\GraduationExamScores\GraduationExamScoreListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Semesters\SemesterForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Semesters\SemesterListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\TraineeAverageScores\TraineeAverageScoreListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\SubjectAverages\SubjectAverageListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Misconducts\MisconductForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Misconducts\MisconductListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Schedules\ScheduleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Schedules\ScheduleListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Gradeses\GradesListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Gradeses\GradesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Subjects\SubjectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Subjects\SubjectListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Trainees\TraineeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Classes\ClassForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Trainees\TraineeListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\SchoolYears\SchoolYearForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\Classes\ClassListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\CRUD\SchoolYears\SchoolYearListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="StudentManagementDB.db">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\StudentManagementApp.Core\StudentManagementApp.Core.csproj" />
+		<ProjectReference Include="..\StudentManagementApp.Infrastructure\StudentManagementApp.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Controls\SidebarMenuV2.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\RollCalls\RollCallForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\RollCalls\RollCallListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\GraduationScores\GraduationScoreForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\GraduationScores\GraduationScoreListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\GraduationExamScores\GraduationExamScoreForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\GraduationExamScores\GraduationExamScoreListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\WeeklyCritiques\WeeklyCritiqueListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Semesters\SemesterForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Semesters\SemesterListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\TraineeAverageScores\TraineeAverageScoreListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\SubjectAverages\SubjectAverageListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Misconducts\MisconductForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Misconducts\MisconductListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Schedules\ScheduleForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Schedules\ScheduleListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Gradeses\GradesListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Gradeses\GradesForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Subjects\SubjectForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Subjects\SubjectListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Trainees\TraineeForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Classes\ClassForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Trainees\TraineeListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\SchoolYears\SchoolYearForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\Classes\ClassListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Forms\CRUD\SchoolYears\SchoolYearListForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

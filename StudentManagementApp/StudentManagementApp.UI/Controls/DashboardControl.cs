@@ -11,6 +11,7 @@ namespace StudentManagementApp.UI.Controls
         private int _totalTrainees;
         private List<TraineeByClassModel> _traineesByClass;
         private List<ScheduleForTodayModel> _scheduleViews;
+        private DataGridView _dgvSchedules;
 
         public DashboardControl(
             ITraineeRepository traineeRepository,
@@ -60,31 +61,72 @@ namespace StudentManagementApp.UI.Controls
 
             var subtitleScheduleLabel = new Label
             {
-                Text = "Lịch học trong ngày",
+                Text = "Lịch học",
                 Font = new Font("Arial", 20, FontStyle.Bold),
                 ForeColor = Color.DarkBlue,
                 AutoSize = true,
                 Location = new Point(460, 220)
             };
 
-            var dgvScheduleForToday = new DataGridView
+            string[] options = { "Hôm nay", "Tuần này", "Tháng này" };
+
+            ComboBox cmbOptions = new ComboBox
             {
-                Size = new Size(1000, 300),
+                Location = new Point(640, 215),
+                Width = 230,
+                Font = new Font("Arial", 20, FontStyle.Bold),
+                ForeColor = Color.DarkBlue,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            _dgvSchedules = new DataGridView
+            {
+                Size = new Size(1000, 1000),
                 Location = new Point(460, 280),
                 AutoGenerateColumns = true,
                 ReadOnly = true,
-                DataSource = _scheduleViews,
+                //DataSource = _scheduleViews,
                 BackgroundColor = Color.White,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 BorderStyle = BorderStyle.None,
                 RowHeadersVisible = false
             };
-            dgvScheduleForToday.ReadOnly = true;
+            _dgvSchedules.ReadOnly = true;
 
             this.Controls.Add(titleLabel);
             this.Controls.Add(dgvTraineeByClass);
             this.Controls.Add(subtitleScheduleLabel);
-            this.Controls.Add(dgvScheduleForToday);
+            this.Controls.Add(cmbOptions);
+            this.Controls.Add(_dgvSchedules);
+
+            cmbOptions.Items.AddRange(options);
+            cmbOptions.SelectedIndexChanged += async (s, e) =>
+            {
+                // Xử lý sự kiện khi chọn tùy chọn khác
+                string selectedOption = cmbOptions.SelectedItem.ToString();
+                // Cập nhật DataGridView dựa trên tùy chọn đã chọn
+                await LoadDataForOption(selectedOption);
+            };
+            cmbOptions.SelectedIndex = 0;
+        }
+
+        private async Task LoadDataForOption(string selectedOption)
+        {
+            if (selectedOption == "Hôm nay")
+            {
+                _scheduleViews = await _scheduleRepository.GetScheduleForTodayAsync();
+            }
+            else if (selectedOption == "Tuần này")
+            {
+                _scheduleViews = await _scheduleRepository.GetScheduleForThisWeekAsync();
+            }
+            else if (selectedOption == "Tháng này")
+            {
+                _scheduleViews = await _scheduleRepository.GetScheduleForThisMonthAsync();
+            }
+            ;
+
+            _dgvSchedules.DataSource = _scheduleViews;
         }
 
         private Panel LoadCard(int x, int y, string title, int count)
@@ -124,7 +166,6 @@ namespace StudentManagementApp.UI.Controls
         {
             _totalTrainees = await _traineeRepository.GetTotalTraineeAsync();
             _traineesByClass = await _traineeRepository.GetTotalTraineeByClassAsync();
-            _scheduleViews = await _scheduleRepository.GetScheduleForTodayAsync();
         }
     }
 }
