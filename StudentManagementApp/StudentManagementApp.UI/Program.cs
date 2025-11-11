@@ -41,7 +41,7 @@ namespace StudentManagementApp.UI
 
             try
             {
-                TestDatabaseConnection();
+                // TestDatabaseConnection();
 
                 var services = new ServiceCollection();
                 ConfigureServices(services);
@@ -134,7 +134,7 @@ namespace StudentManagementApp.UI
 
         static void ConfigureServices(ServiceCollection services)
         {
-            var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+            var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
             // Read connection string from App.config
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
             var databasePath = Path.Combine(basePath, connectionString);
@@ -163,10 +163,14 @@ namespace StudentManagementApp.UI
             services.AddScoped<ISubjectRepository, SubjectRepository>();
             services.AddScoped<IGraduationExamScoreRepository, GraduationExamScoreRepository>();
             services.AddScoped<IGraduationScoreRepository, GraduationScoreRepository>();
+            services.AddScoped<IPracticePointRepository, PracticePointRepository>();
+            services.AddScoped<IRollCallRepository, RollCallRepository>();
 
             // Register validation services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IValidationService, ValidationService>();
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<ExcelExportService>();
             services.AddSingleton<ISessionService, SessionService>();
 
             // Register forms
@@ -187,6 +191,7 @@ namespace StudentManagementApp.UI
             services.AddTransient<GraduationExamScoreListForm>();
             services.AddTransient<GraduationScoreListForm>();
             services.AddTransient<RollCallListForm>();
+            services.AddTransient<PracticePointListForm>();
         }
     }
 }

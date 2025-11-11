@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -54,6 +55,27 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RollCalls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RollCaller = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
+                    Present = table.Column<int>(type: "INTEGER", nullable: false),
+                    Absent = table.Column<int>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RollCalls", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SchoolYears",
                 columns: table => new
                 {
@@ -77,7 +99,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Code = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    Coefficient = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -85,6 +109,27 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    FullName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Role = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    LastLoginDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,6 +294,55 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GraduationExamScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    GraduationExamType = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    Score = table.Column<decimal>(type: "TEXT", nullable: false),
+                    GradeType = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GraduationExamScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GraduationExamScores_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GraduationScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Score = table.Column<decimal>(type: "TEXT", nullable: false),
+                    GraduationType = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GraduationScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GraduationScores_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Misconducts",
                 columns: table => new
                 {
@@ -267,6 +361,32 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     table.PrimaryKey("PK_Misconducts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Misconducts_Trainees_TraineeId",
+                        column: x => x.TraineeId,
+                        principalTable: "Trainees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PracticePoints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    Point = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Time = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PracticePoints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PracticePoints_Trainees_TraineeId",
                         column: x => x.TraineeId,
                         principalTable: "Trainees",
                         principalColumn: "Id",
@@ -313,7 +433,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
                     SemesterId = table.Column<int>(type: "INTEGER", nullable: false),
                     AverageScore = table.Column<decimal>(type: "TEXT", nullable: false),
-                    GradeType = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    GradeType = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -431,8 +551,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     { 54, "an_giang_91", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Tỉnh An Giang", 0, 32, "Provinces" },
                     { 55, "can_tho_92", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Thành phố Cần Thơ", 0, 33, "Provinces" },
                     { 56, "ca_mau_96", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Tỉnh Cà Mau", 0, 34, "Provinces" },
-                    { 57, "mam_non", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Mầm non", 0, 1, "EducationLevel" },
-                    { 58, "tieu_hoc", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Tiểu học", 0, 2, "EducationLevel" },
                     { 59, "thcs", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Trung học cơ sở", 0, 3, "EducationLevel" },
                     { 60, "thpt", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Trung học phổ thông", 0, 4, "EducationLevel" },
                     { 61, "trung_cap", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Trung cấp", 0, 5, "EducationLevel" },
@@ -468,8 +586,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     { 91, "level2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "5-7", true, null, "Chưa tốt", 0, 2, "AcademicResult" },
                     { 92, "level3", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "0-4", true, null, "Yếu", 0, 3, "AcademicResult" },
                     { 93, "level1", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "9-10", true, null, "Có", 0, 1, "ResearchActivity" },
-                    { 94, "level2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "0-8", true, null, "Không", 0, 2, "ResearchActivity" }
+                    { 94, "level2", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "0-8", true, null, "Không", 0, 2, "ResearchActivity" },
+                    { 95, "thuc_hanh", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Thi Thực hành", 0, 1, "GraduationExamType" },
+                    { 96, "ly_thuyet", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Thi Lý thuyết chuyên môn", 0, 2, "GraduationExamType" },
+                    { 97, "chinh_tri", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Thi Chính trị", 0, 3, "GraduationExamType" },
+                    { 98, "quan_su", new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, null, "Thi Quân sự chung", 0, 4, "GraduationExamType" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedDate", "Email", "FullName", "IsActive", "LastLoginDate", "ModifiedDate", "PasswordHash", "Role", "Username" },
+                values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin@school.edu.vn", "Quản Trị Viên", true, null, null, "$2a$11$eImiTXuWVxfM37uY4JANjOIVEiOrgsTJwzETTD4YOIqFBYWxvRfLy", "Admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Classes_SchoolYearId",
@@ -492,8 +619,23 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 column: "TraineeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GraduationExamScores_TraineeId",
+                table: "GraduationExamScores",
+                column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GraduationScores_TraineeId",
+                table: "GraduationScores",
+                column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Misconducts_TraineeId",
                 table: "Misconducts",
+                column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PracticePoints_TraineeId",
+                table: "PracticePoints",
                 column: "TraineeId");
 
             migrationBuilder.CreateIndex(
@@ -523,6 +665,12 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 column: "TraineeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Subjects_Code",
+                table: "Subjects",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TraineeAverageScores_SemesterId",
                 table: "TraineeAverageScores",
                 column: "SemesterId");
@@ -536,6 +684,12 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 name: "IX_Trainees_ClassId",
                 table: "Trainees",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username_Email",
+                table: "Users",
+                columns: new[] { "Username", "Email" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_WeeklyCritiques_TraineeId",
@@ -553,10 +707,22 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 name: "Grades");
 
             migrationBuilder.DropTable(
+                name: "GraduationExamScores");
+
+            migrationBuilder.DropTable(
+                name: "GraduationScores");
+
+            migrationBuilder.DropTable(
                 name: "Misconducts");
 
             migrationBuilder.DropTable(
+                name: "PracticePoints");
+
+            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "RollCalls");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
@@ -566,6 +732,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TraineeAverageScores");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "WeeklyCritiques");

@@ -87,9 +87,11 @@
             yPos = CreateMenuHeader("QUẢN LÝ RÈN LUYỆN", menuPanel, yPos);
             var rollCallsBtn = CreateMenuButton("Điểm danh", "RollCalls", Properties.Resources.rollCall_icon, ref yPos);
             var misconductsBtn = CreateMenuButton("Kỷ luật", "Misconducts", Properties.Resources.misconduct_icon, ref yPos);
+            var practicePointsBtn = CreateMenuButton("Điểm cộng", "PracticePoints", Properties.Resources.practicePoint_icon, ref yPos);
             var weeklyCritiquesBtn = CreateMenuButton("Bình rèn", "WeeklyCritiques", Properties.Resources.weeklyCritique_icon, ref yPos);
             menuPanel.Controls.Add(rollCallsBtn);
             menuPanel.Controls.Add(misconductsBtn);
+            menuPanel.Controls.Add(practicePointsBtn);
             menuPanel.Controls.Add(weeklyCritiquesBtn);
 
             // Thêm logo/header với màu sắc mới

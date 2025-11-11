@@ -160,6 +160,9 @@
   <data name="misconduct_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\misconduct_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="practicePoint_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\practicePoint_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="products_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\products_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

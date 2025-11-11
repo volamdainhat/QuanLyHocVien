@@ -207,6 +207,10 @@ namespace StudentManagementApp.UI.Forms
                     var rollCallListForm = _serviceProvider.GetRequiredService<RollCallListForm>();
                     OpenChildForm(rollCallListForm);
                     break;
+                case "PracticePoints":
+                    var practicePointListForm = _serviceProvider.GetRequiredService<PracticePointListForm>();
+                    OpenChildForm(practicePointListForm);
+                    break;
                 case "Reports":
                     // Mở form Reports
                     break;

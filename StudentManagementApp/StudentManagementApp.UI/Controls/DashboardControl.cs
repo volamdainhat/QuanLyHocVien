@@ -110,6 +110,11 @@ namespace StudentManagementApp.UI.Controls
             cmbOptions.SelectedIndex = 0;
         }
 
+        private void BtnReport1_Click(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task LoadDataForOption(string selectedOption)
         {
             if (selectedOption == "Hôm nay")

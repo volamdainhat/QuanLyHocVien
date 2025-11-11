@@ -1,38 +1,33 @@
-﻿using StudentManagementApp.Core.Interfaces.Repositories;
+﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
-using StudentManagementApp.Core.Models.GraduationExamScores;
+using StudentManagementApp.Core.Models.PracticePoints;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
-    public partial class GraduationExamScoreListForm : Form
+    public partial class PracticePointListForm : Form
     {
-        private readonly IGraduationExamScoreRepository _graduationExamScoreRepository;
-        private readonly IGraduationScoreRepository _graduationScoreRepository;
-        private readonly ITraineeRepository _traineeRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IPracticePointRepository _practicePointRepository;
+        private readonly IRepository<Trainee> _traineeRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
-        public GraduationExamScoreListForm(
-            IGraduationExamScoreRepository graduationExamScoreRepository,
-            IGraduationScoreRepository graduationScoreRepository,
-        ITraineeRepository traineeRepository,
-            ICategoryRepository categoryRepository,
+        public PracticePointListForm(
+            IPracticePointRepository practicePointRepository,
+            IRepository<Trainee> traineeRepository,
             IValidationService validationService)
         {
-            _graduationExamScoreRepository = graduationExamScoreRepository;
-            _graduationScoreRepository = graduationScoreRepository;
+            _practicePointRepository = practicePointRepository;
             _traineeRepository = traineeRepository;
-            _categoryRepository = categoryRepository;
             _validationService = validationService;
             InitializeComponent();
-            InitializeGraduationExamScoresList();
-            LoadGraduationExamScores();
+            InitializePracticePointList();
+            LoadPracticePoints();
         }
 
-        private void InitializeGraduationExamScoresList()
+        private void InitializePracticePointList()
         {
-            this.Text = "Quản lý Điểm thi tốt nghiệp";
+            this.Text = "Quản lý Điểm cộng";
             this.Size = new Size(800, 600);
 
             // Toolbar
@@ -83,15 +78,18 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(dataGridView);
             this.Controls.Add(toolStrip);
 
-            btnAdd.Click += (s, e) => Add();
-            btnEdit.Click += async (s, e) => await Edit();
-            btnRefresh.Click += (s, e) => LoadGraduationExamScores();
+            btnAdd.Click += (s, e) => AddPracticePoint();
+            btnEdit.Click += async (s, e) => await EditPracticePoint();
+            btnRefresh.Click += (s, e) => LoadPracticePoints();
         }
 
-        private async void LoadGraduationExamScores()
+        private async void LoadPracticePoints()
         {
-            var datas = await _graduationExamScoreRepository.GetGraduationExamScoreWithTraineeAsync();
-            dataGridView.DataSource = datas.ToList();
+            var PracticePoints = await _practicePointRepository.GetPracticePointsWithTraineeAsync();
+            dataGridView.DataSource = PracticePoints.ToList();
+
+            if (dataGridView.Columns["Time"] != null)
+                dataGridView.Columns["Time"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
 
             if (dataGridView.Columns["CreatedDate"] != null)
                 dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
@@ -100,24 +98,24 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
         }
 
-        private void Add()
+        private void AddPracticePoint()
         {
-            var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _graduationScoreRepository, _traineeRepository, _categoryRepository, _validationService);
+            var form = new PracticePointForm(_practicePointRepository, _traineeRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadGraduationExamScores();
+                LoadPracticePoints();
             }
         }
 
-        private async Task Edit()
+        private async Task EditPracticePoint()
         {
-            if (dataGridView.CurrentRow?.DataBoundItem is GraduationExamScoreViewModel selected)
+            if (dataGridView.CurrentRow?.DataBoundItem is PracticePointViewModel selectedPracticePoint)
             {
-                var entity = await _graduationExamScoreRepository.GetByIdAsync(selected.Id);
-                var form = new GraduationExamScoreForm(_graduationExamScoreRepository, _graduationScoreRepository, _traineeRepository, _categoryRepository, _validationService, entity);
+                var practicePoint = await _practicePointRepository.GetByIdAsync(selectedPracticePoint.Id);
+                var form = new PracticePointForm(_practicePointRepository, _traineeRepository, _validationService, practicePoint);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    LoadGraduationExamScores();
+                    LoadPracticePoints();
                 }
             }
         }

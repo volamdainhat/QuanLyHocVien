@@ -7,5 +7,6 @@ namespace StudentManagementApp.Core.Interfaces.Repositories
     {
         Task<IEnumerable<MisconductViewModel>> GetMisconductsWithTraineeAsync();
         Task<Misconduct> GetMisconductWithDetailsAsync(int id);
+        Task<List<Misconduct>> GetMisconductsWithTraineeFromDateToDateAsync(DateTime fromDate, DateTime toDate);
     }
 }

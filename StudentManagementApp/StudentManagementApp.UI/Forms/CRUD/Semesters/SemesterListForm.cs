@@ -2,6 +2,7 @@
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Semesters;
+using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -68,7 +69,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
 
             this.Controls.Add(dataGridView);

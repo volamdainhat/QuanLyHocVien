@@ -5,7 +5,6 @@ using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
 using StudentManagementApp.Core.Models.Trainees;
-using StudentManagementApp.Infrastructure.Data;
 using StudentManagementApp.UI.Forms.CRUD.Trainees;
 using System.Globalization;
 
@@ -13,31 +12,36 @@ namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class TraineeListForm : Form
     {
-        private readonly AppDbContext _appDbContext;
         private readonly ITraineeRepository _traineeRepository;
         private readonly IRepository<Class> _classRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
+        private readonly IReportService _reportService;
+
         private DataGridView? dataGridView;
 
         private List<TraineeViewModel> _trainees;
-        private List<CategoryViewModel> _educationLevels;
         private List<Class> _classes;
         private ToolStripButton btnFilter;
         private ToolStripLabel lblFilterStatus;
         private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
 
-        public TraineeListForm(AppDbContext appDbContext, ITraineeRepository traineeRepository, IRepository<Class> classRepository, ICategoryRepository categoryRepository, IValidationService validationService)
+        public TraineeListForm(ITraineeRepository traineeRepository,
+            IRepository<Class> classRepository,
+            ICategoryRepository categoryRepository,
+            IValidationService validationService,
+            IReportService reportService)
         {
-            _appDbContext = appDbContext;
             _traineeRepository = traineeRepository;
             _classRepository = classRepository;
             _categoryRepository = categoryRepository;
             _validationService = validationService;
+            _reportService = reportService;
             InitializeComponent();
             InitializeTraineeList();
 
             LoadTrainees();
+            _reportService = reportService;
         }
 
         private void InitializeTraineeList()
@@ -99,7 +103,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
             lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             lblFilterStatus.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate, btnFilter, lblFilterStatus]);
+            var btnReport1 = new ToolStripButton("Report");
+            btnTemplate.ImageIndex = 4;
+            btnTemplate.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnTemplate.ImageTransparentColor = Color.Magenta;
+
+            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate, btnFilter, lblFilterStatus, btnReport1]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -122,6 +131,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
             btnImport.Click += async (s, e) => await BtnImport_Click(s, e);
             btnTemplate.Click += (s, e) => BtnGenerateTemplate_Click(s, e);
+            btnReport1.Click += (s, e) => BtnReport_Click(s, e);
+        }
+
+        private void BtnReport_Click(object s, EventArgs e)
+        {
+            DateTime fromDate = Convert.ToDateTime("01/11/2025");
+            DateTime toDate = Convert.ToDateTime("11/11/2025");
+            _reportService.GenerateTraineeReportAsync(fromDate, toDate);
         }
 
         private async Task BtnFilter_Click(object sender, EventArgs e)

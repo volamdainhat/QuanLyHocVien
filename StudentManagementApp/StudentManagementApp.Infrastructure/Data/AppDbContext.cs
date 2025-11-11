@@ -10,6 +10,7 @@ namespace StudentManagementApp.Infrastructure.Data
         {
         }
 
+        public DbSet<PracticePoint> PracticePoints { get; set; }
         public DbSet<RollCall> RollCalls { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<GraduationScore> GraduationScores { get; set; }

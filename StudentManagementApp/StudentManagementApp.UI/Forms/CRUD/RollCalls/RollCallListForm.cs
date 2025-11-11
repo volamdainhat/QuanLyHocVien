@@ -67,7 +67,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
 
             this.Controls.Add(dataGridView);
@@ -81,7 +82,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private async void LoadRollCall()
         {
             var datas = await _rollCallRepository.GetAllAsync();
-            dataGridView.DataSource = datas.ToList();
+            dataGridView.DataSource = datas.OrderBy(s => s.Date).ToList();
 
             dataGridView.Columns["Id"].Visible = false;
             dataGridView.Columns["CreatedDate"].HeaderText = "Ngày tạo";

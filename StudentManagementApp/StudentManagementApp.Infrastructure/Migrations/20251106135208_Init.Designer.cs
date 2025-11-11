@@ -11,14 +11,14 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251004123100_UpdateSubject3")]
-    partial class UpdateSubject3
+    [Migration("20251106135208_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Category", b =>
                 {
@@ -672,28 +672,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 57,
-                            Code = "mam_non",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Mầm non",
-                            ParentId = 0,
-                            SortOrder = 1,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            Code = "tieu_hoc",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Tiểu học",
-                            ParentId = 0,
-                            SortOrder = 2,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
                             Id = 59,
                             Code = "thcs",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1106,6 +1084,50 @@ namespace StudentManagementApp.Infrastructure.Migrations
                             ParentId = 0,
                             SortOrder = 2,
                             Type = "ResearchActivity"
+                        },
+                        new
+                        {
+                            Id = 95,
+                            Code = "thuc_hanh",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thi Thực hành",
+                            ParentId = 0,
+                            SortOrder = 1,
+                            Type = "GraduationExamType"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            Code = "ly_thuyet",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thi Lý thuyết chuyên môn",
+                            ParentId = 0,
+                            SortOrder = 2,
+                            Type = "GraduationExamType"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            Code = "chinh_tri",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thi Chính trị",
+                            ParentId = 0,
+                            SortOrder = 3,
+                            Type = "GraduationExamType"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            Code = "quan_su",
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Thi Quân sự chung",
+                            ParentId = 0,
+                            SortOrder = 4,
+                            Type = "GraduationExamType"
                         });
                 });
 
@@ -1188,6 +1210,75 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Grades");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationExamScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GradeType")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GraduationExamType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Score")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("GraduationExamScores");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GraduationType")
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Score")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("GraduationScores");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
                 {
                     b.Property<int>("Id")
@@ -1221,6 +1312,44 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasIndex("TraineeId");
 
                     b.ToTable("Misconducts");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.PracticePoint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Point")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("PracticePoints");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Product", b =>
@@ -1259,6 +1388,45 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.RollCall", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Absent")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Present")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RollCaller")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalStudents")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RollCalls");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Schedule", b =>
@@ -1560,7 +1728,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GradeType")
-                        .HasMaxLength(10)
+                        .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -1582,6 +1750,69 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.HasIndex("TraineeId");
 
                     b.ToTable("TraineeAverageScores");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("LastLoginDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username", "Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@school.edu.vn",
+                            FullName = "Quản Trị Viên",
+                            IsActive = true,
+                            PasswordHash = "$2a$11$eImiTXuWVxfM37uY4JANjOIVEiOrgsTJwzETTD4YOIqFBYWxvRfLy",
+                            Role = "Admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.WeeklyCritique", b =>
@@ -1689,7 +1920,40 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Navigation("Trainee");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationExamScore", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.GraduationScore", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.PracticePoint", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
                         .WithMany()

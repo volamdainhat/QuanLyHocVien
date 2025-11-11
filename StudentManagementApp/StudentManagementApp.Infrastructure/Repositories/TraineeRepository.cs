@@ -73,5 +73,10 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 })
                 .ToListAsync();
         }
+
+        public async Task<List<Trainee>> GetTraineesActiveAsync()
+        {
+            return await _context.Trainees.Where(r => r.IsActive == true).ToListAsync();
+        }
     }
 }

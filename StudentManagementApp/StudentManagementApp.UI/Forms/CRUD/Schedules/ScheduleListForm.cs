@@ -77,7 +77,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 ReadOnly = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
 
             this.Controls.Add(dataGridView);
@@ -91,7 +92,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private async void LoadSchedules()
         {
             var schedules = await _scheduleRepository.GetScheduleWithClassSubjectAsync();
-            dataGridView.DataSource = schedules.ToList();
+            dataGridView.DataSource = schedules.OrderBy(s => s.Date).ThenBy(s => s.ClassName).ToList();
 
             if (dataGridView.Columns["Date"] != null)
                 dataGridView.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";

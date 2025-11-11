@@ -40,5 +40,12 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 .Include(c => c.Trainee)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<List<Misconduct>> GetMisconductsWithTraineeFromDateToDateAsync(DateTime fromDate, DateTime toDate)
+        {
+            return await _context.Misconducts.Where(m => m.Time >= fromDate && m.Time <= toDate && m.IsActive)
+                .Include(m => m.Trainee)
+                .ToListAsync();
+        }
     }
 }

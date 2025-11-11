@@ -669,28 +669,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 57,
-                            Code = "mam_non",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Mầm non",
-                            ParentId = 0,
-                            SortOrder = 1,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
-                            Id = 58,
-                            Code = "tieu_hoc",
-                            CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsActive = true,
-                            Name = "Tiểu học",
-                            ParentId = 0,
-                            SortOrder = 2,
-                            Type = "EducationLevel"
-                        },
-                        new
-                        {
                             Id = 59,
                             Code = "thcs",
                             CreatedDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
@@ -1333,6 +1311,44 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.ToTable("Misconducts");
                 });
 
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.PracticePoint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Point")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TraineeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TraineeId");
+
+                    b.ToTable("PracticePoints");
+                });
+
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -1924,6 +1940,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Misconduct", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
+                        .WithMany()
+                        .HasForeignKey("TraineeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.PracticePoint", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
                         .WithMany()
