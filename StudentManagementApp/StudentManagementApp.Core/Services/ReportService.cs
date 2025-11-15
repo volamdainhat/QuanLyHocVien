@@ -1,4 +1,6 @@
-﻿using StudentManagementApp.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Helpers;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Reports;
@@ -113,7 +115,7 @@ namespace StudentManagementApp.Core.Services
 
                 var misconducts = await _misconductRepository.GetMisconductsWithTraineeFromDateToDateAsync(fromDate, toDate);
 
-                var practicePoints = await _practicePointRepository.GetPracticePointsWithTraineeFromDateToDateAsync(fromDate, toDate);  
+                var practicePoints = await _practicePointRepository.GetPracticePointsWithTraineeFromDateToDateAsync(fromDate, toDate);
 
                 var dates = Enumerable.Range(0, (toDate - fromDate).Days + 1)
                     .Select(offset => fromDate.AddDays(offset))
@@ -192,7 +194,8 @@ namespace StudentManagementApp.Core.Services
 
             // Nhóm dữ liệu theo tuần
             var weekGroups = rollCalls
-                .GroupBy(r => new {
+                .GroupBy(r => new
+                {
                     Year = r.Date.Year,
                     Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(
                         r.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
@@ -403,6 +406,62 @@ namespace StudentManagementApp.Core.Services
             else evaluations.Add("Học tập cần nỗ lực");
 
             return string.Join("; ", evaluations);
+        }
+
+        private (DateTime start, DateTime end) GetTimeRange(DateTime date, string timeRange)
+        {
+            return timeRange.ToLower() switch
+            {
+                "day" => DateTimeHelper.GetDayRange(date),
+                "week" => DateTimeHelper.GetWeekRange(date),
+                "month" => DateTimeHelper.GetMonthRange(date),
+                _ => throw new ArgumentException("Invalid time range")
+            };
+        }
+
+        // Misconduct Reports Implementation
+        public async Task<List<MisconductDetailDto>> GetMisconductDetailReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _misconductRepository.GetMisconductDetailReportAsync(start, end);
+        }
+
+        public async Task<List<MisconductSummaryDto>> GetMisconductSummaryReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _misconductRepository.GetMisconductSummaryReportAsync(start, end, timeRange);
+        }
+
+        // PracticePoint Reports Implementation
+        public async Task<List<PracticePointDetailDto>> GetPracticePointDetailReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _practicePointRepository.GetPracticePointDetailReportAsync(start, end);
+        }
+
+        public async Task<List<PracticePointSummaryDto>> GetPracticePointSummaryReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _practicePointRepository.GetPracticePointSummaryReportAsync(start, end, timeRange);
+        }
+
+        // RollCall Reports Implementation
+        public async Task<List<RollCallDetailDto>> GetRollCallDetailReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _rollCallRepository.GetRollCallDetailReportAsync(start, end);
+        }
+
+        public async Task<RollCallSummaryDto> GetRollCallSummaryReportAsync(DateTime date, string timeRange)
+        {
+            var (start, end) = GetTimeRange(date, timeRange);
+
+            return await _rollCallRepository.GetRollCallSummaryReportAsync(start, end);
         }
     }
 }

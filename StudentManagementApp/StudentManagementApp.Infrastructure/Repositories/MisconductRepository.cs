@@ -2,6 +2,7 @@
 using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Models.Misconducts;
+using StudentManagementApp.Core.Models.Reports;
 using StudentManagementApp.Infrastructure.Data;
 
 namespace StudentManagementApp.Infrastructure.Repositories
@@ -45,6 +46,41 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.Misconducts.Where(m => m.Time >= fromDate && m.Time <= toDate && m.IsActive)
                 .Include(m => m.Trainee)
+                .ToListAsync();
+        }
+
+        public async Task<List<MisconductDetailDto>> GetMisconductDetailReportAsync(DateTime fromDate, DateTime toDate)
+        {
+            return await _context.Misconducts
+                .Where(m => m.Time >= fromDate && m.Time <= toDate && m.IsActive)
+                .Include(m => m.Trainee)
+                .Select(m => new MisconductDetailDto
+                {
+                    Id = m.Id,
+                    TraineeName = m.Trainee.FullName,
+                    Type = m.Type,
+                    Time = m.Time,
+                    Description = m.Description
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<MisconductSummaryDto>> GetMisconductSummaryReportAsync(DateTime fromDate, DateTime toDate, string timeRange)
+        {
+            return await _context.Misconducts
+                .Where(m => m.Time >= fromDate && m.Time <= toDate && m.IsActive)
+                .GroupBy(m => new {
+                    m.Type,
+                    Period = timeRange == "day" ? m.Time.Date :
+                                    timeRange == "week" ? m.Time.AddDays(-(int)m.Time.DayOfWeek).Date :
+                                    new DateTime(m.Time.Year, m.Time.Month, 1)
+                })
+                .Select(g => new MisconductSummaryDto
+                {
+                    Type = g.Key.Type,
+                    Count = g.Count(),
+                    Period = g.Key.Period
+                })
                 .ToListAsync();
         }
     }

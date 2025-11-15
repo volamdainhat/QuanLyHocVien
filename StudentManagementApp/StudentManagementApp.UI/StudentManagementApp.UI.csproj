@@ -123,6 +123,9 @@
 		<Compile Update="Forms\CRUD\SchoolYears\SchoolYearListForm.cs">
 			<SubType>Form</SubType>
 		</Compile>
+		<Compile Update="Forms\Reports\ReportListForm.cs">
+		  <SubType>Form</SubType>
+		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>

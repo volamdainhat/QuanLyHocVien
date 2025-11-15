@@ -42,7 +42,9 @@
             // === NHÓM 1: TỔNG QUAN, BÁO CÁO ===
             yPos = CreateMenuHeader("TỔNG QUAN, BÁO CÁO", menuPanel, yPos);
             var dashboardBtn = CreateMenuButton("Dashboard", "Dashboard", Properties.Resources.dashboard_icon, ref yPos);
+            var reportsBtn = CreateMenuButton("Báo cáo", "Reports", Properties.Resources.reports_icon, ref yPos);
             menuPanel.Controls.Add(dashboardBtn);
+            menuPanel.Controls.Add(reportsBtn);
 
             // === NHÓM 2: QUẢN LÝ THỜI GIAN, HỆ THỐNG ===
             yPos += 10;
