@@ -212,7 +212,8 @@ namespace StudentManagementApp.UI.Forms
                     OpenChildForm(practicePointListForm);
                     break;
                 case "Reports":
-                    // Mở form Reports
+                    var reportsListForm = _serviceProvider.GetRequiredService<ReportListForm>();
+                    OpenChildForm(reportsListForm);
                     break;
                 case "Settings":
                     // Mở form Settings

@@ -192,6 +192,7 @@ namespace StudentManagementApp.UI
             services.AddTransient<GraduationScoreListForm>();
             services.AddTransient<RollCallListForm>();
             services.AddTransient<PracticePointListForm>();
+            services.AddTransient<ReportListForm>();
         }
     }
 }
