@@ -29,6 +29,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                     TotalStudents = rc.TotalStudents,
                     Present = rc.Present,
                     Absent = rc.Absent,
+                    Percentage = $"{((double)rc.Present / rc.TotalStudents * 100):0.00}%",
                     Notes = rc.Notes
                 })
                 .ToListAsync();

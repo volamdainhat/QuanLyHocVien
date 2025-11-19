@@ -1,4 +1,6 @@
 ﻿using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Models.Reports;
+using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -14,6 +16,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private ComboBox cbTimeRange;
         private DateTimePicker dtpReportDate;
         private Button btnGenerate;
+        private Button btnExport;
         private DataGridView dgvMisconductDetail;
         private DataGridView dgvMisconductSummary;
         private DataGridView dgvPracticePointDetail;
@@ -44,6 +47,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.cbTimeRange = new ComboBox();
             this.dtpReportDate = new DateTimePicker();
             this.btnGenerate = new Button();
+            this.btnExport = new Button();
 
             // Misconduct Tab
             this.dgvMisconductDetail = new DataGridView();
@@ -73,23 +77,32 @@ namespace StudentManagementApp.UI.Forms.CRUD
             panel.Controls.Add(this.cbTimeRange);
             panel.Controls.Add(this.dtpReportDate);
             panel.Controls.Add(this.btnGenerate);
+            panel.Controls.Add(this.btnExport);
 
             // Time Range ComboBox
-            this.cbTimeRange.Location = new Point(100, 17);
+            this.cbTimeRange.Location = new Point(120, 17);
             this.cbTimeRange.Size = new Size(120, 25);
             this.cbTimeRange.Items.AddRange(new[] { "Ngày", "Tuần", "Tháng" });
             this.cbTimeRange.SelectedIndex = 0;
 
             // Date Picker
-            this.dtpReportDate.Location = new Point(240, 17);
+            this.dtpReportDate.Location = new Point(260, 17);
             this.dtpReportDate.Size = new Size(200, 25);
             this.dtpReportDate.Value = DateTime.Now;
+            this.dtpReportDate.Format = DateTimePickerFormat.Custom;
+            this.dtpReportDate.CustomFormat = "dd/MM/yyyy";
 
             // Generate Button
-            this.btnGenerate.Location = new Point(460, 17);
-            this.btnGenerate.Size = new Size(100, 25);
+            this.btnGenerate.Location = new Point(480, 17);
+            this.btnGenerate.Size = new Size(120, 34);
             this.btnGenerate.Text = "Tạo báo cáo";
             this.btnGenerate.Click += new EventHandler(this.btnGenerate_Click);
+
+            // Export Button
+            this.btnExport.Location = new Point(620, 17);
+            this.btnExport.Size = new Size(130, 34);
+            this.btnExport.Text = "Xuất báo cáo";
+            this.btnExport.Click += new EventHandler(this.btnExport_Click);
 
             // Tab Control
             this.tabControl1.Dock = DockStyle.Fill;
@@ -136,154 +149,219 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
+        private async void btnExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var selectedDate = dtpReportDate.Value;
+                var timeRange = cbTimeRange.SelectedItem.ToString() switch
+                {
+                    "Ngày" => "day",
+                    "Tuần" => "week",
+                    "Tháng" => "month",
+                    _ => "day"
+                };
+
+                await GenerateMisconductReports(selectedDate, timeRange);
+                await GeneratePracticePointReports(selectedDate, timeRange);
+                await GenerateRollCallReports(selectedDate, timeRange);
+
+                MessageBox.Show("Đã tạo báo cáo thành công!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tạo báo cáo: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private async Task GenerateMisconductReports(DateTime date, string timeRange)
         {
             // Chi tiết vi phạm
             var misconductDetail = await _reportService.GetMisconductDetailReportAsync(date, timeRange);
-            dgvMisconductDetail.DataSource = misconductDetail.Select(m => new
-            {
-                m.Id,
-                Học_viên = m.TraineeName,
-                Loại_vi_phạm = m.Type,
-                Thời_gian = m.Time.ToString("dd/MM/yyyy HH:mm"),
-                Mô_tả = m.Description
-            }).ToList();
+            dgvMisconductDetail.DataSource = misconductDetail;
+            dgvMisconductDetail.Columns["Time"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
 
             // Tổng hợp vi phạm
             var misconductSummary = await _reportService.GetMisconductSummaryReportAsync(date, timeRange);
-            dgvMisconductSummary.DataSource = misconductSummary.Select(m => new
-            {
-                Loại_vi_phạm = m.Type,
-                Số_lượng = m.Count,
-                Thời_gian = m.Period.ToString("dd/MM/yyyy")
-            }).ToList();
+            dgvMisconductSummary.DataSource = misconductSummary;
+            dgvMisconductSummary.Columns["Period"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
 
         private async Task GeneratePracticePointReports(DateTime date, string timeRange)
         {
             // Chi tiết điểm thực hành
             var practicePointDetail = await _reportService.GetPracticePointDetailReportAsync(date, timeRange);
-            dgvPracticePointDetail.DataSource = practicePointDetail.Select(p => new
-            {
-                p.Id,
-                Học_viên = p.TraineeName,
-                Nội_dung = p.Content,
-                Điểm = p.Point,
-                Thời_gian = p.Time.ToString("dd/MM/yyyy HH:mm"),
-                Mô_tả = p.Description
-            }).ToList();
+            dgvPracticePointDetail.DataSource = practicePointDetail;
+            dgvPracticePointDetail.Columns["Time"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
 
             // Tổng hợp điểm thực hành
             var practicePointSummary = await _reportService.GetPracticePointSummaryReportAsync(date, timeRange);
-            dgvPracticePointSummary.DataSource = practicePointSummary.Select(p => new
-            {
-                Nội_dung = p.Content,
-                Tổng_điểm = p.TotalPoints,
-                Thời_gian = p.Period.ToString("dd/MM/yyyy")
-            }).ToList();
+            dgvPracticePointSummary.DataSource = practicePointSummary;
+            dgvPracticePointSummary.Columns["Period"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
 
         private async Task GenerateRollCallReports(DateTime date, string timeRange)
         {
             // Chi tiết điểm danh
             var rollCallDetail = await _reportService.GetRollCallDetailReportAsync(date, timeRange);
-            dgvRollCallDetail.DataSource = rollCallDetail.Select(r => new
-            {
-                r.Id,
-                Ngày = r.Date.ToString("dd/MM/yyyy"),
-                Người_điểm_danh = r.RollCaller,
-                Tổng_số = r.TotalStudents,
-                Có_mặt = r.Present,
-                Vắng_mặt = r.Absent,
-                Tỷ_lệ = $"{((double)r.Present / r.TotalStudents * 100):0.00}%",
-                Ghi_chú = r.Notes
-            }).ToList();
+            dgvRollCallDetail.DataSource = rollCallDetail;
+            dgvRollCallDetail.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
             // Tổng hợp điểm danh
             var rollCallSummary = await _reportService.GetRollCallSummaryReportAsync(date, timeRange);
-            dgvRollCallSummary.DataSource = new[]
-            {
-            new
-            {
-                Thời_gian = rollCallSummary.Period.ToString("dd/MM/yyyy"),
-                Tổng_số_buổi = rollCallSummary.TotalSessions,
-                Tỷ_lệ_điểm_danh_TB = $"{rollCallSummary.AverageAttendanceRate:0.00}%",
-                Số_vắng_cao_nhất = rollCallSummary.MaxAbsent
-            }
-        }.ToList();
+            List<RollCallSummaryDto> rollCalls = [rollCallSummary];
+            dgvRollCallSummary.DataSource = rollCalls;
+            dgvRollCallSummary.Columns["Period"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
 
         private void InitializeMisconductTab()
         {
             this.tabMisconduct.Text = "Vi phạm";
 
-            // Detail Label
-            var lblDetail = new Label { Text = "Chi tiết vi phạm", Location = new Point(10, 10), AutoSize = true };
-
-            // Detail Grid
-            this.dgvMisconductDetail.Location = new Point(10, 40);
-            this.dgvMisconductDetail.Size = new Size(1150, 200);
-            this.dgvMisconductDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvMisconductDetail.ReadOnly = true;
+            var tblLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4,
+                Padding = new Padding(10),
+            };
 
             // Summary Label
-            var lblSummary = new Label { Text = "Tổng hợp vi phạm", Location = new Point(10, 250), AutoSize = true };
+            var lblSummary = new Label
+            {
+                Text = "Tổng hợp vi phạm",
+                Location = new Point(10, 10),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
 
             // Summary Grid
-            this.dgvMisconductSummary.Location = new Point(10, 280);
+            this.dgvMisconductSummary.Location = new Point(10, 40);
             this.dgvMisconductSummary.Size = new Size(1150, 200);
             this.dgvMisconductSummary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMisconductSummary.ReadOnly = true;
+            this.dgvMisconductSummary.Dock = DockStyle.Fill;
 
-            this.tabMisconduct.Controls.AddRange(new Control[] {
-            lblDetail, this.dgvMisconductDetail, lblSummary, this.dgvMisconductSummary
-        });
+            // Detail Label
+            var lblDetail = new Label
+            {
+                Text = "Chi tiết vi phạm",
+                Location = new Point(10, 250),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
+
+            // Detail Grid
+            this.dgvMisconductDetail.Location = new Point(10, 280);
+            this.dgvMisconductDetail.Size = new Size(1150, 200);
+            this.dgvMisconductDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvMisconductDetail.ReadOnly = true;
+            this.dgvMisconductDetail.Dock = DockStyle.Fill;
+
+            tblLayout.Controls.Add(lblSummary, 0, 0);
+            tblLayout.Controls.Add(dgvMisconductSummary, 0, 1);
+            tblLayout.Controls.Add(lblDetail, 0, 2);
+            tblLayout.Controls.Add(dgvMisconductDetail, 0, 3);
+
+            this.tabMisconduct.Controls.Add(tblLayout);
         }
 
         private void InitializePracticePointTab()
         {
             this.tabPracticePoint.Text = "Điểm thực hành";
 
-            var lblDetail = new Label { Text = "Chi tiết điểm thực hành", Location = new Point(10, 10), AutoSize = true };
+            var tblLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4,
+                Padding = new Padding(10),
+            };
 
-            this.dgvPracticePointDetail.Location = new Point(10, 40);
-            this.dgvPracticePointDetail.Size = new Size(1150, 200);
-            this.dgvPracticePointDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvPracticePointDetail.ReadOnly = true;
-
-            var lblSummary = new Label { Text = "Tổng hợp điểm thực hành", Location = new Point(10, 250), AutoSize = true };
+            var lblSummary = new Label
+            {
+                Text = "Tổng hợp điểm thực hành",
+                Location = new Point(10, 250),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
 
             this.dgvPracticePointSummary.Location = new Point(10, 280);
             this.dgvPracticePointSummary.Size = new Size(1150, 200);
             this.dgvPracticePointSummary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPracticePointSummary.ReadOnly = true;
+            this.dgvPracticePointSummary.Dock = DockStyle.Fill;
 
-            this.tabPracticePoint.Controls.AddRange(new Control[] {
-            lblDetail, this.dgvPracticePointDetail, lblSummary, this.dgvPracticePointSummary
-        });
+            var lblDetail = new Label
+            {
+                Text = "Chi tiết điểm thực hành",
+                Location = new Point(10, 10),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
+
+            this.dgvPracticePointDetail.Location = new Point(10, 40);
+            this.dgvPracticePointDetail.Size = new Size(1150, 200);
+            this.dgvPracticePointDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvPracticePointDetail.ReadOnly = true;
+            this.dgvPracticePointDetail.Dock = DockStyle.Fill;
+
+            tblLayout.Controls.Add(lblSummary, 0, 0);
+            tblLayout.Controls.Add(dgvPracticePointSummary, 0, 1);
+            tblLayout.Controls.Add(lblDetail, 0, 2);
+            tblLayout.Controls.Add(dgvPracticePointDetail, 0, 3);
+
+            this.tabPracticePoint.Controls.Add(tblLayout);
         }
 
         private void InitializeRollCallTab()
         {
             this.tabRollCall.Text = "Điểm danh";
 
-            var lblDetail = new Label { Text = "Chi tiết điểm danh", Location = new Point(10, 10), AutoSize = true };
+            var tblLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4,
+                Padding = new Padding(10),
+            };
 
-            this.dgvRollCallDetail.Location = new Point(10, 40);
-            this.dgvRollCallDetail.Size = new Size(1150, 200);
-            this.dgvRollCallDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRollCallDetail.ReadOnly = true;
-
-            var lblSummary = new Label { Text = "Tổng hợp điểm danh", Location = new Point(10, 250), AutoSize = true };
+            var lblSummary = new Label
+            {
+                Text = "Tổng hợp điểm danh",
+                Location = new Point(10, 250),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
 
             this.dgvRollCallSummary.Location = new Point(10, 280);
             this.dgvRollCallSummary.Size = new Size(1150, 200);
             this.dgvRollCallSummary.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRollCallSummary.ReadOnly = true;
+            this.dgvRollCallSummary.Dock = DockStyle.Fill;
 
-            this.tabRollCall.Controls.AddRange(new Control[] {
-                lblDetail, this.dgvRollCallDetail, lblSummary, this.dgvRollCallSummary
-            });
+            var lblDetail = new Label
+            {
+                Text = "Chi tiết điểm danh",
+                Location = new Point(10, 10),
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+            };
+
+            this.dgvRollCallDetail.Location = new Point(10, 40);
+            this.dgvRollCallDetail.Size = new Size(1150, 200);
+            this.dgvRollCallDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRollCallDetail.ReadOnly = true;
+            this.dgvRollCallDetail.Dock = DockStyle.Fill;
+
+            tblLayout.Controls.Add(lblSummary, 0, 0);
+            tblLayout.Controls.Add(dgvRollCallSummary, 0, 1);
+            tblLayout.Controls.Add(lblDetail, 0, 2);
+            tblLayout.Controls.Add(dgvRollCallDetail, 0, 3);
+
+            this.tabRollCall.Controls.Add(tblLayout);
         }
 
         private void ImproveDataGridViewAppearance()
