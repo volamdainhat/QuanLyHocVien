@@ -10,6 +10,9 @@ namespace StudentManagementApp.Core.Entities
         [Required]
         [DisplayName("Ngày")]
         public required DateTime Date { get; set; }
+        [Required]
+        [DisplayName("Lớp")]
+        public required int ClassId { get; set; }
         [MaxLength(50)]
         [DisplayName("Người điểm danh")]
         public string? RollCaller { get; set; }
@@ -21,5 +24,6 @@ namespace StudentManagementApp.Core.Entities
         public int Absent { get; set; }
         [DisplayName("Ghi chú")]
         public string? Notes { get; set; }
+        public virtual Class? Class { get; set; }
     }
 }

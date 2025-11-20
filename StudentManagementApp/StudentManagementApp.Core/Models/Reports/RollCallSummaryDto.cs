@@ -4,8 +4,12 @@ namespace StudentManagementApp.Core.Models.Reports
 {
     public class RollCallSummaryDto
     {
-        [DisplayName("Thời gian")]
-        public DateTime Period { get; set; }
+        [DisplayName("Từ ngày")]
+        public DateTime FromDate { get; set; }
+        [DisplayName("Đến ngày")]
+        public DateTime ToDate { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [DisplayName("Tổng số buổi")]
         public int TotalSessions { get; set; }
         [DisplayName("Tỉ lệ điểm danh")]

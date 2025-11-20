@@ -17,7 +17,7 @@ namespace StudentManagementApp.Core.Interfaces.Services
 
         // RollCall Reports
         Task<List<RollCallDetailDto>> GetRollCallDetailReportAsync(DateTime date, string timeRange);
-        Task<RollCallSummaryDto> GetRollCallSummaryReportAsync(DateTime date, string timeRange);
+        Task<List<RollCallSummaryDto>> GetRollCallSummaryReportAsync(DateTime date, string timeRange);
 
     }
 }

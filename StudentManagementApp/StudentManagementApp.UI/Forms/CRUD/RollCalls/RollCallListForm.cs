@@ -1,20 +1,25 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Models.RollCalls;
+using StudentManagementApp.Infrastructure.Repositories;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
     public partial class RollCallListForm : Form
     {
-        private readonly IRepository<RollCall> _rollCallRepository;
+        private readonly IRollCallRepository _rollCallRepository;
+        private readonly IRepository<Class> _classRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
         public RollCallListForm(
-            IRepository<RollCall> rollCallRepository,
+            IRollCallRepository rollCallRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService)
         {
             _rollCallRepository = rollCallRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
             InitializeComponent();
             InitializeRollCallList();
@@ -81,38 +86,46 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadRollCall()
         {
-            var datas = await _rollCallRepository.GetAllAsync();
+            var datas = await _rollCallRepository.GetRollCallsWithClassAsync();
             dataGridView.DataSource = datas.OrderBy(s => s.Date).ToList();
 
-            dataGridView.Columns["Id"].Visible = false;
-            dataGridView.Columns["CreatedDate"].HeaderText = "Ngày tạo";
-            dataGridView.Columns["ModifiedDate"].HeaderText = "Ngày cập nhật";
-            dataGridView.Columns["IsActive"].HeaderText = "Đang hoạt động";
+            if (dataGridView.Columns["Id"] != null)
+                dataGridView.Columns["Id"].Visible = false;
+
+            if (dataGridView.Columns["IsActive"] != null)
+                dataGridView.Columns["IsActive"].HeaderText = "Đang hoạt động";
 
             if (dataGridView.Columns["Date"] != null)
                 dataGridView.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
             if (dataGridView.Columns["CreatedDate"] != null)
+            {
+                dataGridView.Columns["CreatedDate"].HeaderText = "Ngày tạo";
                 dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+            }
 
             if (dataGridView.Columns["ModifiedDate"] != null)
+            {
+                dataGridView.Columns["ModifiedDate"].HeaderText = "Ngày cập nhật";
                 dataGridView.Columns["ModifiedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+            }
         }
 
         private void Add()
         {
-            var form = new RollCallForm(_rollCallRepository, _validationService);
+            var form = new RollCallForm(_rollCallRepository, _classRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadRollCall();
             }
         }
 
-        private void Edit()
+        private async Task Edit()
         {
-            if (dataGridView.CurrentRow?.DataBoundItem is RollCall selectedRollCall)
+            if (dataGridView.CurrentRow?.DataBoundItem is RollCallViewModel selectedRollCall)
             {
-                var form = new RollCallForm(_rollCallRepository, _validationService, selectedRollCall);
+                var entity = await _rollCallRepository.GetByIdAsync(selectedRollCall.Id);
+                var form = new RollCallForm(_rollCallRepository, _classRepository, _validationService, entity);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadRollCall();

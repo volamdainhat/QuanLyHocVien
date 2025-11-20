@@ -457,7 +457,7 @@ namespace StudentManagementApp.Core.Services
             return await _rollCallRepository.GetRollCallDetailReportAsync(start, end);
         }
 
-        public async Task<RollCallSummaryDto> GetRollCallSummaryReportAsync(DateTime date, string timeRange)
+        public async Task<List<RollCallSummaryDto>> GetRollCallSummaryReportAsync(DateTime date, string timeRange)
         {
             var (start, end) = GetTimeRange(date, timeRange);
 

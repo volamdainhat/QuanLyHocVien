@@ -1396,6 +1396,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<int>("Absent")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ClassId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
@@ -1422,6 +1425,8 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("RollCalls");
                 });
@@ -1959,6 +1964,17 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Trainee");
+                });
+
+            modelBuilder.Entity("StudentManagementApp.Core.Entities.RollCall", b =>
+                {
+                    b.HasOne("StudentManagementApp.Core.Entities.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Schedule", b =>

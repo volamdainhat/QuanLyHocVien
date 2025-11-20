@@ -55,27 +55,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RollCalls",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    RollCaller = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
-                    Present = table.Column<int>(type: "INTEGER", nullable: false),
-                    Absent = table.Column<int>(type: "INTEGER", nullable: false),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RollCalls", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SchoolYears",
                 columns: table => new
                 {
@@ -177,6 +156,34 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         name: "FK_Semesters_SchoolYears_SchoolYearId",
                         column: x => x.SchoolYearId,
                         principalTable: "SchoolYears",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RollCalls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RollCaller = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
+                    Present = table.Column<int>(type: "INTEGER", nullable: false),
+                    Absent = table.Column<int>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RollCalls", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RollCalls_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -637,6 +644,11 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 name: "IX_PracticePoints_TraineeId",
                 table: "PracticePoints",
                 column: "TraineeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RollCalls_ClassId",
+                table: "RollCalls",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_ClassId_SubjectId_Room_Period_Date",

@@ -211,9 +211,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Tổng hợp điểm danh
             var rollCallSummary = await _reportService.GetRollCallSummaryReportAsync(date, timeRange);
-            List<RollCallSummaryDto> rollCalls = [rollCallSummary];
-            dgvRollCallSummary.DataSource = rollCalls;
-            dgvRollCallSummary.Columns["Period"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dgvRollCallSummary.DataSource = rollCallSummary;
+            dgvRollCallSummary.Columns["FromDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            dgvRollCallSummary.Columns["ToDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
         }
 
         private void InitializeMisconductTab()

@@ -9,9 +9,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
     public partial class RollCallForm : BaseCrudForm
     {
         private readonly IRepository<RollCall> _rollCallRepository;
+        private readonly IRepository<Class> _classRepository;
         private readonly IValidationService _validationService;
         private RollCall _rollCall;
         private DateTimePicker dtpDate;
+        private ComboBox cmbClass;
         private TextBox txtRollCaller;
         private NumericUpDown nudTotalStudents;
         private NumericUpDown nudPresent;
@@ -20,12 +22,14 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         public RollCallForm(
             IRepository<RollCall> rollCallRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService,
             RollCall? rollCall = null)
         {
             _rollCallRepository = rollCallRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
-            _rollCall = rollCall ?? new RollCall() { Date = DateTime.Now };
+            _rollCall = rollCall ?? new RollCall() { Date = DateTime.Now, ClassId = 0 };
             InitializeComponent();
             InitializeRollCallForm();
             LoadRollCallData();
@@ -54,6 +58,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             formPanel.Controls.Add(new Label { Text = "Ngày:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
             dtpDate = new DateTimePicker { Location = new Point(x2, y), Size = new Size(textBoxWidth, 20), Format = DateTimePickerFormat.Custom, CustomFormat = "dd/MM/yyyy" };
             formPanel.Controls.Add(dtpDate);
+            y += 40;
+
+            // ClassId
+            formPanel.Controls.Add(new Label { Text = "Lớp:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            cmbClass = new ComboBox
+            {
+                Location = new Point(x2, y),
+                Size = new Size(textBoxWidth, 20),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            formPanel.Controls.Add(cmbClass);
             y += 40;
 
             // RollCaller
@@ -89,6 +104,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadRollCallData()
         {
+            LoadClasses();
+
             if (_rollCall.Id > 0)
             {
                 dtpDate.Value = _rollCall.Date;
@@ -97,7 +114,23 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 nudPresent.Value = _rollCall.Present;
                 nudAbsent.Value = _rollCall.Absent;
                 txtNotes.Text = _rollCall.Notes;
+
+                // Chọn tỉnh nhập ngũ trong ComboBox
+                if (_rollCall.ClassId > 0)
+                {
+                    cmbClass.SelectedValue = _rollCall.ClassId;
+                }
             }
+        }
+
+        private async void LoadClasses()
+        {
+            var classes = await _classRepository.GetAllAsync();
+            classes = classes.Where(sy => sy.IsActive).ToList();
+
+            cmbClass.DataSource = classes;
+            cmbClass.DisplayMember = "Name";
+            cmbClass.ValueMember = "Id";
         }
 
         protected override async void Save()
@@ -112,6 +145,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _rollCall.Present = (int)nudPresent.Value;
                     _rollCall.Absent = (int)nudAbsent.Value;
                     _rollCall.Notes = txtNotes.Text;
+                    _rollCall.ClassId = (int)cmbClass.SelectedValue;
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_rollCall);
