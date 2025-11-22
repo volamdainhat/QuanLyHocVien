@@ -1,4 +1,5 @@
-﻿using StudentManagementApp.Core.Interfaces.Services;
+﻿using OfficeOpenXml;
+using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Reports;
 using System.Windows.Forms;
 
@@ -151,29 +152,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void btnExport_Click(object sender, EventArgs e)
         {
-            try
+            var dataGridViews = new Dictionary<string, DataGridView>
             {
-                var selectedDate = dtpReportDate.Value;
-                var timeRange = cbTimeRange.SelectedItem.ToString() switch
-                {
-                    "Ngày" => "day",
-                    "Tuần" => "week",
-                    "Tháng" => "month",
-                    _ => "day"
-                };
+                { "Tổng hợp Kỷ luật", dgvMisconductSummary },
+                { "Chi tiết Kỷ luật", dgvMisconductDetail },
+                { "Tổng hợp Thực hành", dgvPracticePointSummary },
+                { "Chi tiết Thực hành", dgvPracticePointDetail },
+                { "Tổng hợp Điểm danh", dgvRollCallSummary },
+                { "Chi tiết Điểm danh", dgvRollCallDetail },
+            };
 
-                await GenerateMisconductReports(selectedDate, timeRange);
-                await GeneratePracticePointReports(selectedDate, timeRange);
-                await GenerateRollCallReports(selectedDate, timeRange);
-
-                MessageBox.Show("Đã tạo báo cáo thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tạo báo cáo: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ExportMultipleWithProgress(dataGridViews);
         }
 
         private async Task GenerateMisconductReports(DateTime date, string timeRange)
@@ -381,6 +370,87 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 grid.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
                 grid.RowHeadersVisible = false;
             }
+        }
+
+        private async void ExportMultipleWithProgress(Dictionary<string, DataGridView> dataGridViews)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Lưu file báo cáo Excel";
+                saveFileDialog.FileName = "SM_Report.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Hiển thị ProgressBar
+                    ProgressForm progressForm = new ProgressForm();
+                    progressForm.Show();
+
+                    try
+                    {
+                        await Task.Run(() =>
+                        {
+                            ExcelPackage.License.SetNonCommercialPersonal("Võ Lâm Đại Nhất");
+
+                            using (ExcelPackage excelPackage = new ExcelPackage())
+                            {
+                                int totalSheets = dataGridViews.Count;
+                                int currentSheet = 0;
+
+                                foreach (var item in dataGridViews)
+                                {
+                                    currentSheet++;
+                                    string sheetName = item.Key;
+                                    DataGridView dgv = item.Value;
+
+                                    // Cập nhật tiến trình
+                                    progressForm.UpdateProgress($"Đang xuất sheet: {sheetName}",
+                                                               (currentSheet * 100) / totalSheets);
+
+                                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add(sheetName);
+
+                                    // Xuất dữ liệu (giống code trên)
+                                    ExportDataGridViewToWorksheet(dgv, worksheet);
+                                }
+
+                                // Lưu file
+                                FileInfo excelFile = new FileInfo(saveFileDialog.FileName);
+                                excelPackage.SaveAs(excelFile);
+                            }
+                        });
+
+                        progressForm.Close();
+                        MessageBox.Show("Xuất Excel thành công!");
+                    }
+                    catch (Exception ex)
+                    {
+                        progressForm.Close();
+                        MessageBox.Show($"Lỗi: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        // Hàm phụ trợ xuất DataGridView vào Worksheet
+        private void ExportDataGridViewToWorksheet(DataGridView dgv, ExcelWorksheet worksheet)
+        {
+            // Xuất tiêu đề
+            for (int i = 0; i < dgv.Columns.Count; i++)
+            {
+                worksheet.Cells[1, i + 1].Value = dgv.Columns[i].HeaderText;
+                worksheet.Cells[1, i + 1].Style.Font.Bold = true;
+            }
+
+            // Xuất dữ liệu
+            for (int i = 0; i < dgv.Rows.Count; i++)
+            {
+                for (int j = 0; j < dgv.Columns.Count; j++)
+                {
+                    worksheet.Cells[i + 2, j + 1].Value = dgv.Rows[i].Cells[j].Value?.ToString();
+                }
+            }
+
+            worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
         }
     }
 }

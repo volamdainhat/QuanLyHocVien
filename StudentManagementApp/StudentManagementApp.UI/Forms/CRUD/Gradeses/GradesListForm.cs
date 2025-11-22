@@ -2,6 +2,7 @@
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Grades;
+using StudentManagementApp.UI.Forms.CRUD.Gradeses;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -12,8 +13,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly ISemesterRepository _semesterRepository;
         private readonly ISubjectAverageRepository _subjectAverageRepository;
         private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
-        private readonly IRepository<Trainee> _traineeRepository;
         private readonly IRepository<Subject> _subjectRepository;
+        private readonly IRepository<Class> _classRepository;
+        private readonly ITraineeRepository _traineeRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
 
@@ -23,8 +25,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
             ISemesterRepository semesterRepository,
             ISubjectAverageRepository subjectAverageRepository,
             ITraineeAverageScoreRepository traineeAverageScoreRepository,
-            IRepository<Trainee> traineeRepository,
+            ITraineeRepository traineeRepository,
             IRepository<Subject> subjectRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService)
         {
             _gradesRepository = gradesRepository;
@@ -34,6 +37,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _traineeAverageScoreRepository = traineeAverageScoreRepository;
             _traineeRepository = traineeRepository;
             _subjectRepository = subjectRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
             InitializeComponent();
             InitializeClassList();
@@ -55,6 +59,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Thêm ảnh vào ImageList
             imageList.Images.Add(Properties.Resources.add_icon);
+            imageList.Images.Add(Properties.Resources.addrange_icon);
             imageList.Images.Add(Properties.Resources.edit_icon);
             imageList.Images.Add(Properties.Resources.refresh_icon);
 
@@ -66,17 +71,22 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnAdd.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnAdd.ImageTransparentColor = Color.Magenta;
 
+            var btnAddRange = new ToolStripButton("Thêm nhiều");
+            btnAddRange.ImageIndex = 1;
+            btnAddRange.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnAddRange.ImageTransparentColor = Color.Magenta;
+
             var btnEdit = new ToolStripButton("Sửa");
-            btnEdit.ImageIndex = 1;
+            btnEdit.ImageIndex = 2;
             btnEdit.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnEdit.ImageTransparentColor = Color.Magenta;
 
             var btnRefresh = new ToolStripButton("Làm mới");
-            btnRefresh.ImageIndex = 2;
+            btnRefresh.ImageIndex = 3;
             btnRefresh.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnRefresh.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh]);
+            toolStrip.Items.AddRange([btnAdd, btnAddRange, btnEdit, btnRefresh]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -94,6 +104,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             this.Controls.Add(toolStrip);
 
             btnAdd.Click += (s, e) => AddClass();
+            btnAddRange.Click += (s, e) => btnBulkAddGrades_Click();
             btnEdit.Click += async (s, e) => await EditClass();
             btnRefresh.Click += (s, e) => LoadGrades();
         }
@@ -125,6 +136,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             {
                 var grades = await _gradesRepository.GetByIdAsync(selectedGrades.Id);
                 var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService, grades);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadGrades();
+                }
+            }
+        }
+
+        private void btnBulkAddGrades_Click()
+        {
+            using (var form = new BulkAddGradesForm(_classRepository, _subjectRepository, _semesterRepository, _gradesRepository, _traineeRepository, _categoryRepository))
+            {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadGrades();

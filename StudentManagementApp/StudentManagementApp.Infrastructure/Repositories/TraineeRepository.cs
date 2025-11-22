@@ -78,5 +78,10 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.Trainees.Where(r => r.IsActive == true).ToListAsync();
         }
+
+        public async Task<List<Trainee>> GetTraineesByClassIdAsync(int classId)
+        {
+            return await _context.Trainees.Where(r => r.ClassId == classId).ToListAsync();
+        }
     }
 }

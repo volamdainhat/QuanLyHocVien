@@ -10,5 +10,6 @@ namespace StudentManagementApp.Core.Interfaces.Repositories
         Task<int> GetTotalTraineeAsync();
         Task<List<TraineeByClassModel>> GetTotalTraineeByClassAsync(); 
         Task<List<Trainee>> GetTraineesActiveAsync();
+        Task<List<Trainee>> GetTraineesByClassIdAsync(int classId);
     }
 }

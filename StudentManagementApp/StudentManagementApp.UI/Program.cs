@@ -9,6 +9,7 @@ using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.UI.Forms;
 using StudentManagementApp.UI.Forms.Auth;
 using StudentManagementApp.UI.Forms.CRUD;
+using StudentManagementApp.UI.Forms.CRUD.Gradeses;
 using System.Configuration;
 
 namespace StudentManagementApp.UI
@@ -193,6 +194,7 @@ namespace StudentManagementApp.UI
             services.AddTransient<RollCallListForm>();
             services.AddTransient<PracticePointListForm>();
             services.AddTransient<ReportListForm>();
+            services.AddTransient<BulkAddGradesForm>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using StudentManagementApp.Core.Entities;
+using StudentManagementApp.Core.Helpers;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.Categories;
@@ -190,7 +191,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     _grades.SemesterId = (int)cmbSemesterId.SelectedValue;
                     _grades.ExamType = (string)cmbExamType.SelectedValue;
                     _grades.Grade = nudGrade.Value;
-                    _grades.GradeType = CalculateGradeType(_grades.Grade);
+                    _grades.GradeType = GradeHelpers.CalculateGradeType(_grades.Grade);
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_grades);
@@ -296,16 +297,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
 
             return isValid;
-        }
-
-        private static string CalculateGradeType(decimal score)
-        {
-            // Logic xếp loại dựa trên điểm số decimal
-            if (score >= 9.0m) return "Xuất xắc";
-            else if (score >= 8.0m) return "Giỏi";
-            else if (score >= 7.0m) return "Khá";
-            else if (score >= 5.0m) return "Trung bình";
-            else return "Yếu";
         }
     }
 }

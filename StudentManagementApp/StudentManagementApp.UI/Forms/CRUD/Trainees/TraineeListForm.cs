@@ -103,12 +103,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             lblFilterStatus.ImageTransparentColor = Color.Magenta;
 
-            var btnReport1 = new ToolStripButton("Report");
-            btnTemplate.ImageIndex = 4;
-            btnTemplate.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-            btnTemplate.ImageTransparentColor = Color.Magenta;
-
-            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate, btnFilter, lblFilterStatus, btnReport1]);
+            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnImport, btnTemplate, btnFilter, lblFilterStatus]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -131,14 +126,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
             btnImport.Click += async (s, e) => await BtnImport_Click(s, e);
             btnTemplate.Click += (s, e) => BtnGenerateTemplate_Click(s, e);
-            btnReport1.Click += (s, e) => BtnReport_Click(s, e);
-        }
-
-        private void BtnReport_Click(object s, EventArgs e)
-        {
-            DateTime fromDate = Convert.ToDateTime("01/11/2025");
-            DateTime toDate = Convert.ToDateTime("11/11/2025");
-            _reportService.GenerateTraineeReportAsync(fromDate, toDate);
         }
 
         private async Task BtnFilter_Click(object sender, EventArgs e)

@@ -443,6 +443,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     }
                     _weeklyCritique.RAScore = (int)nudRAScore.Value;
 
+                    _weeklyCritique.FinalScore = _weeklyCritique.PAScore + _weeklyCritique.SMScore + _weeklyCritique.ELScore + _weeklyCritique.DAScore + _weeklyCritique.ARScore + _weeklyCritique.RAScore;
+
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_weeklyCritique);
                     var validationResultsList = validationResults.ToList();
