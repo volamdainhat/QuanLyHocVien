@@ -145,7 +145,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void btnBulkAddGrades_Click()
         {
-            using (var form = new BulkAddGradesForm(_classRepository, _subjectRepository, _semesterRepository, _gradesRepository, _traineeRepository, _categoryRepository))
+            using (var form = new BulkAddGradesForm(_classRepository, _subjectRepository, _semesterRepository, _gradesRepository, _traineeRepository, _categoryRepository, _subjectAverageRepository, _traineeAverageScoreRepository))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

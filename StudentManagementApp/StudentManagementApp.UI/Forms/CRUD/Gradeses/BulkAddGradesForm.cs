@@ -14,6 +14,8 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
         private readonly IRepository<Grades> _gradesRepository;
         private readonly ITraineeRepository _traineeRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ISubjectAverageRepository _subjectAverageRepository;
+        private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
 
         private List<Trainee> _trainees;
         private List<Subject> _selectedSubjects;
@@ -36,7 +38,9 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             IRepository<Semester> semesterRepository,
             IRepository<Grades> gradesRepository,
             ITraineeRepository traineeRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            ISubjectAverageRepository subjectAverageRepository,
+            ITraineeAverageScoreRepository traineeAverageScoreRepository)
         {
             _classRepository = classRepository;
             _subjectRepository = subjectRepository;
@@ -44,6 +48,8 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             _gradesRepository = gradesRepository;
             _traineeRepository = traineeRepository;
             _categoryRepository = categoryRepository;
+            _subjectAverageRepository = subjectAverageRepository;
+            _traineeAverageScoreRepository = traineeAverageScoreRepository;
 
             InitializeComponent();
             _selectedSubjects = new List<Subject>();
@@ -413,12 +419,33 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             }
 
             await _gradesRepository.AddRangeAsync(newGrades);
+
+            var gradesToUpdate = newGrades.GroupBy(g => new { g.TraineeId, g.SubjectId, g.SemesterId })
+                .Select(g => new
+                {
+                    TraineeId = g.Key.TraineeId,
+                    SubjectId = g.Key.SubjectId,
+                    SemesterId = g.Key.SemesterId
+                }).ToList();
+
+            foreach (var item in gradesToUpdate)
+            {
+                await UpdateSubjectAverageAndTraineeAverageScore(item.SubjectId, item.TraineeId, item.SemesterId);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private async Task UpdateSubjectAverageAndTraineeAverageScore(int subjectId, int traineeId, int semesterId)
+        {
+            // Cập nhật điểm trung bình môn cho học viên
+            await _subjectAverageRepository.UpdateTraineeSubjectAverageAsync(subjectId, traineeId);
+            // Cập nhật điểm trung bình học kỳ cho học viên
+            await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(traineeId, semesterId);
         }
     }
 }

@@ -92,8 +92,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
                     ToDate = toDate,
                     ClassName = g.Key.Name,
                     TotalSessions = g.Count(),
-                    AverageAttendanceRate = g.Average(rc =>
-                        rc.TotalStudents > 0 ? (double)rc.Present / rc.TotalStudents * 100 : 0),
+                    AverageAttendanceRate = Math.Round(g.Average(rc =>
+                        rc.TotalStudents > 0 ? (double)rc.Present / rc.TotalStudents * 100 : 0), 2),
                     MaxAbsent = g.Max(rc => rc.Absent)
                 });
 

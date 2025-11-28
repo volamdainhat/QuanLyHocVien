@@ -242,7 +242,6 @@ namespace StudentManagementApp.UI.Forms.CRUD
         {
             // Cập nhật điểm trung bình môn cho học viên
             await _subjectAverageRepository.UpdateTraineeSubjectAverageAsync(_grades.SubjectId, _grades.TraineeId);
-
             // Cập nhật điểm trung bình học kỳ cho học viên
             await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(_grades.TraineeId, _grades.SemesterId);
         }
