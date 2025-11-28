@@ -2,7 +2,6 @@
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.RollCalls;
-using StudentManagementApp.Infrastructure.Repositories;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {

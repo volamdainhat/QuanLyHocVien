@@ -67,7 +67,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.PracticePoints
                 .Where(pp => pp.Time >= fromDate && pp.Time <= toDate && pp.IsActive)
-                .GroupBy(pp => new {
+                .GroupBy(pp => new
+                {
                     pp.Content,
                     Period = timeRange == "day" ? pp.Time.Date :
                                     timeRange == "week" ? pp.Time.AddDays(-(int)pp.Time.DayOfWeek).Date :

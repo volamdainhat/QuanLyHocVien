@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudentManagementApp.Core.Entities;
+﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Helpers;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;

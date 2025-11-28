@@ -1,7 +1,5 @@
 ﻿using OfficeOpenXml;
 using StudentManagementApp.Core.Interfaces.Services;
-using StudentManagementApp.Core.Models.Reports;
-using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
