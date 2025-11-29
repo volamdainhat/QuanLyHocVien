@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
@@ -135,18 +136,68 @@ namespace StudentManagementApp.UI
 
         static void ConfigureServices(ServiceCollection services)
         {
-            var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
-            // Read connection string from App.config
-            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
-            var databasePath = Path.Combine(basePath, connectionString);
+            // Lấy thư mục chứa ứng dụng (nơi chứa EXE/DLL)
+            var basePath = AppContext.BaseDirectory;
 
-            if (string.IsNullOrEmpty(connectionString))
+            // Đọc connection string từ App.config
+            var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
+
+            string databasePath;
+
+            if (!string.IsNullOrEmpty(connectionString))
             {
-                // Fallback
-                connectionString = "Data Source=StudentManagementDB.db";
+                // Trích xuất tên file database từ connection string
+                string dbName = ExtractDatabaseFileName(connectionString);
+                databasePath = Path.Combine(basePath, dbName);
+            }
+            else
+            {
+                // Fallback nếu không có connection string
+                databasePath = Path.Combine(basePath, "StudentManagementDB.db");
             }
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={databasePath}"));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite($"Data Source={databasePath}"));
+
+            // Hàm trích xuất tên database file từ connection string
+            static string ExtractDatabaseFileName(string connectionString)
+            {
+                // Tìm "Data Source=" trong connection string
+                var dataSourceKey = "Data Source=";
+                var dataSourceIndex = connectionString.IndexOf(dataSourceKey, StringComparison.OrdinalIgnoreCase);
+
+                if (dataSourceIndex >= 0)
+                {
+                    // Lấy phần sau "Data Source="
+                    var dbPath = connectionString.Substring(dataSourceIndex + dataSourceKey.Length);
+
+                    // Loại bỏ các tham số phía sau (nếu có)
+                    var semicolonIndex = dbPath.IndexOf(';');
+                    if (semicolonIndex >= 0)
+                    {
+                        dbPath = dbPath.Substring(0, semicolonIndex);
+                    }
+
+                    // Chỉ lấy tên file (loại bỏ đường dẫn nếu có)
+                    return Path.GetFileName(dbPath);
+                }
+
+                // Nếu không tìm thấy "Data Source=", coi toàn bộ connection string là tên file
+                return Path.GetFileName(connectionString) ?? "StudentManagementDB.db";
+            }
+
+            //var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
+            //// Read connection string from App.config
+            //var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
+            //var databasePath = Path.Combine(basePath, connectionString);
+
+            //if (string.IsNullOrEmpty(connectionString))
+            //{
+            //    // Fallback
+            //    connectionString = "Data Source=StudentManagementDB.db";
+            //}
+
+            //services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={databasePath}"));
 
             // Register repositories
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

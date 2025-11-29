@@ -225,10 +225,20 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             _gradesData.Columns.Add("Học viên", typeof(string));
 
             dgvGrades.DataSource = _gradesData;
-            dgvGrades.AutoGenerateColumns = false;
+            dgvGrades.AutoGenerateColumns = true;
 
             // Ẩn cột TraineeId
             dgvGrades.Columns["TraineeId"].Visible = false;
+
+            // THÊM CÁC THIẾT LẬP MỚI
+            dgvGrades.ScrollBars = ScrollBars.Both;
+            dgvGrades.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+            // Tối ưu hiệu năng
+            dgvGrades.AllowUserToOrderColumns = false;
+            dgvGrades.AllowUserToResizeColumns = true;
+            dgvGrades.AllowUserToResizeRows = false;
+            dgvGrades.RowHeadersVisible = false;
         }
 
         private void cboClass_SelectedIndexChanged(object sender, EventArgs e)
@@ -268,6 +278,9 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
 
         private void UpdateDataGridViewColumns()
         {
+            // Tạm thời ngắt binding để tối ưu hiệu năng
+            dgvGrades.DataSource = null;
+
             // Xóa các cột điểm cũ (giữ lại 2 cột đầu)
             while (_gradesData.Columns.Count > 2)
             {
@@ -279,10 +292,9 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             {
                 _gradesData.Columns.Add($"Subject_{subject.Id}", typeof(decimal));
             }
+            _gradesData.Rows.Add(_gradesData.NewRow());
 
-            // Cập nhật DataGridView
-            dgvGrades.DataSource = null;
-            dgvGrades.AutoGenerateColumns = true;
+            // Khôi phục binding
             dgvGrades.DataSource = _gradesData;
 
             // Thiết lập các cột
@@ -299,10 +311,36 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
                 var subject = _selectedSubjects[i - 2];
                 dgvGrades.Columns[i].HeaderText = $"{subject.Name} (Hệ số {subject.Coefficient})";
                 dgvGrades.Columns[i].Width = 150;
+                dgvGrades.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
+
+            // Đảm bảo thanh cuộn được kích hoạt
+            dgvGrades.ScrollBars = ScrollBars.Both;
 
             // Thêm dữ liệu học viên
             LoadTraineesData();
+
+            CheckScrollNeeded();
+        }
+
+        private void CheckScrollNeeded()
+        {
+            int totalWidth = 0;
+            foreach (DataGridViewColumn column in dgvGrades.Columns)
+            {
+                if (column.Visible)
+                    totalWidth += column.Width;
+            }
+
+            // Nếu tổng chiều rộng lớn hơn chiều rộng hiển thị, kích hoạt cuộn ngang
+            if (totalWidth > dgvGrades.ClientSize.Width)
+            {
+                dgvGrades.ScrollBars = ScrollBars.Both;
+            }
+            else
+            {
+                dgvGrades.ScrollBars = ScrollBars.Vertical;
+            }
         }
 
         private void LoadTraineesData()
