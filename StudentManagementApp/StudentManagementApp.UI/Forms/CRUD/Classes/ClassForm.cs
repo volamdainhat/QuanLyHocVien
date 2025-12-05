@@ -25,7 +25,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _classRepository = classRepository;
             _schoolYearRepository = schoolYearRepository;
             _validationService = validationService;
-            _class = Class ?? new Class() { Name = string.Empty, SchoolYearId = 0 };
+            _class = Class ?? new Class() { Name = string.Empty, SchoolYear = 0 };
             InitializeComponent();
             InitializeClassForm();
             LoadClassData();
@@ -81,9 +81,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 txtName.Text = _class.Name;
 
                 // Set selected value
-                if (schoolYears.Any(s => s.Id == _class.SchoolYearId))
+                if (schoolYears.Any(s => s.Id == _class.SchoolYear))
                 {
-                    cbSchoolYearId.SelectedValue = _class.SchoolYearId;
+                    cbSchoolYearId.SelectedValue = _class.SchoolYear;
                 }
 
                 nudTotalStudents.Value = _class.TotalStudents;
@@ -109,7 +109,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 try
                 {
                     _class.Name = txtName.Text;
-                    _class.SchoolYearId = (int)cbSchoolYearId.SelectedValue;
+                    _class.SchoolYear = (cbSchoolYearId.SelectedValue as int?) ?? 0;
                     _class.TotalStudents = (int)nudTotalStudents.Value;
 
                     // Validate entity

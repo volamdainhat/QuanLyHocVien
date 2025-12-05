@@ -1148,13 +1148,18 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SchoolYearId")
+                    b.Property<int>("SchoolYear")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SchoolYearId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TotalStudents")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.HasIndex("SchoolYearId");
 
@@ -1619,14 +1624,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("AddressForCorrespondence")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("ClassId")
                         .HasColumnType("INTEGER");
 
@@ -1636,39 +1633,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<DateTime>("DayOfBirth")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EducationalLevel")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("EnlistmentDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Ethnicity")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FatherFullName")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FatherPhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("HealthStatus")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IdentityCard")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -1679,35 +1646,6 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MotherFullName")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MotherPhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PlaceOfOrigin")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PlaceOfPermanentResidence")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProvinceOfEnlistment")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -1886,13 +1824,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
-                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
+                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", null)
                         .WithMany("Classes")
-                        .HasForeignKey("SchoolYearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SchoolYear");
+                        .HasForeignKey("SchoolYearId");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>

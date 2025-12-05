@@ -54,21 +54,21 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _validationService = validationService;
             _trainee = trainee ?? new Trainee()
             {
-                AddressForCorrespondence = "",
-                EducationalLevel = "",
-                EnlistmentDate = DateTime.Now,
-                Ethnicity = "",
+                //AddressForCorrespondence = "",
+                //EducationalLevel = "",
+                //EnlistmentDate = DateTime.Now,
+                //Ethnicity = "",
                 FullName = "",
-                Gender = true,
-                HealthStatus = "",
-                IdentityCard = "",
+                //Gender = true,
+                //HealthStatus = "",
+                //IdentityCard = "",
                 MilitaryRank = "",
-                PlaceOfOrigin = "",
-                PlaceOfPermanentResidence = "",
-                ProvinceOfEnlistment = ""
+                //PlaceOfOrigin = "",
+                //PlaceOfPermanentResidence = "",
+                //ProvinceOfEnlistment = ""
             };
             InitializeComponent();
-            InitializeTraineeForm();
+            InitializeTraineeFormVer2();
             LoadTraineeData();
         }
 
@@ -103,6 +103,85 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Thêm sự kiện validating
             //txtName.Validating += TxtName_Validating;
+        }
+
+        private void InitializeTraineeFormVer2()
+        {
+            if (_trainee.Id == 0)
+            {
+                this.Text = "Thêm mới Học viên";
+                btnDelete.Visible = false;
+            }
+            else
+            {
+                this.Text = "Chỉnh sửa Học viên";
+            }
+            this.Size = new Size(700, 500);
+            //this.Padding = new Padding(10);
+
+            int y = 20;
+            int labelWidth = 200;
+            int controlWidth = 250;
+            int spacing = 40;
+
+            // Họ tên
+            formPanel.Controls.Add(new Label
+            {
+                Text = "Họ và tên:",
+                Location = new Point(20, y),
+                AutoSize = true
+            });
+            txtFullName = new TextBox { Location = new Point(170, y), Size = new Size(controlWidth, 20) };
+            formPanel.Controls.Add(txtFullName);
+            y += spacing;
+
+            // Ngày sinh
+            formPanel.Controls.Add(new Label
+            {
+                Text = "Ngày sinh:",
+                Location = new Point(20, y),
+                AutoSize = true
+            });
+            dtpDayOfBirth = new DateTimePicker
+            {
+                Location = new Point(170, y),
+                Size = new Size(controlWidth, 20),
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd/MM/yyyy"
+            };
+            formPanel.Controls.Add(dtpDayOfBirth);
+            y += spacing;
+
+            // Cấp bậc quân hàm
+            formPanel.Controls.Add(new Label
+            {
+                Text = "Cấp bậc:",
+                Location = new Point(20, y),
+                AutoSize = true
+            });
+            cmbMilitaryRank = new ComboBox
+            {
+                Location = new Point(170, y),
+                Size = new Size(controlWidth, 20),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            formPanel.Controls.Add(cmbMilitaryRank);
+            y += spacing;
+
+            // Lớp
+            formPanel.Controls.Add(new Label
+            {
+                Text = "Lớp:",
+                Location = new Point(20, y),
+                AutoSize = true
+            });
+            cmbClass = new ComboBox
+            {
+                Location = new Point(170, y),
+                Size = new Size(controlWidth, 20),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            formPanel.Controls.Add(cmbClass);
         }
 
         private void BtnBrowseAvatar_Click(object sender, EventArgs e)
@@ -358,47 +437,47 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private async void LoadTraineeData()
         {
             LoadClasses();
-            var provinces = await LoadProvinces();
-            var educationalLevels = await LoadEducationLevels();
+            //var provinces = await LoadProvinces();
+            //var educationalLevels = await LoadEducationLevels();
             var militaryRanks = await LoadMilitaryRanks();
-            var roles = await LoadRoles();
+            //var roles = await LoadRoles();
 
             if (_trainee.Id > 0)
             {
                 // Điền các thông tin cơ bản
                 txtFullName.Text = _trainee.FullName;
                 dtpDayOfBirth.Value = _trainee.DayOfBirth;
-                rbMale.Checked = _trainee.Gender;
-                rbFemale.Checked = !_trainee.Gender;
-                txtIdentityCard.Text = _trainee.IdentityCard;
-                txtEthnicity.Text = _trainee.Ethnicity;
-                txtPlaceOfOrigin.Text = _trainee.PlaceOfOrigin;
-                txtPlaceOfPermanentResidence.Text = _trainee.PlaceOfPermanentResidence;
-                txtPhoneNumber.Text = _trainee.PhoneNumber;
+                //rbMale.Checked = _trainee.Gender;
+                //rbFemale.Checked = !_trainee.Gender;
+                //txtIdentityCard.Text = _trainee.IdentityCard;
+                //txtEthnicity.Text = _trainee.Ethnicity;
+                //txtPlaceOfOrigin.Text = _trainee.PlaceOfOrigin;
+                //txtPlaceOfPermanentResidence.Text = _trainee.PlaceOfPermanentResidence;
+                //txtPhoneNumber.Text = _trainee.PhoneNumber;
 
                 // Thông tin quân ngũ
-                txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
-                dtpEnlistmentDate.Value = _trainee.EnlistmentDate;
-                txtHealthStatus.Text = _trainee.HealthStatus;
+                //txtAddressForCorrespondence.Text = _trainee.AddressForCorrespondence;
+                //dtpEnlistmentDate.Value = _trainee.EnlistmentDate;
+                //txtHealthStatus.Text = _trainee.HealthStatus;
 
                 // Chọn tỉnh nhập ngũ trong ComboBox
-                if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
-                {
-                    var selectedItem = provinces.FirstOrDefault(x => x.Name == _trainee.ProvinceOfEnlistment);
-                    if (selectedItem != null)
-                    {
-                        cmbProvinceOfEnlistment.SelectedItem = selectedItem;
-                    }
-                }
+                //if (!string.IsNullOrEmpty(_trainee.ProvinceOfEnlistment))
+                //{
+                //    var selectedItem = provinces.FirstOrDefault(x => x.Name == _trainee.ProvinceOfEnlistment);
+                //    if (selectedItem != null)
+                //    {
+                //        cmbProvinceOfEnlistment.SelectedItem = selectedItem;
+                //    }
+                //}
 
-                if (!string.IsNullOrEmpty(_trainee.EducationalLevel))
-                {
-                    var selectedItem = educationalLevels.FirstOrDefault(x => x.Name == _trainee.EducationalLevel);
-                    if (selectedItem != null)
-                    {
-                        cmbEducationalLevel.SelectedItem = selectedItem;
-                    }
-                }
+                //if (!string.IsNullOrEmpty(_trainee.EducationalLevel))
+                //{
+                //    var selectedItem = educationalLevels.FirstOrDefault(x => x.Name == _trainee.EducationalLevel);
+                //    if (selectedItem != null)
+                //    {
+                //        cmbEducationalLevel.SelectedItem = selectedItem;
+                //    }
+                //}
 
                 if (!string.IsNullOrEmpty(_trainee.MilitaryRank))
                 {
@@ -409,20 +488,20 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     }
                 }
 
-                if (!string.IsNullOrEmpty(_trainee.Role))
-                {
-                    var selectedItem = roles.FirstOrDefault(x => x.Name == _trainee.Role);
-                    if (selectedItem != null)
-                    {
-                        cmbRole.SelectedItem = selectedItem;
-                    }
-                }
+                //if (!string.IsNullOrEmpty(_trainee.Role))
+                //{
+                //    var selectedItem = roles.FirstOrDefault(x => x.Name == _trainee.Role);
+                //    if (selectedItem != null)
+                //    {
+                //        cmbRole.SelectedItem = selectedItem;
+                //    }
+                //}
 
                 // Thông tin gia đình
-                txtFatherFullName.Text = _trainee.FatherFullName;
-                txtFatherPhoneNumber.Text = _trainee.FatherPhoneNumber;
-                txtMotherFullName.Text = _trainee.MotherFullName;
-                txtMotherPhoneNumber.Text = _trainee.MotherPhoneNumber;
+                //txtFatherFullName.Text = _trainee.FatherFullName;
+                //txtFatherPhoneNumber.Text = _trainee.FatherPhoneNumber;
+                //txtMotherFullName.Text = _trainee.MotherFullName;
+                //txtMotherPhoneNumber.Text = _trainee.MotherPhoneNumber;
 
                 // Các thông tin khác...
 
@@ -433,10 +512,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 }
 
                 // Tải ảnh đại diện nếu có
-                if (!string.IsNullOrEmpty(_trainee.AvatarUrl))
-                {
-                    LoadAvatarImage(_trainee.AvatarUrl);
-                }
+                //if (!string.IsNullOrEmpty(_trainee.AvatarUrl))
+                //{
+                //    LoadAvatarImage(_trainee.AvatarUrl);
+                //}
             }
         }
 
@@ -582,47 +661,47 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 {
                     _trainee.FullName = txtFullName.Text;
                     _trainee.DayOfBirth = dtpDayOfBirth.Value;
-                    _trainee.Gender = rbMale.Checked;
-                    _trainee.IdentityCard = txtIdentityCard.Text;
-                    _trainee.Ethnicity = txtEthnicity.Text;
-                    _trainee.PlaceOfOrigin = txtPlaceOfOrigin.Text;
-                    _trainee.PlaceOfPermanentResidence = txtPlaceOfPermanentResidence.Text;
-                    _trainee.PhoneNumber = txtPhoneNumber.Text;
-                    _trainee.AddressForCorrespondence = txtAddressForCorrespondence.Text;
-                    _trainee.EnlistmentDate = dtpEnlistmentDate.Value;
-                    _trainee.HealthStatus = txtHealthStatus.Text;
-                    _trainee.FatherFullName = txtFatherFullName.Text;
-                    _trainee.FatherPhoneNumber = txtFatherPhoneNumber.Text;
-                    _trainee.MotherFullName = txtMotherFullName.Text;
-                    _trainee.MotherPhoneNumber = txtMotherPhoneNumber.Text;
+                    //_trainee.Gender = rbMale.Checked;
+                    //_trainee.IdentityCard = txtIdentityCard.Text;
+                    //_trainee.Ethnicity = txtEthnicity.Text;
+                    //_trainee.PlaceOfOrigin = txtPlaceOfOrigin.Text;
+                    //_trainee.PlaceOfPermanentResidence = txtPlaceOfPermanentResidence.Text;
+                    //_trainee.PhoneNumber = txtPhoneNumber.Text;
+                    //_trainee.AddressForCorrespondence = txtAddressForCorrespondence.Text;
+                    //_trainee.EnlistmentDate = dtpEnlistmentDate.Value;
+                    //_trainee.HealthStatus = txtHealthStatus.Text;
+                    //_trainee.FatherFullName = txtFatherFullName.Text;
+                    //_trainee.FatherPhoneNumber = txtFatherPhoneNumber.Text;
+                    //_trainee.MotherFullName = txtMotherFullName.Text;
+                    //_trainee.MotherPhoneNumber = txtMotherPhoneNumber.Text;
                     _trainee.ClassId = (int)cmbClass.SelectedValue;
 
-                    if (cmbProvinceOfEnlistment.SelectedItem is CategoryViewModel selectProvinceOfEnlistment)
-                    {
-                        _trainee.ProvinceOfEnlistment = selectProvinceOfEnlistment.Name;
-                    }
+                    //if (cmbProvinceOfEnlistment.SelectedItem is CategoryViewModel selectProvinceOfEnlistment)
+                    //{
+                    //    _trainee.ProvinceOfEnlistment = selectProvinceOfEnlistment.Name;
+                    //}
 
-                    if (cmbEducationalLevel.SelectedItem is CategoryViewModel selectEducationalLevel)
-                    {
-                        _trainee.EducationalLevel = selectEducationalLevel.Name;
-                    }
+                    //if (cmbEducationalLevel.SelectedItem is CategoryViewModel selectEducationalLevel)
+                    //{
+                    //    _trainee.EducationalLevel = selectEducationalLevel.Name;
+                    //}
 
                     if (cmbMilitaryRank.SelectedItem is CategoryViewModel selectMilitaryRank)
                     {
                         _trainee.MilitaryRank = selectMilitaryRank.Name;
                     }
 
-                    if (cmbRole.SelectedItem is CategoryViewModel selectRole)
-                    {
-                        _trainee.Role = selectRole.Name;
-                    }
+                    //if (cmbRole.SelectedItem is CategoryViewModel selectRole)
+                    //{
+                    //    _trainee.Role = selectRole.Name;
+                    //}
 
                     // Lưu ảnh và lấy đường dẫn
-                    string avatarUrl = SaveAvatarImage();
-                    if (!string.IsNullOrEmpty(avatarUrl))
-                    {
-                        _trainee.AvatarUrl = avatarUrl;
-                    }
+                    //string avatarUrl = SaveAvatarImage();
+                    //if (!string.IsNullOrEmpty(avatarUrl))
+                    //{
+                    //    _trainee.AvatarUrl = avatarUrl;
+                    //}
 
                     // Validate entity
                     var validationResults = _validationService.ValidateWithDetails(_trainee);
@@ -708,76 +787,76 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
 
             // Validate IdentityCard
-            if (string.IsNullOrWhiteSpace(txtIdentityCard.Text))
-            {
-                errorProvider.SetError(txtIdentityCard, "Số CMND là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtIdentityCard;
-            }
+            //if (string.IsNullOrWhiteSpace(txtIdentityCard.Text))
+            //{
+            //    errorProvider.SetError(txtIdentityCard, "Số CMND là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtIdentityCard;
+            //}
 
             // Validate Ethnicity
-            if (string.IsNullOrWhiteSpace(txtEthnicity.Text))
-            {
-                errorProvider.SetError(txtEthnicity, "Dân tộc là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtEthnicity;
-            }
+            //if (string.IsNullOrWhiteSpace(txtEthnicity.Text))
+            //{
+            //    errorProvider.SetError(txtEthnicity, "Dân tộc là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtEthnicity;
+            //}
 
             // Validate PlaceOfOrigin
-            if (string.IsNullOrWhiteSpace(txtPlaceOfOrigin.Text))
-            {
-                errorProvider.SetError(txtPlaceOfOrigin, "Quê quán là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPlaceOfOrigin;
-            }
+            //if (string.IsNullOrWhiteSpace(txtPlaceOfOrigin.Text))
+            //{
+            //    errorProvider.SetError(txtPlaceOfOrigin, "Quê quán là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPlaceOfOrigin;
+            //}
 
             // Validate PlaceOfPermanentResidence
-            if (string.IsNullOrWhiteSpace(txtPlaceOfPermanentResidence.Text))
-            {
-                errorProvider.SetError(txtPlaceOfPermanentResidence, "Nơi thường trú là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPlaceOfPermanentResidence;
-            }
+            //if (string.IsNullOrWhiteSpace(txtPlaceOfPermanentResidence.Text))
+            //{
+            //    errorProvider.SetError(txtPlaceOfPermanentResidence, "Nơi thường trú là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPlaceOfPermanentResidence;
+            //}
 
             // Validate PhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtPhoneNumber, "Số điện thoại không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPhoneNumber;
-            }
+            //if (!string.IsNullOrWhiteSpace(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtPhoneNumber, "Số điện thoại không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPhoneNumber;
+            //}
 
             // Validate ProvinceOfEnlistment
-            if (cmbProvinceOfEnlistment.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbProvinceOfEnlistment, "Tỉnh nhập ngũ là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbProvinceOfEnlistment;
-            }
+            //if (cmbProvinceOfEnlistment.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbProvinceOfEnlistment, "Tỉnh nhập ngũ là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbProvinceOfEnlistment;
+            //}
 
             // Validate EducationalLevel
-            if (cmbEducationalLevel.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbEducationalLevel, "Trình độ học vấn là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbEducationalLevel;
-            }
+            //if (cmbEducationalLevel.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbEducationalLevel, "Trình độ học vấn là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbEducationalLevel;
+            //}
 
             // Validate AddressForCorrespondence
-            if (string.IsNullOrWhiteSpace(txtAddressForCorrespondence.Text))
-            {
-                errorProvider.SetError(txtAddressForCorrespondence, "Địa chỉ liên lạc là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtAddressForCorrespondence;
-            }
+            //if (string.IsNullOrWhiteSpace(txtAddressForCorrespondence.Text))
+            //{
+            //    errorProvider.SetError(txtAddressForCorrespondence, "Địa chỉ liên lạc là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtAddressForCorrespondence;
+            //}
 
             // Validate EnlistmentDate
-            if (dtpEnlistmentDate.Value == DateTime.MinValue || dtpEnlistmentDate.Value > DateTime.Now)
-            {
-                errorProvider.SetError(dtpEnlistmentDate, "Ngày nhập ngũ không hợp lệ");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? dtpEnlistmentDate;
-            }
+            //if (dtpEnlistmentDate.Value == DateTime.MinValue || dtpEnlistmentDate.Value > DateTime.Now)
+            //{
+            //    errorProvider.SetError(dtpEnlistmentDate, "Ngày nhập ngũ không hợp lệ");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? dtpEnlistmentDate;
+            //}
 
             // Validate MilitaryRank
             if (cmbMilitaryRank.SelectedItem == null)
@@ -788,52 +867,52 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
 
             // Validate HealthStatus
-            if (string.IsNullOrWhiteSpace(txtHealthStatus.Text))
-            {
-                errorProvider.SetError(txtHealthStatus, "Tình trạng sức khỏe là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtHealthStatus;
-            }
+            //if (string.IsNullOrWhiteSpace(txtHealthStatus.Text))
+            //{
+            //    errorProvider.SetError(txtHealthStatus, "Tình trạng sức khỏe là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtHealthStatus;
+            //}
 
             // Validate Role (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(cmbRole.Text) && cmbRole.Text.Length > 50)
-            {
-                errorProvider.SetError(cmbRole, "Vai trò không được vượt quá 50 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbRole;
-            }
+            //if (!string.IsNullOrWhiteSpace(cmbRole.Text) && cmbRole.Text.Length > 50)
+            //{
+            //    errorProvider.SetError(cmbRole, "Vai trò không được vượt quá 50 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbRole;
+            //}
 
             // Validate FatherFullName (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
-            {
-                errorProvider.SetError(txtFatherFullName, "Họ tên cha không được vượt quá 255 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtFatherFullName;
-            }
+            //if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
+            //{
+            //    errorProvider.SetError(txtFatherFullName, "Họ tên cha không được vượt quá 255 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtFatherFullName;
+            //}
 
             // Validate FatherPhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtFatherPhoneNumber.Text) && txtFatherPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtFatherPhoneNumber, "Số điện thoại cha không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtFatherPhoneNumber;
-            }
+            //if (!string.IsNullOrWhiteSpace(txtFatherPhoneNumber.Text) && txtFatherPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtFatherPhoneNumber, "Số điện thoại cha không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtFatherPhoneNumber;
+            //}
 
             // Validate MotherFullName (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtMotherFullName.Text) && txtMotherFullName.Text.Length > 255)
-            {
-                errorProvider.SetError(txtMotherFullName, "Họ tên mẹ không được vượt quá 255 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtMotherFullName;
-            }
+            //if (!string.IsNullOrWhiteSpace(txtMotherFullName.Text) && txtMotherFullName.Text.Length > 255)
+            //{
+            //    errorProvider.SetError(txtMotherFullName, "Họ tên mẹ không được vượt quá 255 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtMotherFullName;
+            //}
 
             // Validate MotherPhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtMotherPhoneNumber.Text) && txtMotherPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
-            }
+            //if (!string.IsNullOrWhiteSpace(txtMotherPhoneNumber.Text) && txtMotherPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
+            //}
 
             // Validate Class
             if (cmbClass.SelectedItem == null)
@@ -844,10 +923,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
 
             // Hiển thị tab và focus vào control đầu tiên bị lỗi
-            if (!isValid && firstErrorControl != null)
-            {
-                ShowTabWithError(firstErrorControl);
-            }
+            //if (!isValid && firstErrorControl != null)
+            //{
+            //    ShowTabWithError(firstErrorControl);
+            //}
 
             return isValid;
         }

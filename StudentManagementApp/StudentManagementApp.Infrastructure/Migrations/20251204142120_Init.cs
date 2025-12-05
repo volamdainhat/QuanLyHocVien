@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -117,8 +118,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    SchoolYearId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SchoolYear = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
+                    SchoolYearId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -130,8 +132,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         name: "FK_Classes_SchoolYears_SchoolYearId",
                         column: x => x.SchoolYearId,
                         principalTable: "SchoolYears",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -227,24 +228,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     DayOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Gender = table.Column<bool>(type: "INTEGER", nullable: false),
-                    IdentityCard = table.Column<string>(type: "TEXT", nullable: false),
-                    Ethnicity = table.Column<string>(type: "TEXT", nullable: false),
-                    PlaceOfOrigin = table.Column<string>(type: "TEXT", nullable: false),
-                    PlaceOfPermanentResidence = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    ProvinceOfEnlistment = table.Column<string>(type: "TEXT", nullable: false),
-                    EducationalLevel = table.Column<string>(type: "TEXT", nullable: false),
-                    AddressForCorrespondence = table.Column<string>(type: "TEXT", nullable: false),
-                    EnlistmentDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     MilitaryRank = table.Column<string>(type: "TEXT", nullable: false),
-                    HealthStatus = table.Column<string>(type: "TEXT", nullable: false),
-                    Role = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    FatherFullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    FatherPhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    MotherFullName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    MotherPhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    AvatarUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     ClassId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -603,6 +587,11 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Email", "FullName", "IsActive", "LastLoginDate", "ModifiedDate", "PasswordHash", "Role", "Username" },
                 values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin@school.edu.vn", "Quản Trị Viên", true, null, null, "$2a$11$eImiTXuWVxfM37uY4JANjOIVEiOrgsTJwzETTD4YOIqFBYWxvRfLy", "Admin", "admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classes_Name",
+                table: "Classes",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Classes_SchoolYearId",
