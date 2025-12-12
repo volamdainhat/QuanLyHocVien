@@ -142,8 +142,8 @@ namespace StudentManagementApp.UI
         }
         static void ConfigureServices(ServiceCollection services)
         {
-            // Lấy thư mục chứa ứng dụng (nơi chứa EXE/DLL)
-            var basePath = AppContext.BaseDirectory;
+            // Phương pháp 1: Sử dụng thư mục hiện tại
+            var basePath = Directory.GetCurrentDirectory();
 
             // Đọc connection string từ App.config
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
@@ -152,15 +152,27 @@ namespace StudentManagementApp.UI
 
             if (!string.IsNullOrEmpty(connectionString))
             {
-                // Trích xuất tên file database từ connection string
                 string dbName = ExtractDatabaseFileName(connectionString);
-                databasePath = Path.Combine(basePath, dbName);
+
+                // Kiểm tra xem connection string đã có đường dẫn đầy đủ chưa
+                if (Path.IsPathRooted(dbName))
+                {
+                    // Nếu đã có đường dẫn đầy đủ, sử dụng trực tiếp
+                    databasePath = dbName;
+                }
+                else
+                {
+                    // Nếu chỉ có tên file, kết hợp với basePath
+                    databasePath = Path.Combine(basePath, dbName);
+                }
             }
             else
             {
                 // Fallback nếu không có connection string
                 databasePath = Path.Combine(basePath, "StudentManagementDB.db");
             }
+
+            //File.WriteAllText("databasePath.txt", $"databasePath: {databasePath}");
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite($"Data Source={databasePath}"));
