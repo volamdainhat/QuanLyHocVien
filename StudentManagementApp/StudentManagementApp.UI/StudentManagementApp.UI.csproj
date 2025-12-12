@@ -16,6 +16,17 @@
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<AssemblyTitle>Quản lý học viên</AssemblyTitle>
+		<Product>Quản lý học viên</Product>
+		<AssemblyName>Quản lý học viên</AssemblyName>
+		<ApplicationIcon>user-graduate.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="user-graduate.ico" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Folder Include="Helpers\" />
 	</ItemGroup>
