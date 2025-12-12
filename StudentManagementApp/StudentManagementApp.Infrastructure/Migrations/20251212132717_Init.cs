@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -117,8 +118,8 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    SchoolYearId = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalStudents = table.Column<int>(type: "INTEGER", nullable: false),
+                    SchoolYearId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -130,8 +131,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         name: "FK_Classes_SchoolYears_SchoolYearId",
                         column: x => x.SchoolYearId,
                         principalTable: "SchoolYears",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -268,10 +268,10 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
                     SubjectId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SemesterId = table.Column<int>(type: "INTEGER", nullable: false),
                     ExamType = table.Column<string>(type: "TEXT", nullable: false),
                     Grade = table.Column<decimal>(type: "TEXT", nullable: false),
                     GradeType = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
+                    SemesterId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -283,8 +283,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         name: "FK_Grades_Semesters_SemesterId",
                         column: x => x.SemesterId,
                         principalTable: "Semesters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Grades_Subjects_SubjectId",
                         column: x => x.SubjectId,
@@ -437,9 +436,9 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     TraineeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SemesterId = table.Column<int>(type: "INTEGER", nullable: false),
                     AverageScore = table.Column<decimal>(type: "TEXT", nullable: false),
                     GradeType = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
+                    SemesterId = table.Column<int>(type: "INTEGER", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -451,8 +450,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         name: "FK_TraineeAverageScores_Semesters_SemesterId",
                         column: x => x.SemesterId,
                         principalTable: "Semesters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TraineeAverageScores_Trainees_TraineeId",
                         column: x => x.TraineeId,
@@ -603,6 +601,11 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Email", "FullName", "IsActive", "LastLoginDate", "ModifiedDate", "PasswordHash", "Role", "Username" },
                 values: new object[] { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "admin@school.edu.vn", "Quản Trị Viên", true, null, null, "$2a$11$eImiTXuWVxfM37uY4JANjOIVEiOrgsTJwzETTD4YOIqFBYWxvRfLy", "Admin", "admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classes_Name",
+                table: "Classes",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Classes_SchoolYearId",

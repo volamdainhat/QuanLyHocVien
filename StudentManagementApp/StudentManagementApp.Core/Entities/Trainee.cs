@@ -9,35 +9,22 @@ namespace StudentManagementApp.Core.Entities
         [Required]
         [MaxLength(255)]
         public required string FullName { get; set; }
-        [Required]
         [DataType(DataType.Date)]
         public DateTime DayOfBirth { get; set; }
-        [Required]
-        public required bool Gender { get; set; }
-        [Required]
-        public required string IdentityCard { get; set; }
-        [Required]
-        public required string Ethnicity { get; set; }
-        [Required]
-        public required string PlaceOfOrigin { get; set; }
-        [Required]
-        public required string PlaceOfPermanentResidence { get; set; }
+        public bool Gender { get; set; }
+        public string IdentityCard { get; set; }
+        public string Ethnicity { get; set; }
+        public string PlaceOfOrigin { get; set; }
+        public string PlaceOfPermanentResidence { get; set; }
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
-        [Required]
-        public required string ProvinceOfEnlistment { get; set; }
-        [Required]
-        public required string EducationalLevel { get; set; }
-        [Required]
-        public required string AddressForCorrespondence { get; set; }
-        [Required]
+        public string ProvinceOfEnlistment { get; set; }
+        public string EducationalLevel { get; set; }
+        public string AddressForCorrespondence { get; set; }
         [DataType(DataType.Date)]
-        public required DateTime EnlistmentDate { get; set; }
-        [Required]
-        public required string MilitaryRank { get; set; }
-        [Required]
-        public required string HealthStatus { get; set; }
-        [Required]
+        public DateTime EnlistmentDate { get; set; }
+        public string MilitaryRank { get; set; }
+        public string HealthStatus { get; set; }
         [MaxLength(50)]
         public string? Role { get; set; }
         [MaxLength(255)]

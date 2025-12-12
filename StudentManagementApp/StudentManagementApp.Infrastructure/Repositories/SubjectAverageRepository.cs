@@ -16,12 +16,13 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.SubjectAverages
                 .Include(c => c.Subject)
-                .Include(c => c.Trainee)
+                .Include(c => c.Trainee).ThenInclude(r => r.Class)
                 .Select(c => new SubjectAverageViewModel
                 {
                     Id = c.Id,
                     SubjectName = c.Subject != null ? c.Subject.Name : string.Empty,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
+                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,
                     Score = c.Score,
                     GradeType = c.GradeType,
                     IsActive = c.IsActive,

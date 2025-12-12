@@ -8,6 +8,8 @@ namespace StudentManagementApp.Core.Models.Reports
         public int Id { get; set; }
         [DisplayName("Học viên")]
         public string TraineeName { get; set; }
+        [DisplayName("Lớp học")]
+        public string ClassName { get; set; }
         [DisplayName("Loại vi phạm")]
         public string Type { get; set; }
         [DisplayName("Thời gian")]

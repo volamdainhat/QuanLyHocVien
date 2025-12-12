@@ -17,6 +17,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
             return await (from score in _context.GraduationExamScores
                           join traineeEntity in _context.Trainees on score.TraineeId equals traineeEntity.Id into traineeJoin
                           from traineeObj in traineeJoin.DefaultIfEmpty()
+                          join classEntity in _context.Classes on traineeObj.ClassId equals classEntity.Id into classJoin
+                          from classObj in classJoin.DefaultIfEmpty()
                           join examType in _context.Categories on
                               new { Code = score.GraduationExamType, Type = "GraduationExamType" }
                               equals new { examType.Code, examType.Type } into examTypeJoin
@@ -25,6 +27,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = score.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : string.Empty,
+                              ClassName = classObj != null ? classObj.Name : string.Empty,
                               Score = score.Score,
                               GradeType = score.GradeType,
                               GraduationExamType = score.GraduationExamType,

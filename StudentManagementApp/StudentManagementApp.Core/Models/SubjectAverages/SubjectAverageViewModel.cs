@@ -8,6 +8,8 @@ namespace StudentManagementApp.Core.Models.Trainees
         public string? SubjectName { get; set; }
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [DisplayName("Điểm TB môn")]
         public decimal Score { get; set; }
         [DisplayName("Xếp loại")]

@@ -46,21 +46,21 @@
             menuPanel.Controls.Add(dashboardBtn);
             menuPanel.Controls.Add(reportsBtn);
 
-            // === NHÓM 2: QUẢN LÝ THỜI GIAN, HỆ THỐNG ===
-            yPos += 10;
-            yPos = CreateMenuHeader("QUẢN LÝ THỜI GIAN", menuPanel, yPos);
-            var schoolYearsBtn = CreateMenuButton("Niên khóa", "SchoolYears", Properties.Resources.schoolyears_icon, ref yPos);
-            var semestersBtn = CreateMenuButton("Học kỳ", "Semesters", Properties.Resources.semester_icon, ref yPos);
-            menuPanel.Controls.Add(schoolYearsBtn);
-            menuPanel.Controls.Add(semestersBtn);
+            //// === NHÓM 2: QUẢN LÝ THỜI GIAN, HỆ THỐNG ===
+            //yPos += 10;
+            //yPos = CreateMenuHeader("QUẢN LÝ THỜI GIAN", menuPanel, yPos);
+            //var schoolYearsBtn = CreateMenuButton("Niên khóa", "SchoolYears", Properties.Resources.schoolyears_icon, ref yPos);
+            //var semestersBtn = CreateMenuButton("Học kỳ", "Semesters", Properties.Resources.semester_icon, ref yPos);
+            //menuPanel.Controls.Add(schoolYearsBtn);
+            //menuPanel.Controls.Add(semestersBtn);
 
             // === NHÓM 3: QUẢN LÝ ĐỐI TƯỢNG ===
             yPos += 10;
             yPos = CreateMenuHeader("QUẢN LÝ ĐỐI TƯỢNG", menuPanel, yPos);
-            var traineesBtn = CreateMenuButton("Học viên", "Trainees", Properties.Resources.trainee_icon, ref yPos);
             var classesBtn = CreateMenuButton("Lớp học", "Classes", Properties.Resources.class_icon, ref yPos);
-            menuPanel.Controls.Add(traineesBtn);
+            var traineesBtn = CreateMenuButton("Học viên", "Trainees", Properties.Resources.trainee_icon, ref yPos);
             menuPanel.Controls.Add(classesBtn);
+            menuPanel.Controls.Add(traineesBtn);
 
             // === NHÓM 4: QUẢN LÝ HỌC TẬP ===
             yPos += 10;

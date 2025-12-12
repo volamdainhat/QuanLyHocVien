@@ -8,8 +8,8 @@ namespace StudentManagementApp.Core.Models.Classes
         public int Id { get; set; }
         [DisplayName("Lớp học")]
         public string? Name { get; set; }
-        [DisplayName("Niên khóa")]
-        public string? SchoolYearName { get; set; }
+        //[DisplayName("Niên khóa")]
+        //public string? SchoolYearName { get; set; }
         [DisplayName("Tổng học viên")]
         public int TotalStudents { get; set; }
         [DisplayName("Ngày tạo")]

@@ -6,6 +6,8 @@ namespace StudentManagementApp.Core.Models.GraduationExamScores
     {
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [Browsable(false)]
         [DisplayName("Môn thi")]
         public string? GraduationExamType { get; set; }

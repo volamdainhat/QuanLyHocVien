@@ -6,6 +6,8 @@ namespace StudentManagementApp.Core.Models.GraduationScores
     {
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [DisplayName("Điểm xét tốt nghiệp")]
         public decimal Score { get; set; }
         [DisplayName("Xếp loại tốt nghiệp")]

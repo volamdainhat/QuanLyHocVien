@@ -6,6 +6,8 @@ namespace StudentManagementApp.Core.Models.Misconducts
     {
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [DisplayName("Vi phạm")]
         public string? Type { get; set; }
         [DisplayName("Thời điểm")]

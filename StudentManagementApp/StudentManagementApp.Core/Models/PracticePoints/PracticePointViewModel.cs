@@ -6,6 +6,8 @@ namespace StudentManagementApp.Core.Models.PracticePoints
     {
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [DisplayName("Lớp")]
+        public string? ClassName { get; set; }
         [DisplayName("Nội dung")]
         public string? Content { get; set; }
         [DisplayName("Điểm cộng")]

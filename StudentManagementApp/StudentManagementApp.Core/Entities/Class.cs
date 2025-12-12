@@ -1,18 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentManagementApp.Core.Entities
 {
+    [Index(nameof(Name))]
     [Table("Classes")]
     public class Class : BaseEntity
     {
         [Required]
         [MaxLength(255)]
         public required string Name { get; set; }
-        [ForeignKey("SchoolYear")]
-        public required int SchoolYearId { get; set; }
+        //public int SchoolYear { get; set; }
         public int TotalStudents { get; set; }
-        // Navigation property
-        public virtual SchoolYear? SchoolYear { get; set; }
     }
 }

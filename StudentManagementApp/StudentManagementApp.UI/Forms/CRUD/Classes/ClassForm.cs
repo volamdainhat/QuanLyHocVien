@@ -25,7 +25,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _classRepository = classRepository;
             _schoolYearRepository = schoolYearRepository;
             _validationService = validationService;
-            _class = Class ?? new Class() { Name = string.Empty, SchoolYearId = 0 };
+            _class = Class ?? new Class() { Name = string.Empty };
             InitializeComponent();
             InitializeClassForm();
             LoadClassData();
@@ -56,11 +56,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             formPanel.Controls.Add(txtName);
             y += 40;
 
-            // StartDate
-            formPanel.Controls.Add(new Label { Text = "Niên khóa:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            cbSchoolYearId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
-            formPanel.Controls.Add(cbSchoolYearId);
-            y += 40;
+            //// StartDate
+            //formPanel.Controls.Add(new Label { Text = "Niên khóa:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            //cbSchoolYearId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
+            //formPanel.Controls.Add(cbSchoolYearId);
+            //y += 40;
 
             // EndDate
             formPanel.Controls.Add(new Label { Text = "Tổng học viên:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
@@ -74,17 +74,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadClassData()
         {
-            IEnumerable<SchoolYear> schoolYears = await LoadSchoolYear();
+            //IEnumerable<SchoolYear> schoolYears = await LoadSchoolYear();
 
             if (_class.Id > 0)
             {
                 txtName.Text = _class.Name;
 
-                // Set selected value
-                if (schoolYears.Any(s => s.Id == _class.SchoolYearId))
-                {
-                    cbSchoolYearId.SelectedValue = _class.SchoolYearId;
-                }
+                //// Set selected value
+                //if (schoolYears.Any(s => s.Id == _class.SchoolYear))
+                //{
+                //    cbSchoolYearId.SelectedValue = _class.SchoolYear;
+                //}
 
                 nudTotalStudents.Value = _class.TotalStudents;
             }
@@ -109,7 +109,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 try
                 {
                     _class.Name = txtName.Text;
-                    _class.SchoolYearId = (int)cbSchoolYearId.SelectedValue;
+                    //_class.SchoolYear = (cbSchoolYearId.SelectedValue as int?) ?? 0;
                     _class.TotalStudents = (int)nudTotalStudents.Value;
 
                     // Validate entity

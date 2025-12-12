@@ -27,7 +27,7 @@ namespace StudentManagementApp.UI
         static void Main()
         {
             // Ghi log khi ứng dụng bắt đầu
-            File.WriteAllText("startup_log.txt", $"{DateTime.Now}: Application starting...");
+            //File.WriteAllText("startup_log.txt", $"{DateTime.Now}: Application starting...");
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -66,26 +66,6 @@ namespace StudentManagementApp.UI
                 MessageBox.Show($"Startup failed: {ex.Message}\n\nCheck error log file.",
                     "Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        static void TestDatabaseConnection()
-        {
-            // Kiểm tra file database tồn tại
-            if (!File.Exists("StudentManagementDB.db"))
-            {
-                throw new FileNotFoundException("Database file 'StudentManagementDB.db' not found!");
-            }
-
-            // Test connection string
-            var config = System.Configuration.ConfigurationManager
-                .ConnectionStrings["DefaultConnection"];
-            if (config == null)
-            {
-                throw new Exception("Connection string 'DefaultConnection' not found in App.config!");
-            }
-
-            File.WriteAllText("startup_log.txt",
-                $"{DateTime.Now}: Database check passed - File exists: {File.Exists("StudentManagementDB.db")}");
         }
 
         private static void RunApplication()
@@ -134,6 +114,32 @@ namespace StudentManagementApp.UI
             }
         }
 
+        // Hàm trích xuất tên database file từ connection string
+        static string ExtractDatabaseFileName(string connectionString)
+        {
+            // Tìm "Data Source=" trong connection string
+            var dataSourceKey = "Data Source=";
+            var dataSourceIndex = connectionString.IndexOf(dataSourceKey, StringComparison.OrdinalIgnoreCase);
+
+            if (dataSourceIndex >= 0)
+            {
+                // Lấy phần sau "Data Source="
+                var dbPath = connectionString.Substring(dataSourceIndex + dataSourceKey.Length);
+
+                // Loại bỏ các tham số phía sau (nếu có)
+                var semicolonIndex = dbPath.IndexOf(';');
+                if (semicolonIndex >= 0)
+                {
+                    dbPath = dbPath.Substring(0, semicolonIndex);
+                }
+
+                // Chỉ lấy tên file (loại bỏ đường dẫn nếu có)
+                return Path.GetFileName(dbPath);
+            }
+
+            // Nếu không tìm thấy "Data Source=", coi toàn bộ connection string là tên file
+            return Path.GetFileName(connectionString) ?? "StudentManagementDB.db";
+        }
         static void ConfigureServices(ServiceCollection services)
         {
             // Lấy thư mục chứa ứng dụng (nơi chứa EXE/DLL)
@@ -158,33 +164,6 @@ namespace StudentManagementApp.UI
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite($"Data Source={databasePath}"));
-
-            // Hàm trích xuất tên database file từ connection string
-            static string ExtractDatabaseFileName(string connectionString)
-            {
-                // Tìm "Data Source=" trong connection string
-                var dataSourceKey = "Data Source=";
-                var dataSourceIndex = connectionString.IndexOf(dataSourceKey, StringComparison.OrdinalIgnoreCase);
-
-                if (dataSourceIndex >= 0)
-                {
-                    // Lấy phần sau "Data Source="
-                    var dbPath = connectionString.Substring(dataSourceIndex + dataSourceKey.Length);
-
-                    // Loại bỏ các tham số phía sau (nếu có)
-                    var semicolonIndex = dbPath.IndexOf(';');
-                    if (semicolonIndex >= 0)
-                    {
-                        dbPath = dbPath.Substring(0, semicolonIndex);
-                    }
-
-                    // Chỉ lấy tên file (loại bỏ đường dẫn nếu có)
-                    return Path.GetFileName(dbPath);
-                }
-
-                // Nếu không tìm thấy "Data Source=", coi toàn bộ connection string là tên file
-                return Path.GetFileName(connectionString) ?? "StudentManagementDB.db";
-            }
 
             //var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\..\\"));
             //// Read connection string from App.config

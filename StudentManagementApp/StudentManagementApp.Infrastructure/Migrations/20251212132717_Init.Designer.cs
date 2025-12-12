@@ -11,7 +11,7 @@ using StudentManagementApp.Infrastructure.Data;
 namespace StudentManagementApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251120133531_Init")]
+    [Migration("20251212132717_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -1151,13 +1151,15 @@ namespace StudentManagementApp.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SchoolYearId")
+                    b.Property<int?>("SchoolYearId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TotalStudents")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.HasIndex("SchoolYearId");
 
@@ -1190,7 +1192,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SemesterId")
+                    b.Property<int?>("SemesterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SubjectId")
@@ -1742,7 +1744,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SemesterId")
+                    b.Property<int?>("SemesterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TraineeId")
@@ -1889,22 +1891,16 @@ namespace StudentManagementApp.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Class", b =>
                 {
-                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", "SchoolYear")
+                    b.HasOne("StudentManagementApp.Core.Entities.SchoolYear", null)
                         .WithMany("Classes")
-                        .HasForeignKey("SchoolYearId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SchoolYear");
+                        .HasForeignKey("SchoolYearId");
                 });
 
             modelBuilder.Entity("StudentManagementApp.Core.Entities.Grades", b =>
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
                         .WithMany()
-                        .HasForeignKey("SemesterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SemesterId");
 
                     b.HasOne("StudentManagementApp.Core.Entities.Subject", "Subject")
                         .WithMany()
@@ -2042,9 +2038,7 @@ namespace StudentManagementApp.Infrastructure.Migrations
                 {
                     b.HasOne("StudentManagementApp.Core.Entities.Semester", "Semester")
                         .WithMany()
-                        .HasForeignKey("SemesterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SemesterId");
 
                     b.HasOne("StudentManagementApp.Core.Entities.Trainee", "Trainee")
                         .WithMany()

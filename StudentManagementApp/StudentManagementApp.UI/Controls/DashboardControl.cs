@@ -1,6 +1,8 @@
 ﻿using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Models.Schedules;
 using StudentManagementApp.Core.Models.Trainees;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace StudentManagementApp.UI.Controls
 {

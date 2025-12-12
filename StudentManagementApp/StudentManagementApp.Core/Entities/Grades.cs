@@ -12,9 +12,9 @@ namespace StudentManagementApp.Core.Entities
         [Required]
         [ForeignKey("Subject")]
         public required int SubjectId { get; set; }
-        [Required]
-        [ForeignKey("Semester")]
-        public required int SemesterId { get; set; }
+        //[Required]
+        //[ForeignKey("Semester")]
+        //public required int SemesterId { get; set; }
         [Required]
         public required string ExamType { get; set; }
         [Required]

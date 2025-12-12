@@ -257,7 +257,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void InitializePracticePointTab()
         {
-            this.tabPracticePoint.Text = "Điểm thực hành";
+            this.tabPracticePoint.Text = "Điểm cộng";
 
             var tblLayout = new TableLayoutPanel
             {
@@ -269,7 +269,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             var lblSummary = new Label
             {
-                Text = "Tổng hợp điểm thực hành",
+                Text = "Tổng hợp điểm cộng",
                 Location = new Point(10, 250),
                 AutoSize = true,
                 Dock = DockStyle.Fill,
@@ -283,7 +283,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             var lblDetail = new Label
             {
-                Text = "Chi tiết điểm thực hành",
+                Text = "Chi tiết điểm cộng",
                 Location = new Point(10, 10),
                 AutoSize = true,
                 Dock = DockStyle.Fill,

@@ -11,7 +11,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
     public partial class TraineeForm : BaseCrudForm
     {
         private readonly ITraineeRepository _traineeRepository;
-        private readonly IRepository<Class> _classRepository;
+        private readonly IClassRepository _classRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private Trainee _trainee;
@@ -43,7 +43,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         public TraineeForm(
             ITraineeRepository traineeRepository,
-            IRepository<Class> classRepository,
+            IClassRepository classRepository,
             ICategoryRepository categoryRepository,
             IValidationService validationService,
             Trainee? trainee = null)
@@ -645,6 +645,8 @@ namespace StudentManagementApp.UI.Forms.CRUD
                         await _traineeRepository.UpdateAsync(_trainee);
                     }
 
+                    await UpdateTotalStudents(_trainee.ClassId.Value);
+
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -667,6 +669,11 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
+        private async Task UpdateTotalStudents(int classId)
+        {
+            await _classRepository.UpdateTotalStudentsAsync(classId);
+        }
+
         protected override async void Delete()
         {
             if (_trainee.Id > 0 &&
@@ -674,6 +681,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 await _traineeRepository.DeleteAsync(_trainee);
+
+                await UpdateTotalStudents(_trainee.ClassId.Value);
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -699,155 +709,155 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 firstErrorControl = firstErrorControl ?? txtFullName;
             }
 
-            // Validate DayOfBirth
-            if (dtpDayOfBirth.Value == DateTime.MinValue || dtpDayOfBirth.Value > DateTime.Now)
-            {
-                errorProvider.SetError(dtpDayOfBirth, "Ngày sinh không hợp lệ");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? dtpDayOfBirth;
-            }
+            //// Validate DayOfBirth
+            //if (dtpDayOfBirth.Value == DateTime.MinValue || dtpDayOfBirth.Value > DateTime.Now)
+            //{
+            //    errorProvider.SetError(dtpDayOfBirth, "Ngày sinh không hợp lệ");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? dtpDayOfBirth;
+            //}
 
-            // Validate IdentityCard
-            if (string.IsNullOrWhiteSpace(txtIdentityCard.Text))
-            {
-                errorProvider.SetError(txtIdentityCard, "Số CMND là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtIdentityCard;
-            }
+            //// Validate IdentityCard
+            //if (string.IsNullOrWhiteSpace(txtIdentityCard.Text))
+            //{
+            //    errorProvider.SetError(txtIdentityCard, "Số CMND là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtIdentityCard;
+            //}
 
-            // Validate Ethnicity
-            if (string.IsNullOrWhiteSpace(txtEthnicity.Text))
-            {
-                errorProvider.SetError(txtEthnicity, "Dân tộc là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtEthnicity;
-            }
+            //// Validate Ethnicity
+            //if (string.IsNullOrWhiteSpace(txtEthnicity.Text))
+            //{
+            //    errorProvider.SetError(txtEthnicity, "Dân tộc là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtEthnicity;
+            //}
 
-            // Validate PlaceOfOrigin
-            if (string.IsNullOrWhiteSpace(txtPlaceOfOrigin.Text))
-            {
-                errorProvider.SetError(txtPlaceOfOrigin, "Quê quán là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPlaceOfOrigin;
-            }
+            //// Validate PlaceOfOrigin
+            //if (string.IsNullOrWhiteSpace(txtPlaceOfOrigin.Text))
+            //{
+            //    errorProvider.SetError(txtPlaceOfOrigin, "Quê quán là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPlaceOfOrigin;
+            //}
 
-            // Validate PlaceOfPermanentResidence
-            if (string.IsNullOrWhiteSpace(txtPlaceOfPermanentResidence.Text))
-            {
-                errorProvider.SetError(txtPlaceOfPermanentResidence, "Nơi thường trú là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPlaceOfPermanentResidence;
-            }
+            //// Validate PlaceOfPermanentResidence
+            //if (string.IsNullOrWhiteSpace(txtPlaceOfPermanentResidence.Text))
+            //{
+            //    errorProvider.SetError(txtPlaceOfPermanentResidence, "Nơi thường trú là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPlaceOfPermanentResidence;
+            //}
 
-            // Validate PhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtPhoneNumber, "Số điện thoại không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtPhoneNumber;
-            }
+            //// Validate PhoneNumber (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(txtPhoneNumber.Text) && txtPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtPhoneNumber, "Số điện thoại không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtPhoneNumber;
+            //}
 
-            // Validate ProvinceOfEnlistment
-            if (cmbProvinceOfEnlistment.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbProvinceOfEnlistment, "Tỉnh nhập ngũ là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbProvinceOfEnlistment;
-            }
+            //// Validate ProvinceOfEnlistment
+            //if (cmbProvinceOfEnlistment.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbProvinceOfEnlistment, "Tỉnh nhập ngũ là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbProvinceOfEnlistment;
+            //}
 
-            // Validate EducationalLevel
-            if (cmbEducationalLevel.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbEducationalLevel, "Trình độ học vấn là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbEducationalLevel;
-            }
+            //// Validate EducationalLevel
+            //if (cmbEducationalLevel.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbEducationalLevel, "Trình độ học vấn là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbEducationalLevel;
+            //}
 
-            // Validate AddressForCorrespondence
-            if (string.IsNullOrWhiteSpace(txtAddressForCorrespondence.Text))
-            {
-                errorProvider.SetError(txtAddressForCorrespondence, "Địa chỉ liên lạc là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtAddressForCorrespondence;
-            }
+            //// Validate AddressForCorrespondence
+            //if (string.IsNullOrWhiteSpace(txtAddressForCorrespondence.Text))
+            //{
+            //    errorProvider.SetError(txtAddressForCorrespondence, "Địa chỉ liên lạc là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtAddressForCorrespondence;
+            //}
 
-            // Validate EnlistmentDate
-            if (dtpEnlistmentDate.Value == DateTime.MinValue || dtpEnlistmentDate.Value > DateTime.Now)
-            {
-                errorProvider.SetError(dtpEnlistmentDate, "Ngày nhập ngũ không hợp lệ");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? dtpEnlistmentDate;
-            }
+            //// Validate EnlistmentDate
+            //if (dtpEnlistmentDate.Value == DateTime.MinValue || dtpEnlistmentDate.Value > DateTime.Now)
+            //{
+            //    errorProvider.SetError(dtpEnlistmentDate, "Ngày nhập ngũ không hợp lệ");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? dtpEnlistmentDate;
+            //}
 
-            // Validate MilitaryRank
-            if (cmbMilitaryRank.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbMilitaryRank, "Cấp bậc quân hàm là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbMilitaryRank;
-            }
+            //// Validate MilitaryRank
+            //if (cmbMilitaryRank.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbMilitaryRank, "Cấp bậc quân hàm là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbMilitaryRank;
+            //}
 
-            // Validate HealthStatus
-            if (string.IsNullOrWhiteSpace(txtHealthStatus.Text))
-            {
-                errorProvider.SetError(txtHealthStatus, "Tình trạng sức khỏe là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtHealthStatus;
-            }
+            //// Validate HealthStatus
+            //if (string.IsNullOrWhiteSpace(txtHealthStatus.Text))
+            //{
+            //    errorProvider.SetError(txtHealthStatus, "Tình trạng sức khỏe là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtHealthStatus;
+            //}
 
-            // Validate Role (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(cmbRole.Text) && cmbRole.Text.Length > 50)
-            {
-                errorProvider.SetError(cmbRole, "Vai trò không được vượt quá 50 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbRole;
-            }
+            //// Validate Role (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(cmbRole.Text) && cmbRole.Text.Length > 50)
+            //{
+            //    errorProvider.SetError(cmbRole, "Vai trò không được vượt quá 50 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbRole;
+            //}
 
-            // Validate FatherFullName (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
-            {
-                errorProvider.SetError(txtFatherFullName, "Họ tên cha không được vượt quá 255 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtFatherFullName;
-            }
+            //// Validate FatherFullName (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(txtFatherFullName.Text) && txtFatherFullName.Text.Length > 255)
+            //{
+            //    errorProvider.SetError(txtFatherFullName, "Họ tên cha không được vượt quá 255 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtFatherFullName;
+            //}
 
-            // Validate FatherPhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtFatherPhoneNumber.Text) && txtFatherPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtFatherPhoneNumber, "Số điện thoại cha không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtFatherPhoneNumber;
-            }
+            //// Validate FatherPhoneNumber (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(txtFatherPhoneNumber.Text) && txtFatherPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtFatherPhoneNumber, "Số điện thoại cha không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtFatherPhoneNumber;
+            //}
 
-            // Validate MotherFullName (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtMotherFullName.Text) && txtMotherFullName.Text.Length > 255)
-            {
-                errorProvider.SetError(txtMotherFullName, "Họ tên mẹ không được vượt quá 255 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtMotherFullName;
-            }
+            //// Validate MotherFullName (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(txtMotherFullName.Text) && txtMotherFullName.Text.Length > 255)
+            //{
+            //    errorProvider.SetError(txtMotherFullName, "Họ tên mẹ không được vượt quá 255 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtMotherFullName;
+            //}
 
-            // Validate MotherPhoneNumber (optional but has max length)
-            if (!string.IsNullOrWhiteSpace(txtMotherPhoneNumber.Text) && txtMotherPhoneNumber.Text.Length > 20)
-            {
-                errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
-            }
+            //// Validate MotherPhoneNumber (optional but has max length)
+            //if (!string.IsNullOrWhiteSpace(txtMotherPhoneNumber.Text) && txtMotherPhoneNumber.Text.Length > 20)
+            //{
+            //    errorProvider.SetError(txtMotherPhoneNumber, "Số điện thoại mẹ không được vượt quá 20 ký tự");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? txtMotherPhoneNumber;
+            //}
 
-            // Validate Class
-            if (cmbClass.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbClass, "Lớp là bắt buộc");
-                isValid = false;
-                firstErrorControl = firstErrorControl ?? cmbClass;
-            }
+            //// Validate Class
+            //if (cmbClass.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbClass, "Lớp là bắt buộc");
+            //    isValid = false;
+            //    firstErrorControl = firstErrorControl ?? cmbClass;
+            //}
 
-            // Hiển thị tab và focus vào control đầu tiên bị lỗi
-            if (!isValid && firstErrorControl != null)
-            {
-                ShowTabWithError(firstErrorControl);
-            }
+            //// Hiển thị tab và focus vào control đầu tiên bị lỗi
+            //if (!isValid && firstErrorControl != null)
+            //{
+            //    ShowTabWithError(firstErrorControl);
+            //}
 
             return isValid;
         }

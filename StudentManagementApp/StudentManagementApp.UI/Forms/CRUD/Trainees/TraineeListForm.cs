@@ -13,7 +13,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
     public partial class TraineeListForm : Form
     {
         private readonly ITraineeRepository _traineeRepository;
-        private readonly IRepository<Class> _classRepository;
+        private readonly IClassRepository _classRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IValidationService _validationService;
         private readonly IReportService _reportService;
@@ -27,7 +27,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
 
         public TraineeListForm(ITraineeRepository traineeRepository,
-            IRepository<Class> classRepository,
+            IClassRepository classRepository,
             ICategoryRepository categoryRepository,
             IValidationService validationService,
             IReportService reportService)
@@ -291,6 +291,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     try
                     {
                         await ImportTraineesFromExcel(openFileDialog.FileName);
+
+                        await _classRepository.UpdateTotalStudentsForAllClassAsync();
+
                         MessageBox.Show("Import dữ liệu thành công!", "Thông báo",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -341,26 +344,25 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[1, 1].Value = "Họ và tên";
                 worksheet.Cells[1, 2].Value = "Ngày sinh (dd/MM/yyyy)";
                 worksheet.Cells[1, 3].Value = "Giới tính (Nam/Nữ)";
-                worksheet.Cells[1, 4].Value = "Số CMND/CCCD";
-                worksheet.Cells[1, 5].Value = "Dân tộc";
-                worksheet.Cells[1, 6].Value = "Nguyên quán";
-                worksheet.Cells[1, 7].Value = "Nơi thường trú";
-                worksheet.Cells[1, 8].Value = "Số điện thoại";
-                worksheet.Cells[1, 9].Value = "Tỉnh nhập ngũ";
-                worksheet.Cells[1, 10].Value = "Trình độ học vấn";
-                worksheet.Cells[1, 11].Value = "Địa chỉ liên hệ";
-                worksheet.Cells[1, 12].Value = "Ngày nhập ngũ (dd/MM/yyyy)";
-                worksheet.Cells[1, 13].Value = "Quân hàm";
-                worksheet.Cells[1, 14].Value = "Tình trạng sức khỏe";
-                //worksheet.Cells[1, 15].Value = "Vai trò";
-                worksheet.Cells[1, 16].Value = "Điểm trung bình";
-                worksheet.Cells[1, 17].Value = "Họ tên bố";
-                worksheet.Cells[1, 18].Value = "SĐT bố";
-                worksheet.Cells[1, 19].Value = "Họ tên mẹ";
-                worksheet.Cells[1, 20].Value = "SĐT mẹ";
+                worksheet.Cells[1, 4].Value = "Tên lớp";
+                worksheet.Cells[1, 5].Value = "Quân hàm";
+                worksheet.Cells[1, 6].Value = "Tỉnh nhập ngũ";
+                worksheet.Cells[1, 7].Value = "Ngày nhập ngũ (dd/MM/yyyy)";
+                worksheet.Cells[1, 8].Value = "Số CMND/CCCD";
+                worksheet.Cells[1, 9].Value = "Dân tộc";
+                worksheet.Cells[1, 10].Value = "Quê quán";
+                worksheet.Cells[1, 11].Value = "Nơi thường trú";
+                worksheet.Cells[1, 12].Value = "Số điện thoại";
+                worksheet.Cells[1, 13].Value = "Trình độ học vấn";
+                worksheet.Cells[1, 14].Value = "Địa chỉ liên hệ";
+                worksheet.Cells[1, 15].Value = "Tình trạng sức khỏe";
+                worksheet.Cells[1, 16].Value = "Họ tên bố";
+                worksheet.Cells[1, 17].Value = "SĐT bố";
+                worksheet.Cells[1, 18].Value = "Họ tên mẹ";
+                worksheet.Cells[1, 19].Value = "SĐT mẹ";
 
                 // Định dạng header
-                using (var range = worksheet.Cells[1, 1, 1, 20])
+                using (var range = worksheet.Cells[1, 1, 1, 19])
                 {
                     range.Style.Font.Bold = true;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -371,27 +373,26 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 worksheet.Cells[2, 1].Value = "Nguyễn Văn A";
                 worksheet.Cells[2, 2].Value = "15/01/2000"; // Giữ nguyên định dạng chuỗi
                 worksheet.Cells[2, 3].Value = "Nam";
-                worksheet.Cells[2, 4].Value = "001200000001";
-                worksheet.Cells[2, 5].Value = "Kinh";
+                worksheet.Cells[2, 4].Value = "NVQYcK42A1";
+                worksheet.Cells[2, 5].Value = "Binh nhất";
                 worksheet.Cells[2, 6].Value = "Hà Nội";
-                worksheet.Cells[2, 7].Value = "Hà Nội";
-                worksheet.Cells[2, 8].Value = "0912345678";
-                worksheet.Cells[2, 9].Value = "Hà Nội";
-                worksheet.Cells[2, 10].Value = "Đại học";
+                worksheet.Cells[2, 7].Value = "01/03/2023";
+                worksheet.Cells[2, 8].Value = "001200000001";
+                worksheet.Cells[2, 9].Value = "Kinh";
+                worksheet.Cells[2, 10].Value = "Hà Nội";
                 worksheet.Cells[2, 11].Value = "Hà Nội";
-                worksheet.Cells[2, 12].Value = "01/03/2023";
-                worksheet.Cells[2, 13].Value = "Binh nhất";
-                worksheet.Cells[2, 14].Value = "Tốt";
-                //worksheet.Cells[2, 15].Value = "";
-                worksheet.Cells[2, 16].Value = 0.0;
-                worksheet.Cells[2, 17].Value = "Nguyễn Văn Bố";
-                worksheet.Cells[2, 18].Value = "0912345679";
-                worksheet.Cells[2, 19].Value = "Nguyễn Thị Mẹ";
-                worksheet.Cells[2, 20].Value = "0912345680";
+                worksheet.Cells[2, 12].Value = "0912345678";
+                worksheet.Cells[2, 13].Value = "Đại học";
+                worksheet.Cells[2, 14].Value = "Hà Nội";
+                worksheet.Cells[2, 15].Value = "Tốt";
+                worksheet.Cells[2, 16].Value = "Nguyễn Văn Bố";
+                worksheet.Cells[2, 17].Value = "0912345679";
+                worksheet.Cells[2, 18].Value = "Nguyễn Thị Mẹ";
+                worksheet.Cells[2, 19].Value = "0912345680";
 
                 // Định dạng cột ngày tháng
                 worksheet.Column(2).Style.Numberformat.Format = "dd/MM/yyyy";
-                worksheet.Column(12).Style.Numberformat.Format = "dd/MM/yyyy";
+                worksheet.Column(7).Style.Numberformat.Format = "dd/MM/yyyy";
 
                 // Tự động điều chỉnh độ rộng cột
                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
@@ -415,27 +416,50 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 {
                     try
                     {
+                        var className = GetString(worksheet.Cells[row, 4]);
+                        var classEntity = await _classRepository.FindAsync(c => c.Name.ToLower() == className.ToLower());
+                        var existingClass = classEntity.FirstOrDefault(); // Lấy đối tượng đầu tiên
+
+                        int? classId = null;
+
+                        if (existingClass != null)
+                        {
+                            classId = existingClass.Id; // Lấy ID nếu tìm thấy
+                        }
+                        else
+                        {
+                            // Tạo mới nếu không tìm thấy
+                            var newClass = new Class()
+                            {
+                                Name = className,
+                                TotalStudents = 0,
+                            };
+
+                            classId = await _classRepository.AddAsync(newClass);
+                        }
+
                         var trainee = new Trainee
                         {
                             FullName = GetString(worksheet.Cells[row, 1]),
                             DayOfBirth = ParseDate(worksheet.Cells[row, 2]),
                             Gender = GetString(worksheet.Cells[row, 3]).Equals("Nam", StringComparison.OrdinalIgnoreCase),
-                            IdentityCard = GetString(worksheet.Cells[row, 4]),
-                            Ethnicity = GetString(worksheet.Cells[row, 5]),
-                            PlaceOfOrigin = GetString(worksheet.Cells[row, 6]),
-                            PlaceOfPermanentResidence = GetString(worksheet.Cells[row, 7]),
-                            PhoneNumber = GetString(worksheet.Cells[row, 8]),
-                            ProvinceOfEnlistment = GetString(worksheet.Cells[row, 9]),
-                            EducationalLevel = GetString(worksheet.Cells[row, 10]),
-                            AddressForCorrespondence = GetString(worksheet.Cells[row, 11]),
-                            EnlistmentDate = ParseDate(worksheet.Cells[row, 12]),
-                            MilitaryRank = GetString(worksheet.Cells[row, 13]),
-                            HealthStatus = GetString(worksheet.Cells[row, 14]),
-                            Role = "Học viên", //GetString(worksheet.Cells[row, 15]),
-                            FatherFullName = GetString(worksheet.Cells[row, 17]),
-                            FatherPhoneNumber = GetString(worksheet.Cells[row, 18]),
-                            MotherFullName = GetString(worksheet.Cells[row, 19]),
-                            MotherPhoneNumber = GetString(worksheet.Cells[row, 20]),
+                            ClassId = classId,
+                            MilitaryRank = GetString(worksheet.Cells[row, 5]),
+                            ProvinceOfEnlistment = GetString(worksheet.Cells[row, 6]),
+                            EnlistmentDate = ParseDate(worksheet.Cells[row, 7]),
+                            IdentityCard = GetString(worksheet.Cells[row, 8]),
+                            Ethnicity = GetString(worksheet.Cells[row, 9]),
+                            PlaceOfOrigin = GetString(worksheet.Cells[row, 10]),
+                            PlaceOfPermanentResidence = GetString(worksheet.Cells[row, 11]),
+                            PhoneNumber = GetString(worksheet.Cells[row, 12]),
+                            EducationalLevel = GetString(worksheet.Cells[row, 13]),
+                            AddressForCorrespondence = GetString(worksheet.Cells[row, 14]),
+                            HealthStatus = GetString(worksheet.Cells[row, 15]),
+                            Role = "Học viên",
+                            FatherFullName = GetString(worksheet.Cells[row, 16]),
+                            FatherPhoneNumber = GetString(worksheet.Cells[row, 17]),
+                            MotherFullName = GetString(worksheet.Cells[row, 18]),
+                            MotherPhoneNumber = GetString(worksheet.Cells[row, 19]),
                         };
 
                         trainees.Add(trainee);
@@ -447,6 +471,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 }
 
                 await _traineeRepository.AddRangeAsync(trainees);
+                await _classRepository.UpdateTotalStudentsForAllClassAsync();
             }
         }
 
@@ -461,7 +486,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             var dateString = cell.Text?.Trim();
 
             if (string.IsNullOrWhiteSpace(dateString))
-                throw new Exception("Ngày tháng không được để trống");
+                return DateTime.MinValue;
 
             // Kiểm tra nếu ô Excel đã được định dạng là DateTime
             if (cell.Value is DateTime dateValue)

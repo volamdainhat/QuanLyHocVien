@@ -15,13 +15,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly ISemesterRepository _semesterRepository;
         private readonly ISubjectAverageRepository _subjectAverageRepository;
         private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
-        private readonly IRepository<Trainee> _traineeRepository;
+        private readonly ITraineeRepository _traineeRepository;
         private readonly IRepository<Subject> _subjectRepository;
+        private readonly IRepository<Class> _classRepository;
         private readonly IValidationService _validationService;
         private Grades _grades;
+        private ComboBox cmbClasses;
         private ComboBox cmbTraineeId;
         private ComboBox cmbSubjectId;
-        private ComboBox cmbSemesterId;
+        //private ComboBox cmbSemesterId;
         private ComboBox cmbExamType;
         private NumericUpDown nudGrade;
 
@@ -31,8 +33,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
             ISemesterRepository semesterRepository,
             ISubjectAverageRepository subjectAverageRepository,
             ITraineeAverageScoreRepository traineeAverageScoreRepository,
-            IRepository<Trainee> traineeRepository,
+            ITraineeRepository traineeRepository,
             IRepository<Subject> subjectRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService,
             Grades? grades = null)
         {
@@ -43,8 +46,9 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _traineeAverageScoreRepository = traineeAverageScoreRepository;
             _traineeRepository = traineeRepository;
             _subjectRepository = subjectRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
-            _grades = grades ?? new Grades() { TraineeId = 0, SubjectId = 0, SemesterId = 0, ExamType = "", Grade = 0 };
+            _grades = grades ?? new Grades() { TraineeId = 0, SubjectId = 0, ExamType = "", Grade = 0 };
             InitializeComponent();
             InitializeGradesForm();
             LoadGradesData();
@@ -69,6 +73,22 @@ namespace StudentManagementApp.UI.Forms.CRUD
             var labelWidth = 150;
             var textBoxWidth = 300;
 
+            // Class
+            formPanel.Controls.Add(new Label { Text = "Chọn lớp:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            cmbClasses = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
+            LoadClasses();
+            cmbClasses.SelectedIndexChanged += async (s, e) =>
+            {
+                if (cmbClasses.SelectedValue != null)
+                {
+                    int classId = (int)cmbClasses.SelectedValue;
+                    var filteredTrainees = await _traineeRepository.GetTraineesByClassIdAsync(classId);
+                    cmbTraineeId.DataSource = filteredTrainees;
+                }
+            };
+            formPanel.Controls.Add(cmbClasses);
+            y += 40;
+
             // Trainee
             formPanel.Controls.Add(new Label { Text = "Học viên:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
             cmbTraineeId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
@@ -83,12 +103,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
             formPanel.Controls.Add(cmbSubjectId);
             y += 40;
 
-            // Semester
-            formPanel.Controls.Add(new Label { Text = "Học kỳ:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
-            cmbSemesterId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
-            LoadSemesters();
-            formPanel.Controls.Add(cmbSemesterId);
-            y += 40;
+            //// Semester
+            //formPanel.Controls.Add(new Label { Text = "Học kỳ:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
+            //cmbSemesterId = new ComboBox { Location = new Point(x2, y), Width = textBoxWidth };
+            //LoadSemesters();
+            //formPanel.Controls.Add(cmbSemesterId);
+            //y += 40;
 
             // ExamType
             formPanel.Controls.Add(new Label { Text = "Loại thi:", Location = new Point(x1, y), Width = labelWidth, Height = 30 });
@@ -119,10 +139,10 @@ namespace StudentManagementApp.UI.Forms.CRUD
                     cmbSubjectId.SelectedValue = _grades.SubjectId;
                 }
 
-                if (_grades.SemesterId > 0)
-                {
-                    cmbSemesterId.SelectedValue = _grades.SemesterId;
-                }
+                //if (_grades.SemesterId > 0)
+                //{
+                //    cmbSemesterId.SelectedValue = _grades.SemesterId;
+                //}
 
                 if (!string.IsNullOrEmpty(_grades.ExamType))
                 {
@@ -137,13 +157,35 @@ namespace StudentManagementApp.UI.Forms.CRUD
             }
         }
 
+        private async void LoadClasses()
+        {
+            var classes = await _classRepository.GetAllAsync();
+            classes = classes.Where(cl => cl.IsActive && cl.TotalStudents > 0).ToList();
+
+            // Load Trainee into ComboBox
+            cmbClasses.DataSource = classes;
+            cmbClasses.DisplayMember = "Name";
+            cmbClasses.ValueMember = "Id";
+        }
+
         private async void LoadTrainees()
         {
             var trainees = await _traineeRepository.GetAllAsync();
-            trainees = trainees.Where(sy => sy.IsActive).ToList();
+            var listTrainees = trainees.Where(sy => sy.IsActive).ToList();
 
             // Load Trainee into ComboBox
-            cmbTraineeId.DataSource = trainees;
+            cmbTraineeId.DataSource = listTrainees;
+            cmbTraineeId.DisplayMember = "FullName";
+            cmbTraineeId.ValueMember = "Id";
+        }
+
+        private async void LoadTraineesByClassId()
+        {
+            var trainees = await _traineeRepository.GetAllAsync();
+            var listTrainees = trainees.Where(sy => sy.IsActive).ToList();
+
+            // Load Trainee into ComboBox
+            cmbTraineeId.DataSource = listTrainees;
             cmbTraineeId.DisplayMember = "FullName";
             cmbTraineeId.ValueMember = "Id";
         }
@@ -158,16 +200,16 @@ namespace StudentManagementApp.UI.Forms.CRUD
             cmbSubjectId.DisplayMember = "Name";
             cmbSubjectId.ValueMember = "Id";
         }
-        private async void LoadSemesters()
-        {
-            var semesters = await _semesterRepository.GetAllAsync();
-            semesters = semesters.Where(sy => sy.IsActive).ToList();
+        //private async void LoadSemesters()
+        //{
+        //    var semesters = await _semesterRepository.GetAllAsync();
+        //    semesters = semesters.Where(sy => sy.IsActive).ToList();
 
-            // Load Subject into ComboBox
-            cmbSemesterId.DataSource = semesters;
-            cmbSemesterId.DisplayMember = "Name";
-            cmbSemesterId.ValueMember = "Id";
-        }
+        //    // Load Subject into ComboBox
+        //    cmbSemesterId.DataSource = semesters;
+        //    cmbSemesterId.DisplayMember = "Name";
+        //    cmbSemesterId.ValueMember = "Id";
+        //}
 
         private async Task<List<CategoryViewModel>> LoadExamTypes()
         {
@@ -188,7 +230,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 {
                     _grades.TraineeId = (int)cmbTraineeId.SelectedValue;
                     _grades.SubjectId = (int)cmbSubjectId.SelectedValue;
-                    _grades.SemesterId = (int)cmbSemesterId.SelectedValue;
+                    //_grades.SemesterId = (int)cmbSemesterId.SelectedValue;
                     _grades.ExamType = (string)cmbExamType.SelectedValue;
                     _grades.Grade = nudGrade.Value;
                     _grades.GradeType = GradeHelpers.CalculateGradeType(_grades.Grade);
@@ -243,7 +285,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             // Cập nhật điểm trung bình môn cho học viên
             await _subjectAverageRepository.UpdateTraineeSubjectAverageAsync(_grades.SubjectId, _grades.TraineeId);
             // Cập nhật điểm trung bình học kỳ cho học viên
-            await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(_grades.TraineeId, _grades.SemesterId);
+            await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(_grades.TraineeId);
         }
 
         protected override async void Delete()
@@ -281,12 +323,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
                 isValid = false;
             }
 
-            // Validate SemesterId
-            if (cmbSemesterId.SelectedItem == null)
-            {
-                errorProvider.SetError(cmbSemesterId, "Chọn học kỳ là bắt buộc");
-                isValid = false;
-            }
+            //// Validate SemesterId
+            //if (cmbSemesterId.SelectedItem == null)
+            //{
+            //    errorProvider.SetError(cmbSemesterId, "Chọn học kỳ là bắt buộc");
+            //    isValid = false;
+            //}
 
             // Validate ExamType
             if (cmbExamType.SelectedItem == null)

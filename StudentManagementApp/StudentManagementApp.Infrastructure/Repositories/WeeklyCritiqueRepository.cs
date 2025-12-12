@@ -15,11 +15,12 @@ namespace StudentManagementApp.Infrastructure.Repositories
         public async Task<IEnumerable<WeeklyCritiqueViewModel>> GetWeeklyCritiqueWithTraineeAsync()
         {
             return await _context.WeeklyCritiques
-                .Include(c => c.Trainee)
+                .Include(c => c.Trainee).ThenInclude(c => c.Class)
                 .Select(c => new WeeklyCritiqueViewModel
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : "",
+                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : "",
                     PoliticalAttitude = c.PoliticalAttitude,
                     PAScore = c.PAScore,
                     StudyMotivation = c.StudyMotivation,

@@ -7,5 +7,7 @@ namespace StudentManagementApp.Core.Interfaces.Repositories
     {
         Task<IEnumerable<ClassViewModel>> GetClassesWithSchoolYearAsync();
         Task<Class> GetClassWithDetailsAsync(int id);
+        Task UpdateTotalStudentsAsync(int id);
+        Task UpdateTotalStudentsForAllClassAsync();
     }
 }

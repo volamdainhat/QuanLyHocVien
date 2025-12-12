@@ -18,6 +18,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
             return await (from misconduct in _context.Misconducts
                           join trainee in _context.Trainees on misconduct.TraineeId equals trainee.Id into traineeJoin
                           from traineeObj in traineeJoin.DefaultIfEmpty()
+                          join classes in _context.Classes on traineeObj.ClassId equals classes.Id into classJoin
+                          from classObj in classJoin.DefaultIfEmpty()
                           join category in _context.Categories on
                               new { Code = misconduct.Type, Type = "MisconductType" }
                               equals new { category.Code, category.Type } into categoryJoin
@@ -26,6 +28,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = misconduct.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : "",
+                              ClassName = classObj != null ? classObj.Name : "",
                               Type = misconductTypeObj != null ? misconductTypeObj.Name : "",
                               Time = misconduct.Time,
                               Description = misconduct.Description,
@@ -54,6 +57,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
             return await (from misconduct in _context.Misconducts
                           join trainee in _context.Trainees on misconduct.TraineeId equals trainee.Id into traineeJoin
                           from traineeObj in traineeJoin.DefaultIfEmpty()
+                          join classses in _context.Classes on traineeObj.ClassId equals classses.Id into classesJoin
+                          from classesObj in classesJoin.DefaultIfEmpty()
                           join category in _context.Categories on
                               new { Code = misconduct.Type, Type = "MisconductType" }
                               equals new { category.Code, category.Type } into categoryJoin
@@ -62,6 +67,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = misconduct.Id,
                               TraineeName = misconduct.Trainee.FullName,
+                              ClassName = classesObj.Name,
                               Type = misconductTypeObj != null ? misconductTypeObj.Name : "",
                               Time = misconduct.Time,
                               Description = misconduct.Description

@@ -7,6 +7,6 @@ namespace StudentManagementApp.Core.Interfaces.Repositories
     {
         Task<IEnumerable<TraineeAverageScoreViewModel>> GetTraineeAverageScoreWithTraineeSemesterAsync();
         Task<TraineeAverageScore> GetTraineeAverageScoreWithDetailsAsync(int id);
-        Task UpdateTraineeAverageScoreAsync(int traineeId, int semesterId);
+        Task UpdateTraineeAverageScoreAsync(int traineeId);
     }
 }

@@ -28,8 +28,8 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
         private Button btnCancel;
         private Label label1;
         private Label label2;
-        private Label label3;
-        private ComboBox cboSemester;
+        //private Label label3;
+        //private ComboBox cboSemester;
         private Label label4;
         private ComboBox cboExamType;
 
@@ -77,8 +77,8 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             this.btnCancel = new Button();
             this.label1 = new Label();
             this.label2 = new Label();
-            this.label3 = new Label();
-            this.cboSemester = new ComboBox();
+            //this.label3 = new Label();
+            //this.cboSemester = new ComboBox();
             this.label4 = new Label();
             this.cboExamType = new ComboBox();
 
@@ -134,18 +134,18 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             this.label2.Location = new Point(20, 60);
             this.label2.Size = new Size(100, 30);
 
-            this.label3.Text = "Kỳ học:";
-            this.label3.Location = new Point(20, 230);
-            this.label3.Size = new Size(80, 30);
+            //this.label3.Text = "Kỳ học:";
+            //this.label3.Location = new Point(20, 230);
+            //this.label3.Size = new Size(80, 30);
 
             this.label4.Text = "Loại điểm:";
             this.label4.Location = new Point(20, 270);
             this.label4.Size = new Size(100, 30);
 
-            // cboSemester
-            this.cboSemester.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.cboSemester.Location = new Point(120, 227);
-            this.cboSemester.Size = new Size(200, 21);
+            //// cboSemester
+            //this.cboSemester.DropDownStyle = ComboBoxStyle.DropDownList;
+            //this.cboSemester.Location = new Point(120, 227);
+            //this.cboSemester.Size = new Size(200, 21);
 
             // cboExamType
             this.cboExamType.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -157,7 +157,10 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             this.Controls.AddRange(new Control[] {
                 this.cboClass, this.clbSubjects, this.dgvGrades,
                 this.btnSave, this.btnCancel, this.label1, this.label2,
-                this.label3, this.label4, this.cboSemester, this.cboExamType
+                //this.label3,
+                this.label4,
+                //this.cboSemester, 
+                this.cboExamType
             });
             this.Text = "Thêm điểm hàng loạt";
             this.StartPosition = FormStartPosition.CenterParent;
@@ -175,7 +178,7 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             await LoadSubjects();
 
             // ComboBox cho kỳ học
-            await LoadSemesters();
+            //await LoadSemesters();
 
             // ComboBox cho loại điểm
             await LoadExamTypes();
@@ -199,13 +202,13 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             clbSubjects.ValueMember = "Id";
         }
 
-        private async Task LoadSemesters()
-        {
-            var semesters = await _semesterRepository.GetAllAsync();
-            cboSemester.DataSource = semesters;
-            cboSemester.DisplayMember = "Name";
-            cboSemester.ValueMember = "Id";
-        }
+        //private async Task LoadSemesters()
+        //{
+        //    var semesters = await _semesterRepository.GetAllAsync();
+        //    cboSemester.DataSource = semesters;
+        //    cboSemester.DisplayMember = "Name";
+        //    cboSemester.ValueMember = "Id";
+        //}
 
         private async Task<List<CategoryViewModel>> LoadExamTypes()
         {
@@ -386,12 +389,12 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
                 return false;
             }
 
-            if (cboSemester.SelectedValue == null)
-            {
-                MessageBox.Show("Vui lòng chọn kỳ học", "Cảnh báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+            //if (cboSemester.SelectedValue == null)
+            //{
+            //    MessageBox.Show("Vui lòng chọn kỳ học", "Cảnh báo",
+            //        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return false;
+            //}
 
             // Validate điểm số
             foreach (DataRow row in _gradesData.Rows)
@@ -425,7 +428,7 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
         private async Task SaveGrades()
         {
             var newGrades = new List<Grades>();
-            int semesterId = (int)cboSemester.SelectedValue;
+            //int semesterId = (int)cboSemester.SelectedValue;
             string examType = cboExamType.SelectedItem?.ToString();
 
             foreach (DataRow row in _gradesData.Rows)
@@ -444,7 +447,7 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
                         {
                             TraineeId = traineeId,
                             SubjectId = subject.Id,
-                            SemesterId = semesterId,
+                            //SemesterId = semesterId,
                             ExamType = (string)cboExamType.SelectedValue,
                             Grade = gradeDecimal,
                             GradeType = GradeHelpers.CalculateGradeType(gradeDecimal),
@@ -458,17 +461,16 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
 
             await _gradesRepository.AddRangeAsync(newGrades);
 
-            var gradesToUpdate = newGrades.GroupBy(g => new { g.TraineeId, g.SubjectId, g.SemesterId })
+            var gradesToUpdate = newGrades.GroupBy(g => new { g.TraineeId, g.SubjectId })
                 .Select(g => new
                 {
                     TraineeId = g.Key.TraineeId,
-                    SubjectId = g.Key.SubjectId,
-                    SemesterId = g.Key.SemesterId
+                    SubjectId = g.Key.SubjectId
                 }).ToList();
 
             foreach (var item in gradesToUpdate)
             {
-                await UpdateSubjectAverageAndTraineeAverageScore(item.SubjectId, item.TraineeId, item.SemesterId);
+                await UpdateSubjectAverageAndTraineeAverageScore(item.SubjectId, item.TraineeId);
             }
         }
 
@@ -478,12 +480,12 @@ namespace StudentManagementApp.UI.Forms.CRUD.Gradeses
             this.Close();
         }
 
-        private async Task UpdateSubjectAverageAndTraineeAverageScore(int subjectId, int traineeId, int semesterId)
+        private async Task UpdateSubjectAverageAndTraineeAverageScore(int subjectId, int traineeId)
         {
             // Cập nhật điểm trung bình môn cho học viên
             await _subjectAverageRepository.UpdateTraineeSubjectAverageAsync(subjectId, traineeId);
             // Cập nhật điểm trung bình học kỳ cho học viên
-            await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(traineeId, semesterId);
+            await _traineeAverageScoreRepository.UpdateTraineeAverageScoreAsync(traineeId);
         }
     }
 }

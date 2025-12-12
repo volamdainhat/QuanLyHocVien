@@ -15,11 +15,12 @@ namespace StudentManagementApp.Infrastructure.Repositories
         public async Task<IEnumerable<GraduationScoreViewModel>> GetGraduationScoreWithTraineeAsync()
         {
             return await _context.GraduationScores
-                .Include(c => c.Trainee)
+                .Include(c => c.Trainee).ThenInclude(c => c.Class)
                 .Select(c => new GraduationScoreViewModel
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
+                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name: string.Empty,
                     Score = c.Score,
                     GraduationType = c.GraduationType,
                     IsActive = c.IsActive,

@@ -16,11 +16,12 @@ namespace StudentManagementApp.Infrastructure.Repositories
         public async Task<IEnumerable<PracticePointViewModel>> GetPracticePointsWithTraineeAsync()
         {
             return await _context.PracticePoints
-                .Include(c => c.Trainee)
+                .Include(c => c.Trainee).ThenInclude(c => c.Class)
                 .Select(r => new PracticePointViewModel
                 {
                     Id = r.Id,
                     TraineeName = r.Trainee != null ? r.Trainee.FullName : "",
+                    ClassName = r.Trainee.Class != null ? r.Trainee.Class.Name : "",
                     Time = r.Time,
                     Content = r.Content,
                     Point = r.Point,
@@ -50,11 +51,12 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.PracticePoints
                 .Where(pp => pp.Time >= fromDate && pp.Time <= toDate && pp.IsActive)
-                .Include(pp => pp.Trainee)
+                .Include(pp => pp.Trainee).ThenInclude(c => c.Class)
                 .Select(pp => new PracticePointDetailDto
                 {
                     Id = pp.Id,
                     TraineeName = pp.Trainee.FullName,
+                    ClassName = pp.Trainee.Class.Name,
                     Content = pp.Content,
                     Point = pp.Point,
                     Time = pp.Time,

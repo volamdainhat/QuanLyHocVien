@@ -15,13 +15,14 @@ namespace StudentManagementApp.Infrastructure.Repositories
         public async Task<IEnumerable<TraineeAverageScoreViewModel>> GetTraineeAverageScoreWithTraineeSemesterAsync()
         {
             return await _context.TraineeAverageScores
-                .Include(c => c.Trainee)
+                .Include(c => c.Trainee).ThenInclude(c => c.Class)
                 .Include(c => c.Semester)
                 .Select(c => new TraineeAverageScoreViewModel
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
-                    SemesterName = c.Semester != null ? c.Semester.Name : string.Empty,
+                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,
+                    //SemesterName = c.Semester != null ? c.Semester.Name : string.Empty,
                     AverageScore = c.AverageScore,
                     GradeType = c.GradeType,
                     IsActive = c.IsActive,
@@ -39,11 +40,11 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task UpdateTraineeAverageScoreAsync(int traineeId, int semesterId)
+        public async Task UpdateTraineeAverageScoreAsync(int traineeId)
         {
             // Lấy danh sách SubjectId từ grades của học kỳ cụ thể
             var gradeSubjectIds = await _context.Grades
-                .Where(g => g.SemesterId == semesterId && g.TraineeId == traineeId && g.ExamType != "tot_nghiep")
+                .Where(g => g.TraineeId == traineeId && g.ExamType != "tot_nghiep")
                 .Select(g => g.SubjectId)
                 .Distinct()
                 .ToListAsync();
@@ -59,7 +60,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
 
             if (subjectAverages.Count == 0)
             {
-                var traineeAverageScoreExists = await _context.TraineeAverageScores.FirstOrDefaultAsync(sa => sa.SemesterId == semesterId && sa.TraineeId == traineeId);
+                var traineeAverageScoreExists = await _context.TraineeAverageScores.FirstOrDefaultAsync(sa => sa.TraineeId == traineeId);
 
                 if (traineeAverageScoreExists != null)
                 {
@@ -80,7 +81,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
             // Tính xếp loại
             string gradeType = CalculateGradeType(averageScore);
 
-            var traineeAverageScore = await _context.TraineeAverageScores.FirstOrDefaultAsync(sa => sa.SemesterId == semesterId && sa.TraineeId == traineeId);
+            var traineeAverageScore = await _context.TraineeAverageScores.FirstOrDefaultAsync(sa => sa.TraineeId == traineeId);
 
             if (traineeAverageScore != null)
             {
@@ -94,7 +95,6 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 traineeAverageScore = new TraineeAverageScore
                 {
                     TraineeId = traineeId,
-                    SemesterId = semesterId,
                     AverageScore = Math.Round(averageScore, 2), // Làm tròn đến 2 chữ số thập phân
                     GradeType = gradeType,
                     IsActive = true,

@@ -9,9 +9,9 @@ namespace StudentManagementApp.Core.Entities
         [Required]
         [ForeignKey("Trainee")]
         public required int TraineeId { get; set; }
-        [Required]
-        [ForeignKey("Semester")]
-        public required int SemesterId { get; set; }
+        //[Required]
+        //[ForeignKey("Semester")]
+        //public required int SemesterId { get; set; }
         [Required]
         [Range(0.0, 10.0)]
         public required decimal AverageScore { get; set; }

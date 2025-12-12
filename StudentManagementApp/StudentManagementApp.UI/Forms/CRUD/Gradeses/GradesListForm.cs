@@ -123,7 +123,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private void AddClass()
         {
-            var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService);
+            var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _classRepository, _validationService);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadGrades();
@@ -135,7 +135,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             if (dataGridView.CurrentRow?.DataBoundItem is GradesViewModel selectedGrades)
             {
                 var grades = await _gradesRepository.GetByIdAsync(selectedGrades.Id);
-                var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _validationService, grades);
+                var form = new GradesForm(_gradesRepository, _categoryRepository, _semesterRepository, _subjectAverageRepository, _traineeAverageScoreRepository, _traineeRepository, _subjectRepository, _classRepository, _validationService, grades);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadGrades();
