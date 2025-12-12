@@ -13,46 +13,46 @@ namespace StudentManagementApp.Core.Entities
         [DataType(DataType.Date)]
         public DateTime DayOfBirth { get; set; }
         [Required]
+        public required bool Gender { get; set; }
+        [Required]
+        public required string IdentityCard { get; set; }
+        [Required]
+        public required string Ethnicity { get; set; }
+        [Required]
+        public required string PlaceOfOrigin { get; set; }
+        [Required]
+        public required string PlaceOfPermanentResidence { get; set; }
+        [MaxLength(20)]
+        public string? PhoneNumber { get; set; }
+        [Required]
+        public required string ProvinceOfEnlistment { get; set; }
+        [Required]
+        public required string EducationalLevel { get; set; }
+        [Required]
+        public required string AddressForCorrespondence { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public required DateTime EnlistmentDate { get; set; }
+        [Required]
         public required string MilitaryRank { get; set; }
+        [Required]
+        public required string HealthStatus { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string? Role { get; set; }
+        [MaxLength(255)]
+        public string? FatherFullName { get; set; }
+        [MaxLength(20)]
+        public string? FatherPhoneNumber { get; set; }
+        [MaxLength(255)]
+        public string? MotherFullName { get; set; }
+        [MaxLength(20)]
+        public string? MotherPhoneNumber { get; set; }
+        [MaxLength(500)]
+        public string? AvatarUrl { get; set; }
         [ForeignKey("Class")]
         public int? ClassId { get; set; }
         // Navigation property
         public virtual Class? Class { get; set; }
-        //[Required]
-        //public required bool Gender { get; set; }
-        //[Required]
-        //public required string IdentityCard { get; set; }
-        //[Required]
-        //public required string Ethnicity { get; set; }
-        //[Required]
-        //public required string PlaceOfOrigin { get; set; }
-        //[Required]
-        //public required string PlaceOfPermanentResidence { get; set; }
-        //[MaxLength(20)]
-        //public string? PhoneNumber { get; set; }
-        //[Required]
-        //public required string ProvinceOfEnlistment { get; set; }
-        //[Required]
-        //public required string EducationalLevel { get; set; }
-        //[Required]
-        //public required string AddressForCorrespondence { get; set; }
-        //[Required]
-        //[DataType(DataType.Date)]
-        //public required DateTime EnlistmentDate { get; set; }
-        //[Required]
-        //public required string HealthStatus { get; set; }
-        //[Required]
-        //[MaxLength(50)]
-        //public string? Role { get; set; }
-        //[MaxLength(255)]
-        //public string? FatherFullName { get; set; }
-        //[MaxLength(20)]
-        //public string? FatherPhoneNumber { get; set; }
-        //[MaxLength(255)]
-        //public string? MotherFullName { get; set; }
-        //[MaxLength(20)]
-        //public string? MotherPhoneNumber { get; set; }
-        //[MaxLength(500)]
-        //public string? AvatarUrl { get; set; }
     }
 }

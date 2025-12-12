@@ -1,30 +1,30 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Models.Categories;
+using System.Data;
 
 namespace StudentManagementApp.UI.Forms.CRUD.Trainees
 {
     public partial class TraineeFilterForm : BaseFilterForm
     {
         private List<Class> _classes;
-        //private List<CategoryViewModel> _educationLevels;
+        private List<CategoryViewModel> _educationLevels;
 
         private ComboBox cmbClass;
         private TextBox txtSearch;
-        //private ComboBox cmbGender;
-        //private ComboBox cmbEducation;
+        private ComboBox cmbGender;
+        private ComboBox cmbEducation;
         private CheckBox chkHasClass;
 
         public TraineeFilterForm(List<Class> classes, List<CategoryViewModel> educationLevels)
         {
             _classes = classes;
-            //_educationLevels = educationLevels;
+            _educationLevels = educationLevels;
             InitializeFilterComponents();
         }
 
         private void InitializeFilterComponents()
         {
             this.Text = "Bộ lọc học viên";
-            this.Height = 250;
 
             int yPos = 20;
 
@@ -46,21 +46,23 @@ namespace StudentManagementApp.UI.Forms.CRUD.Trainees
             yPos += 40;
 
             // ComboBox giới tính
-            //cmbGender = CreateComboBox("Giới tính:", yPos);
-            //cmbGender.Items.AddRange(new object[] { "Tất cả", "Nam", "Nữ" });
-            //cmbGender.SelectedIndex = 0;
-            //yPos += 40;
+            cmbGender = CreateComboBox("Giới tính:", yPos);
+            cmbGender.Items.AddRange(new object[] { "Tất cả", "Nam", "Nữ" });
+            cmbGender.SelectedIndex = 0;
+
+            yPos += 40;
 
             // ComboBox trình độ
-            //cmbEducation = CreateComboBox("Trình độ:", yPos);
-            //cmbEducation.Items.Add("Tất cả trình độ");
-            //var educationLevels = _educationLevels.Select(r => r.Name ?? "").ToArray();
-            //cmbEducation.Items.AddRange(educationLevels);
-            //cmbEducation.SelectedIndex = 0;
-            //yPos += 40;
+            cmbEducation = CreateComboBox("Trình độ:", yPos);
+            cmbEducation.Items.Add("Tất cả trình độ");
+            var educationLevels = _educationLevels.Select(r => r.Name ?? "").ToArray();
+            cmbEducation.Items.AddRange(educationLevels);
+            cmbEducation.SelectedIndex = 0;
+
+            yPos += 40;
 
             // CheckBox có lớp hay không
-            //chkHasClass = CreateCheckBox("Chỉ hiển thị học viên đã có lớp", yPos);
+            chkHasClass = CreateCheckBox("Chỉ hiển thị học viên đã có lớp", yPos);
         }
 
         protected override FilterAppliedEventArgs CreateFilterEventArgs()
@@ -80,16 +82,16 @@ namespace StudentManagementApp.UI.Forms.CRUD.Trainees
             }
 
             // Giới tính
-            //if (cmbGender.SelectedIndex == 1) // Nam
-            //    args.FilterValues["Gender"] = true;
-            //else if (cmbGender.SelectedIndex == 2) // Nữ
-            //    args.FilterValues["Gender"] = false;
+            if (cmbGender.SelectedIndex == 1) // Nam
+                args.FilterValues["Gender"] = true;
+            else if (cmbGender.SelectedIndex == 2) // Nữ
+                args.FilterValues["Gender"] = false;
 
-            //// Trình độ
-            //if (cmbEducation.SelectedIndex > 0)
-            //{
-            //    args.FilterValues["EducationLevel"] = cmbEducation.SelectedItem.ToString();
-            //}
+            // Trình độ
+            if (cmbEducation.SelectedIndex > 0)
+            {
+                args.FilterValues["EducationLevel"] = cmbEducation.SelectedItem.ToString();
+            }
 
             // Có lớp
             if (chkHasClass.Checked)

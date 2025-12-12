@@ -1,29 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
-		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Platforms>AnyCPU;x64;x86</Platforms>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>true</SelfContained>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-		<ApplicationIcon>user-graduate.ico</ApplicationIcon>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<AssemblyTitle>Quản lý học viên</AssemblyTitle>
-		<Product>Quản lý học viên</Product>
-		<AssemblyName>Quản lý học viên</AssemblyName>
-		<OutputType>WinExe</OutputType>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Content Include="user-graduate.ico" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Helpers\" />
@@ -50,10 +41,10 @@
 			<SubType>UserControl</SubType>
 		</Compile>
 		<Compile Update="Forms\CRUD\PracticePoints\PracticePointForm.cs">
-			<SubType>Form</SubType>
+		  <SubType>Form</SubType>
 		</Compile>
 		<Compile Update="Forms\CRUD\PracticePoints\PracticePointListForm.cs">
-			<SubType>Form</SubType>
+		  <SubType>Form</SubType>
 		</Compile>
 		<Compile Update="Forms\CRUD\RollCalls\RollCallForm.cs">
 			<SubType>Form</SubType>
@@ -134,7 +125,7 @@
 			<SubType>Form</SubType>
 		</Compile>
 		<Compile Update="Forms\Reports\ReportListForm.cs">
-			<SubType>Form</SubType>
+		  <SubType>Form</SubType>
 		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>

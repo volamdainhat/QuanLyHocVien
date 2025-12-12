@@ -24,12 +24,10 @@ namespace StudentManagementApp.Infrastructure.Repositories
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
             => await _entities.Where(predicate).ToListAsync();
 
-        public async Task<int> AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             await _entities.AddAsync(entity);
             await _context.SaveChangesAsync(); // Tự động validation
-
-            return entity.Id;
         }
 
         public async Task AddRangeAsync(List<T> entity)
