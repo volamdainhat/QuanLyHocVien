@@ -71,6 +71,7 @@ namespace StudentManagementApp.UI
         private static void RunApplication()
         {
             var sessionService = ServiceProvider.GetService<ISessionService>();
+            var authService = ServiceProvider.GetService<IAuthService>();
 
             while (true)
             {
@@ -78,7 +79,7 @@ namespace StudentManagementApp.UI
                 {
                     if (loginForm.ShowDialog() == DialogResult.OK && sessionService.IsLoggedIn)
                     {
-                        using (var mainForm = new MainForm(ServiceProvider, sessionService))
+                        using (var mainForm = new MainForm(ServiceProvider, sessionService, authService))
                         {
                             // ??ng ký s? ki?n logout
                             sessionService.OnUserLoggedOut += (user) =>

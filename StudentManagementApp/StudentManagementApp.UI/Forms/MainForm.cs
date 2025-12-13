@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Services;
 using StudentManagementApp.UI.Controls;
+using StudentManagementApp.UI.Forms.Auth;
 using StudentManagementApp.UI.Forms.CRUD;
 
 namespace StudentManagementApp.UI.Forms
@@ -9,6 +11,7 @@ namespace StudentManagementApp.UI.Forms
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ISessionService _sessionService;
+        private readonly IAuthService _authService;
         private Form currentChildForm;
         private SidebarMenuV2 sidebarMenu;
         private Panel mainPanel;
@@ -16,10 +19,12 @@ namespace StudentManagementApp.UI.Forms
 
         public MainForm(
             IServiceProvider serviceProvider,
-            ISessionService sessionService)
+            ISessionService sessionService,
+            IAuthService authService)
         {
             _serviceProvider = serviceProvider;
             _sessionService = sessionService;
+            _authService = authService;
             InitializeComponent();
             InitializeLayout();
             InitializeUserInfo();
@@ -49,7 +54,7 @@ namespace StudentManagementApp.UI.Forms
             {
                 Dock = DockStyle.Fill,
                 BackColor = Color.FromArgb(240, 248, 255),
-                Height = 70
+                Height = 100
             };
 
             // User info
@@ -81,7 +86,25 @@ namespace StudentManagementApp.UI.Forms
             btnLogout.FlatAppearance.BorderSize = 0;
             btnLogout.Click += BtnLogout_Click;
 
+            // Logout button
+            var btnResetPassword = new Button
+            {
+                Text = " Đổi mật khẩu",
+                ForeColor = Color.Black,
+                BackColor = Color.Transparent,
+                FlatStyle = FlatStyle.Flat,
+                Dock = DockStyle.Top,
+                TextAlign = ContentAlignment.MiddleRight,
+                AutoSize = true,
+                Image = Properties.Resources.password_reset_icon,
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+            };
+            btnResetPassword.FlatAppearance.BorderSize = 0;
+            btnResetPassword.Click += BtnResetPassword_Click;
+
             userPanel.Controls.Add(btnLogout);
+            userPanel.Controls.Add(btnResetPassword);
             userPanel.Controls.Add(lblUserInfo);
 
             // Tạo sidebar menu
@@ -104,6 +127,13 @@ namespace StudentManagementApp.UI.Forms
 
             // Chọn mục menu mặc định
             sidebarMenu.SelectMenuItem("Dashboard");
+        }
+
+        private void BtnResetPassword_Click(object? sender, EventArgs e)
+        {
+            var userId = _sessionService.CurrentUser.Id;
+            var changePasswordForm = new ChangePasswordForm(userId, _authService);
+            changePasswordForm.ShowDialog();
         }
 
         private void InitializeUserInfo()

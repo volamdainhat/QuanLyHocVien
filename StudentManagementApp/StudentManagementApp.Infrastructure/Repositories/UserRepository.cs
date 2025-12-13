@@ -76,7 +76,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
             var user = await GetByIdAsync(userId);
             if (user == null) return false;
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            user.PasswordHash = HashPassword(newPassword, userHashingSalt);
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -90,5 +91,14 @@ namespace StudentManagementApp.Infrastructure.Repositories
         {
             return await _context.Users.AnyAsync(u => u.Email == email);
         }
+
+        // Hàm băm mật khẩu (giống như trong seed data)
+        private string HashPassword(string password, string salt)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password, salt);
+        }
+
+        // Biến salt (nên lưu trong cấu hình)
+        private readonly string userHashingSalt = "$2a$11$eImiTXuWVxfM37uY4JANjQ==";
     }
 }
