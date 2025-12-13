@@ -21,6 +21,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 {
                     Id = r.Id,
                     TraineeName = r.Trainee != null ? r.Trainee.FullName : "",
+                    ClassId = r.Trainee != null ? r.Trainee.Class.Id : 0,
                     ClassName = r.Trainee.Class != null ? r.Trainee.Class.Name : "",
                     Time = r.Time,
                     Content = r.Content,

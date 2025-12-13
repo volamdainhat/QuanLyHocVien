@@ -9,12 +9,14 @@ namespace StudentManagementApp.Core.Models.Grades
         public int Id { get; set; }
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [Browsable(false)]
+        public int ClassId { get; set; }
         [DisplayName("Lớp")]
         public string? ClassName { get; set; }
+        [Browsable(false)]
+        public int SubjectId { get; set; }
         [DisplayName("Môn học")]
         public string? SubjectName { get; set; }
-        //[DisplayName("Học kỳ")]
-        //public string? SemesterName { get; set; }
         [DisplayName("Loại thi")]
         public string? ExamType { get; set; }
         [DisplayName("Điểm số")]

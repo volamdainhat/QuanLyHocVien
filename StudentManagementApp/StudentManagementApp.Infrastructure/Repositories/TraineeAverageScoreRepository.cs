@@ -21,8 +21,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
+                    ClassId = c.Trainee != null && c.Trainee.Class != null ? c.Trainee.Class.Id : 0,
                     ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,
-                    //SemesterName = c.Semester != null ? c.Semester.Name : string.Empty,
                     AverageScore = c.AverageScore,
                     GradeType = c.GradeType,
                     IsActive = c.IsActive,

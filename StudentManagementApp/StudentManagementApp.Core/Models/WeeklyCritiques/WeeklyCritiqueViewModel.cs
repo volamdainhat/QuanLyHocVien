@@ -6,6 +6,8 @@ namespace StudentManagementApp.Core.Models.WeeklyCritiques
     {
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
+        [Browsable(false)]
+        public int ClassId { get; set; }
         [DisplayName("Lớp")]
         public string? ClassName { get; set; }
         [DisplayName("Thái độ chính trị, tư tưởng")]

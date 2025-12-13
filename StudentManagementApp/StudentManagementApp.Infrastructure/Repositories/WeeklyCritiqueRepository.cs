@@ -20,6 +20,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : "",
+                    ClassId = c.Trainee.Class.Id,
                     ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : "",
                     PoliticalAttitude = c.PoliticalAttitude,
                     PAScore = c.PAScore,

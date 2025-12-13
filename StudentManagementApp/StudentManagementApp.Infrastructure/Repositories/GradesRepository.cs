@@ -21,8 +21,6 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           from subjectObj in subjectJoin.DefaultIfEmpty()
                           join classEntity in _context.Classes on grades.Trainee.ClassId equals classEntity.Id into classJoin
                           from classObj in classJoin.DefaultIfEmpty()
-                          //join semesterEntity in _context.Semesters on grades.SemesterId equals semesterEntity.Id into semesterJoin
-                          //from semesterObj in semesterJoin.DefaultIfEmpty()
                           join examType in _context.Categories on
                               new { Code = grades.ExamType, Type = "ExamType" }
                               equals new { examType.Code, examType.Type } into examTypeJoin
@@ -31,8 +29,9 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = grades.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : "",
+                              SubjectId = subjectObj != null ? subjectObj.Id : 0,
                               SubjectName = subjectObj != null ? subjectObj.Name : "",
-                              //SemesterName = semesterObj != null ? semesterObj.Name : "",
+                              ClassId = classObj != null ? classObj.Id : 0,
                               ClassName = classObj != null ? classObj.Name : "",
                               ExamType = examTypeObj != null ? examTypeObj.Name : "",
                               Grade = grades.Grade,

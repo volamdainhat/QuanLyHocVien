@@ -22,6 +22,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
+                    ClassId = c.Trainee.Class.Id,
                     ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,
                     Score = c.Score,
                     GraduationType = c.GraduationType,
@@ -121,13 +122,13 @@ namespace StudentManagementApp.Infrastructure.Repositories
                                   .DefaultIfEmpty(0)
                                   .Average();
 
-            decimal military = graduationExamScores.Where(g => g.GraduationExamType == "quan_su")
-                                  .Select(g => g.Score)
-                                  .DefaultIfEmpty(0)
-                                  .Average();
+            //decimal military = graduationExamScores.Where(g => g.GraduationExamType == "quan_su")
+            //                      .Select(g => g.Score)
+            //                      .DefaultIfEmpty(0)
+            //                      .Average();
 
-            // Đtn = ( 3 x Đtb + 2 x Đtnth + Đtnlt + Đtnct + Đqsc) / 8
-            decimal score = (traineeAverageScore * 3 + practice * 2 + theory + politics + military) / 8;
+            // Đtn = ( 3 x Đtb + 2 x Đtnth + Đtnlt + Đtnct) / 7
+            decimal score = (traineeAverageScore * 3 + practice * 2 + theory + politics) / 7;
 
             return score;
         }

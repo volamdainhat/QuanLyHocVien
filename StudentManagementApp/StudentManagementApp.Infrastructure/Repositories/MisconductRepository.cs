@@ -28,6 +28,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = misconduct.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : "",
+                              ClassId = classObj != null ? classObj.Id : 0,
                               ClassName = classObj != null ? classObj.Name : "",
                               Type = misconductTypeObj != null ? misconductTypeObj.Name : "",
                               Time = misconduct.Time,

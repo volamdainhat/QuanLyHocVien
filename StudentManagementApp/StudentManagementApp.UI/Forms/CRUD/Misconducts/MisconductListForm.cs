@@ -1,7 +1,9 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Models.GraduationScores;
 using StudentManagementApp.Core.Models.Misconducts;
+using StudentManagementApp.UI.Forms.CRUD.Trainees;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -10,18 +12,26 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly IMisconductRepository _misconductRepository;
         private readonly IRepository<Trainee> _traineeRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IRepository<Class> _classRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
+        private List<MisconductViewModel> _misconducts;
+        private List<Class> _classes;
+        private ToolStripButton btnFilter;
+        private ToolStripLabel lblFilterStatus;
+        private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
 
         public MisconductListForm(
             IMisconductRepository misconductRepository,
             IRepository<Trainee> traineeRepository,
             ICategoryRepository categoryRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService)
         {
             _misconductRepository = misconductRepository;
             _traineeRepository = traineeRepository;
             _categoryRepository = categoryRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
             InitializeComponent();
             InitializeClassList();
@@ -45,6 +55,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             imageList.Images.Add(Properties.Resources.add_icon);
             imageList.Images.Add(Properties.Resources.edit_icon);
             imageList.Images.Add(Properties.Resources.refresh_icon);
+            imageList.Images.Add(Properties.Resources.filter_icon);
 
             // Gán ImageList cho ToolStrip
             toolStrip.ImageList = imageList;
@@ -64,7 +75,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnRefresh.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnRefresh.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh]);
+            btnFilter = new ToolStripButton("Lọc");
+            btnFilter.ImageIndex = 3;
+            btnFilter.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnFilter.ImageTransparentColor = Color.Magenta;
+
+            lblFilterStatus = new ToolStripLabel("Đang hiển thị tất cả học viên");
+            lblFilterStatus.ImageIndex = 4;
+            lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            lblFilterStatus.ImageTransparentColor = Color.Magenta;
+
+            toolStrip.Items.AddRange([btnAdd, btnEdit, btnRefresh, btnFilter, lblFilterStatus]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -84,12 +105,76 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnAdd.Click += (s, e) => AddMisconduct();
             btnEdit.Click += async (s, e) => await EditMisconduct();
             btnRefresh.Click += (s, e) => LoadMisconducts();
+            btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
+        }
+
+        private async Task BtnFilter_Click(object s, EventArgs e)
+        {
+            using (var filterForm = new MisconductFilterForm(_classes))
+            {
+                filterForm.FilterApplied += (s, args) =>
+                {
+                    _currentFilters = args.FilterValues;
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.FilterCleared += (s, args) =>
+                {
+                    _currentFilters.Clear();
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.ShowDialog();
+            }
+        }
+
+        private void ApplyFilter()
+        {
+            var filtered = _misconducts.AsEnumerable();
+
+            // Lọc theo lớp
+            if (_currentFilters.ContainsKey("ClassId"))
+            {
+                var classId = (int)_currentFilters["ClassId"];
+                filtered = filtered.Where(t => t.ClassId == classId);
+            }
+
+            dataGridView.DataSource = filtered.ToList();
+        }
+
+        private void UpdateFilterStatus()
+        {
+            if (!_currentFilters.Any())
+            {
+                lblFilterStatus.Text = "Đang hiển thị tất cả học viên";
+                lblFilterStatus.ForeColor = Color.Blue;
+            }
+            else
+            {
+                var filterDetails = new List<string>();
+
+                if (_currentFilters.ContainsKey("ClassId"))
+                {
+                    var classId = (int)_currentFilters["ClassId"];
+                    var className = _classes.First(c => c.Id == classId).Name;
+                    filterDetails.Add($"Lớp: {className}");
+                }
+
+                lblFilterStatus.Text = $"Đang lọc: {string.Join(", ", filterDetails)}";
+                lblFilterStatus.ForeColor = Color.Green;
+            }
         }
 
         private async void LoadMisconducts()
         {
+            var classes = await _classRepository.GetAllAsync();
+            _classes = classes.ToList();
+
             var misconducts = await _misconductRepository.GetMisconductsWithTraineeAsync();
-            dataGridView.DataSource = misconducts.ToList();
+            _misconducts = misconducts.ToList();
+            dataGridView.DataSource = _misconducts;
 
             if (dataGridView.Columns["Time"] != null)
                 dataGridView.Columns["Time"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";

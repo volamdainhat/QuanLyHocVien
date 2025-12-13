@@ -1,9 +1,12 @@
 ﻿using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
+using StudentManagementApp.Core.Models.Categories;
+using StudentManagementApp.Core.Models.Grades;
 using StudentManagementApp.Core.Models.GraduationExamScores;
 using StudentManagementApp.Infrastructure.Repositories;
 using StudentManagementApp.UI.Forms.CRUD.Gradeses;
+using StudentManagementApp.UI.Forms.CRUD.Trainees;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -14,8 +17,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly ITraineeRepository _traineeRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IRepository<Class> _classRepository;
+        private readonly IRepository<Subject> _subjectRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
+        private List<GraduationExamScoreViewModel> _graduationExamScores;
+        private List<Class> _classes;
+        private List<CategoryViewModel> _graduationExamTypes;
+        private ToolStripButton btnFilter;
+        private ToolStripLabel lblFilterStatus;
+        private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
 
         public GraduationExamScoreListForm(
             IGraduationExamScoreRepository graduationExamScoreRepository,
@@ -23,6 +33,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             ITraineeRepository traineeRepository,
             ICategoryRepository categoryRepository,
             IRepository<Class> classRepository,
+            IRepository<Subject> subjectRepository,
             IValidationService validationService)
         {
             _graduationExamScoreRepository = graduationExamScoreRepository;
@@ -30,6 +41,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             _traineeRepository = traineeRepository;
             _categoryRepository = categoryRepository;
             _classRepository = classRepository;
+            _subjectRepository = subjectRepository;
             _validationService = validationService;
             InitializeComponent();
             InitializeGraduationExamScoresList();
@@ -54,6 +66,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             imageList.Images.Add(Properties.Resources.addrange_icon);
             imageList.Images.Add(Properties.Resources.edit_icon);
             imageList.Images.Add(Properties.Resources.refresh_icon);
+            imageList.Images.Add(Properties.Resources.filter_icon);
 
             // Gán ImageList cho ToolStrip
             toolStrip.ImageList = imageList;
@@ -78,7 +91,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnRefresh.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnRefresh.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnAdd, btnAddRange, btnEdit, btnRefresh]);
+            btnFilter = new ToolStripButton("Lọc");
+            btnFilter.ImageIndex = 4;
+            btnFilter.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnFilter.ImageTransparentColor = Color.Magenta;
+
+            lblFilterStatus = new ToolStripLabel("Đang hiển thị tất cả học viên");
+            lblFilterStatus.ImageIndex = 5;
+            lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            lblFilterStatus.ImageTransparentColor = Color.Magenta;
+
+            toolStrip.Items.AddRange([btnAdd, btnAddRange, btnEdit, btnRefresh, btnFilter, lblFilterStatus]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -99,6 +122,80 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnAddRange.Click += (s, e) => btnBulkAdd_Click();
             btnEdit.Click += async (s, e) => await Edit();
             btnRefresh.Click += (s, e) => LoadGraduationExamScores();
+            btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
+        }
+
+        private async Task BtnFilter_Click(object s, EventArgs e)
+        {
+            using (var filterForm = new GraduationExamScoreFilterForm(_classes, _graduationExamTypes))
+            {
+                filterForm.FilterApplied += (s, args) =>
+                {
+                    _currentFilters = args.FilterValues;
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.FilterCleared += (s, args) =>
+                {
+                    _currentFilters.Clear();
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.ShowDialog();
+            }
+        }
+
+        private void ApplyFilter()
+        {
+            var filtered = _graduationExamScores.AsEnumerable();
+
+            // Lọc theo lớp
+            if (_currentFilters.ContainsKey("ClassId"))
+            {
+                var classId = (int)_currentFilters["ClassId"];
+                filtered = filtered.Where(t => t.ClassId == classId);
+            }
+
+            // Lọc theo môn
+            if (_currentFilters.ContainsKey("GraduationExamType"))
+            {
+                var graduationExamType = (string)_currentFilters["GraduationExamType"];
+                filtered = filtered.Where(t => t.GraduationExamType == graduationExamType);
+            }
+
+            dataGridView.DataSource = filtered.ToList();
+        }
+
+        private void UpdateFilterStatus()
+        {
+            if (!_currentFilters.Any())
+            {
+                lblFilterStatus.Text = "Đang hiển thị tất cả học viên";
+                lblFilterStatus.ForeColor = Color.Blue;
+            }
+            else
+            {
+                var filterDetails = new List<string>();
+
+                if (_currentFilters.ContainsKey("ClassId"))
+                {
+                    var classId = (int)_currentFilters["ClassId"];
+                    var className = _classes.First(c => c.Id == classId).Name;
+                    filterDetails.Add($"Lớp: {className}");
+                }
+
+                if (_currentFilters.ContainsKey("GraduationExamType"))
+                {
+                    var graduationExamType = (string)_currentFilters["GraduationExamType"];
+                    var graduationExamTypeName = _graduationExamTypes.First(c => c.Code == graduationExamType).Name;
+                    filterDetails.Add($"Môn: {graduationExamTypeName}");
+                }
+
+                lblFilterStatus.Text = $"Đang lọc: {string.Join(", ", filterDetails)}";
+                lblFilterStatus.ForeColor = Color.Green;
+            }
         }
 
         private void btnBulkAdd_Click()
@@ -114,8 +211,15 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadGraduationExamScores()
         {
+            var classes = await _classRepository.GetAllAsync();
+            _classes = classes.ToList();
+
+            var graduationExamTypes = await _categoryRepository.GetCategoriesWithTypeAsync("GraduationExamType");
+            _graduationExamTypes = graduationExamTypes.ToList();
+
             var datas = await _graduationExamScoreRepository.GetGraduationExamScoreWithTraineeAsync();
-            dataGridView.DataSource = datas.ToList();
+            _graduationExamScores = datas.ToList();
+            dataGridView.DataSource = _graduationExamScores;
 
             if (dataGridView.Columns["CreatedDate"] != null)
                 dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";

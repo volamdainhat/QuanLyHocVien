@@ -4,6 +4,8 @@ namespace StudentManagementApp.Core.Models.RollCalls
 {
     public class RollCallViewModel : BaseViewModel
     {
+        [Browsable(false)]
+        public int ClassId { get; set; }
         [DisplayName("Ngày")]
         public DateTime Date { get; set; }
         [DisplayName("Lớp")]

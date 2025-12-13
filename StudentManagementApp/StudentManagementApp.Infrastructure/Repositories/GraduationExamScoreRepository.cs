@@ -27,6 +27,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = score.Id,
                               TraineeName = traineeObj != null ? traineeObj.FullName : string.Empty,
+                              ClassId = classObj != null ? classObj.Id : 0,
                               ClassName = classObj != null ? classObj.Name : string.Empty,
                               Score = score.Score,
                               GradeType = score.GradeType,

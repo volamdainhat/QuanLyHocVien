@@ -4,6 +4,8 @@ namespace StudentManagementApp.Core.Models.PracticePoints
 {
     public class PracticePointViewModel : BaseViewModel
     {
+        [Browsable(false)]
+        public int ClassId { get; set; }
         [DisplayName("Học viên")]
         public string? TraineeName { get; set; }
         [DisplayName("Lớp")]

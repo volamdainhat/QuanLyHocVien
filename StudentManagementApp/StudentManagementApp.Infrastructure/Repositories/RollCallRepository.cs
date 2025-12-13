@@ -22,6 +22,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                           {
                               Id = rollcall.Id,
                               Date = rollcall.Date,
+                              ClassId = rollcall.ClassId,
                               ClassName = classObj != null ? classObj.Name : "",
                               RollCaller = rollcall.RollCaller,
                               TotalStudents = rollcall.TotalStudents,

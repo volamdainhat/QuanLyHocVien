@@ -20,6 +20,8 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 .Select(c => new SubjectAverageViewModel
                 {
                     Id = c.Id,
+                    SubjectId = c.SubjectId,
+                    ClassId = c.Trainee != null && c.Trainee.Class != null ? c.Trainee.Class.Id : 0,
                     SubjectName = c.Subject != null ? c.Subject.Name : string.Empty,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
                     ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,

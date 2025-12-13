@@ -502,21 +502,5 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             throw new Exception($"Định dạng ngày tháng không hợp lệ: {dateString}");
         }
-
-        private int GetInt(ExcelRange cell)
-        {
-            if (int.TryParse(cell.Text, out int result))
-                return result;
-
-            throw new Exception($"Giá trị số nguyên không hợp lệ: {cell.Text}");
-        }
-
-        private decimal GetDecimal(ExcelRange cell)
-        {
-            if (decimal.TryParse(cell.Text, out decimal result))
-                return result;
-
-            throw new Exception($"Giá trị số thập phân không hợp lệ: {cell.Text}");
-        }
     }
 }

@@ -3,7 +3,8 @@ using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Interfaces.Services;
 using StudentManagementApp.Core.Models.TraineeAverageScores;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using StudentManagementApp.Core.Models.Trainees;
+using StudentManagementApp.UI.Forms.CRUD.Trainees;
 
 namespace StudentManagementApp.UI.Forms.CRUD
 {
@@ -12,19 +13,27 @@ namespace StudentManagementApp.UI.Forms.CRUD
         private readonly ITraineeAverageScoreRepository _traineeAverageScoreRepository;
         private readonly IRepository<Trainee> _traineeRepository;
         private readonly IRepository<Semester> _semesterRepository;
+        private readonly IRepository<Class> _classRepository;
         private readonly IValidationService _validationService;
         private DataGridView? dataGridView;
         private DataGridView? dgvSummary;
+        private List<TraineeAverageScoreViewModel> _traineeAverageScores;
+        private List<Class> _classes;
+        private ToolStripButton btnFilter;
+        private ToolStripLabel lblFilterStatus;
+        private Dictionary<string, object> _currentFilters = new Dictionary<string, object>();
 
         public TraineeAverageScoreListForm(
             ITraineeAverageScoreRepository traineeAverageScoreRepository,
             IRepository<Trainee> traineeRepository,
             IRepository<Semester> semesterRepository,
+            IRepository<Class> classRepository,
             IValidationService validationService)
         {
             _traineeAverageScoreRepository = traineeAverageScoreRepository;
             _traineeRepository = traineeRepository;
             _semesterRepository = semesterRepository;
+            _classRepository = classRepository;
             _validationService = validationService;
             InitializeComponent();
             InitializeTraineeAverageScoreList();
@@ -49,6 +58,7 @@ namespace StudentManagementApp.UI.Forms.CRUD
             imageList.Images.Add(Properties.Resources.edit_icon);
             imageList.Images.Add(Properties.Resources.refresh_icon);
             imageList.Images.Add(Properties.Resources.export_excel_icon);
+            imageList.Images.Add(Properties.Resources.filter_icon);
 
             // Gán ImageList cho ToolStrip
             toolStrip.ImageList = imageList;
@@ -73,7 +83,17 @@ namespace StudentManagementApp.UI.Forms.CRUD
             btnExport.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             btnExport.ImageTransparentColor = Color.Magenta;
 
-            toolStrip.Items.AddRange([btnRefresh, btnExport]);
+            btnFilter = new ToolStripButton("Lọc");
+            btnFilter.ImageIndex = 4;
+            btnFilter.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            btnFilter.ImageTransparentColor = Color.Magenta;
+
+            lblFilterStatus = new ToolStripLabel("Đang hiển thị tất cả học viên");
+            lblFilterStatus.ImageIndex = 5;
+            lblFilterStatus.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            lblFilterStatus.ImageTransparentColor = Color.Magenta;
+
+            toolStrip.Items.AddRange([btnRefresh, btnExport, btnFilter, lblFilterStatus]);
             toolStrip.Dock = DockStyle.Top;
 
             // DataGridView
@@ -106,6 +126,66 @@ namespace StudentManagementApp.UI.Forms.CRUD
             //btnEdit.Click += (s, e) => Edit();
             btnRefresh.Click += (s, e) => LoadTraineeAverageScores();
             btnExport.Click += (s, e) => btnExport_Click();
+            btnFilter.Click += async (s, e) => await BtnFilter_Click(s, e);
+        }
+
+        private async Task BtnFilter_Click(object s, EventArgs e)
+        {
+            using (var filterForm = new TraineeAverageScoreFilterForm(_classes))
+            {
+                filterForm.FilterApplied += (s, args) =>
+                {
+                    _currentFilters = args.FilterValues;
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.FilterCleared += (s, args) =>
+                {
+                    _currentFilters.Clear();
+                    ApplyFilter();
+                    UpdateFilterStatus();
+                };
+
+                filterForm.ShowDialog();
+            }
+        }
+
+        private void ApplyFilter()
+        {
+            var filtered = _traineeAverageScores.AsEnumerable();
+
+            // Lọc theo lớp
+            if (_currentFilters.ContainsKey("ClassId"))
+            {
+                var classId = (int)_currentFilters["ClassId"];
+                filtered = filtered.Where(t => t.ClassId == classId);
+            }
+
+            dataGridView.DataSource = filtered.ToList();
+        }
+
+        private void UpdateFilterStatus()
+        {
+            if (!_currentFilters.Any())
+            {
+                lblFilterStatus.Text = "Đang hiển thị tất cả học viên";
+                lblFilterStatus.ForeColor = Color.Blue;
+            }
+            else
+            {
+                var filterDetails = new List<string>();
+
+                if (_currentFilters.ContainsKey("ClassId"))
+                {
+                    var classId = (int)_currentFilters["ClassId"];
+                    var className = _classes.First(c => c.Id == classId).Name;
+                    filterDetails.Add($"Lớp: {className}");
+                }
+
+                lblFilterStatus.Text = $"Đang lọc: {string.Join(", ", filterDetails)}";
+                lblFilterStatus.ForeColor = Color.Green;
+            }
         }
 
         private async void btnExport_Click()
@@ -124,8 +204,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
         private async void LoadTraineeAverageScores()
         {
+            var classes = await _classRepository.GetAllAsync();
+            _classes = classes.ToList();
+             
             var data = await _traineeAverageScoreRepository.GetTraineeAverageScoreWithTraineeSemesterAsync();
-            dataGridView.DataSource = data.ToList();
+            _traineeAverageScores = data.ToList();
+            dataGridView.DataSource = _traineeAverageScores;
 
             if (dataGridView.Columns["CreatedDate"] != null)
                 dataGridView.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
