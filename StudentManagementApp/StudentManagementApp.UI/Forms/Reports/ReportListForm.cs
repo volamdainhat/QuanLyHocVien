@@ -99,8 +99,12 @@ namespace StudentManagementApp.UI.Forms.CRUD
 
             // Export Button
             this.btnExport.Location = new Point(620, 17);
-            this.btnExport.Size = new Size(130, 34);
+            this.btnExport.Size = new Size(170, 34);
             this.btnExport.Text = "Xuất báo cáo";
+            this.btnExport.Image = Properties.Resources.export_excel_icon;
+            this.btnExport.ImageAlign = ContentAlignment.MiddleLeft;
+            this.btnExport.TextImageRelation = TextImageRelation.ImageBeforeText;
+            this.btnExport.TextAlign = ContentAlignment.MiddleCenter;
             this.btnExport.Click += new EventHandler(this.btnExport_Click);
 
             // Tab Control

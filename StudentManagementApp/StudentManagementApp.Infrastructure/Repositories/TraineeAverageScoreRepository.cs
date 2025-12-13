@@ -115,5 +115,17 @@ namespace StudentManagementApp.Infrastructure.Repositories
             else if (score >= 5.0m) return "Trung bình";
             else return "Yếu";
         }
+
+        public async Task<List<TraineeAverageScoreSummaryModel>> GetGradeTypeSummaryAsync()
+        {
+            return await _context.TraineeAverageScores
+                .GroupBy(tas => tas.GradeType)
+                .Select(g => new TraineeAverageScoreSummaryModel
+                {
+                    GradeType = g.Key,
+                    Summary = g.Count()
+                })
+                .ToListAsync();
+        }
     }
 }

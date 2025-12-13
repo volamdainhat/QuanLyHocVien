@@ -51,6 +51,9 @@
 		<Compile Update="Controls\SidebarMenuV2.cs">
 			<SubType>UserControl</SubType>
 		</Compile>
+		<Compile Update="Forms\CRUD\GraduationExamScores\BulkAddGraduationExamScoreForm.cs">
+		  <SubType>Form</SubType>
+		</Compile>
 		<Compile Update="Forms\CRUD\PracticePoints\PracticePointForm.cs">
 		  <SubType>Form</SubType>
 		</Compile>

@@ -3,6 +3,8 @@ using StudentManagementApp.Core.Entities;
 using StudentManagementApp.Core.Interfaces.Repositories;
 using StudentManagementApp.Core.Models.GraduationScores;
 using StudentManagementApp.Infrastructure.Data;
+using System.Globalization;
+using System.Linq.Expressions;
 
 namespace StudentManagementApp.Infrastructure.Repositories
 {
@@ -20,7 +22,7 @@ namespace StudentManagementApp.Infrastructure.Repositories
                 {
                     Id = c.Id,
                     TraineeName = c.Trainee != null ? c.Trainee.FullName : string.Empty,
-                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name: string.Empty,
+                    ClassName = c.Trainee.Class != null ? c.Trainee.Class.Name : string.Empty,
                     Score = c.Score,
                     GraduationType = c.GraduationType,
                     IsActive = c.IsActive,
@@ -43,6 +45,11 @@ namespace StudentManagementApp.Infrastructure.Repositories
             var traineeAverageScore = await _context.TraineeAverageScores
                 .Where(sa => sa.TraineeId == traineeId)
                 .FirstOrDefaultAsync();
+
+            if (traineeAverageScore == null)
+            {
+                return; // Không có điểm trung bình, không cần cập nhật
+            }
 
             // Lấy danh sách điểm thi tốt nghiệp của học viên
             var graduationExamScores = await _context.GraduationExamScores
